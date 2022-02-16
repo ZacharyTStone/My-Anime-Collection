@@ -13,9 +13,8 @@ const AddJob = () => {
     isEditing,
     showAlert,
     displayAlert,
-    position,
+    title,
     company,
-    jobLocation,
     jobType,
     jobTypeOptions,
     status,
@@ -31,7 +30,7 @@ const AddJob = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!position || !company || !jobLocation) {
+    if (!title || !company) {
       displayAlert();
       return;
     }
@@ -53,11 +52,11 @@ const AddJob = () => {
         <h3>{isEditing ? "edit job" : "add job"}</h3>
         {showAlert && <Alert />}
         <div className="form-center">
-          {/* position */}
+          {/* title */}
           <FormRow
             type="text"
-            name="position"
-            value={position}
+            name="title"
+            value={title}
             handleChange={handleJobInput}
           />
           {/* company */}
@@ -65,14 +64,6 @@ const AddJob = () => {
             type="text"
             name="company"
             value={company}
-            handleChange={handleJobInput}
-          />
-          {/* location */}
-          <FormRow
-            type="text"
-            labelText="job location"
-            name="jobLocation"
-            value={jobLocation}
             handleChange={handleJobInput}
           />
           {/* job status */}

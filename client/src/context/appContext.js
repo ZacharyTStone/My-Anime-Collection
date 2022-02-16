@@ -36,7 +36,6 @@ import {
 
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
-const userLocation = localStorage.getItem("location");
 
 const initialState = {
   isLoading: false,
@@ -46,17 +45,15 @@ const initialState = {
   user: user ? JSON.parse(user) : null,
   theme: user ? user.theme : "light",
   token: token,
-  userLocation: userLocation || "",
   showSidebar: false,
   isEditing: false,
   editJobId: "",
-  position: "",
+  title: "",
   company: "",
-  jobLocation: userLocation || "",
   jobTypeOptions: ["full-time", "part-time", "remote", "internship"],
   jobType: "full-time",
-  statusOptions: ["interview", "declined", "pending"],
-  status: "pending",
+  statusOptions: ["want to watch", "watching", "watched"],
+  status: "watching",
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
@@ -120,16 +117,14 @@ const AppProvider = ({ children }) => {
     }, 3000);
   };
 
-  const addUserToLocalStorage = ({ user, token, location }) => {
+  const addUserToLocalStorage = ({ user, token }) => {
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
-    localStorage.setItem("location", location);
   };
 
   const removeUserFromLocalStorage = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    localStorage.removeItem("location");
   };
 
   const setupUser = async ({ currentUser, endPoint, alertText }) => {
@@ -140,12 +135,12 @@ const AppProvider = ({ children }) => {
         currentUser
       );
 
-      const { user, token, location } = data;
+      const { user, token } = data;
       dispatch({
         type: SETUP_USER_SUCCESS,
-        payload: { user, token, location, alertText },
+        payload: { user, token, alertText },
       });
-      addUserToLocalStorage({ user, token, location });
+      addUserToLocalStorage({ user, token });
     } catch (error) {
       dispatch({
         type: SETUP_USER_ERROR,
@@ -168,13 +163,13 @@ const AppProvider = ({ children }) => {
     try {
       const { data } = await authFetch.patch("/auth/updateUser", currentUser);
 
-      const { user, location, token } = data;
+      const { user, token } = data;
 
       dispatch({
         type: UPDATE_USER_SUCCESS,
-        payload: { user, location, token },
+        payload: { user, token },
       });
-      addUserToLocalStorage({ user, location, token });
+      addUserToLocalStorage({ user, token });
     } catch (error) {
       if (error.response.status !== 401) {
         dispatch({
@@ -191,11 +186,11 @@ const AppProvider = ({ children }) => {
     try {
       const { data } = await authFetch.delete("/auth/deleteUser", currentUser);
 
-      const { user, location, token } = data;
+      const { user, token } = data;
 
       dispatch({
         type: DELETE_USER_SUCCESS,
-        payload: { user, location, token },
+        payload: { user, token },
       });
     } catch (error) {
       if (error.response.status !== 401) {
@@ -219,13 +214,11 @@ const AppProvider = ({ children }) => {
   const createJob = async () => {
     dispatch({ type: CREATE_JOB_BEGIN });
     try {
-      const { position, company, jobLocation, jobType, status, notes, stared } =
-        state;
+      const { title, company, jobType, status, notes, stared } = state;
 
       await authFetch.post("/jobs", {
-        position,
+        title,
         company,
-        jobLocation,
         jobType,
         status,
         notes,
@@ -276,12 +269,10 @@ const AppProvider = ({ children }) => {
     dispatch({ type: EDIT_JOB_BEGIN });
 
     try {
-      const { position, company, jobLocation, jobType, status, notes, stared } =
-        state;
+      const { title, company, jobType, status, notes, stared } = state;
       await authFetch.patch(`/jobs/${state.editJobId}`, {
         company,
-        position,
-        jobLocation,
+        title,
         jobType,
         status,
         notes,

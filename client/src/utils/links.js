@@ -26,13 +26,6 @@ const links = [
     icon: <FaWpforms />,
   },
   {
-    id: 4,
-    text: "tools",
-    path: "tools",
-    icon: <GoTools />,
-  },
-
-  {
     id: 5,
     text: "profile",
     path: "profile",

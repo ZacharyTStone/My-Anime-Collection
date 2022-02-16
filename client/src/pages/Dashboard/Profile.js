@@ -18,16 +18,15 @@ const Profile = () => {
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
   const [lastName, setLastName] = useState(user?.lastName);
-  const [location, setLocation] = useState(user?.location);
   const [theme, setTheme] = useState(user?.theme);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !lastName || !location) {
+    if (!name || !email || !lastName) {
       displayAlert();
       return;
     }
-    updateUser({ name, email, lastName, location, theme });
+    updateUser({ name, email, lastName, theme });
   };
 
   const handleDelete = () => {
@@ -62,12 +61,6 @@ const Profile = () => {
             name="email"
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
-          />
-          <FormRow
-            type="text"
-            name="location"
-            value={location}
-            handleChange={(e) => setLocation(e.target.value)}
           />
           <FormRowSelect
             name="theme"
