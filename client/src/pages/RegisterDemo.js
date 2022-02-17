@@ -3,6 +3,7 @@ import { Logo, FormRow, Alert } from "../Components";
 import styled from "styled-components";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
+
 const initialState = {
   name: "",
   email: "",
