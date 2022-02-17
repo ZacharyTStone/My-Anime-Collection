@@ -9,9 +9,9 @@ import checkPermissions from "../utils/checkPermissions.js";
 import mongoose from "mongoose";
 import moment from "moment";
 const createJob = async (req, res) => {
-  const { position, company } = req.body;
+  const { title, company } = req.body;
 
-  if (!position || !company) {
+  if (!title || !company) {
     throw new BadRequestError("Please provide all values");
   }
   req.body.createdBy = req.user.userId;
@@ -37,7 +37,7 @@ const getAllJobs = async (req, res) => {
     queryObject.stared = stared;
   }
   if (search) {
-    queryObject.position = { $regex: search, $options: "i" };
+    queryObject.title = { $regex: search, $options: "i" };
   }
   // NO AWAIT
 
@@ -52,10 +52,10 @@ const getAllJobs = async (req, res) => {
     result = result.sort("createdAt");
   }
   if (sort === "a-z") {
-    result = result.sort("position");
+    result = result.sort("title");
   }
   if (sort === "z-a") {
-    result = result.sort("-position");
+    result = result.sort("-title");
   }
 
   //
@@ -76,9 +76,9 @@ const getAllJobs = async (req, res) => {
 };
 const updateJob = async (req, res) => {
   const { id: jobId } = req.params;
-  const { company, position } = req.body;
+  const { company, title } = req.body;
 
-  if (!position || !company) {
+  if (!title || !company) {
     throw new BadRequestError("Please provide all values");
   }
   const job = await Job.findOne({ _id: jobId });
