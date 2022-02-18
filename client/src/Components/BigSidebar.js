@@ -90,7 +90,7 @@ const Wrapper = styled.aside`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 100vh;
+      height: 100%;
     }
     .show-sidebar {
       margin-left: 0;

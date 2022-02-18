@@ -6,16 +6,7 @@ import JobInfo from "./JobInfo";
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
 
-const Job = ({
-  _id,
-  title,
-  company,
-  jobType,
-  createdAt,
-  status,
-  notes,
-  stared,
-}) => {
+const Job = ({ _id, title, company, createdAt, status, notes, stared }) => {
   const { setEditJob, deleteJob } = useAppContext();
 
   let date = moment(createdAt);
@@ -39,7 +30,6 @@ const Job = ({
         <div className="content">
           <div className="content-center">
             <JobInfo icon={<FaCalendarAlt />} text={date} />
-            <JobInfo icon={<FaBriefcase />} text={jobType} />
             <div
               style={{
                 marginTop: "10px",

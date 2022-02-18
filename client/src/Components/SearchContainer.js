@@ -13,7 +13,6 @@ const SearchContainer = () => {
     sortOptions,
     handleChange,
     clearFilters,
-    jobTypeOptions,
     statusOptions,
     staredOptions,
   } = useAppContext();
@@ -45,14 +44,6 @@ const SearchContainer = () => {
             value={searchStatus}
             handleChange={handleSearch}
             list={["all", ...statusOptions]}
-          />
-          {/* search by type */}
-          <FormRowSelect
-            labelText="type"
-            name="searchType"
-            value={searchType}
-            handleChange={handleSearch}
-            list={["all", ...jobTypeOptions]}
           />
           <FormRowSelect
             labelText="stared"

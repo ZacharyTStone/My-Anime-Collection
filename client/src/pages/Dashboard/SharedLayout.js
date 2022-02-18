@@ -34,12 +34,15 @@ const Wrapper = styled.section`
     grid-template-columns: 1fr;
     background-color: "black";
     overflow: auto;
+    min-height: 100vh;
+    height: 100%;
   }
   .dashboard-page {
     width: 90vw;
-    height: 100vh;
+    /* height: 100vh; */
     margin: 0 auto;
     padding: 2rem 0;
+    overflow: scroll;
   }
   @media (min-width: 992px) {
     .dashboard {

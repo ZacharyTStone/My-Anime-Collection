@@ -1,22 +1,21 @@
 import { useEffect } from "react";
 import { useAppContext } from "../../context/appContext";
-import { StatsContainer, Loading, ChartsContainer } from "../../Components";
+import { Loading } from "../../Components";
 
 const Stats = (props) => {
-  const { showStats, isLoading, monthlyApplications, user } = useAppContext();
+  const { isLoading, user } = useAppContext();
 
   useEffect(() => {
-    showStats();
+    // showStats();
   }, []);
 
   if (isLoading) {
     return <Loading center />;
   }
   return (
-    <div date-theme={user.theme}>
-      <StatsContainer />
-      {monthlyApplications.length > 0 && <ChartsContainer />}
-    </div>
+    <main className="dashboard" data-theme={user.theme}>
+      <h3>stats</h3>
+    </main>
   );
 };
 

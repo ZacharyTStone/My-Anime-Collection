@@ -15,8 +15,6 @@ const AddJob = () => {
     displayAlert,
     title,
     company,
-    jobType,
-    jobTypeOptions,
     status,
     statusOptions,
     handleChange,
@@ -72,14 +70,6 @@ const AddJob = () => {
             value={status}
             handleChange={handleJobInput}
             list={statusOptions}
-          />
-          {/* job type */}
-          <FormRowSelect
-            name="jobType"
-            labelText="job type"
-            value={jobType}
-            handleChange={handleJobInput}
-            list={jobTypeOptions}
           />
           <FormRowArea
             name="notes"

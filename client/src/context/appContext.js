@@ -50,8 +50,6 @@ const initialState = {
   editJobId: "",
   title: "",
   company: "",
-  jobTypeOptions: ["full-time", "part-time", "remote", "internship"],
-  jobType: "full-time",
   statusOptions: ["want to watch", "watching", "watched"],
   status: "watching",
   jobs: [],
@@ -214,12 +212,11 @@ const AppProvider = ({ children }) => {
   const createJob = async () => {
     dispatch({ type: CREATE_JOB_BEGIN });
     try {
-      const { title, company, jobType, status, notes, stared } = state;
+      const { title, company, status, notes, stared } = state;
 
       await authFetch.post("/jobs", {
         title,
         company,
-        jobType,
         status,
         notes,
         stared,
@@ -269,11 +266,10 @@ const AppProvider = ({ children }) => {
     dispatch({ type: EDIT_JOB_BEGIN });
 
     try {
-      const { title, company, jobType, status, notes, stared } = state;
+      const { title, company, status, notes, stared } = state;
       await authFetch.patch(`/jobs/${state.editJobId}`, {
         company,
         title,
-        jobType,
         status,
         notes,
         stared,
