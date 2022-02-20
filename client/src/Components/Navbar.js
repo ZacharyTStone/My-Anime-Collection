@@ -46,6 +46,9 @@ const Navbar = () => {
             }}
           >
             <FaUserCircle />
+            <span color={user.theme === "dark" ? "white" : "black"}>
+              {user.name}
+            </span>
             {user?.name}
             <FaCaretDown />
           </button>
