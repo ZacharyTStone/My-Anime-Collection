@@ -8,12 +8,6 @@ import { GoTools } from "react-icons/go";
 
 const links = [
   {
-    id: 1,
-    text: "stats",
-    path: "/",
-    icon: <IoBarChartSharp />,
-  },
-  {
     id: 2,
     text: "all animes",
     path: "all-jobs",

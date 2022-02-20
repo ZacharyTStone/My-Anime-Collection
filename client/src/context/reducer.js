@@ -24,8 +24,6 @@ import {
   EDIT_JOB_BEGIN,
   EDIT_JOB_SUCCESS,
   EDIT_JOB_ERROR,
-  SHOW_STATS_BEGIN,
-  SHOW_STATS_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
 } from "./actions";
@@ -145,11 +143,6 @@ const reducer = (state, action) => {
       isEditing: false,
       editJobId: "",
       title: "",
-      company: "",
-      jobType: "full-time",
-      status: "pending",
-      notes: "",
-      stared: "false",
     };
 
     return {
@@ -193,17 +186,14 @@ const reducer = (state, action) => {
   }
   if (action.type === SET_EDIT_JOB) {
     const job = state.jobs.find((job) => job._id === action.payload.id);
-    const { _id, title, company, jobType, status, notes, stared } = job;
+    const { _id, title, jobType } = job;
     return {
       ...state,
       isEditing: true,
       editJobId: _id,
       title,
-      company,
+
       jobType,
-      status,
-      notes,
-      stared,
     };
   }
   if (action.type === DELETE_JOB_BEGIN) {
@@ -231,21 +221,6 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: "danger",
       alertText: action.payload.msg,
-    };
-  }
-  if (action.type === SHOW_STATS_BEGIN) {
-    return {
-      ...state,
-      isLoading: true,
-      showAlert: false,
-    };
-  }
-  if (action.type === SHOW_STATS_SUCCESS) {
-    return {
-      ...state,
-      isLoading: false,
-      stats: action.payload.stats,
-      monthlyApplications: action.payload.monthlyApplications,
     };
   }
   if (action.type === CLEAR_FILTERS) {

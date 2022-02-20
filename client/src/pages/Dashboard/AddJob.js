@@ -1,12 +1,11 @@
 import { FormRow, FormRowSelect, Alert } from "../../Components";
-import FormRowArea from "../../Components/FormRowArea";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
-import { FaStar } from "react-icons/fa";
 import React, { useState } from "react";
+import AnimeContainer from "../../Components/AnimeContainer";
 
 const AddJob = () => {
-  const [starState, setStarState] = useState(false);
+  const [textInput, setTextInput] = useState("");
 
   const {
     isLoading,
@@ -14,21 +13,16 @@ const AddJob = () => {
     showAlert,
     displayAlert,
     title,
-    company,
-    status,
-    statusOptions,
     handleChange,
     clearValues,
     createJob,
     editJob,
-    notes,
-    stared,
   } = useAppContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title || !company) {
+    if (!title) {
       displayAlert();
       return;
     }
@@ -36,11 +30,13 @@ const AddJob = () => {
       editJob();
       return;
     }
-    createJob();
+
+    // createJob();
   };
   const handleJobInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    setTextInput(value);
     handleChange({ name, value });
   };
 
@@ -55,26 +51,6 @@ const AddJob = () => {
             type="text"
             name="title"
             value={title}
-            handleChange={handleJobInput}
-          />
-          {/* company */}
-          <FormRow
-            type="text"
-            name="company"
-            value={company}
-            handleChange={handleJobInput}
-          />
-          {/* job status */}
-          <FormRowSelect
-            name="status"
-            value={status}
-            handleChange={handleJobInput}
-            list={statusOptions}
-          />
-          <FormRowArea
-            name="notes"
-            labelText="notes"
-            value={notes}
             handleChange={handleJobInput}
           />
           {/* btn container */}
@@ -92,47 +68,20 @@ const AddJob = () => {
               onClick={(e) => {
                 e.preventDefault();
                 clearValues();
+                setTextInput("");
               }}
             >
               clear
             </button>
           </div>
-          <div className="star">
-            <FaStar
-              color={stared === "false" ? "gray" : "gold"}
-              value={stared}
-              size={30}
-              style={{
-                marginTop: "20px",
-              }}
-              name="stared"
-              onClick={() => {
-                handleChange({
-                  name: "stared",
-                  value: stared === "true" ? "false" : "true",
-                });
-              }}
-            />
-          </div>
         </div>
       </form>
+      <AnimeContainer searchText={textInput} />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
-  .star {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    cursor: pointer;
-    /* padding-top: 20px; */
-    width: 100%;
-
-    h5 {
-      margin-bottom: 0px;
-    }
-  }
   .btn-hipster {
     opacity: 0.7;
   }

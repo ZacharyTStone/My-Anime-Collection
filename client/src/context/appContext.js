@@ -28,8 +28,6 @@ import {
   EDIT_JOB_BEGIN,
   EDIT_JOB_SUCCESS,
   EDIT_JOB_ERROR,
-  SHOW_STATS_BEGIN,
-  SHOW_STATS_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
 } from "./actions";
@@ -49,24 +47,16 @@ const initialState = {
   isEditing: false,
   editJobId: "",
   title: "",
-  company: "",
-  statusOptions: ["want to watch", "watching", "watched"],
-  status: "watching",
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
   page: 1,
-  stats: {},
-  monthlyApplications: [],
   search: "",
   searchStatus: "all",
   searchStared: "all",
   searchType: "all",
   sort: "latest",
   sortOptions: ["latest", "oldest", "a-z", "z-a"],
-  notes: "",
-  stared: "false",
-  staredOptions: ["true", "false"],
 };
 
 const AppContext = React.createContext();
@@ -212,14 +202,10 @@ const AppProvider = ({ children }) => {
   const createJob = async () => {
     dispatch({ type: CREATE_JOB_BEGIN });
     try {
-      const { title, company, status, notes, stared } = state;
+      const { title, status } = state;
 
       await authFetch.post("/jobs", {
         title,
-        company,
-        status,
-        notes,
-        stared,
       });
       dispatch({ type: CREATE_JOB_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
@@ -266,13 +252,9 @@ const AppProvider = ({ children }) => {
     dispatch({ type: EDIT_JOB_BEGIN });
 
     try {
-      const { title, company, status, notes, stared } = state;
+      const { title } = state;
       await authFetch.patch(`/jobs/${state.editJobId}`, {
-        company,
         title,
-        status,
-        notes,
-        stared,
       });
       dispatch({ type: EDIT_JOB_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
@@ -294,22 +276,7 @@ const AppProvider = ({ children }) => {
       logoutUser();
     }
   };
-  const showStats = async () => {
-    dispatch({ type: SHOW_STATS_BEGIN });
-    try {
-      const { data } = await authFetch("/jobs/stats");
-      dispatch({
-        type: SHOW_STATS_SUCCESS,
-        payload: {
-          stats: data.defaultStats,
-          monthlyApplications: data.monthlyApplications,
-        },
-      });
-    } catch (error) {
-      logoutUser();
-    }
-    clearAlert();
-  };
+
   const clearFilters = () => {
     dispatch({ type: CLEAR_FILTERS });
   };
@@ -333,7 +300,6 @@ const AppProvider = ({ children }) => {
         setEditJob,
         deleteJob,
         editJob,
-        showStats,
         clearFilters,
         changePage,
       }}

@@ -6,7 +6,7 @@ import JobInfo from "./JobInfo";
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
 
-const Job = ({ _id, title, company, createdAt, status, notes, stared }) => {
+const Job = ({ _id, title, createdAt }) => {
   const { setEditJob, deleteJob } = useAppContext();
 
   let date = moment(createdAt);
@@ -15,31 +15,13 @@ const Job = ({ _id, title, company, createdAt, status, notes, stared }) => {
     <Wrapper>
       <div className="job">
         <header>
-          <div className="main-icon">{company.charAt(0)}</div>
-
           <div className="info">
-            <h5>
-              {title}
-              {stared === "true" ? (
-                <FaStar color="gold" size={18} style={{ paddingTop: "5px" }} />
-              ) : null}{" "}
-            </h5>
-            <p>{company}</p>
+            <h5>{title}</h5>
           </div>
         </header>
         <div className="content">
           <div className="content-center">
             <JobInfo icon={<FaCalendarAlt />} text={date} />
-            <div
-              style={{
-                marginTop: "10px",
-              }}
-            >
-              Job Status : <span className={`status ${status}`}>{status}</span>
-            </div>
-            <div className="notes">
-              <p>{notes}</p>
-            </div>
           </div>
           <footer>
             <div className="actions">
@@ -77,14 +59,6 @@ const Wrapper = styled.article`
     flex-direction: column;
     justify-content: space-between;
   }
-  .notes {
-    padding: 1rem;
-    border-top: 1px solid var(--light-gray);
-    width: 100%;
-    display: flex;
-    height: auto;
-    flex-wrap: wrap;
-  }
 
   p {
     word-break: break-all;
@@ -113,10 +87,6 @@ const Wrapper = styled.article`
     text-transform: uppercase;
     color: var(--white);
     margin-right: 2rem;
-  }
-
-  .stared {
-    background: "white";
   }
 
   .info {
@@ -160,14 +130,6 @@ const Wrapper = styled.article`
     }
   }
 
-  .status {
-    border-radius: var(--borderRadius);
-    text-transform: capitalize;
-    letter-spacing: var(--letterSpacing);
-    text-align: center;
-    width: 100px;
-    height: 30px;
-  }
   footer {
     margin-top: 1rem;
   }
