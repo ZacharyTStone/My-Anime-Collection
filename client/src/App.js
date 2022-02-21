@@ -18,7 +18,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="all-jobs" element={<AllJobs />} />
+          <Route index path="all-jobs" element={<AllJobs />} />
           <Route path="add-job" element={<AddJob />} />
           <Route path="profile" element={<Profile />} />
         </Route>
