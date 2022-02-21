@@ -4,6 +4,7 @@ import Loading from "./Loading";
 import Job from "./Job";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
+import AnimeCard from "./AnimeCard";
 
 const AnimeContainer = ({ searchText }) => {
   const {
@@ -34,12 +35,9 @@ const AnimeContainer = ({ searchText }) => {
     <Wrapper>
       <div className="animes">
         {fetchedAnimes.map((anime) => {
-          return (
-            <div>
-              <h1>{anime.attributes.titles.en}</h1>
-              <img src={anime.attributes.posterImage.small} alt="" />
-            </div>
-          );
+          if (anime.attributes.titles) {
+            return <AnimeCard key={anime.id} anime={anime} />;
+          }
         })}
       </div>
     </Wrapper>
@@ -47,6 +45,13 @@ const AnimeContainer = ({ searchText }) => {
 };
 
 const Wrapper = styled.section`
+  .animes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 2rem;
+  }
+
   margin-top: 4rem;
   h2 {
     text-transform: none;

@@ -23,11 +23,7 @@ import {
   CREATE_JOB_ERROR,
   GET_JOBS_BEGIN,
   GET_JOBS_SUCCESS,
-  SET_EDIT_JOB,
   DELETE_JOB_BEGIN,
-  EDIT_JOB_BEGIN,
-  EDIT_JOB_SUCCESS,
-  EDIT_JOB_ERROR,
   CLEAR_FILTERS,
   CHANGE_PAGE,
 } from "./actions";
@@ -44,9 +40,8 @@ const initialState = {
   theme: user ? user.theme : "light",
   token: token,
   showSidebar: false,
-  isEditing: false,
-  editJobId: "",
   title: "",
+  id: "",
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
@@ -192,20 +187,20 @@ const AppProvider = ({ children }) => {
     removeUserFromLocalStorage();
   };
 
-  const handleChange = ({ name, value }) => {
-    dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
+  const handleChange = (value) => {
+    dispatch({ type: HANDLE_CHANGE, payload: value });
   };
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
   };
 
-  const createJob = async () => {
+  const createJob = async (CurrId) => {
     dispatch({ type: CREATE_JOB_BEGIN });
     try {
-      const { title, status } = state;
+      const id = CurrId;
 
       await authFetch.post("/jobs", {
-        title,
+        id,
       });
       dispatch({ type: CREATE_JOB_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
@@ -245,28 +240,6 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
-  const setEditJob = (id) => {
-    dispatch({ type: SET_EDIT_JOB, payload: { id } });
-  };
-  const editJob = async () => {
-    dispatch({ type: EDIT_JOB_BEGIN });
-
-    try {
-      const { title } = state;
-      await authFetch.patch(`/jobs/${state.editJobId}`, {
-        title,
-      });
-      dispatch({ type: EDIT_JOB_SUCCESS });
-      dispatch({ type: CLEAR_VALUES });
-    } catch (error) {
-      if (error.response.status === 401) return;
-      dispatch({
-        type: EDIT_JOB_ERROR,
-        payload: { msg: error.response.data.msg },
-      });
-    }
-    clearAlert();
-  };
   const deleteJob = async (jobId) => {
     dispatch({ type: DELETE_JOB_BEGIN });
     try {
@@ -297,9 +270,9 @@ const AppProvider = ({ children }) => {
         clearValues,
         createJob,
         getJobs,
-        setEditJob,
+
         deleteJob,
-        editJob,
+
         clearFilters,
         changePage,
       }}

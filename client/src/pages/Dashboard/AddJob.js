@@ -1,4 +1,4 @@
-import { FormRow, FormRowSelect, Alert } from "../../Components";
+import { FormRow, Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState } from "react";
@@ -7,73 +7,23 @@ import AnimeContainer from "../../Components/AnimeContainer";
 const AddJob = () => {
   const [textInput, setTextInput] = useState("");
 
-  const {
-    isLoading,
-    isEditing,
-    showAlert,
-    displayAlert,
-    title,
-    handleChange,
-    clearValues,
-    createJob,
-    editJob,
-  } = useAppContext();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!title) {
-      displayAlert();
-      return;
-    }
-    if (isEditing) {
-      editJob();
-      return;
-    }
-
-    // createJob();
-  };
-  const handleJobInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setTextInput(value);
-    handleChange({ name, value });
+  const handleTextInput = (e) => {
+    setTextInput(e.target.value);
   };
 
   return (
     <Wrapper>
       <form className="form">
-        <h3>{isEditing ? "edit job" : "add job"}</h3>
-        {showAlert && <Alert />}
+        <h3>Add Anime</h3>
+        {/* {showAlert && <Alert />} */}
         <div className="form-center">
           {/* title */}
           <FormRow
             type="text"
             name="title"
-            value={title}
-            handleChange={handleJobInput}
+            value={textInput}
+            handleChange={handleTextInput}
           />
-          {/* btn container */}
-          <div className="btn-container">
-            <button
-              type="submit"
-              className="btn btn-block btn-submit"
-              onClick={handleSubmit}
-              disabled={isLoading}
-            >
-              submit
-            </button>
-            <button
-              className="btn btn-block btn-hipster"
-              onClick={(e) => {
-                e.preventDefault();
-                clearValues();
-                setTextInput("");
-              }}
-            >
-              clear
-            </button>
-          </div>
         </div>
       </form>
       <AnimeContainer searchText={textInput} />
