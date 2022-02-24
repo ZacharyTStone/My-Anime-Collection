@@ -40,8 +40,6 @@ const initialState = {
   theme: user ? user.theme : "light",
   token: token,
   showSidebar: false,
-  title: "",
-  id: "",
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
@@ -52,6 +50,13 @@ const initialState = {
   searchType: "all",
   sort: "latest",
   sortOptions: ["latest", "oldest", "a-z", "z-a"],
+  id: "",
+  title: "",
+  rating: "",
+  format: "",
+  episodeCount: "",
+  synopsis: "",
+  coverImage: "",
 };
 
 const AppContext = React.createContext();
