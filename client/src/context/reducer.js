@@ -131,7 +131,7 @@ const reducer = (state, action) => {
     return {
       ...state,
       page: 1,
-      id: action.payload.value,
+      [action.payload.name]: action.payload.value,
     };
   }
   if (action.type === CLEAR_VALUES) {

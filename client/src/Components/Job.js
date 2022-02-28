@@ -5,47 +5,183 @@ import { useAppContext } from "../context/appContext";
 import JobInfo from "./JobInfo";
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { CardMedia } from "@mui/material";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddJob from "../pages/Dashboard/AddJob";
 
-const Job = ({ _id, title, createdAt }) => {
-  const { setEditJob, deleteJob } = useAppContext();
+const bull = (
+  <Box
+    component="span"
+    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+  >
+    •
+  </Box>
+);
 
-  let date = moment(createdAt);
-  date = date.format("MMM Do, YYYY");
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+}));
+
+function Job({
+  id,
+  title,
+  rating,
+  episodeCount,
+  format,
+  createdAt,
+  synopsis,
+  coverImage,
+}) {
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   return (
     <Wrapper>
-      <div className="job">
-        <header>
-          <div className="info">
-            <h5>{title}</h5>
-          </div>
-        </header>
-        <div className="content">
-          <div className="content-center">
-            <JobInfo icon={<FaCalendarAlt />} text={date} />
-          </div>
-          <footer>
-            <div className="actions">
-              <Link
-                to="/add-job"
-                className="btn edit-btn"
-                onClick={() => setEditJob(_id)}
+      <Box
+        sx={{
+          minWidth: 275,
+          width: 400,
+          color: "var(--textColor)",
+          backgroundColor: "var(--backgroundColor)",
+          marginBottom: "1rem",
+        }}
+      >
+        <Card
+          variant="outlined"
+          sx={{
+            backgroundColor: "var(--backgroundColor)",
+          }}
+        >
+          <React.Fragment>
+            <CardContent
+              sx={{
+                backgroundColor: "var(--backgroundColor)",
+                marginBottom: "0px",
+                paddingBottom: "0px",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  color: "var(--textColor)",
+                  backgroundColor: "var(--backgroundColor)",
+                  minHeight: "75px",
+                }}
+                color="var(--textColor)"
+                gutterBottom
               >
-                Edit
-              </Link>
-              <button
-                type="button"
-                className="btn delete-btn"
-                onClick={() => deleteJob(_id)}
+                {title}
+              </Typography>
+              <CardMedia
+                component="img"
+                height={340}
+                imagePosition="center"
+                image={coverImage}
+                title={title}
+              />
+              <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  {rating}
+                  <span
+                    style={{
+                      color: "var(--grey-500)",
+                    }}
+                  >
+                    /100
+                  </span>
+                </Button>
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  {format}
+                </Button>
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  {createdAt.slice(0, 10)}
+                </Button>
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  {episodeCount} Episodes
+                </Button>
+              </Typography>
+              <Typography
+                sx={{ mb: 1.5 }}
+                color="var(--textColor)"
+              ></Typography>
+            </CardContent>
+            <CardActions
+              sx={{
+                backgroundColor: "var(--backgroundColor)",
+              }}
+            >
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
               >
-                Delete
-              </button>
-            </div>
-          </footer>
-        </div>
-      </div>
+                <ExpandMoreIcon
+                  style={{
+                    color: "var(--textColor)",
+                  }}
+                />
+              </ExpandMore>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent
+                sx={{
+                  backgroundColor: "var(--backgroundColor)",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: "bold",
+                    color: "var(--textColor)",
+                    backgroundColor: "var(--backgroundColor)",
+                  }}
+                  color="var(--textColor)"
+                  gutterBottom
+                >
+                  {synopsis}
+                </Typography>
+              </CardContent>
+            </Collapse>
+          </React.Fragment>
+        </Card>
+      </Box>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.article`
   background: var(--white);

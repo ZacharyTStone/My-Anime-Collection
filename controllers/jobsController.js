@@ -8,12 +8,8 @@ import {
 import checkPermissions from "../utils/checkPermissions.js";
 import mongoose from "mongoose";
 import moment from "moment";
-const createJob = async (req, res) => {
-  const { id } = req.body;
 
-  if (!id) {
-    throw new BadRequestError("Please provide all values");
-  }
+const createJob = async (req, res) => {
   req.body.createdBy = req.user.userId;
   const job = await Job.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });

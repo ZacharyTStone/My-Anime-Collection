@@ -11,6 +11,8 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddJob from "../pages/Dashboard/AddJob";
+import { useAppContext } from "../context/appContext";
 
 const bull = (
   <Box
@@ -30,6 +32,12 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function AnimeCard({ anime }) {
+  const { createJob } = useAppContext();
+  const handleSubmit = () => {
+    console.log("submit");
+    createJob(anime);
+  };
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -145,7 +153,7 @@ export default function AnimeCard({ anime }) {
               <Button
                 size="small"
                 className="card-btn add"
-                // onClick={handleSubmit}
+                onClick={handleSubmit}
               >
                 Add to Collection
               </Button>

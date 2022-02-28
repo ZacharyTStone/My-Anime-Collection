@@ -7,6 +7,26 @@ import AnimeContainer from "../../Components/AnimeContainer";
 const AddJob = () => {
   const [textInput, setTextInput] = useState("");
 
+  const {
+    isLoading,
+    isEditing,
+    showAlert,
+    displayAlert,
+    position,
+    company,
+    jobLocation,
+    jobType,
+    jobTypeOptions,
+    status,
+    statusOptions,
+    handleChange,
+    clearValues,
+    createJob,
+    editJob,
+    notes,
+    stared,
+  } = useAppContext();
+
   const handleTextInput = (e) => {
     setTextInput(e.target.value);
   };
@@ -15,7 +35,7 @@ const AddJob = () => {
     <Wrapper>
       <form className="form">
         <h3>Add Anime</h3>
-        {/* {showAlert && <Alert />} */}
+        {showAlert && <Alert />}
         <div className="form-center">
           {/* title */}
           <FormRow

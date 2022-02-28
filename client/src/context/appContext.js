@@ -50,13 +50,6 @@ const initialState = {
   searchType: "all",
   sort: "latest",
   sortOptions: ["latest", "oldest", "a-z", "z-a"],
-  id: "",
-  title: "",
-  rating: "",
-  format: "",
-  episodeCount: "",
-  synopsis: "",
-  coverImage: "",
 };
 
 const AppContext = React.createContext();
@@ -192,20 +185,41 @@ const AppProvider = ({ children }) => {
     removeUserFromLocalStorage();
   };
 
-  const handleChange = (value) => {
-    dispatch({ type: HANDLE_CHANGE, payload: value });
+  const handleChange = ({ name, value }) => {
+    dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
   };
 
-  const createJob = async (CurrId) => {
-    dispatch({ type: CREATE_JOB_BEGIN });
+  const createJob = async (anime) => {
+    dispatch({ type: CREATE_JOB_BEGIN, payload: anime });
     try {
-      const id = CurrId;
+      const title = anime.attributes.canonicalTitle;
+      const id = anime.id;
+      const rating = anime.attributes.averageRating;
+      const format = anime.attributes.subtype;
+      const episodeCount = anime.attributes.episodeCount;
+      const synopsis = anime.attributes.synopsis;
+      const coverImage = anime.attributes.posterImage.small;
+      console.log(
+        title,
+        id,
+        rating,
+        format,
+        episodeCount,
+        synopsis,
+        coverImage
+      );
 
       await authFetch.post("/jobs", {
+        title,
         id,
+        rating,
+        format,
+        episodeCount,
+        synopsis,
+        coverImage,
       });
       dispatch({ type: CREATE_JOB_SUCCESS });
       dispatch({ type: CLEAR_VALUES });

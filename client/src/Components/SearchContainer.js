@@ -29,8 +29,6 @@ const SearchContainer = () => {
       <form className="form">
         <h4>search form</h4>
         <div className="form-center">
-          {/* search position */}
-
           <FormRow
             type="text"
             name="search"
