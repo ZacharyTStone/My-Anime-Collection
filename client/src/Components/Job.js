@@ -37,6 +37,7 @@ const ExpandMore = styled((props) => {
 }));
 
 function Job({
+  _id,
   id,
   title,
   rating,
@@ -51,6 +52,8 @@ function Job({
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const { deleteJob } = useAppContext();
   return (
     <Wrapper>
       <Box
@@ -133,10 +136,13 @@ function Job({
                   {episodeCount} Episodes
                 </Button>
               </Typography>
-              <Typography
-                sx={{ mb: 1.5 }}
-                color="var(--textColor)"
-              ></Typography>
+              <button
+                type="button"
+                className="btn delete-btn"
+                onClick={() => deleteJob(_id)}
+              >
+                Delete
+              </button>
             </CardContent>
             <CardActions
               sx={{
@@ -186,9 +192,11 @@ function Job({
 const Wrapper = styled.article`
   background: var(--white);
   border-radius: var(--borderRadius);
-  display: grid;
-  grid-template-rows: 1fr auto;
   box-shadow: var(--shadow-2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   .job {
     padding: 2rem;
     display: flex;
@@ -210,19 +218,6 @@ const Wrapper = styled.article`
     h5 {
       letter-spacing: 0;
     }
-  }
-  .main-icon {
-    width: 60px;
-    height: 60px;
-    display: grid;
-    place-items: center;
-    background: var(--primary-500);
-    border-radius: var(--borderRadius);
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--white);
-    margin-right: 2rem;
   }
 
   .info {
