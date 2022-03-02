@@ -66,9 +66,11 @@ const Wrapper = styled.section`
   }
   @media (min-width: 992px) {
     .jobs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      align-items: center;
     }
   }
 `;

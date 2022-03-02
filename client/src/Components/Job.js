@@ -32,7 +32,6 @@ const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
   marginLeft: "auto",
 }));
 
@@ -43,7 +42,7 @@ function Job({
   rating,
   episodeCount,
   format,
-  createdAt,
+  creationDate,
   synopsis,
   coverImage,
 }) {
@@ -56,143 +55,146 @@ function Job({
   const { deleteJob } = useAppContext();
   return (
     <Wrapper>
-      <Box
+      <Card
+        variant="outlined"
         sx={{
           minWidth: 275,
           width: 400,
           color: "var(--textColor)",
           backgroundColor: "var(--backgroundColor)",
           marginBottom: "1rem",
+          backgroundColor: "var(--backgroundColor)",
         }}
       >
-        <Card
-          variant="outlined"
-          sx={{
-            backgroundColor: "var(--backgroundColor)",
-          }}
-        >
-          <React.Fragment>
+        <React.Fragment>
+          <CardContent
+            sx={{
+              backgroundColor: "var(--backgroundColor)",
+              marginBottom: "0px",
+              paddingBottom: "0px",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: 20,
+                fontWeight: "bold",
+                color: "var(--textColor)",
+                backgroundColor: "var(--backgroundColor)",
+                minHeight: "75px",
+              }}
+              color="var(--textColor)"
+              gutterBottom
+            >
+              {title}
+            </Typography>
+            <CardMedia
+              component="img"
+              height={340}
+              imagePosition="center"
+              image={coverImage}
+              title={title}
+            />
+            <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
+              <Button
+                sx={{
+                  color: "var(--textColor)",
+                }}
+              >
+                {rating}
+                <span
+                  style={{
+                    color: "var(--grey-500)",
+                  }}
+                >
+                  /100
+                </span>
+              </Button>
+              <Button
+                sx={{
+                  color: "var(--textColor)",
+                }}
+              >
+                {format}
+              </Button>
+              <Button
+                sx={{
+                  color: "var(--textColor)",
+                }}
+              >
+                {creationDate.slice(0, 4)}
+              </Button>
+              <Button
+                sx={{
+                  color: "var(--textColor)",
+                }}
+              >
+                {episodeCount} Episodes
+              </Button>
+            </Typography>
+          </CardContent>
+          <CardActions
+            sx={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+              backgroundColor: "var(--backgroundColor)",
+            }}
+          >
+            <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon
+                style={{
+                  color: "var(--textColor)",
+                }}
+              />
+              <span
+                style={{
+                  color: "var(--textColor)",
+                  fontSize: "1rem",
+                }}
+              >
+                Synopsis
+              </span>
+            </ExpandMore>
+            <button
+              type="button"
+              className="btn delete-btn"
+              onClick={() => deleteJob(_id)}
+            >
+              Delete
+            </button>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent
               sx={{
                 backgroundColor: "var(--backgroundColor)",
-                marginBottom: "0px",
-                paddingBottom: "0px",
               }}
             >
               <Typography
                 sx={{
-                  fontSize: 20,
+                  fontSize: 14,
                   fontWeight: "bold",
                   color: "var(--textColor)",
                   backgroundColor: "var(--backgroundColor)",
-                  minHeight: "75px",
                 }}
                 color="var(--textColor)"
                 gutterBottom
               >
-                {title}
+                {synopsis ? synopsis : "No synopsis available"}
               </Typography>
-              <CardMedia
-                component="img"
-                height={340}
-                imagePosition="center"
-                image={coverImage}
-                title={title}
-              />
-              <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
-                <Button
-                  sx={{
-                    color: "var(--textColor)",
-                  }}
-                >
-                  {rating}
-                  <span
-                    style={{
-                      color: "var(--grey-500)",
-                    }}
-                  >
-                    /100
-                  </span>
-                </Button>
-                <Button
-                  sx={{
-                    color: "var(--textColor)",
-                  }}
-                >
-                  {format}
-                </Button>
-                <Button
-                  sx={{
-                    color: "var(--textColor)",
-                  }}
-                >
-                  {createdAt.slice(0, 10)}
-                </Button>
-                <Button
-                  sx={{
-                    color: "var(--textColor)",
-                  }}
-                >
-                  {episodeCount} Episodes
-                </Button>
-              </Typography>
-              <button
-                type="button"
-                className="btn delete-btn"
-                onClick={() => deleteJob(_id)}
-              >
-                Delete
-              </button>
             </CardContent>
-            <CardActions
-              sx={{
-                backgroundColor: "var(--backgroundColor)",
-              }}
-            >
-              <ExpandMore
-                expand={expanded}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon
-                  style={{
-                    color: "var(--textColor)",
-                  }}
-                />
-              </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <CardContent
-                sx={{
-                  backgroundColor: "var(--backgroundColor)",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: 14,
-                    fontWeight: "bold",
-                    color: "var(--textColor)",
-                    backgroundColor: "var(--backgroundColor)",
-                  }}
-                  color="var(--textColor)"
-                  gutterBottom
-                >
-                  {synopsis}
-                </Typography>
-              </CardContent>
-            </Collapse>
-          </React.Fragment>
-        </Card>
-      </Box>
+          </Collapse>
+        </React.Fragment>
+      </Card>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.article`
-  background: var(--white);
-  border-radius: var(--borderRadius);
-  box-shadow: var(--shadow-2);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -201,7 +203,7 @@ const Wrapper = styled.article`
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
   }
 
   p {
@@ -247,7 +249,7 @@ const Wrapper = styled.article`
     padding: 1rem 1.5rem;
   }
   .content-center {
-    display: grid;
+    /* display: grid;
     grid-template-columns: 1fr;
     row-gap: 0.5rem;
     @media (min-width: 576px) {
@@ -258,7 +260,7 @@ const Wrapper = styled.article`
     }
     @media (min-width: 1120px) {
       grid-template-columns: 1fr 1fr;
-    }
+    } */
   }
 
   footer {
@@ -270,14 +272,15 @@ const Wrapper = styled.article`
     cursor: pointer;
     height: 30px;
   }
-  .edit-btn {
-    color: var(--green-dark);
-    background: var(--green-light);
-    margin-right: 0.5rem;
-  }
+
   .delete-btn {
+    margin-right: 10px;
+    margin-top: 0px;
+    margin-left: 0px;
     color: var(--red-dark);
     background: var(--red-light);
+    align-self: center;
+    margin-bottom: "1rem";
   }
   &:hover .actions {
     visibility: visible;

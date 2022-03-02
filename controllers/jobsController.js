@@ -10,6 +10,16 @@ import mongoose from "mongoose";
 import moment from "moment";
 
 const createJob = async (req, res) => {
+  const oldJob = await Job.findOne({
+    title: req.body.title,
+    createdBy: req.user.userId,
+  });
+  console.log(oldJob);
+
+  if (oldJob) {
+    throw new NotFoundError(`You have already added that anime to your list`);
+  }
+
   req.body.createdBy = req.user.userId;
   const job = await Job.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });
@@ -30,22 +40,23 @@ const getAllJobs = async (req, res) => {
 
   let result = Job.find(queryObject);
 
-  // chain sort conditions
-
   if (sort === "latest") {
-    result = result.sort("-createdAt");
+    result = result.sort({ creationDate: -1 });
+  } else if (sort === "oldest") {
+    result = result.sort({ creationDate: 1 });
+  } else if (sort === "rating") {
+    result = result.sort({ rating: -1 });
+  } else if (sort === "episodeCount") {
+    result = result.sort({ episodeCount: -1 });
+  } else if (sort === "format") {
+    result = result.sort({ format: -1 });
+  } else if (sort === "a-z") {
+    result = result.sort({ title: 1 });
+  } else if (sort === "z-a") {
+    result = result.sort({ title: -1 });
+  } else if (sort === "date added") {
+    result = result.sort({ createdAt: -1 });
   }
-  if (sort === "oldest") {
-    result = result.sort("createdAt");
-  }
-  if (sort === "a-z") {
-    result = result.sort("title");
-  }
-  if (sort === "z-a") {
-    result = result.sort("-title");
-  }
-
-  //
 
   // setup pagination
   const page = Number(req.query.page) || 1;
@@ -68,14 +79,14 @@ const deleteJob = async (req, res) => {
   const job = await Job.findOne({ _id: jobId });
 
   if (!job) {
-    throw new NotFoundError(`No job with id :${jobId}`);
+    throw new NotFoundError(`No Anime with id :${jobId}`);
   }
 
   checkPermissions(req.user, job.createdBy);
 
   await job.remove();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Job removed" });
+  res.status(StatusCodes.OK).json({ msg: "Success! Anime removed" });
 };
 
 export { createJob, deleteJob, getAllJobs };

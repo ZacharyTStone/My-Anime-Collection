@@ -156,7 +156,7 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "success",
-      alertText: "New Job Created!",
+      alertText: "Anime added!",
     };
   }
   if (action.type === CREATE_JOB_ERROR) {

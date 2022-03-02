@@ -27,7 +27,6 @@ const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
   marginLeft: "auto",
 }));
 
@@ -118,7 +117,7 @@ export default function AnimeCard({ anime }) {
                     color: "var(--textColor)",
                   }}
                 >
-                  {anime.attributes.createdAt.slice(0, 10)}
+                  {anime.attributes.createdAt.slice(0, 4)}
                 </Button>
                 <Button
                   sx={{
@@ -135,6 +134,9 @@ export default function AnimeCard({ anime }) {
             </CardContent>
             <CardActions
               sx={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-between",
                 backgroundColor: "var(--backgroundColor)",
               }}
             >
@@ -144,6 +146,15 @@ export default function AnimeCard({ anime }) {
                 aria-expanded={expanded}
                 aria-label="show more"
               >
+                {" "}
+                <span
+                  style={{
+                    color: "var(--textColor)",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Synopsis
+                </span>
                 <ExpandMoreIcon
                   style={{
                     color: "var(--textColor)",
@@ -188,11 +199,12 @@ export default function AnimeCard({ anime }) {
 const Wrapper = styled.main`
   .card-btn {
     margin: 10px;
-    background-color: var(--primary-500);
+    background-color: var(--primary-200);
     color: var(--textColor);
+    align-self: flex-end;
   }
   .card-btn:hover {
     transform: scale(1.1);
-    background-color: var(--primary-500);
+    background-color: var(--primary-200);
   }
 `;

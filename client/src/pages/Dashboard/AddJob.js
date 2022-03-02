@@ -33,20 +33,22 @@ const AddJob = () => {
 
   return (
     <Wrapper>
-      <form className="form">
-        <h3>Add Anime</h3>
-        {showAlert && <Alert />}
-        <div className="form-center">
-          {/* title */}
-          <FormRow
-            type="text"
-            name="title"
-            value={textInput}
-            handleChange={handleTextInput}
-          />
-        </div>
-      </form>
-      <AnimeContainer searchText={textInput} />
+      <main className="content full-page">
+        <form className="form">
+          <h3>Add Anime</h3>
+          {showAlert && <Alert />}
+          <div className="form-center">
+            {/* title */}
+            <FormRow
+              type="text"
+              name="title"
+              value={textInput}
+              handleChange={handleTextInput}
+            />
+          </div>
+        </form>
+        <AnimeContainer searchText={textInput} />
+      </main>
     </Wrapper>
   );
 };

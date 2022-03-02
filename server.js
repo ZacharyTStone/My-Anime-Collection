@@ -32,14 +32,6 @@ if (process.env.NODE_ENV !== "production") {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// rate limiter
-// maximum of five requests per minute
-
-const getLimiter = rateLimiter({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 50,
-});
-
 // only when ready to deploy
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
@@ -55,13 +47,9 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
 // only when ready to deploy
-app.get(
-  "*",
-  (req, res) => {
-    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-  },
-  getLimiter
-);
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

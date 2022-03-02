@@ -69,7 +69,9 @@ const Navbar = () => {
 };
 
 const Wrapper = styled.nav`
+  z-index: 1000;
   height: var(--nav-height);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,7 +141,7 @@ const Wrapper = styled.nav`
     margin: 0;
   }
   @media (min-width: 992px) {
-    position: sticky;
+    /* position: sticky; */
     top: 0;
 
     .nav-center {

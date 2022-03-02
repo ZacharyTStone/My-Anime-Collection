@@ -49,7 +49,15 @@ const initialState = {
   searchStared: "all",
   searchType: "all",
   sort: "latest",
-  sortOptions: ["latest", "oldest", "a-z", "z-a"],
+  sortOptions: [
+    "latest",
+    "oldest",
+    "a-z",
+    "z-a",
+    "rating",
+    "format",
+    "date added",
+  ],
 };
 
 const AppContext = React.createContext();
@@ -195,6 +203,7 @@ const AppProvider = ({ children }) => {
   const createJob = async (anime) => {
     dispatch({ type: CREATE_JOB_BEGIN, payload: anime });
     try {
+      const creationDate = anime.attributes.createdAt;
       const title = anime.attributes.canonicalTitle;
       const id = anime.id;
       const rating = anime.attributes.averageRating;
@@ -209,7 +218,8 @@ const AppProvider = ({ children }) => {
         format,
         episodeCount,
         synopsis,
-        coverImage
+        coverImage,
+        creationDate
       );
 
       await authFetch.post("/jobs", {
@@ -220,6 +230,7 @@ const AppProvider = ({ children }) => {
         episodeCount,
         synopsis,
         coverImage,
+        creationDate,
       });
       dispatch({ type: CREATE_JOB_SUCCESS });
       dispatch({ type: CLEAR_VALUES });

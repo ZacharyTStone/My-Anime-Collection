@@ -7,6 +7,10 @@ const JobSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide user"],
     },
+    creationDate: {
+      type: Date,
+      required: false,
+    },
     id: {
       type: Number,
       required: [true, "Please provide id"],
