@@ -17,7 +17,7 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AddJob from "../pages/Dashboard/AddJob";
+import AddAnime from "../pages/Dashboard/AddAnime";
 
 const bull = (
   <Box
@@ -52,7 +52,7 @@ function Job({
     setExpanded(!expanded);
   };
 
-  const { showAlert, Alert, deleteJob } = useAppContext();
+  const { deleteAnime } = useAppContext();
   return (
     <Wrapper>
       <Card
@@ -163,7 +163,7 @@ function Job({
             <button
               type="button"
               className="btn delete-btn"
-              onClick={() => deleteJob(_id)}
+              onClick={() => deleteAnime(_id)}
             >
               Delete
             </button>

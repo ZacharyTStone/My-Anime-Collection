@@ -9,14 +9,14 @@ import { GoTools } from "react-icons/go";
 const links = [
   {
     id: 2,
-    text: "all animes",
-    path: "all-jobs",
+    text: "My Anime Collection",
+    path: "my-animes",
     icon: <MdQueryStats />,
   },
   {
     id: 3,
-    text: "add anime",
-    path: "add-job",
+    text: "Add Anime",
+    path: "add-anime",
     icon: <FaWpforms />,
   },
 ];

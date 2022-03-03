@@ -11,7 +11,7 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AddJob from "../pages/Dashboard/AddJob";
+import AddAnime from "../pages/Dashboard/AddAnime";
 import { useAppContext } from "../context/appContext";
 
 const bull = (

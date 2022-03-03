@@ -70,12 +70,12 @@ const deleteUser = async (req, res) => {
   console.log(user);
   await user.remove();
   res.status(StatusCodes.OK).json({ message: "User deleted" });
-  // delete all jobs
+  // delete all animes
 
-  const jobs = await Anime.find({ createdBy: req.user.userId });
-  console.log(jobs);
-  await jobs.forEach((job) => {
-    job.remove();
+  const animes = await Anime.find({ createdBy: req.user.userId });
+  console.log(animes);
+  await animes.forEach((anime) => {
+    anime.remove();
   });
 };
 

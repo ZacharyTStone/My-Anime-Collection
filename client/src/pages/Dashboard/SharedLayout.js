@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { MUINavbar, BigSidebar, SmallSidebar } from "../../Components";
+import { MUINavbar } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 const SharedLayout = () => {
   const { user } = useAppContext();

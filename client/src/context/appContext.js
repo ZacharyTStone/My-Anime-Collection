@@ -270,7 +270,7 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
-  const deleteJob = async (jobId) => {
+  const deleteAnime = async (jobId) => {
     dispatch({ type: DELETE_ANIME_BEGIN });
     try {
       await authFetch.delete(`/jobs/${jobId}`);
@@ -301,7 +301,7 @@ const AppProvider = ({ children }) => {
         createJob,
         getJobs,
 
-        deleteJob,
+        deleteAnime,
 
         clearFilters,
         changePage,

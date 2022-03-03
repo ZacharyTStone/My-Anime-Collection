@@ -4,7 +4,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import AnimeContainer from "../../Components/AnimeContainer";
 
-const AddJob = () => {
+const AddAnime = () => {
   const [textInput, setTextInput] = useState("");
 
   const {
@@ -125,4 +125,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default AddJob;
+export default AddAnime;
