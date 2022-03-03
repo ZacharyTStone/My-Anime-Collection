@@ -315,7 +315,8 @@ const Wrapper = styled.main`
     }
     .main-img {
       display: block;
-      height: max-content;
+      height: auto;
+      width: 100%;
       overflow: visible;
     }
   }
