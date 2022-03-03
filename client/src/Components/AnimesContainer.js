@@ -31,7 +31,7 @@ const AnimesContainer = () => {
   if (animes.length === 0) {
     return (
       <Wrapper>
-        <h2>No animes to display w...</h2>
+        <h2>No animes to display...</h2>
       </Wrapper>
     );
   }
