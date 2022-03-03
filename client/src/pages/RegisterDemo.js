@@ -54,7 +54,7 @@ const Register = () => {
 
   useEffect(() => {
     onSubmit();
-  });
+  }, []);
 
   return (
     <Wrapper className="full-page">

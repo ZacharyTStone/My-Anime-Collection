@@ -1,7 +1,7 @@
 {
   "name": "hataraku",
   "version": "1.0.1",
-  "description": "A job tracking application",
+  "description": "A anime tracking application",
   "main": "index.js",
   "type": "module",
   "scripts": {

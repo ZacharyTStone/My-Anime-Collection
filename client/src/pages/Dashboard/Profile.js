@@ -3,6 +3,7 @@ import { FormRow, FormRowSelect } from "../../Components";
 import { Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
+import pokemon from "../../assets/images/pokemon.png";
 
 const Profile = () => {
   const {
@@ -78,6 +79,7 @@ const Profile = () => {
             {isLoading ? "Please Wait..." : "save changes"}
           </button>
         </div>
+        <img src={pokemon} alt="pokemon" className="pokemon" />
       </form>
       <button className="btn btn-danger" onClick={() => handleDelete()}>
         {" "}
@@ -138,6 +140,12 @@ const Wrapper = styled.section`
   .clear-btn:hover {
     background: var(--black);
   }
+
+  .pokemon {
+    display: none;
+    width: 200px;
+    height: auto;
+  }
   @media (min-width: 992px) {
     .form-center {
       grid-template-columns: 1fr 1fr;
@@ -146,6 +154,12 @@ const Wrapper = styled.section`
     }
     .btn-container {
       margin-top: 0;
+    }
+    .pokemon {
+      display: block;
+      position: relative;
+      left: 75%;
+      top: -2rem;
     }
   }
   @media (min-width: 1120px) {
