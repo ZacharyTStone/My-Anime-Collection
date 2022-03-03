@@ -2,7 +2,7 @@
 
 Sorry!
 
-This Readme is Temporary and will be update on March 5th.
+This Readme is Temporary and will be updated on March 5th.
 
 ごめん！
 
