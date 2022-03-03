@@ -6,14 +6,12 @@ import Loading from "./Loading";
 import Logo from "./Logo";
 import Navbar from "./Navbar";
 import SearchContainer from "./SearchContainer";
-import SmallSidebar from "./SmallSidebar";
 import MUINavbar from "./MUINavbar";
 export {
   Logo,
   FormRow,
   Alert,
   Navbar,
-  SmallSidebar,
   FormRowSelect,
   SearchContainer,
   JobsContainer,

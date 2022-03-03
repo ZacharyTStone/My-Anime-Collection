@@ -7,14 +7,10 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useAppContext } from "../context/appContext";
-import { useState } from "react";
 import NavLinks from "./NavLinks";
-import ProfileLinks from "./ProfileLInks";
 import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import { FaUserCircle } from "react-icons/fa";
@@ -24,9 +20,7 @@ import styled from "styled-components";
 const settings = ["Profile", "Logout"];
 
 const MUINavbar = () => {
-  const { toggleSidebar, logoutUser, user, deleteUser } = useAppContext();
-
-  const [showLogout, setShowLogout] = useState(false);
+  const { logoutUser, user, deleteUser } = useAppContext();
 
   const handleLogout = () => {
     if (user.emailProvider === "demo.com") {
@@ -58,8 +52,8 @@ const MUINavbar = () => {
 
   return (
     <Wrapper>
-      <AppBar position="static" color="transparent">
-        <Container maxWidth="xl">
+      <AppBar position="static" color="transparent" width="100%">
+        <Container>
           <Toolbar disableGutters>
             <Typography
               variant="h6"
@@ -70,7 +64,7 @@ const MUINavbar = () => {
               <Logo />
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Box sx={{ flexGrow: 1, display: { md: "none" } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -79,7 +73,14 @@ const MUINavbar = () => {
                 onClick={handleOpenNavMenu}
                 color="inherit"
               >
-                <MenuIcon />
+                <MenuIcon
+                  onClick={handleOpenNavMenu}
+                  sx={{
+                    fontSize: "var(--font-size-lg)",
+                    cursor: "pointer",
+                    color: "var(--primary-500)",
+                  }}
+                />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -96,7 +97,7 @@ const MUINavbar = () => {
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: "block", md: "none" },
+                  display: { xs: "flex", md: "none" },
                 }}
               >
                 <NavLinks />
@@ -204,45 +205,12 @@ const Wrapper = styled.nav`
     box-shadow: var(--shadow-2);
   }
 
-  .dropdown {
-    position: absolute;
-    top: 30px;
-    left: 0;
-    width: 100%;
-    background: var(--primary-100);
-    box-shadow: var(--shadow-2);
-    padding: 0.5rem;
-    text-align: center;
-    visibility: hidden;
-    border-radius: var(--borderRadius);
-  }
-  .show-dropdown {
-    visibility: visible;
-  }
-  .dropdown-btn {
-    background: transparent;
-    border-color: transparent;
-    color: var(--primary-500);
-    letter-spacing: var(--letterSpacing);
-    text-transform: capitalize;
-    cursor: pointer;
-  }
-  .logo-text {
-    display: none;
-    margin: 0;
-  }
   @media (min-width: 992px) {
     position: sticky;
     top: 0;
 
     .nav-center {
       width: 90%;
-    }
-    .logo {
-      display: none;
-    }
-    .logo-text {
-      display: block;
     }
   }
 `;

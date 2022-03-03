@@ -52,7 +52,7 @@ function Job({
     setExpanded(!expanded);
   };
 
-  const { deleteJob } = useAppContext();
+  const { showAlert, Alert, deleteJob } = useAppContext();
   return (
     <Wrapper>
       <Card

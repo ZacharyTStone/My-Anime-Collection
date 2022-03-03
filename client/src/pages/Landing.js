@@ -1,43 +1,18 @@
-import main from "../assets/images/main.svg";
-import computer from "../assets/images/computer.svg";
-import hello from "../assets/images/hello.svg";
-import thumb1 from "../assets/images/thumb1.png";
-import thumb2 from "../assets/images/thumb2.png";
-import thumb3 from "../assets/images/thumb3.png";
-import thumb4 from "../assets/images/thumb4.png";
+import goku from "../assets/images/goku.png";
+import aot from "../assets/images/aot.png";
+import lucy from "../assets/images/lucy.png";
 import { Logo } from "../Components";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Slide from "react-reveal/Slide";
 import Fade from "react-reveal/Fade";
 import { FaBuromobelexperte } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
 import { FaSortAmountDown } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
-import { FaArrowCircleRight } from "react-icons/fa";
-import ImageGallery from "react-image-gallery";
 import { ToastContainer, toast } from "react-toastify";
+import { FaSearch } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-
-const images = [
-  {
-    original: thumb1,
-    thumbnail: thumb1,
-  },
-  {
-    original: thumb2,
-    thumbnail: thumb2,
-  },
-  {
-    original: thumb3,
-    thumbnail: thumb3,
-  },
-  {
-    original: thumb4,
-    thumbnail: thumb4,
-  },
-];
 
 const Landing = () => {
   useEffect(() => {
@@ -76,11 +51,11 @@ const Landing = () => {
           <div>
             <Slide left>
               <h1>
-                Haku <span> job tracker</span>
+                <span> My Anime Collection</span>
               </h1>
               <p>
-                Haku pronounced "ha koo" is an application that let's you track,
-                and compare jobs during the the interview process.
+                My Anime Collection also called M.A.C. is an application that
+                let's you track, and find new animes.
               </p>
               <div className="login-div">
                 <Link to="/register" className="btn btn-hero">
@@ -93,7 +68,7 @@ const Landing = () => {
             </Slide>
           </div>
           <Fade>
-            <img src={main} alt="job hunt" className="img main-img" />
+            <img src={goku} alt="anime character" className="img main-img" />
           </Fade>
         </div>
         <div className="container">
@@ -101,7 +76,7 @@ const Landing = () => {
             <div className="features" id="icon-row">
               <h3>
                 {" "}
-                <span>How do I use Haku?</span>
+                <span>How do I use My Anime Collection?</span>
               </h3>
               <Slide left>
                 <div className="icon-row">
@@ -113,14 +88,7 @@ const Landing = () => {
                       />
                     </div>
                     <p>
-                      <span>1.</span> Log the jobs you apply for.
-                    </p>
-                  </div>
-                  <div className="icon">
-                    <FaEdit size={"50px"} color="var(--primary-500)" />
-                    <p>
-                      <span>2.</span> Hear back from the company? Update that
-                      job to reflect your interview status
+                      <span>1.</span> Log the anime you like.
                     </p>
                   </div>
                   <div className="icon">
@@ -129,8 +97,15 @@ const Landing = () => {
                       color="var(--primary-500)"
                     />
                     <p>
-                      <span>3.</span> Use Haku's built in tools to compare and
-                      contrast job offers.
+                      <span>2.</span> Sort your collection by title, rating,
+                      creation date, etc.
+                    </p>
+                  </div>
+                  <div className="icon">
+                    <FaSearch size={"50px"} color="var(--primary-500)" />
+                    <p>
+                      <span>3.</span> Use My Anime Collection's built in tools
+                      to find new animes.
                     </p>
                   </div>
                 </div>
@@ -140,12 +115,12 @@ const Landing = () => {
         </div>
         <div className="container page">
           <Fade>
-            <img src={computer} alt="job hunt" className="img main-img" />
+            <img src={aot} alt="anime character" className="img main-img" />
           </Fade>
           <div>
             <Slide right>
               <h3>
-                <span> Why use Haku?</span>
+                <span> Why use My Anime Collection?</span>
               </h3>
               <ul>
                 <li>
@@ -163,9 +138,9 @@ const Landing = () => {
                 <li>
                   {" "}
                   <FaCheck />
-                  Unlike other job trackers, Haku does not use cookies to track
-                  you for advertising purposes and does not request personal
-                  data from any third parties.
+                  My Anime Collection does not use cookies to track you for
+                  advertising purposes and does not request personal data from
+                  any third parties.
                 </li>
                 <li>
                   {" "}
@@ -176,23 +151,12 @@ const Landing = () => {
             </Slide>
           </div>
         </div>
-        <div className="container page gallery">
-          <div
-            style={{
-              width: "90%",
-            }}
-          >
-            <h3 style={{ textAlign: "center" }}>
-              <span>Haku in action!</span>
-            </h3>
-            <ImageGallery items={images} showNav={false} />
-          </div>
-        </div>
+
         <div className="container page">
           <div>
             <Slide right>
               <div>
-                <h3>Time to land that dream job!</h3>
+                <h3>Let's go!!!!</h3>
                 <div className="login-div">
                   <Link to="/register" className="btn btn-hero">
                     Login/Register
@@ -228,7 +192,7 @@ const Landing = () => {
             </Slide>
           </div>
           <Fade>
-            <img src={hello} alt="job hunt" className="img main-img" />
+            <img src={lucy} alt="anime character" className="img main-img" />
           </Fade>
         </div>
       </Wrapper>
