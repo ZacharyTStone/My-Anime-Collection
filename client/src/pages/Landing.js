@@ -1,6 +1,8 @@
 import goku from "../assets/images/goku.png";
 import aot from "../assets/images/aot.png";
 import lucy from "../assets/images/lucy.png";
+import narutoRun from "../assets/images/narutoRun.gif";
+import leviClean from "../assets/images/leviClean.gif";
 import { Logo } from "../Components";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -19,7 +21,7 @@ const Landing = () => {
     toast.success(
       "Hi! 👋 This app is currently in development. Want me to add a feature? Let me know at Zach.Stone.Developer@gmail.com",
       {
-        position: "top-right",
+        position: "top-left",
         autoClose: 6000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -33,7 +35,7 @@ const Landing = () => {
   return (
     <>
       <ToastContainer
-        position="top-right"
+        position="top-left"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -67,6 +69,8 @@ const Landing = () => {
               </div>
             </Slide>
           </div>
+          <img src={narutoRun} alt="anime character" className="img naruto" />
+          <img src={leviClean} alt="anime character" className="img levi" />
           <Fade>
             <img src={goku} alt="anime character" className="img main-img" />
           </Fade>
@@ -75,8 +79,7 @@ const Landing = () => {
           <Fade>
             <div className="features" id="icon-row">
               <h3>
-                {" "}
-                <span>How do I use My Anime Collection?</span>
+                <span>How do I use M.A.C.?</span>
               </h3>
               <Slide left>
                 <div className="icon-row">
@@ -202,6 +205,48 @@ const Landing = () => {
 export default Landing;
 
 const Wrapper = styled.main`
+  .naruto {
+    width: 100px;
+    position: absolute;
+    animation-name: run;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    top: 94%;
+  }
+
+  .levi {
+    width: 100px;
+    right: 3%;
+    position: absolute;
+    animation-name: appear;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    /* animation-delay: 5s; */
+    top: 3%;
+    display: block;
+  }
+
+  @keyframes appear {
+    from {
+      display: block;
+      opacity: 1;
+    }
+    to {
+      display: block;
+      opacity: 0;
+    }
+  }
+
+  @keyframes run {
+    from {
+      left: -100px;
+    }
+    to {
+      left: 100%;
+    }
+  }
   .btn:hover {
     transform: scale(1.1);
   }
@@ -272,6 +317,7 @@ const Wrapper = styled.main`
   }
   .main-img {
     display: none;
+    height: fit-content;
   }
   @media (min-width: 992px) {
     .page {
