@@ -48,7 +48,7 @@ const Landing = () => {
         <nav>
           <Logo />
         </nav>
-        <div className="container page naruto-div">
+        <div className="container page">
           <div>
             <Slide left>
               <h1>
@@ -73,9 +73,7 @@ const Landing = () => {
             loading="lazy"
             alt="anime character"
             className="img naruto"
-            overflow="hidden"
           />
-
           <Fade>
             <img src={goku} alt="anime character" className="img main-img" />
           </Fade>
@@ -230,11 +228,6 @@ const Wrapper = styled.main`
     top: 94%;
   }
 
-  .naruto-div {
-    overflow: hidden;
-    overflow-y: hidden;
-    max-width: 100vw;
-  }
   @keyframes run {
     from {
       left: -100px;
