@@ -4,10 +4,10 @@ const router = express.Router();
 import {
   createAnime,
   deleteAnime,
-  getAllAnimes,
-} from "../controllers/jobsController.js";
+  getAnimes,
+} from "../controllers/animesController.js";
 
-router.route("/").post(createAnime).get(getAllAnimes);
+router.route("/").post(createAnime).get(getAnimes);
 // remember about :id
 router.route("/:id").delete(deleteAnime);
 

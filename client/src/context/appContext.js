@@ -40,8 +40,8 @@ const initialState = {
   theme: user ? user.theme : "light",
   token: token,
   showSidebar: false,
-  jobs: [],
-  totalJobs: 0,
+  animes: [],
+  totalAnimes: 0,
   numOfPages: 1,
   page: 1,
   search: "",
@@ -200,7 +200,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CLEAR_VALUES });
   };
 
-  const createJob = async (anime) => {
+  const createAnime = async (anime) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
     try {
       const creationDate = anime.attributes.createdAt;
@@ -222,7 +222,7 @@ const AppProvider = ({ children }) => {
         creationDate
       );
 
-      await authFetch.post("/jobs", {
+      await authFetch.post("/animes", {
         title,
         id,
         rating,
@@ -244,37 +244,38 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
-  const getJobs = async () => {
+  const getAnimes = async () => {
     const { page, search, searchStatus, searchType, searchStared, sort } =
       state;
 
-    let url = `/jobs?page=${page}&status=${searchStatus}&jobType=${searchType}&stared=${searchStared}&sort=${sort}`;
+    let url = `/animes?page=${page}&status=${searchStatus}&animeType=${searchType}&stared=${searchStared}&sort=${sort}`;
     if (search) {
       url = url + `&search=${search}`;
     }
     dispatch({ type: GET_ANIMES_BEGIN });
     try {
       const { data } = await authFetch(url);
-      const { jobs, totalJobs, numOfPages } = data;
+      const { animes, totalAnimes, numOfPages } = data;
       dispatch({
         type: GET_ANIMES_SUCCESS,
         payload: {
-          jobs,
-          totalJobs,
+          animes,
+          totalAnimes,
           numOfPages,
         },
       });
+      console.log("data", data);
     } catch (error) {
       logoutUser();
     }
     clearAlert();
   };
 
-  const deleteAnime = async (jobId) => {
+  const deleteAnime = async (animeId) => {
     dispatch({ type: DELETE_ANIME_BEGIN });
     try {
-      await authFetch.delete(`/jobs/${jobId}`);
-      getJobs();
+      await authFetch.delete(`/animes/${animeId}`);
+      getAnimes();
     } catch (error) {
       logoutUser();
     }
@@ -298,8 +299,8 @@ const AppProvider = ({ children }) => {
         deleteUser,
         handleChange,
         clearValues,
-        createJob,
-        getJobs,
+        createAnime,
+        getAnimes,
 
         deleteAnime,
 

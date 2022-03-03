@@ -1,14 +1,14 @@
-import { JobsContainer, SearchContainer } from "../../Components";
+import { AnimesContainer, SearchContainer } from "../../Components";
 
-const AllJobs = () => {
+const MyAnimes = () => {
   return (
     <>
       <main className="content full-page" datatype="">
         <SearchContainer />
-        <JobsContainer />
+        <AnimesContainer />
       </main>
     </>
   );
 };
 
-export default AllJobs;
+export default MyAnimes;

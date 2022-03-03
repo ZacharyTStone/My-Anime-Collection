@@ -21,11 +21,11 @@ const createAnime = async (req, res) => {
   }
 
   req.body.createdBy = req.user.userId;
-  const job = await Anime.create(req.body);
-  res.status(StatusCodes.CREATED).json({ job });
-  console.log(job);
+  const anime = await Anime.create(req.body);
+  res.status(StatusCodes.CREATED).json({ anime });
+  console.log(anime);
 };
-const getAllAnimes = async (req, res) => {
+const getAnimes = async (req, res) => {
   const { sort, search } = req.query;
 
   const queryObject = {
@@ -65,28 +65,29 @@ const getAllAnimes = async (req, res) => {
 
   result = result.skip(skip).limit(limit);
 
-  const jobs = await result;
+  const animes = await result;
 
   const totalAnimes = await Anime.countDocuments(queryObject);
   const numOfPages = Math.ceil(totalAnimes / limit);
 
-  res.status(StatusCodes.OK).json({ jobs, totalAnimes, numOfPages });
+  res.status(StatusCodes.OK).json({ animes, totalAnimes, numOfPages });
+  console.log("here is what we got", animes);
 };
 
 const deleteAnime = async (req, res) => {
-  const { id: jobId } = req.params;
+  const { id: animeId } = req.params;
 
-  const job = await Anime.findOne({ _id: jobId });
+  const anime = await Anime.findOne({ _id: animeId });
 
-  if (!job) {
-    throw new NotFoundError(`No Anime with id :${jobId}`);
+  if (!anime) {
+    throw new NotFoundError(`No Anime with id :${animeId}`);
   }
 
-  checkPermissions(req.user, job.createdBy);
+  checkPermissions(req.user, anime.createdBy);
 
-  await job.remove();
+  await anime.remove();
 
   res.status(StatusCodes.OK).json({ msg: "Success! Anime removed" });
 };
 
-export { createAnime, deleteAnime, getAllAnimes };
+export { createAnime, deleteAnime, getAnimes };

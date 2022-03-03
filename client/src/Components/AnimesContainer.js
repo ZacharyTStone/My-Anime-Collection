@@ -1,17 +1,17 @@
 import { useAppContext } from "../context/appContext";
 import { useEffect } from "react";
 import Loading from "./Loading";
-import Job from "./Job";
+import Anime from "./Anime";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
 
-const JobsContainer = () => {
+const AnimesContainer = () => {
   const {
-    getJobs,
-    jobs,
+    getAnimes,
+    animes,
     isLoading,
     page,
-    totalJobs,
+    totalAnimes,
     search,
     searchStatus,
     searchType,
@@ -20,17 +20,18 @@ const JobsContainer = () => {
     numOfPages,
   } = useAppContext();
   useEffect(() => {
-    getJobs();
+    getAnimes();
+    console.log("animes", animes);
     // eslint-disable-next-line
   }, [page, search, searchStatus, searchStared, searchType, sort]);
   if (isLoading) {
     return <Loading center />;
   }
 
-  if (jobs.length === 0) {
+  if (animes.length === 0) {
     return (
       <Wrapper>
-        <h2>No jobs to display...</h2>
+        <h2>No animes to display w...</h2>
       </Wrapper>
     );
   }
@@ -38,11 +39,11 @@ const JobsContainer = () => {
   return (
     <Wrapper>
       <h5>
-        {totalJobs} job{jobs.length > 1 && "s"} found
+        {totalAnimes} anime{animes.length > 1 && "s"} found
       </h5>
-      <div className="jobs">
-        {jobs.map((job) => {
-          return <Job key={job._id} {...job} />;
+      <div className="animes">
+        {animes.map((anime) => {
+          return <Anime key={anime._id} {...anime} />;
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}
@@ -58,14 +59,14 @@ const Wrapper = styled.section`
   & > h5 {
     font-weight: 700;
   }
-  .jobs {
+  .animes {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2rem;
     color: var(--textColor);
   }
   @media (min-width: 992px) {
-    .jobs {
+    .animes {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
@@ -75,4 +76,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default JobsContainer;
+export default AnimesContainer;

@@ -2,7 +2,7 @@ import moment from "moment";
 import { FaBriefcase, FaCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../context/appContext";
-import JobInfo from "./JobInfo";
+import AnimeInfo from "./AnimeInfo";
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
 import * as React from "react";
@@ -35,7 +35,7 @@ const ExpandMore = styled((props) => {
   marginLeft: "auto",
 }));
 
-function Job({
+function Anime({
   _id,
   id,
   title,
@@ -199,7 +199,7 @@ const Wrapper = styled.article`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  .job {
+  .anime {
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -287,4 +287,4 @@ const Wrapper = styled.article`
   }
 `;
 
-export default Job;
+export default Anime;

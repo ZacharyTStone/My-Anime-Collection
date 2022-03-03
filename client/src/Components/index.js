@@ -1,7 +1,7 @@
 import Alert from "./Alert";
 import FormRow from "./FormRow";
 import FormRowSelect from "./FormRowSelect";
-import JobsContainer from "./JobsContainer";
+import AnimesContainer from "./AnimesContainer";
 import Loading from "./Loading";
 import Logo from "./Logo";
 import Navbar from "./Navbar";
@@ -14,7 +14,7 @@ export {
   Navbar,
   FormRowSelect,
   SearchContainer,
-  JobsContainer,
+  AnimesContainer,
   Loading,
   MUINavbar,
 };

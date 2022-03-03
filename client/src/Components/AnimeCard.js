@@ -31,10 +31,10 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function AnimeCard({ anime }) {
-  const { createJob } = useAppContext();
+  const { createAnime } = useAppContext();
   const handleSubmit = () => {
     console.log("submit");
-    createJob(anime);
+    createAnime(anime);
   };
 
   const [expanded, setExpanded] = React.useState(false);

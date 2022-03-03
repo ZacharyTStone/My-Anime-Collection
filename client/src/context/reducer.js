@@ -175,8 +175,8 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      jobs: action.payload.jobs,
-      totalJobs: action.payload.totalJobs,
+      animes: action.payload.animes,
+      totalAnimes: action.payload.totalAnimes,
       numOfPages: action.payload.numOfPages,
     };
   }

@@ -1,17 +1,17 @@
 import { useAppContext } from "../context/appContext";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
-import Job from "./Job";
+import Anime from "./Anime.js";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
 import AnimeCard from "./AnimeCard";
 
 const AnimeContainer = ({ searchText }) => {
   const {
-    jobs,
+    animes,
     isLoading,
     page,
-    totalJobs,
+    totalAnimes,
     search,
     searchStared,
     sort,
@@ -33,7 +33,7 @@ const AnimeContainer = ({ searchText }) => {
 
   return (
     <Wrapper>
-      <div className="jobs">
+      <div className="animes">
         {fetchedAnimes.map((anime) => {
           return <AnimeCard key={anime.id} anime={anime} />;
         })}
@@ -51,14 +51,14 @@ const Wrapper = styled.section`
   & > h5 {
     font-weight: 700;
   }
-  .jobs {
+  .animes {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2rem;
     color: var(--textColor);
   }
   @media (min-width: 992px) {
-    .jobs {
+    .animes {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
@@ -81,14 +81,14 @@ const Wrapper = styled.section`
   & > h5 {
     font-weight: 700;
   }
-  .jobs {
+  .animes {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2rem;
     color: var(--textColor);
   }
   @media (min-width: 992px) {
-    .jobs {
+    .animes {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;

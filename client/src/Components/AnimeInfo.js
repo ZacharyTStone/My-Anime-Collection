@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const JobInfo = ({ icon, text }) => {
+const AnimeInfo = ({ icon, text }) => {
   return (
     <Wrapper>
       <span className="icon">{icon}</span>
@@ -30,4 +30,4 @@ const Wrapper = styled.div`
   }
 `;
 
-export default JobInfo;
+export default AnimeInfo;
