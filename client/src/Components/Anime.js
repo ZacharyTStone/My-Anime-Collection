@@ -1,12 +1,6 @@
-import moment from "moment";
-import { FaBriefcase, FaCalendarAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { useAppContext } from "../context/appContext";
-import AnimeInfo from "./AnimeInfo";
 import styled from "styled-components";
-import { FaStar } from "react-icons/fa";
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -14,19 +8,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AddAnime from "../pages/Dashboard/AddAnime";
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -63,7 +46,6 @@ function Anime({
           color: "var(--textColor)",
           backgroundColor: "var(--backgroundColor)",
           marginBottom: "1rem",
-          backgroundColor: "var(--backgroundColor)",
         }}
       >
         <React.Fragment>
@@ -90,7 +72,6 @@ function Anime({
             <CardMedia
               component="img"
               height={340}
-              imagePosition="center"
               image={coverImage}
               title={title}
             />

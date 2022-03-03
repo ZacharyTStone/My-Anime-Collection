@@ -2,7 +2,7 @@ import links from "../utils/links";
 import { NavLink } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const NavLinks = ({ toggleSidebar }) => {
+const NavLinks = ({}) => {
   return (
     <div className="nav-links">
       {links.map((link) => {
@@ -14,7 +14,7 @@ const NavLinks = ({ toggleSidebar }) => {
               to={path}
               key={id}
               className={({ isActive }) =>
-                isActive ? "nav-link " : "nav-link active"
+                isActive ? "nav-link active" : "nav-link"
               }
             >
               <span className="icon">{icon}</span>

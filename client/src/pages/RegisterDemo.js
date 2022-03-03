@@ -14,18 +14,13 @@ const initialState = {
 const Register = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  const { user, isLoading, showAlert, displayAlert, setupUser } =
-    useAppContext();
-
-  const toggleMember = () => {
-    setValues({ ...values, isMember: !values.isMember });
-  };
+  const { user, showAlert, setupUser } = useAppContext();
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
   const onSubmit = () => {
-    const { name, email, password, isMember } = {
+    const { name, email, password } = {
       name: "DEMO",
       email:
         "DEMO" +
@@ -34,7 +29,6 @@ const Register = () => {
         Math.floor(Math.random() * 102) +
         "@demo.com",
       password: "DEMO" + Math.floor(Math.random() * 100) + "DEMO",
-      isMember: true,
     };
 
     const currentUser = {
@@ -60,7 +54,7 @@ const Register = () => {
 
   useEffect(() => {
     onSubmit();
-  }, []);
+  });
 
   return (
     <Wrapper className="full-page">

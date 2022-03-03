@@ -1,22 +1,11 @@
 import { useAppContext } from "../context/appContext";
 import { useEffect, useState } from "react";
-import Loading from "./Loading";
-import Anime from "./Anime.js";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
 import AnimeCard from "./AnimeCard";
 
 const AnimeContainer = ({ searchText }) => {
-  const {
-    animes,
-    isLoading,
-    page,
-    totalAnimes,
-    search,
-    searchStared,
-    sort,
-    numOfPages,
-  } = useAppContext();
+  const { numOfPages } = useAppContext();
 
   const APIURL = "https://kitsu.io/api/edge/anime?filter[text]=";
   const [fetchedAnimes, setFetchedAnimes] = useState([]);

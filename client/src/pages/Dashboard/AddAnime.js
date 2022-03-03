@@ -7,25 +7,7 @@ import AnimeContainer from "../../Components/AnimeContainer";
 const AddAnime = () => {
   const [textInput, setTextInput] = useState("");
 
-  const {
-    isLoading,
-    isEditing,
-    showAlert,
-    displayAlert,
-    position,
-    company,
-    animeLocation,
-    animeType,
-    animeTypeOptions,
-    status,
-    statusOptions,
-    handleChange,
-    clearValues,
-    createAnime,
-    editAnime,
-    notes,
-    stared,
-  } = useAppContext();
+  const { showAlert } = useAppContext();
 
   const handleTextInput = (e) => {
     setTextInput(e.target.value);

@@ -8,20 +8,9 @@ import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
 import styled from "styled-components";
 import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AddAnime from "../pages/Dashboard/AddAnime";
 import { useAppContext } from "../context/appContext";
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -83,7 +72,6 @@ export default function AnimeCard({ anime }) {
               <CardMedia
                 component="img"
                 height={340}
-                imagePosition="center"
                 image={anime.attributes.posterImage.small}
                 title={
                   anime.attributes.titles.en || anime.attributes.titles.en_jp

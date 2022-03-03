@@ -17,8 +17,6 @@ import { FaUserCircle } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
 
-const settings = ["Profile", "Logout"];
-
 const MUINavbar = () => {
   const { logoutUser, user, deleteUser } = useAppContext();
 
@@ -74,7 +72,6 @@ const MUINavbar = () => {
                 color="inherit"
               >
                 <MenuIcon
-                  onClick={handleOpenNavMenu}
                   sx={{
                     fontSize: "var(--font-size-lg)",
                     cursor: "pointer",
@@ -205,8 +202,14 @@ const Wrapper = styled.nav`
     box-shadow: var(--shadow-2);
   }
 
+  .active {
+    color: var(--primary-500);
+  }
+  .active .icon {
+    color: var(--primary-500);
+  }
+
   @media (min-width: 992px) {
-    position: sticky;
     top: 0;
 
     .nav-center {

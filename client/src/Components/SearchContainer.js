@@ -3,19 +3,8 @@ import { useAppContext } from "../context/appContext";
 import styled from "styled-components";
 
 const SearchContainer = () => {
-  const {
-    isLoading,
-    search,
-    searchStatus,
-    searchStared,
-    searchType,
-    sort,
-    sortOptions,
-    handleChange,
-    clearFilters,
-    statusOptions,
-    staredOptions,
-  } = useAppContext();
+  const { isLoading, search, sort, sortOptions, handleChange, clearFilters } =
+    useAppContext();
   const handleSearch = (e) => {
     if (isLoading) return;
     handleChange({ name: e.target.name, value: e.target.value });
