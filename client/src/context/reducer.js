@@ -14,12 +14,12 @@ import {
   DELETE_USER_ERROR,
   HANDLE_CHANGE,
   CLEAR_VALUES,
-  CREATE_JOB_BEGIN,
-  CREATE_JOB_SUCCESS,
-  CREATE_JOB_ERROR,
-  GET_JOBS_BEGIN,
-  GET_JOBS_SUCCESS,
-  DELETE_JOB_BEGIN,
+  CREATE_ANIME_BEGIN,
+  CREATE_ANIME_SUCCESS,
+  CREATE_ANIME_ERROR,
+  GET_ANIMES_BEGIN,
+  GET_ANIMES_SUCCESS,
+  DELETE_ANIME_BEGIN,
   CLEAR_FILTERS,
   CHANGE_PAGE,
 } from "./actions";
@@ -146,11 +146,11 @@ const reducer = (state, action) => {
       ...initialState,
     };
   }
-  if (action.type === CREATE_JOB_BEGIN) {
+  if (action.type === CREATE_ANIME_BEGIN) {
     return { ...state, isLoading: true };
   }
 
-  if (action.type === CREATE_JOB_SUCCESS) {
+  if (action.type === CREATE_ANIME_SUCCESS) {
     return {
       ...state,
       isLoading: false,
@@ -159,7 +159,7 @@ const reducer = (state, action) => {
       alertText: "Anime added!",
     };
   }
-  if (action.type === CREATE_JOB_ERROR) {
+  if (action.type === CREATE_ANIME_ERROR) {
     return {
       ...state,
       isLoading: false,
@@ -168,10 +168,10 @@ const reducer = (state, action) => {
       alertText: action.payload.msg,
     };
   }
-  if (action.type === GET_JOBS_BEGIN) {
+  if (action.type === GET_ANIMES_BEGIN) {
     return { ...state, isLoading: true, showAlert: false };
   }
-  if (action.type === GET_JOBS_SUCCESS) {
+  if (action.type === GET_ANIMES_SUCCESS) {
     return {
       ...state,
       isLoading: false,
@@ -181,7 +181,7 @@ const reducer = (state, action) => {
     };
   }
 
-  if (action.type === DELETE_JOB_BEGIN) {
+  if (action.type === DELETE_ANIME_BEGIN) {
     return { ...state, isLoading: true };
   }
 

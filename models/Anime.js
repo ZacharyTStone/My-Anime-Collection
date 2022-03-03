@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const JobSchema = new mongoose.Schema(
+const AnimeSchema = new mongoose.Schema(
   {
     createdBy: {
       type: mongoose.Types.ObjectId,
@@ -43,4 +43,4 @@ const JobSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Job", JobSchema);
+export default mongoose.model("Anime", AnimeSchema);

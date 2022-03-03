@@ -1,4 +1,4 @@
-import Job from "../models/Job.js";
+import Anime from "../models/Anime.js";
 import { StatusCodes } from "http-status-codes";
 import {
   BadRequestError,
@@ -9,23 +9,23 @@ import checkPermissions from "../utils/checkPermissions.js";
 import mongoose from "mongoose";
 import moment from "moment";
 
-const createJob = async (req, res) => {
-  const oldJob = await Job.findOne({
+const createAnime = async (req, res) => {
+  const oldAnime = await Anime.findOne({
     title: req.body.title,
     createdBy: req.user.userId,
   });
-  console.log(oldJob);
+  console.log(oldAnime);
 
-  if (oldJob) {
+  if (oldAnime) {
     throw new NotFoundError(`You have already added that anime to your list`);
   }
 
   req.body.createdBy = req.user.userId;
-  const job = await Job.create(req.body);
+  const job = await Anime.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });
   console.log(job);
 };
-const getAllJobs = async (req, res) => {
+const getAllAnimes = async (req, res) => {
   const { sort, search } = req.query;
 
   const queryObject = {
@@ -38,7 +38,7 @@ const getAllJobs = async (req, res) => {
   }
   // NO AWAIT
 
-  let result = Job.find(queryObject);
+  let result = Anime.find(queryObject);
 
   if (sort === "latest") {
     result = result.sort({ creationDate: -1 });
@@ -67,16 +67,16 @@ const getAllJobs = async (req, res) => {
 
   const jobs = await result;
 
-  const totalJobs = await Job.countDocuments(queryObject);
-  const numOfPages = Math.ceil(totalJobs / limit);
+  const totalAnimes = await Anime.countDocuments(queryObject);
+  const numOfPages = Math.ceil(totalAnimes / limit);
 
-  res.status(StatusCodes.OK).json({ jobs, totalJobs, numOfPages });
+  res.status(StatusCodes.OK).json({ jobs, totalAnimes, numOfPages });
 };
 
-const deleteJob = async (req, res) => {
+const deleteAnime = async (req, res) => {
   const { id: jobId } = req.params;
 
-  const job = await Job.findOne({ _id: jobId });
+  const job = await Anime.findOne({ _id: jobId });
 
   if (!job) {
     throw new NotFoundError(`No Anime with id :${jobId}`);
@@ -89,4 +89,4 @@ const deleteJob = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Anime removed" });
 };
 
-export { createJob, deleteJob, getAllJobs };
+export { createAnime, deleteAnime, getAllAnimes };

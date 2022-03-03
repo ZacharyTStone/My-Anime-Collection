@@ -2,13 +2,13 @@ import express from "express";
 const router = express.Router();
 
 import {
-  createJob,
-  deleteJob,
-  getAllJobs,
+  createAnime,
+  deleteAnime,
+  getAllAnimes,
 } from "../controllers/jobsController.js";
 
-router.route("/").post(createJob).get(getAllJobs);
+router.route("/").post(createAnime).get(getAllAnimes);
 // remember about :id
-router.route("/:id").delete(deleteJob);
+router.route("/:id").delete(deleteAnime);
 
 export default router;

@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import Job from "../models/Job.js";
+import Anime from "../models/Anime.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 
@@ -72,7 +72,7 @@ const deleteUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ message: "User deleted" });
   // delete all jobs
 
-  const jobs = await Job.find({ createdBy: req.user.userId });
+  const jobs = await Anime.find({ createdBy: req.user.userId });
   console.log(jobs);
   await jobs.forEach((job) => {
     job.remove();

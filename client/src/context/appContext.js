@@ -18,12 +18,12 @@ import {
   DELETE_USER_ERROR,
   HANDLE_CHANGE,
   CLEAR_VALUES,
-  CREATE_JOB_BEGIN,
-  CREATE_JOB_SUCCESS,
-  CREATE_JOB_ERROR,
-  GET_JOBS_BEGIN,
-  GET_JOBS_SUCCESS,
-  DELETE_JOB_BEGIN,
+  CREATE_ANIME_BEGIN,
+  CREATE_ANIME_SUCCESS,
+  CREATE_ANIME_ERROR,
+  GET_ANIMES_BEGIN,
+  GET_ANIMES_SUCCESS,
+  DELETE_ANIME_BEGIN,
   CLEAR_FILTERS,
   CHANGE_PAGE,
 } from "./actions";
@@ -201,7 +201,7 @@ const AppProvider = ({ children }) => {
   };
 
   const createJob = async (anime) => {
-    dispatch({ type: CREATE_JOB_BEGIN, payload: anime });
+    dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
     try {
       const creationDate = anime.attributes.createdAt;
       const title = anime.attributes.canonicalTitle;
@@ -232,12 +232,12 @@ const AppProvider = ({ children }) => {
         coverImage,
         creationDate,
       });
-      dispatch({ type: CREATE_JOB_SUCCESS });
+      dispatch({ type: CREATE_ANIME_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
       if (error.response.status === 401) return;
       dispatch({
-        type: CREATE_JOB_ERROR,
+        type: CREATE_ANIME_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
@@ -252,12 +252,12 @@ const AppProvider = ({ children }) => {
     if (search) {
       url = url + `&search=${search}`;
     }
-    dispatch({ type: GET_JOBS_BEGIN });
+    dispatch({ type: GET_ANIMES_BEGIN });
     try {
       const { data } = await authFetch(url);
       const { jobs, totalJobs, numOfPages } = data;
       dispatch({
-        type: GET_JOBS_SUCCESS,
+        type: GET_ANIMES_SUCCESS,
         payload: {
           jobs,
           totalJobs,
@@ -271,7 +271,7 @@ const AppProvider = ({ children }) => {
   };
 
   const deleteJob = async (jobId) => {
-    dispatch({ type: DELETE_JOB_BEGIN });
+    dispatch({ type: DELETE_ANIME_BEGIN });
     try {
       await authFetch.delete(`/jobs/${jobId}`);
       getJobs();
