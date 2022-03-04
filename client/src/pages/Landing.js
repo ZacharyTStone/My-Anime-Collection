@@ -219,23 +219,9 @@ export default Landing;
 
 const Wrapper = styled.main`
   .naruto {
-    width: 100px;
-    position: absolute;
-    animation-name: run;
-    animation-duration: 5s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    top: 94%;
+    display: none;
   }
 
-  @keyframes run {
-    from {
-      left: -100px;
-    }
-    to {
-      left: 93%;
-    }
-  }
   .btn:hover {
     transform: scale(1.1);
   }
@@ -318,6 +304,25 @@ const Wrapper = styled.main`
       height: auto;
       width: 100%;
       overflow: visible;
+    }
+    .naruto {
+      display: block;
+      width: 100px;
+      position: absolute;
+      animation-name: run;
+      animation-duration: 5s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      top: 94%;
+    }
+
+    @keyframes run {
+      from {
+        left: -100px;
+      }
+      to {
+        left: 93%;
+      }
     }
   }
 `;
