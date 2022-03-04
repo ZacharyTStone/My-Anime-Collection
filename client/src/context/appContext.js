@@ -39,7 +39,6 @@ const initialState = {
   user: user ? JSON.parse(user) : null,
   theme: user ? user.theme : "light",
   token: token,
-  showSidebar: false,
   animes: [],
   totalAnimes: 0,
   numOfPages: 1,
