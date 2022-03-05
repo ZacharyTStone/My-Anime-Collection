@@ -4,6 +4,7 @@ import Loading from "./Loading";
 import Anime from "./Anime";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
+import { NavLink } from "react-router-dom";
 
 const AnimesContainer = () => {
   const {
@@ -31,7 +32,12 @@ const AnimesContainer = () => {
   if (animes.length === 0) {
     return (
       <Wrapper>
-        <h2>No animes to display...</h2>
+        <h2>
+          You collection is empty. Click
+          <NavLink to="/add-anime" className="btn btn-block btn-hipster">
+            Here to add an anime
+          </NavLink>
+        </h2>
       </Wrapper>
     );
   }
