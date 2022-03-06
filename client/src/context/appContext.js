@@ -202,13 +202,14 @@ const AppProvider = ({ children }) => {
 
   const createAnime = async (anime) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
+
     try {
       const creationDate = anime.attributes.createdAt;
       const title = anime.attributes.canonicalTitle || "N/A";
-      const id = anime.id;
-      const rating = anime.attributes.averageRating || "N/A";
+      const id = anime.id || 0;
+      const rating = anime.attributes.averageRating;
       const format = anime.attributes.subtype || "N/A";
-      const episodeCount = anime.attributes.episodeCount || "N/A";
+      const episodeCount = anime.attributes.episodeCount || 9001;
       const synopsis = anime.attributes.synopsis || "N/A";
       const coverImage = anime.attributes.posterImage.small || "N/A";
       const youtubeVideoId = anime.attributes.youtubeVideoId || "N/A";
@@ -250,10 +251,9 @@ const AppProvider = ({ children }) => {
   };
 
   const getAnimes = async () => {
-    const { page, search, searchStatus, searchType, searchStared, sort } =
-      state;
+    const { page, search, searchStatus, searchType, sort } = state;
 
-    let url = `/animes?page=${page}&status=${searchStatus}&animeType=${searchType}&stared=${searchStared}&sort=${sort}`;
+    let url = `/animes?page=${page}&status=${searchStatus}&animeType=${searchType}&sort=${sort}`;
     if (search) {
       url = url + `&search=${search}`;
     }

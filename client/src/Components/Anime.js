@@ -129,9 +129,14 @@ function Anime({
                   color: "var(--textColor)",
                 }}
               >
-                {episodeCount || anime.attributes.averageRating || "N/A"}{" "}
-                Episodes
+                <span>
+                  {episodeCount === 9001
+                    ? "N/A"
+                    : episodeCount || anime.attributes.episodeCount || "N/A"}
+                </span>
+                <span style={{ marginLeft: "5px" }}>episodes</span>
               </Button>
+
               <Button
                 sx={{
                   color: "var(--textColor)",
