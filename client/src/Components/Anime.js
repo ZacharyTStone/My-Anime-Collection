@@ -10,6 +10,7 @@ import { CardMedia } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { FaYoutube } from "react-icons/fa";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -30,6 +31,8 @@ function Anime({
   coverImage,
   anime,
   type,
+  youtubeVideoId,
+  ageRating,
 }) {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -48,8 +51,8 @@ function Anime({
       <Card
         variant="outlined"
         sx={{
-          minWidth: 275,
-          width: 400,
+          height: "100%",
+          width: 300,
           color: "var(--textColor)",
           backgroundColor: "var(--backgroundColor)",
           marginBottom: "1rem",
@@ -76,16 +79,18 @@ function Anime({
             >
               {title ||
                 anime.attributes.titles.en ||
-                anime.attributes.titles.en_jp}
+                anime.attributes.titles.en_jp ||
+                "Title N/A"}
             </Typography>
             <CardMedia
               component="img"
-              height={340}
+              height="300"
               image={coverImage || anime.attributes.posterImage.small}
               title={
                 title ||
                 anime.attributes.titles.en ||
-                anime.attributes.titles.en_jp
+                anime.attributes.titles.en_jp ||
+                "Title N/A"
               }
             />
             <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
@@ -94,7 +99,7 @@ function Anime({
                   color: "var(--textColor)",
                 }}
               >
-                {rating || anime.attributes.averageRating}
+                {rating || anime.attributes.averageRating || "N/A"}
                 <span
                   style={{
                     color: "var(--grey-500)",
@@ -108,7 +113,7 @@ function Anime({
                   color: "var(--textColor)",
                 }}
               >
-                {format || anime.attributes.format}
+                {format ? format : anime.attributes.subtype || "N/A"}
               </Button>
               <Button
                 sx={{
@@ -124,8 +129,34 @@ function Anime({
                   color: "var(--textColor)",
                 }}
               >
-                {episodeCount || anime.attributes.averageRating} Episodes
+                {episodeCount || anime.attributes.averageRating || "N/A"}{" "}
+                Episodes
               </Button>
+              <Button
+                sx={{
+                  color: "var(--textColor)",
+                }}
+              >
+                {ageRating || anime.attributes.ageRating || "Rating N/A"}
+              </Button>
+              {youtubeVideoId || anime.attributes.youtubeVideoId ? (
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  <a
+                    href={`https://www.youtube.com/watch?v=${
+                      youtubeVideoId || anime.attributes.youtubeVideoId
+                    }`}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    {" "}
+                    <FaYoutube color="red" size={30} />{" "}
+                  </a>
+                </Button>
+              ) : null}
             </Typography>
           </CardContent>
           <CardActions

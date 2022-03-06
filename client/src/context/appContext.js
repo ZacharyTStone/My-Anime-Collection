@@ -24,6 +24,7 @@ import {
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
   DELETE_ANIME_BEGIN,
+  DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
 } from "./actions";
@@ -37,7 +38,7 @@ const initialState = {
   alertText: "",
   alertType: "",
   user: user ? JSON.parse(user) : null,
-  theme: user ? user.theme : "light",
+  theme: user ? user.theme : "dark",
   token: token,
   animes: [],
   totalAnimes: 0,
@@ -210,6 +211,8 @@ const AppProvider = ({ children }) => {
       const episodeCount = anime.attributes.episodeCount;
       const synopsis = anime.attributes.synopsis;
       const coverImage = anime.attributes.posterImage.small;
+      const youtubeVideoId = anime.attributes.youtubeVideoId;
+      const ageRating = anime.attributes.ageRating;
       console.log(
         title,
         id,
@@ -218,7 +221,8 @@ const AppProvider = ({ children }) => {
         episodeCount,
         synopsis,
         coverImage,
-        creationDate
+        creationDate,
+        youtubeVideoId
       );
 
       await authFetch.post("/animes", {
@@ -230,6 +234,8 @@ const AppProvider = ({ children }) => {
         synopsis,
         coverImage,
         creationDate,
+        youtubeVideoId,
+        ageRating,
       });
       dispatch({ type: CREATE_ANIME_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
@@ -275,9 +281,13 @@ const AppProvider = ({ children }) => {
     try {
       await authFetch.delete(`/animes/${animeId}`);
       getAnimes();
+      dispatch({
+        type: DELETE_ANIME_SUCCESS,
+      });
     } catch (error) {
       logoutUser();
     }
+    clearAlert();
   };
 
   const clearFilters = () => {

@@ -20,6 +20,7 @@ import {
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
   DELETE_ANIME_BEGIN,
+  DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
 } from "./actions";
@@ -183,6 +184,16 @@ const reducer = (state, action) => {
 
   if (action.type === DELETE_ANIME_BEGIN) {
     return { ...state, isLoading: true };
+  }
+
+  if (action.type === DELETE_ANIME_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Anime deleted!",
+    };
   }
 
   if (action.type === CLEAR_FILTERS) {

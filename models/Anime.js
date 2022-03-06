@@ -39,6 +39,14 @@ const AnimeSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    youtubeVideoId: {
+      type: String,
+      required: false,
+    },
+    ageRating: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );
