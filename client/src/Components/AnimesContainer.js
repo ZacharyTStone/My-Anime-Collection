@@ -49,7 +49,7 @@ const AnimesContainer = () => {
       </h5>
       <div className="animes">
         {animes.map((anime) => {
-          return <Anime key={anime._id} {...anime} />;
+          return <Anime key={anime._id} {...anime} type="delete" />;
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}

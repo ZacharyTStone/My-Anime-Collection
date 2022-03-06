@@ -2,7 +2,7 @@ import { useAppContext } from "../context/appContext";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
-import AnimeCard from "./AnimeCard";
+import Anime from "./Anime";
 
 const AnimeContainer = ({ searchText }) => {
   const { numOfPages } = useAppContext();
@@ -24,7 +24,7 @@ const AnimeContainer = ({ searchText }) => {
     <Wrapper>
       <div className="animes">
         {fetchedAnimes.map((anime) => {
-          return <AnimeCard key={anime.id} anime={anime} />;
+          return <Anime key={anime.id} anime={anime} type="add" />;
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}

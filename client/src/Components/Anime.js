@@ -28,6 +28,8 @@ function Anime({
   creationDate,
   synopsis,
   coverImage,
+  anime,
+  type,
 }) {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -35,7 +37,12 @@ function Anime({
     setExpanded(!expanded);
   };
 
-  const { deleteAnime } = useAppContext();
+  const handleSubmit = () => {
+    console.log("submit");
+    createAnime(anime);
+  };
+
+  const { createAnime, deleteAnime } = useAppContext();
   return (
     <Wrapper>
       <Card
@@ -67,13 +74,19 @@ function Anime({
               color="var(--textColor)"
               gutterBottom
             >
-              {title}
+              {title ||
+                anime.attributes.titles.en ||
+                anime.attributes.titles.en_jp}
             </Typography>
             <CardMedia
               component="img"
               height={340}
-              image={coverImage}
-              title={title}
+              image={coverImage || anime.attributes.posterImage.small}
+              title={
+                title ||
+                anime.attributes.titles.en ||
+                anime.attributes.titles.en_jp
+              }
             />
             <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
               <Button
@@ -81,7 +94,7 @@ function Anime({
                   color: "var(--textColor)",
                 }}
               >
-                {rating}
+                {rating || anime.attributes.averageRating}
                 <span
                   style={{
                     color: "var(--grey-500)",
@@ -95,21 +108,23 @@ function Anime({
                   color: "var(--textColor)",
                 }}
               >
-                {format}
+                {format || anime.attributes.format}
               </Button>
               <Button
                 sx={{
                   color: "var(--textColor)",
                 }}
               >
-                {creationDate.slice(0, 4)}
+                {creationDate
+                  ? creationDate.slice(0, 4)
+                  : anime.attributes.createdAt.slice(0, 4)}
               </Button>
               <Button
                 sx={{
                   color: "var(--textColor)",
                 }}
               >
-                {episodeCount} Episodes
+                {episodeCount || anime.attributes.averageRating} Episodes
               </Button>
             </Typography>
           </CardContent>
@@ -141,13 +156,23 @@ function Anime({
                 Synopsis
               </span>
             </ExpandMore>
-            <button
-              type="button"
-              className="btn delete-btn"
-              onClick={() => deleteAnime(_id)}
-            >
-              Delete
-            </button>
+            {type === "delete" ? (
+              <button
+                type="button"
+                className="btn delete-btn"
+                onClick={() => deleteAnime(_id)}
+              >
+                Delete
+              </button>
+            ) : (
+              <Button
+                size="small"
+                className="card-btn add"
+                onClick={handleSubmit}
+              >
+                Add to Collection
+              </Button>
+            )}
           </CardActions>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent
@@ -165,7 +190,11 @@ function Anime({
                 color="var(--textColor)"
                 gutterBottom
               >
-                {synopsis ? synopsis : "No synopsis available"}
+                {synopsis
+                  ? synopsis
+                  : anime.attributes.synopsis
+                  ? anime.attributes.synopsis.replace(/<[^>]*>?/gm, "")
+                  : "No synopsis available"}
               </Typography>
             </CardContent>
           </Collapse>
