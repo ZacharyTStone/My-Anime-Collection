@@ -5,7 +5,7 @@
 }
 
 /* fonts */
-@import url("https://fonts.googleapis.com/css2?family=Cabin&family=Roboto+Condensed:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 @import "~react-image-gallery/styles/css/image-gallery.css";
 
 html {
@@ -50,8 +50,8 @@ html {
   --hipster-background: "white";
 
   /* fonts  */
-  --headingFont: "Roboto Condensed", Sans-Serif;
-  --bodyFont: "Cabin", Sans-Serif;
+  --headingFont: "open sans";
+  --bodyFont: "Noto Sans", sans-serif;
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
   /* rest of the vars */

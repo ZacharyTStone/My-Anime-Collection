@@ -33,7 +33,7 @@ const AnimesContainer = () => {
     return (
       <Wrapper>
         <h2>
-          You collection is empty. Click
+          Couldn't find any animes. Click
           <NavLink to="/add-anime" className="btn btn-block btn-hipster">
             Here to add an anime
           </NavLink>

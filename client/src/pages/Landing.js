@@ -218,6 +218,14 @@ const Landing = () => {
 export default Landing;
 
 const Wrapper = styled.main`
+  @keyframes reverse {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
   .naruto {
     display: none;
   }
@@ -272,6 +280,25 @@ const Wrapper = styled.main`
     margin-top: 4rem;
     margin-bottom: 2rem;
   }
+
+  .icon {
+    background-color: var(--grey-50);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon:hover {
+    background-color: var(--primary-50);
+    color: white;
+    transform: scale(1.1);
+    transform-style: flat;
+    // slow transition
+    transition: all 0.5s ease-in-out;
+  }
+
   .features {
     text-align: center;
   }
@@ -323,6 +350,13 @@ const Wrapper = styled.main`
       to {
         left: 93%;
       }
+    }
+  }
+
+  // special styles for nartuto
+  @media (min-height: 1200px) {
+    .naruto {
+      top: 73%;
     }
   }
 `;
