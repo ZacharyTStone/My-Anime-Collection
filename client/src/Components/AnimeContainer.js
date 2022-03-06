@@ -1,39 +1,78 @@
-import { useAppContext } from "../context/appContext";
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import PageBtnContainer from "./PageBtnContainer";
 import Anime from "./Anime";
 
 const AnimeContainer = ({ searchText }) => {
-  const { numOfPages } = useAppContext();
+  const [page, setPage] = useState(1);
 
-  const APIURL = "https://kitsu.io/api/edge/anime?filter[text]=";
   const [fetchedAnimes, setFetchedAnimes] = useState([]);
 
   useEffect(() => {
-    fetch(APIURL + searchText)
+    setPage(1);
+    fetchAnimes();
+  }, [searchText]);
+
+  const fetchAnimes = (page) => {
+    const APIURL =
+      "https://kitsu.io/api/edge/anime?filter[text]=" +
+      searchText +
+      "&page[limit]=10&page[offset]=" +
+      (page - 1) * 10;
+    fetch(APIURL)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         console.log(APIURL + searchText);
         setFetchedAnimes(data.data);
       });
-  }, [searchText]);
+  };
 
   return (
     <Wrapper>
+      <Button
+        onClick={() => {
+          setPage(page + 1);
+          setFetchedAnimes([]);
+          fetchAnimes(page + 1);
+        }}
+        color="primary"
+        disabled={fetchedAnimes.length === 0}
+        className="btn btn-load-more"
+      >
+        Load next page
+      </Button>
       <div className="animes">
         {fetchedAnimes.map((anime) => {
           return <Anime key={anime.id} anime={anime} type="add" />;
         })}
+
+        <Button
+          onClick={() => {
+            setPage(page + 1);
+            setFetchedAnimes([]);
+            fetchAnimes(page + 1);
+          }}
+          color="primary"
+          disabled={fetchedAnimes.length === 0}
+          className={
+            fetchedAnimes.length === 0
+              ? "hidden"
+              : "btn btn-block btn-load-more"
+          }
+        >
+          Load next page
+        </Button>
       </div>
-      {numOfPages > 1 && <PageBtnContainer />}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
   margin-top: 4rem;
+  .hidden {
+    display: none;
+  }
   h2 {
     text-transform: none;
   }

@@ -204,15 +204,15 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
     try {
       const creationDate = anime.attributes.createdAt;
-      const title = anime.attributes.canonicalTitle;
+      const title = anime.attributes.canonicalTitle || "N/A";
       const id = anime.id;
-      const rating = anime.attributes.averageRating;
-      const format = anime.attributes.subtype;
-      const episodeCount = anime.attributes.episodeCount;
-      const synopsis = anime.attributes.synopsis;
-      const coverImage = anime.attributes.posterImage.small;
-      const youtubeVideoId = anime.attributes.youtubeVideoId;
-      const ageRating = anime.attributes.ageRating;
+      const rating = anime.attributes.averageRating || "N/A";
+      const format = anime.attributes.subtype || "N/A";
+      const episodeCount = anime.attributes.episodeCount || "N/A";
+      const synopsis = anime.attributes.synopsis || "N/A";
+      const coverImage = anime.attributes.posterImage.small || "N/A";
+      const youtubeVideoId = anime.attributes.youtubeVideoId || "N/A";
+      const ageRating = anime.attributes.ageRating || "N/A";
       console.log(
         title,
         id,
