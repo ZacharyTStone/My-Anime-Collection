@@ -4,7 +4,8 @@ import { Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import pokemon from "../../assets/images/pokemon.png";
-
+import { BiCoffeeTogo } from "react-icons/bi";
+import { FaBitcoin } from "react-icons/fa";
 const Profile = () => {
   const {
     user,
@@ -80,6 +81,42 @@ const Profile = () => {
           </button>
         </div>
         <img src={pokemon} alt="pokemon" className="pokemon" />
+        <div className="bottom-half ">
+          <div>
+            <span
+              style={{
+                marginRight: "10px",
+              }}
+            >
+              Enjoy the app?
+            </span>
+            <button className="btn btn-hipster" type="button">
+              <a
+                href="https://www.buymeacoffee.com/zachinjapan"
+                target={"_blank"}
+                rel="noopener noreferrer"
+              >
+                <div>
+                  <BiCoffeeTogo color="var(--primary-500)" />
+                  <span> Buy me a coffee </span>
+                </div>
+              </a>
+            </button>
+            <button className="btn btn-hipster" type="button">
+              <a
+                href="https://commerce.coinbase.com/checkout/afcceb62-6c0f-4b12-89bc-4a085d328df5"
+                target={"_blank"}
+                rel="noopener noreferrer"
+              >
+                <div>
+                  <FaBitcoin color="var(--primary-500)" />
+                  <span> Donate With Crypto </span>
+                  <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
+                </div>
+              </a>
+            </button>
+          </div>
+        </div>
       </form>
       <button className="btn btn-danger" onClick={() => handleDelete()}>
         {" "}
@@ -90,6 +127,12 @@ const Profile = () => {
 };
 
 const Wrapper = styled.section`
+  .btn-hipster:hover {
+    background-color: var(--primary-50);
+    color: var(--primary-100);
+    border-color: var(--primary-500);
+  }
+
   border-radius: var(--borderRadius);
   width: 100%;
   background: var(--white);
