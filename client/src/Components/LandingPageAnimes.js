@@ -1,8 +1,0 @@
-
-
-
-const LandingPageAnimes = () => {
-
-
-    const animes = [
-        {}
