@@ -20,15 +20,16 @@
     />
     <meta name="author" content="Zach Stone" />
 
-    <meta http-equiv="Content-Security-Policy" Content-Security-Policy:
-    default-src= "'self' *.https://kitsui.io; img-src *" style-src= "'self'
-    'unsafe-inline' *.https://kitsui.io; script-src= "'self' 'unsafe-inline'
-    *.https://kitsui.io; connect-src= "'self' *.https://kitsui.io; font-src=
-    "'self' *.https://kitsui.io; media-src= "'self' *.https://kitsui.io;
-    object-src= "'self' *.https://kitsui.io; frame-src= "'self'
-    *.https://kitsui.io; sandbox allow-forms allow-scripts allow-same-origin
-    allow-popups allow-modals allow-popups-to-escape-sandbox; report-uri
-    https://kitsui.io/csp-report" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      default-src="self"
+      script-src="
+    'self' 'unsafe-inline' 'unsafe-eval'"
+      style-src="'self' 'unsafe-inline'"
+      img-src="self"
+      data:;
+      font-src=" 'self' data:;"
+    />
 
     <!-- Google / Search Engine Tags -->
     <meta itemprop="name" content="HAKU" />
