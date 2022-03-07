@@ -222,22 +222,86 @@ const Landing = () => {
               className="img main-img"
             />
           </Fade>
-          <div className="animesLeft">
-            <img src={A1} alt="anime character" className="animeCard left" />
-            <img src={A2} alt="anime character" className="animeCard left" />
-            <img src={A3} alt="anime character" className="animeCard left" />
-            <img src={A4} alt="anime character" className="animeCard left" />
-            <img src={A5} alt="anime character" className="animeCard left" />
-            <img src={A6} alt="anime character" className="animeCard left" />
-          </div>
-          <div className="animesRight">
-            <img src={A7} alt="anime character" className="animeCard right" />
-            <img src={A8} alt="anime character" className="animeCard right" />
-            <img src={A9} alt="anime character" className="animeCard right" />
-            <img src={A10} alt="anime character" className="animeCard right" />
-            <img src={A11} alt="anime character" className="animeCard right" />
-            <img src={A12} alt="anime character" className="animeCard right" />
-          </div>
+          <Fade>
+            <div className="animesLeft">
+              <img
+                src={A1}
+                alt="anime character"
+                className="animeCard left"
+                loading="lazy"
+              />
+              <img
+                src={A2}
+                alt="anime character"
+                className="animeCard left"
+                loading="lazy"
+              />
+              <img
+                src={A3}
+                alt="anime character"
+                className="animeCard left"
+                loading="lazy"
+              />
+              <img
+                src={A4}
+                alt="anime character"
+                className="animeCard left"
+                loading="lazy"
+              />
+              <img
+                src={A5}
+                alt="anime character"
+                className="animeCard left"
+                loading="lazy"
+              />
+              <img
+                src={A6}
+                alt="anime character"
+                className="animeCard left"
+                loading="lazy"
+              />
+            </div>
+          </Fade>
+          <Fade>
+            <div className="animesRight">
+              <img
+                src={A7}
+                alt="anime character"
+                className="animeCard right"
+                loading="lazy"
+              />
+              <img
+                src={A8}
+                alt="anime character"
+                className="animeCard right"
+                loading="lazy"
+              />
+              <img
+                src={A9}
+                alt="anime character"
+                className="animeCard right"
+                loading="lazy"
+              />
+              <img
+                src={A10}
+                alt="anime character"
+                className="animeCard right"
+                loading="lazy"
+              />
+              <img
+                src={A11}
+                alt="anime character"
+                className="animeCard right"
+                loading="lazy"
+              />
+              <img
+                src={A12}
+                alt="anime character"
+                className="animeCard right"
+                loading="lazy"
+              />
+            </div>
+          </Fade>
         </div>
       </Wrapper>
     </>
@@ -248,6 +312,7 @@ export default Landing;
 const Wrapper = styled.main`
   // special css for anime cards
   .animesLeft {
+    margin-top: 80px;
     display: none;
     flex-direction: column;
     align-items: center;
@@ -257,12 +322,13 @@ const Wrapper = styled.main`
     top: 0;
   }
   .animesRight {
+    margin-top: 80px;
     display: none;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
     position: absolute;
-    height: 100%;
+    max-height: 100%;
     top: 0;
   }
   .animeCard {
@@ -284,14 +350,14 @@ const Wrapper = styled.main`
     // slow down the animation
     transition: transform 0.5s ease-in-out;
     // move the slightly closer to the center
-    transform: scale(0.9) rotate(0deg) translateX(50px);
+    transform: scale(0.7) rotate(0deg) translateX(70px);
   }
   .animeCard.right:hover {
     transform-origin: center;
     // slow down the animation
     transition: transform 0.5s ease-in-out;
     // move the slightly closer to the center
-    transform: scale(0.9) rotate(0deg) translateX(-50px);
+    transform: scale(0.7) rotate(0deg) translateX(-70px);
   }
   @media (min-width: 1400px) {
     .animesLeft {
