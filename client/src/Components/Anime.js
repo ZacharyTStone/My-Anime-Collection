@@ -99,7 +99,9 @@ function Anime({
                   color: "var(--textColor)",
                 }}
               >
-                {rating || anime.attributes.averageRating || "N/A"}
+                {rating === 9001
+                  ? "N/A"
+                  : rating || anime.attributes.averageRating || "N/A"}
                 <span
                   style={{
                     color: "var(--grey-500)",

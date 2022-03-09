@@ -1,4 +1,5 @@
 import React, { useReducer, useContext } from "react";
+import { toast } from "react-toastify";
 
 import reducer from "./reducer";
 import axios from "axios";
@@ -87,7 +88,6 @@ const AppProvider = ({ children }) => {
       return response;
     },
     (error) => {
-      // console.log(error.response)
       if (error.response.status === 401) {
         logoutUser();
       }
@@ -131,6 +131,7 @@ const AppProvider = ({ children }) => {
       });
       addUserToLocalStorage({ user, token });
     } catch (error) {
+      toast.error(error.response.data.message);
       dispatch({
         type: SETUP_USER_ERROR,
         payload: { msg: error.response.data.msg },
@@ -154,6 +155,8 @@ const AppProvider = ({ children }) => {
 
       const { user, token } = data;
 
+      toast.success("User updated successfully");
+
       dispatch({
         type: UPDATE_USER_SUCCESS,
         payload: { user, token },
@@ -161,13 +164,14 @@ const AppProvider = ({ children }) => {
       addUserToLocalStorage({ user, token });
     } catch (error) {
       if (error.response.status !== 401) {
+        toast.error(error.response.data.message);
         dispatch({
           type: UPDATE_USER_ERROR,
           payload: { msg: error.response.data.msg },
         });
       }
     }
-    clearAlert();
+    // clearAlert();
   };
 
   const deleteUser = async (currentUser) => {
@@ -176,20 +180,21 @@ const AppProvider = ({ children }) => {
       const { data } = await authFetch.delete("/auth/deleteUser", currentUser);
 
       const { user, token } = data;
-
+      toast.success("User deleted successfully");
       dispatch({
         type: DELETE_USER_SUCCESS,
         payload: { user, token },
       });
     } catch (error) {
       if (error.response.status !== 401) {
+        toast.error(error.response.data.message);
         dispatch({
           type: DELETE_USER_ERROR,
           payload: { msg: error.response.data.msg },
         });
       }
     }
-    clearAlert();
+    // clearAlert();
     removeUserFromLocalStorage();
   };
 
@@ -207,24 +212,13 @@ const AppProvider = ({ children }) => {
       const creationDate = anime.attributes.createdAt;
       const title = anime.attributes.canonicalTitle || "N/A";
       const id = anime.id || 0;
-      const rating = anime.attributes.averageRating;
+      const rating = anime.attributes.averageRating || 9001;
       const format = anime.attributes.subtype || "N/A";
       const episodeCount = anime.attributes.episodeCount || 9001;
       const synopsis = anime.attributes.synopsis || "N/A";
       const coverImage = anime.attributes.posterImage.small || "N/A";
       const youtubeVideoId = anime.attributes.youtubeVideoId || "N/A";
       const ageRating = anime.attributes.ageRating || "N/A";
-      console.log(
-        title,
-        id,
-        rating,
-        format,
-        episodeCount,
-        synopsis,
-        coverImage,
-        creationDate,
-        youtubeVideoId
-      );
 
       await authFetch.post("/animes", {
         title,
@@ -238,16 +232,18 @@ const AppProvider = ({ children }) => {
         youtubeVideoId,
         ageRating,
       });
+      toast.success(`${title} has been added to your list!`);
       dispatch({ type: CREATE_ANIME_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
       if (error.response.status === 401) return;
+      toast.error(`Woops. ${error.response.data.msg}`);
       dispatch({
         type: CREATE_ANIME_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
-    clearAlert();
+    // clearAlert();
   };
 
   const getAnimes = async () => {
@@ -273,7 +269,7 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       logoutUser();
     }
-    clearAlert();
+    // clearAlert();
   };
 
   const deleteAnime = async (animeId) => {
@@ -281,6 +277,7 @@ const AppProvider = ({ children }) => {
     try {
       await authFetch.delete(`/animes/${animeId}`);
       getAnimes();
+      toast.success("Anime deleted successfully");
       dispatch({
         type: DELETE_ANIME_SUCCESS,
       });

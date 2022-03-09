@@ -3,6 +3,7 @@ import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState } from "react";
 import AnimeContainer from "../../Components/AnimeContainer";
+import { ToastContainer } from "react-toastify";
 
 const AddAnime = () => {
   const [textInput, setTextInput] = useState("");

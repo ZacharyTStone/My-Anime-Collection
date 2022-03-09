@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { MUINavbar } from "../../Components";
 import { useAppContext } from "../../context/appContext";
+import { ToastContainer } from "react-toastify";
 const SharedLayout = () => {
   const { user } = useAppContext();
   return (
@@ -11,7 +12,17 @@ const SharedLayout = () => {
       }}
       data-theme={user.theme}
     >
-      {" "}
+      <ToastContainer
+        position="top-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />{" "}
       <Wrapper>
         <main className="dashboard" data-theme={user.theme}>
           <MUINavbar />
