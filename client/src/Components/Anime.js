@@ -124,7 +124,7 @@ function Anime({
               >
                 {creationDate
                   ? creationDate.slice(0, 4)
-                  : anime.attributes.createdAt.slice(0, 4)}
+                  : anime.attributes.startDate.slice(0, 4)}
               </Button>
               <Button
                 sx={{

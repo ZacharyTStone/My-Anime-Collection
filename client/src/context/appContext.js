@@ -209,7 +209,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
 
     try {
-      const creationDate = anime.attributes.createdAt;
+      const creationDate = anime.attributes.startDate;
       const title = anime.attributes.canonicalTitle || "N/A";
       const id = anime.id || 0;
       const rating = anime.attributes.averageRating || 9001;
