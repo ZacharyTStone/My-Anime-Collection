@@ -8,17 +8,18 @@ const AnimeContainer = ({ searchText }) => {
 
   const [fetchedAnimes, setFetchedAnimes] = useState([]);
 
+  const APIURL =
+    "https://kitsu.io/api/edge/anime?filter[text]=" +
+    searchText +
+    "&page[limit]=10&page[offset]=" +
+    (page - 1) * 10;
+
   useEffect(() => {
     setPage(1);
     fetchAnimes();
   }, [searchText]);
 
   const fetchAnimes = (page) => {
-    const APIURL =
-      "https://kitsu.io/api/edge/anime?filter[text]=" +
-      searchText +
-      "&page[limit]=10&page[offset]=" +
-      (page - 1) * 10;
     fetch(APIURL)
       .then((res) => res.json())
       .then((data) => {
