@@ -60,168 +60,172 @@ const Landing = () => {
         <nav>
           <Logo />
         </nav>
-        <div className="container page">
-          <div>
-            <Slide left>
-              <h1>
-                <span> My Anime Collection</span>
-              </h1>
-              <p>
-                My Anime Collection also called M.A.C. is an application that
-                let's you track, and find new animes.
-              </p>
-              <div className="login-div">
-                <Link to="/register" className="btn btn-hero">
-                  Login/Register
-                </Link>
-                <Link to="/register-demo" className="btn btn-hipster">
-                  Demo
-                </Link>
-              </div>
-            </Slide>
-          </div>
-          <img
-            src={narutoRun}
-            loading="lazy"
-            alt="anime character"
-            className="img naruto"
-          />
-          <Fade>
-            <img src={goku} alt="anime character" className="img main-img" />
-          </Fade>
-        </div>
-        <div className="container">
-          <Fade>
-            <div className="features" id="icon-row">
-              <h3>
-                <span>How do I use M.A.C.?</span>
-              </h3>
+        <main>
+          <div className="container page">
+            <div>
               <Slide left>
-                <div className="icon-row">
-                  <div className="icon">
-                    <div className="icon-img">
-                      <FaBuromobelexperte
-                        size={"50px"}
-                        color="var(--primary-500)"
-                      />
-                    </div>
-                    <p>
-                      <span>1.</span> Log the anime you like.
-                    </p>
-                  </div>
-                  <div className="icon">
-                    <FaSortAmountDown
-                      size={"50px"}
-                      color="var(--primary-500)"
-                    />
-                    <p>
-                      <span>2.</span> Sort your collection by title, rating,
-                      creation date, etc.
-                    </p>
-                  </div>
-                  <div className="icon">
-                    <FaSearch size={"50px"} color="var(--primary-500)" />
-                    <p>
-                      <span>3.</span> Use My Anime Collection's built in tools
-                      to find new animes.
-                    </p>
-                  </div>
-                </div>
-              </Slide>
-            </div>
-          </Fade>
-        </div>
-        <div className="container page">
-          <Fade>
-            <img
-              src={aot}
-              alt="anime character"
-              loading="lazy"
-              className="img main-img"
-            />
-          </Fade>
-          <div>
-            <Slide right>
-              <h3>
-                <span> Why use My Anime Collection?</span>
-              </h3>
-              <ul>
-                <li>
-                  <FaCheck /> It's 100% free and contains no ads.
-                </li>
-                <li>
-                  <FaCheck /> It's easy to use and intuitive.
-                </li>
-                <li>
-                  {" "}
-                  <FaCheck />
-                  We take security very seriously and use advanced encyrption to
-                  protect your information from breaches, and hacking attempts.
-                </li>
-                <li>
-                  {" "}
-                  <FaCheck />
-                  My Anime Collection does not use cookies to track you for
-                  advertising purposes and does not request personal data from
-                  any third parties.
-                </li>
-                <li>
-                  {" "}
-                  <FaCheck />
-                  We're always working on adding new features and improvements.
-                </li>
-              </ul>
-            </Slide>
-          </div>
-        </div>
-
-        <div className="container page">
-          <div>
-            <Slide right>
-              <div>
-                <h3>Let's go!!!!</h3>
+                <h1>
+                  <span> My Anime Collection</span>
+                </h1>
+                <p>
+                  My Anime Collection also called M.A.C. is an application that
+                  let's you track, and find new animes.
+                </p>
                 <div className="login-div">
                   <Link to="/register" className="btn btn-hero">
                     Login/Register
                   </Link>
-                  <Link
-                    to="/register-demo"
-                    className="btn btn-hero btn-hipster"
-                  >
+                  <Link to="/register-demo" className="btn btn-hipster">
                     Demo
                   </Link>
                 </div>
-                <h5
-                  style={{
-                    marginTop: "2rem",
-                  }}
-                >
-                  For all inquieres please contact Zach Stone at{" "}
-                  <span>
-                    <a
-                      href="https://zstone.dev"
-                      target={"_blank"}
-                      rel="noreferrer"
-                      style={{
-                        textDecoration: "underline",
-                        color: "black",
-                      }}
-                    >
-                      ZStone.dev
-                    </a>
-                  </span>
-                </h5>
-              </div>
-            </Slide>
-          </div>
-          <Fade>
+              </Slide>
+            </div>
             <img
-              src={lucy}
-              alt="anime character"
+              src={narutoRun}
               loading="lazy"
-              className="img main-img"
+              alt="anime character"
+              className="img naruto"
             />
-          </Fade>
+            <Fade>
+              <img src={goku} alt="anime character" className="img main-img" />
+            </Fade>
+          </div>
+          <div className="container">
+            <Fade>
+              <div className="features" id="icon-row">
+                <h3>
+                  <span>How do I use M.A.C.?</span>
+                </h3>
+                <Slide left>
+                  <div className="icon-row">
+                    <div className="icon">
+                      <div className="icon-img">
+                        <FaBuromobelexperte
+                          size={"50px"}
+                          color="var(--primary-500)"
+                        />
+                      </div>
+                      <p>
+                        <span>1.</span> Log the anime you like.
+                      </p>
+                    </div>
+                    <div className="icon">
+                      <FaSortAmountDown
+                        size={"50px"}
+                        color="var(--primary-500)"
+                      />
+                      <p>
+                        <span>2.</span> Sort your collection by title, rating,
+                        creation date, etc.
+                      </p>
+                    </div>
+                    <div className="icon">
+                      <FaSearch size={"50px"} color="var(--primary-500)" />
+                      <p>
+                        <span>3.</span> Use My Anime Collection's built in tools
+                        to find new animes.
+                      </p>
+                    </div>
+                  </div>
+                </Slide>
+              </div>
+            </Fade>
+          </div>
+          <div className="container page">
+            <Fade>
+              <img
+                src={aot}
+                alt="anime character"
+                loading="lazy"
+                className="img main-img"
+              />
+            </Fade>
+            <div>
+              <Slide right>
+                <h3>
+                  <span> Why use My Anime Collection?</span>
+                </h3>
+                <ul>
+                  <li>
+                    <FaCheck /> It's 100% free and contains no ads.
+                  </li>
+                  <li>
+                    <FaCheck /> It's easy to use and intuitive.
+                  </li>
+                  <li>
+                    {" "}
+                    <FaCheck />
+                    We take security very seriously and use advanced encyrption
+                    to protect your information from breaches, and hacking
+                    attempts.
+                  </li>
+                  <li>
+                    {" "}
+                    <FaCheck />
+                    My Anime Collection does not use cookies to track you for
+                    advertising purposes and does not request personal data from
+                    any third parties.
+                  </li>
+                  <li>
+                    {" "}
+                    <FaCheck />
+                    We're always working on adding new features and
+                    improvements.
+                  </li>
+                </ul>
+              </Slide>
+            </div>
+          </div>
+
+          <div className="container page">
+            <div>
+              <Slide right>
+                <div>
+                  <h3>Let's go!!!!</h3>
+                  <div className="login-div">
+                    <Link to="/register" className="btn btn-hero">
+                      Login/Register
+                    </Link>
+                    <Link
+                      to="/register-demo"
+                      className="btn btn-hero btn-hipster"
+                    >
+                      Demo
+                    </Link>
+                  </div>
+                  <h5
+                    style={{
+                      marginTop: "2rem",
+                    }}
+                  >
+                    For all inquieres please contact Zach Stone at{" "}
+                    <span>
+                      <a
+                        href="https://zstone.dev"
+                        target={"_blank"}
+                        rel="noreferrer"
+                        style={{
+                          textDecoration: "underline",
+                          color: "black",
+                        }}
+                      >
+                        ZStone.dev
+                      </a>
+                    </span>
+                  </h5>
+                </div>
+              </Slide>
+            </div>
+            <Fade>
+              <img
+                src={lucy}
+                alt="anime character"
+                loading="lazy"
+                className="img main-img"
+              />
+            </Fade>
+          </div>
           <Fade>
             <div className="animesLeft">
               <img
@@ -248,22 +252,23 @@ const Landing = () => {
                 className="animeCard left"
                 loading="lazy"
               />
+            </div>
+          </Fade>
+          <Fade>
+            <div className="animesRight">
               <img
                 src={A5}
                 alt="anime character"
-                className="animeCard left"
+                className="animeCard right"
                 loading="lazy"
               />
               <img
                 src={A6}
                 alt="anime character"
-                className="animeCard left"
+                className="animeCard right"
                 loading="lazy"
               />
-            </div>
-          </Fade>
-          <Fade>
-            <div className="animesRight">
+
               <img
                 src={A7}
                 alt="anime character"
@@ -276,33 +281,9 @@ const Landing = () => {
                 className="animeCard right"
                 loading="lazy"
               />
-              <img
-                src={A9}
-                alt="anime character"
-                className="animeCard right"
-                loading="lazy"
-              />
-              <img
-                src={A10}
-                alt="anime character"
-                className="animeCard right"
-                loading="lazy"
-              />
-              <img
-                src={A11}
-                alt="anime character"
-                className="animeCard right"
-                loading="lazy"
-              />
-              <img
-                src={A12}
-                alt="anime character"
-                className="animeCard right"
-                loading="lazy"
-              />
             </div>
           </Fade>
-        </div>
+        </main>
       </Wrapper>
     </>
   );
@@ -310,15 +291,20 @@ const Landing = () => {
 export default Landing;
 
 const Wrapper = styled.main`
+  main {
+    overflow: hidden;
+  }
+
   // special css for anime cards
   .animesLeft {
     display: none;
     flex-direction: column;
-    justify-content: space-around;
+    /* justify-content: space-evenly; */
     position: absolute;
     top: 0;
     left: 0;
   }
+
   .animesRight {
     display: none;
     flex-direction: column;
