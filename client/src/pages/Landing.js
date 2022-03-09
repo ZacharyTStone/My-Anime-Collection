@@ -339,23 +339,23 @@ const Wrapper = styled.main`
   .animeCard.left {
     // rotate slight left
     transform: rotate(-5deg) scale(0.4);
+    transition: 1s ease-out;
   }
   .animeCard.right {
     // rotate slight right
     transform: rotate(5deg) scale(0.4);
+    transition: 1s ease-out;
   }
 
   .animeCard.left:hover {
     transform-origin: center;
-    // slow down the animation
-    transition: transform 0.5s ease-in-out;
-    // move the slightly closer to the center
     transform: scale(0.7) rotate(0deg) translateX(70px);
+    transition: 1s ease-out;
   }
   .animeCard.right:hover {
     transform-origin: center;
     // slow down the animation
-    transition: transform 0.5s ease-in-out;
+    transition: 1s ease-out;
     // move the slightly closer to the center
     transform: scale(0.7) rotate(0deg) translateX(-70px);
   }
