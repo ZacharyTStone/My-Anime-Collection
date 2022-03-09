@@ -19,7 +19,7 @@ const AnimeContainer = ({ searchText }) => {
     fetchAnimes();
   }, [searchText]);
 
-  const fetchAnimes = (page) => {
+  const fetchAnimes = () => {
     fetch(APIURL)
       .then((res) => res.json())
       .then((data) => {
