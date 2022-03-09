@@ -22,10 +22,6 @@ import A5 from "../assets/images/sampleAnimes/A5.png";
 import A6 from "../assets/images/sampleAnimes/A6.png";
 import A7 from "../assets/images/sampleAnimes/A7.png";
 import A8 from "../assets/images/sampleAnimes/A8.png";
-import A9 from "../assets/images/sampleAnimes/A9.png";
-import A10 from "../assets/images/sampleAnimes/A10.png";
-import A11 from "../assets/images/sampleAnimes/A11.png";
-import A12 from "../assets/images/sampleAnimes/A12.png";
 
 const Landing = () => {
   useEffect(() => {
