@@ -312,24 +312,21 @@ export default Landing;
 const Wrapper = styled.main`
   // special css for anime cards
   .animesLeft {
-    margin-top: 80px;
     display: none;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
     position: absolute;
-    height: 100%;
     top: 0;
+    left: 0;
   }
   .animesRight {
-    margin-top: 80px;
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     position: absolute;
-    max-height: 100%;
     top: 0;
+    right: 0;
   }
   .animeCard {
     transform: scale(0.4);
