@@ -3,7 +3,6 @@ const app = express();
 import dotenv from "dotenv";
 dotenv.config();
 import "express-async-errors";
-import rateLimiter from "express-rate-limit";
 import morgan from "morgan";
 
 import { dirname } from "path";
