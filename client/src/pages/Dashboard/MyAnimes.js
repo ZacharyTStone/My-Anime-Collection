@@ -1,4 +1,4 @@
-import { AnimesContainer, SearchContainer, Alert } from "../../Components";
+import { MyAnimesContainer, SearchContainer, Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 
 const MyAnimes = () => {
@@ -8,7 +8,7 @@ const MyAnimes = () => {
       <main className="content full-page" datatype="">
         {showAlert && <Alert />}
         <SearchContainer />
-        <AnimesContainer />
+        <MyAnimesContainer />
       </main>
     </>
   );

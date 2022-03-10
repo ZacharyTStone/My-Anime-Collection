@@ -1,7 +1,7 @@
 import Alert from "./Alert";
 import FormRow from "./FormRow";
 import FormRowSelect from "./FormRowSelect";
-import AnimesContainer from "./AnimesContainer";
+import MyAnimesContainer from "./MyAnimesContainer";
 import Loading from "./Loading";
 import Logo from "./Logo";
 import SearchContainer from "./SearchContainer";
@@ -12,7 +12,7 @@ export {
   Alert,
   FormRowSelect,
   SearchContainer,
-  AnimesContainer,
+  MyAnimesContainer,
   Loading,
   MUINavbar,
 };
