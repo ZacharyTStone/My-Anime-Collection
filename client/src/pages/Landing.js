@@ -65,7 +65,7 @@ const Landing = () => {
                 </h1>
                 <p>
                   My Anime Collection also called M.A.C. is an application that
-                  let's you track, and find new animes.
+                  let's you track, and find new anime.
                 </p>
                 <div className="login-div">
                   <Link to="/register" className="btn btn-hero">
