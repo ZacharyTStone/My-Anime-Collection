@@ -78,8 +78,9 @@ function Anime({
               gutterBottom
             >
               {title ||
-                anime.attributes.titles.en ||
+                anime.attributes.titles.en_us ||
                 anime.attributes.titles.en_jp ||
+                anime.attributes.titles.ja_jp ||
                 "Title N/A"}
             </Typography>
             <CardMedia
