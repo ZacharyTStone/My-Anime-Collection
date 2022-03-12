@@ -104,7 +104,7 @@ const Profile = () => {
             </button>
             <button className="btn btn-hipster" type="button">
               <a
-                href="https://commerce.coinbase.com/checkout/afcceb62-6c0f-4b12-89bc-4a085d328df5"
+                href="https://commerce.coinbase.com/checkout/ae3c63d4-ddd8-485e-a6d9-8b1dce89ee42"
                 target={"_blank"}
                 rel="noopener noreferrer"
               >

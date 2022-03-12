@@ -2,6 +2,8 @@ import goku from "../assets/images/goku.png";
 import aot from "../assets/images/aot.png";
 import lucy from "../assets/images/lucy.png";
 import narutoRun from "../assets/images/narutoRun.gif";
+import kimetsuRun from "../assets/images/kimetsuRun.gif";
+import RunningImg from "../Components/RunningImg";
 import { Logo } from "../Components";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -13,7 +15,7 @@ import { FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import { FaSearch } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import A1 from "../assets/images/sampleAnimes/A1.png";
 import A2 from "../assets/images/sampleAnimes/A2.png";
 import A3 from "../assets/images/sampleAnimes/A3.png";
@@ -24,7 +26,10 @@ import A7 from "../assets/images/sampleAnimes/A7.png";
 import A8 from "../assets/images/sampleAnimes/A8.png";
 
 const Landing = () => {
+  const [currentGif, setCurrentGif] = useState(narutoRun);
+
   useEffect(() => {
+    setCurrentGif(Math.floor(Math.random() * 2) === 0 ? kimetsuRun : narutoRun);
     toast.success(
       "Hi! 👋 This app is currently in development. Want me to add a feature? Let me know at Zach.Stone.Developer@gmail.com",
       {
@@ -57,6 +62,7 @@ const Landing = () => {
           <Logo />
         </nav>
         <main>
+          <RunningImg img={currentGif} />
           <div className="container page">
             <div>
               <Slide left>
@@ -77,12 +83,7 @@ const Landing = () => {
                 </div>
               </Slide>
             </div>
-            <img
-              src={narutoRun}
-              loading="lazy"
-              alt="anime character"
-              className="img naruto"
-            />
+
             <Fade>
               <img src={goku} alt="anime character" className="img main-img" />
             </Fade>
@@ -128,6 +129,7 @@ const Landing = () => {
               </div>
             </Fade>
           </div>
+
           <div className="container page">
             <Fade>
               <img
@@ -360,10 +362,6 @@ const Wrapper = styled.main`
 
   // end of anime cards css
 
-  .naruto {
-    display: none;
-  }
-
   .btn:hover {
     transform: scale(1.1) !important;
   }
@@ -465,32 +463,6 @@ const Wrapper = styled.main`
       height: auto;
       width: 100%;
       overflow: visible;
-    }
-    .naruto {
-      display: block;
-      width: 100px;
-      position: absolute;
-      animation-name: run;
-      animation-duration: 5s;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-      top: 94%;
-    }
-
-    @keyframes run {
-      from {
-        left: -100px;
-      }
-      to {
-        left: 93%;
-      }
-    }
-  }
-
-  // special styles for nartuto
-  @media (min-height: 1200px) {
-    .naruto {
-      top: 73%;
     }
   }
 `;

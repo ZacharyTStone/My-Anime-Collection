@@ -71,7 +71,6 @@ const getAnimes = async (req, res) => {
   const numOfPages = Math.ceil(totalAnimes / limit);
 
   res.status(StatusCodes.OK).json({ animes, totalAnimes, numOfPages });
-  console.log("here is what we got", animes);
 };
 
 const deleteAnime = async (req, res) => {

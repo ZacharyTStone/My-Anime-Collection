@@ -22,7 +22,6 @@ const AnimesContainer = () => {
   } = useAppContext();
   useEffect(() => {
     getAnimes();
-    console.log("animes", animes);
     // eslint-disable-next-line
   }, [page, search, searchStatus, searchStared, searchType, sort]);
   if (isLoading) {
@@ -33,7 +32,7 @@ const AnimesContainer = () => {
     return (
       <Wrapper>
         <h2>
-          Couldn't find any animes. Click
+          Couldn't find any anime. Click
           <NavLink to="/add-anime" className="btn btn-block btn-hipster">
             Here to add an anime
           </NavLink>

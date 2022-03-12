@@ -3,6 +3,10 @@ import { Logo, FormRow, Alert } from "../Components";
 import styled from "styled-components";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
+import RunningImg from "../Components/RunningImg";
+import kimetsuRun from "../assets/images/kimetsuRun.gif";
+import narutoRun from "../assets/images/narutoRun.gif";
+
 const initialState = {
   name: "",
   email: "",
@@ -11,6 +15,8 @@ const initialState = {
 };
 
 const Register = () => {
+  const [currentGif, setCurrentGif] = useState(kimetsuRun);
+
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
   const { user, isLoading, showAlert, displayAlert, setupUser } =
@@ -47,6 +53,7 @@ const Register = () => {
   };
 
   useEffect(() => {
+    setCurrentGif(Math.floor(Math.random() * 2) === 0 ? kimetsuRun : narutoRun);
     if (user) {
       setTimeout(() => {
         navigate("/my-animes");
@@ -98,6 +105,7 @@ const Register = () => {
           </button>
         </p>
       </form>
+      <RunningImg img={currentGif} />
     </Wrapper>
   );
 };

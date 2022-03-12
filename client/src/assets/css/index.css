@@ -405,3 +405,48 @@ ul {
 
   color: var(--white);
 }
+
+/* global font styles for mobile and tablet */
+
+@media (max-width: 725px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  h4 {
+    font-size: 1.25rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h6 {
+    font-size: 0.875rem;
+  }
+  .form-input,
+  .form-select,
+  .btn-block {
+    height: 30px;
+  }
+  .form-textarea {
+    height: 5rem;
+  }
+  .form-alert {
+    font-size: 0.875rem;
+  }
+
+  .coffee-info {
+    font-size: 0.875rem;
+  }
+
+  .coffee-info span {
+    display: block;
+  }
+  .coffee-info a {
+    font-size: 0.875rem;
+  }
+}
