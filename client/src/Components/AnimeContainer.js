@@ -2,24 +2,23 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Anime from "./Anime";
+import Loading from "./Loading";
 
 const AnimeContainer = ({ searchText }) => {
   const [page, setPage] = useState(1);
 
   const [fetchedAnimes, setFetchedAnimes] = useState([]);
 
-  const APIURL =
-    "https://kitsu.io/api/edge/anime?filter[text]=" +
-    searchText +
-    "&page[limit]=10&page[offset]=" +
-    (page - 1) * 10;
-
   useEffect(() => {
-    setPage(1);
-    fetchAnimes();
+    fetchAnimes(1);
   }, [searchText]);
 
-  const fetchAnimes = () => {
+  const fetchAnimes = (pageNumber) => {
+    const APIURL =
+      "https://kitsu.io/api/edge/anime?filter[text]=" +
+      searchText +
+      "&page[limit]=10&page[offset]=" +
+      (pageNumber - 1) * 10;
     fetch(APIURL)
       .then((res) => res.json())
       .then((data) => {
@@ -31,18 +30,40 @@ const AnimeContainer = ({ searchText }) => {
 
   return (
     <Wrapper>
-      <Button
-        onClick={() => {
-          setPage(page + 1);
-          setFetchedAnimes([]);
-          fetchAnimes(page + 1);
-        }}
-        color="primary"
-        disabled={fetchedAnimes.length === 0}
-        className="btn btn-load-more"
-      >
-        Load next page
-      </Button>
+      <div className="buttons">
+        <Button
+          onClick={() => {
+            setPage(page - 1);
+            setFetchedAnimes([]);
+            fetchAnimes(page - 1);
+          }}
+          color="primary"
+          variant="contained"
+          disabled={page === 1}
+          sx={{
+            m: 2,
+            display: { xs: "flex", md: "flex" },
+          }}
+        >
+          Previous
+        </Button>
+        <Button
+          onClick={() => {
+            setPage(page + 1);
+            setFetchedAnimes([]);
+            fetchAnimes(page + 1);
+          }}
+          color="primary"
+          disabled={fetchedAnimes.length === 0}
+          variant="contained"
+          sx={{
+            m: 2,
+            display: { xs: "flex", md: "flex" },
+          }}
+        >
+          Next
+        </Button>
+      </div>
       <div className="animes">
         {fetchedAnimes.map((anime) => {
           return <Anime key={anime.id} anime={anime} type="add" />;
@@ -73,6 +94,13 @@ const Wrapper = styled.section`
   margin-top: 4rem;
   .hidden {
     display: none;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
   }
   h2 {
     text-transform: none;
