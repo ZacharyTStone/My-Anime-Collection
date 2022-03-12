@@ -212,8 +212,8 @@ const AppProvider = ({ children }) => {
       const creationDate = anime.attributes.startDate;
       const title =
         anime.attributes.titles.en_us ||
+        anime.attributes.canonicalTitle ||
         anime.attributes.titles.en_jp ||
-        anime.attributes.titles.ja_jp ||
         "Title not found";
       const id = anime.id || 0;
       const rating = anime.attributes.averageRating || 9001;

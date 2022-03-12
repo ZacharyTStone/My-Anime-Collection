@@ -79,8 +79,8 @@ function Anime({
             >
               {title ||
                 anime.attributes.titles.en_us ||
+                anime.attributes.canonicalTitle ||
                 anime.attributes.titles.en_jp ||
-                anime.attributes.titles.ja_jp ||
                 "Title N/A"}
             </Typography>
             <CardMedia
