@@ -34,7 +34,7 @@ const AnimeContainer = ({ searchText }) => {
       <Helmet>
         <meta
           http-equiv="Content-Security-Policy"
-          connect-src=" default-src 'self' kitsu.io *.kitsu.io *"
+          connect-src=" default-src 'self' *.kitsu.io *.kitsu.io/api/edge/anime"
         />
         <meta
           http-equiv="Content-Security-Policy"
