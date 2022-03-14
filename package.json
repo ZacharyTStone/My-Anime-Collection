@@ -36,6 +36,7 @@
     "moment": "^2.29.1",
     "mongoose": "^6.0.13",
     "morgan": "^1.10.0",
+    "react-helmet": "^6.1.0",
     "validator": "^13.7.0",
     "xss-clean": "^0.1.1"
   },

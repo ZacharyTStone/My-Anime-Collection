@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Anime from "./Anime";
 import Loading from "./Loading";
+import { Helmet } from "react-helmet";
 
 const AnimeContainer = ({ searchText }) => {
   const [page, setPage] = useState(1);
@@ -29,64 +30,76 @@ const AnimeContainer = ({ searchText }) => {
   };
 
   return (
-    <Wrapper>
-      <div className="buttons">
-        <Button
-          onClick={() => {
-            setPage(page - 1);
-            setFetchedAnimes([]);
-            fetchAnimes(page - 1);
-          }}
-          color="primary"
-          variant="contained"
-          disabled={page === 1}
-          sx={{
-            m: 2,
-            display: { xs: "flex", md: "flex" },
-          }}
-        >
-          Previous
-        </Button>
-        <Button
-          onClick={() => {
-            setPage(page + 1);
-            setFetchedAnimes([]);
-            fetchAnimes(page + 1);
-          }}
-          color="primary"
-          disabled={fetchedAnimes.length === 0}
-          variant="contained"
-          sx={{
-            m: 2,
-            display: { xs: "flex", md: "flex" },
-          }}
-        >
-          Next
-        </Button>
-      </div>
-      <div className="animes">
-        {fetchedAnimes.map((anime) => {
-          return <Anime key={anime.id} anime={anime} type="add" />;
-        })}
+    <>
+      <Helmet>
+        <meta
+          http-equiv="Content-Security-Policy"
+          connect-src=" default-src 'self' kitsu.io *.kitsu.io *"
+        />
+        <meta
+          http-equiv="Content-Security-Policy"
+          script-src=" 'self' 'unsafe-inline' 'unsafe-eval' *.kitsu.io *.kitsu.io/api/edge/anime"
+        />
+      </Helmet>
+      <Wrapper>
+        <div className="buttons">
+          <Button
+            onClick={() => {
+              setPage(page - 1);
+              setFetchedAnimes([]);
+              fetchAnimes(page - 1);
+            }}
+            color="primary"
+            variant="contained"
+            disabled={page === 1}
+            sx={{
+              m: 2,
+              display: { xs: "flex", md: "flex" },
+            }}
+          >
+            Previous
+          </Button>
+          <Button
+            onClick={() => {
+              setPage(page + 1);
+              setFetchedAnimes([]);
+              fetchAnimes(page + 1);
+            }}
+            color="primary"
+            disabled={fetchedAnimes.length === 0}
+            variant="contained"
+            sx={{
+              m: 2,
+              display: { xs: "flex", md: "flex" },
+            }}
+          >
+            Next
+          </Button>
+        </div>
+        <div className="animes">
+          {fetchedAnimes.map((anime) => {
+            return <Anime key={anime.id} anime={anime} type="add" />;
+          })}
 
-        <Button
-          onClick={() => {
-            setPage(page + 1);
-            setFetchedAnimes([]);
-            fetchAnimes(page + 1);
-          }}
-          color="primary"
-          disabled={fetchedAnimes.length === 0}
-          className={
-            fetchedAnimes.length === 0
-              ? "hidden"
-              : "btn btn-block btn-load-more"
-          }
-        >
-          Load next page
-        </Button>
-      </div>
-    </Wrapper>
+          <Button
+            onClick={() => {
+              setPage(page + 1);
+              setFetchedAnimes([]);
+              fetchAnimes(page + 1);
+            }}
+            color="primary"
+            disabled={fetchedAnimes.length === 0}
+            className={
+              fetchedAnimes.length === 0
+                ? "hidden"
+                : "btn btn-block btn-load-more"
+            }
+          >
+            Load next page
+          </Button>
+        </div>
+      </Wrapper>
+    </>
   );
 };
 
