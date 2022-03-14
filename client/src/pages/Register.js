@@ -105,12 +105,20 @@ const Register = () => {
           </button>
         </p>
       </form>
-      <RunningImg img={currentGif} />
+      <div className="run">
+        <RunningImg img={currentGif} />
+      </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
+  .run {
+    position: absolute;
+    top: 80vh;
+    left: 0;
+    width: 100vw;
+  }
   display: grid;
   align-items: center;
   .logo {

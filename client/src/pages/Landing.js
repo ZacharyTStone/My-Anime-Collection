@@ -2,7 +2,6 @@ import goku from "../assets/images/goku.png";
 import aot from "../assets/images/aot.png";
 import lucy from "../assets/images/lucy.png";
 import narutoRun from "../assets/images/narutoRun.gif";
-import kimetsuRun from "../assets/images/kimetsuRun.gif";
 import RunningImg from "../Components/RunningImg";
 import { Logo } from "../Components";
 import { Link } from "react-router-dom";
@@ -26,10 +25,7 @@ import A7 from "../assets/images/sampleAnimes/A7.png";
 import A8 from "../assets/images/sampleAnimes/A8.png";
 
 const Landing = () => {
-  const [currentGif, setCurrentGif] = useState(narutoRun);
-
   useEffect(() => {
-    setCurrentGif(Math.floor(Math.random() * 2) === 0 ? kimetsuRun : narutoRun);
     toast.success(
       "Hi! 👋 This app is currently in development. Want me to add a feature? Let me know at Zach.Stone.Developer@gmail.com",
       {
@@ -62,7 +58,7 @@ const Landing = () => {
           <Logo />
         </nav>
         <main>
-          <RunningImg img={currentGif} />
+          <RunningImg img={narutoRun} />
           <div className="container page">
             <div>
               <Slide left>
@@ -180,7 +176,7 @@ const Landing = () => {
             <div>
               <Slide right>
                 <div>
-                  <h3>Let's go!!!!</h3>
+                  <h3>Let's go find some anime!</h3>
                   <div className="login-div">
                     <Link to="/register" className="btn btn-hero">
                       Login/Register
@@ -289,10 +285,6 @@ const Landing = () => {
 export default Landing;
 
 const Wrapper = styled.main`
-  main {
-    overflow: hidden;
-  }
-
   // special css for anime cards
   .animesLeft {
     display: none;
@@ -304,6 +296,9 @@ const Wrapper = styled.main`
   }
 
   .animesRight {
+    width: min-content;
+    padding: 0px;
+    margin: 0px;
     display: none;
     flex-direction: column;
     align-items: center;
@@ -340,7 +335,7 @@ const Wrapper = styled.main`
     // move the slightly closer to the center
     transform: scale(0.7) rotate(0deg) translateX(-70px);
   }
-  @media (min-width: 1400px) {
+  @media (min-width: 1440px) {
     .animesLeft {
       display: flex;
       left: -5%;
@@ -451,6 +446,7 @@ const Wrapper = styled.main`
   }
   .main-img {
     display: none;
+    overflow: visible;
   }
   @media (min-width: 992px) {
     .page {
@@ -463,6 +459,7 @@ const Wrapper = styled.main`
       height: auto;
       width: 100%;
       overflow: visible;
+      overflow-x: hidden;
     }
   }
 `;
