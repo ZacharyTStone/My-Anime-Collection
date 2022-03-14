@@ -36,7 +36,7 @@ app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 app.use(express.json());
 //secure headers
-app.use(helmet());
+// app.use(helmet());
 //sanitize input
 app.use(xss());
 // prevents mongodb operator injection from mongoDB queries
