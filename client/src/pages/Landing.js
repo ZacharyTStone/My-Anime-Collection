@@ -335,14 +335,14 @@ const Wrapper = styled.main`
     // move the slightly closer to the center
     transform: scale(0.7) rotate(0deg) translateX(-70px);
   }
-  @media (min-width: 1440px) {
+  @media (min-width: 1574px) {
     .animesLeft {
       display: flex;
-      left: -5%;
+      left: 0%;
     }
     .animesRight {
       display: flex;
-      right: -5%;
+      right: 0%;
     }
   }
 
