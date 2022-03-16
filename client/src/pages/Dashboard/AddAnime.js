@@ -30,7 +30,12 @@ const AddAnime = () => {
             />
           </div>
         </form>
-        <AnimeContainer searchText={textInput} />
+        <AnimeContainer
+          searchText={textInput}
+          baseURL="https://kitsu.io/api/edge/anime"
+          filter={"true"}
+          pagination={"true"}
+        />
       </main>
     </Wrapper>
   );

@@ -5,7 +5,7 @@ import Anime from "./Anime";
 import Loading from "./Loading";
 import { Helmet } from "react-helmet";
 
-const AnimeContainer = ({ searchText }) => {
+const AnimeContainer = ({ searchText, baseURL, filter, pagination }) => {
   const [page, setPage] = useState(1);
 
   const [fetchedAnimes, setFetchedAnimes] = useState([]);
@@ -15,11 +15,15 @@ const AnimeContainer = ({ searchText }) => {
   }, [searchText]);
 
   const fetchAnimes = (pageNumber) => {
-    const APIURL =
-      "https://kitsu.io/api/edge/anime?filter[text]=" +
-      searchText +
-      "&page[limit]=10&page[offset]=" +
-      (pageNumber - 1) * 10;
+    let APIURL = baseURL;
+
+    if (filter === "true") {
+      APIURL += "?filter[text]=" + searchText + "&page[limit]=10";
+    }
+    if (pagination === "true") {
+      APIURL += "&page[offset]=" + (pageNumber - 1) * 10;
+    }
+
     fetch(APIURL)
       .then((res) => res.json())
       .then((data) => {
@@ -42,61 +46,64 @@ const AnimeContainer = ({ searchText }) => {
         />
       </Helmet>
       <Wrapper>
-        <div className="buttons">
-          <Button
-            onClick={() => {
-              setPage(page - 1);
-              setFetchedAnimes([]);
-              fetchAnimes(page - 1);
-            }}
-            color="primary"
-            variant="contained"
-            disabled={page === 1}
-            sx={{
-              m: 2,
-              display: { xs: "flex", md: "flex" },
-            }}
-          >
-            Previous
-          </Button>
-          <Button
-            onClick={() => {
-              setPage(page + 1);
-              setFetchedAnimes([]);
-              fetchAnimes(page + 1);
-            }}
-            color="primary"
-            disabled={fetchedAnimes.length === 0}
-            variant="contained"
-            sx={{
-              m: 2,
-              display: { xs: "flex", md: "flex" },
-            }}
-          >
-            Next
-          </Button>
-        </div>
+        {pagination === "true" && (
+          <div className="buttons">
+            <Button
+              onClick={() => {
+                setPage(page - 1);
+                setFetchedAnimes([]);
+                fetchAnimes(page - 1);
+              }}
+              color="primary"
+              variant="contained"
+              disabled={page === 1}
+              sx={{
+                m: 2,
+                display: { xs: "flex", md: "flex" },
+              }}
+            >
+              Previous
+            </Button>
+            <Button
+              onClick={() => {
+                setPage(page + 1);
+                setFetchedAnimes([]);
+                fetchAnimes(page + 1);
+              }}
+              color="primary"
+              disabled={fetchedAnimes.length === 0}
+              variant="contained"
+              sx={{
+                m: 2,
+                display: { xs: "flex", md: "flex" },
+              }}
+            >
+              Next
+            </Button>
+          </div>
+        )}
         <div className="animes">
           {fetchedAnimes.map((anime) => {
             return <Anime key={anime.id} anime={anime} type="add" />;
           })}
-
-          <Button
-            onClick={() => {
-              setPage(page + 1);
-              setFetchedAnimes([]);
-              fetchAnimes(page + 1);
-            }}
-            color="primary"
-            disabled={fetchedAnimes.length === 0}
-            className={
-              fetchedAnimes.length === 0
-                ? "hidden"
-                : "btn btn-block btn-load-more"
-            }
-          >
-            Load next page
-          </Button>
+          {pagination === "true" && fetchedAnimes.length === 0 && (
+            <Button
+              onClick={() => {
+                setPage(page + 1);
+                setFetchedAnimes([]);
+                fetchAnimes(page + 1);
+              }}
+              color="primary"
+              disabled={fetchedAnimes.length === 0}
+              className={
+                fetchedAnimes.length === 0
+                  ? "hidden"
+                  : "btn btn-block btn-load-more"
+              }
+            >
+              Load next page
+            </Button>
+          )}
         </div>
       </Wrapper>
     </>

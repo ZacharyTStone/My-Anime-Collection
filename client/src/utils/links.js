@@ -11,6 +11,11 @@ const links = [
     text: "Add Anime",
     path: "add-anime",
   },
+  {
+    id: 3,
+    text: "Top Anime",
+    path: "top-animes",
+  },
 ];
 
 export default links;

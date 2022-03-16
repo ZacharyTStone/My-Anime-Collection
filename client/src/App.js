@@ -3,6 +3,7 @@ import { Register, Landing, Error, ProtectedRoute } from "./pages";
 import AddAnime from "./pages/Dashboard/AddAnime";
 import MyAnimes from "./pages/Dashboard/MyAnimes";
 import Profile from "./pages/Dashboard/Profile";
+import TopAnimes from "./pages/Dashboard/TopAnimes";
 import SharedLayout from "./pages/Dashboard/SharedLayout";
 import RegisterDemo from "./pages/RegisterDemo";
 
@@ -21,6 +22,7 @@ function App() {
           <Route index path="my-animes" element={<MyAnimes />} />
           <Route path="add-anime" element={<AddAnime />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="top-animes" element={<TopAnimes />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/register-demo" element={<RegisterDemo />} />
