@@ -344,14 +344,18 @@ const Wrapper = styled.main`
       display: flex;
       right: 0%;
     }
-  }
 
-  @media (min-width: 1800px) {
-    .animesLeft {
-      left: 5%;
+    .animeCard {
+      margin-bottom: 300px;
     }
-    .animesRight {
-      right: 5%;
+
+    @media (min-width: 1800px) {
+      .animesLeft {
+        left: 5%;
+      }
+      .animesRight {
+        right: 5%;
+      }
     }
   }
 
