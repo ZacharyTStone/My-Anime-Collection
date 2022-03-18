@@ -3,6 +3,8 @@ import Anime from "../models/Anime.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 
+// REST routes set up in authRoutes.js
+
 const register = async (req, res) => {
   const { name, email, password } = req.body;
   const emailProvider = email.split("@")[1];

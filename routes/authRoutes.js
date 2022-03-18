@@ -8,6 +8,9 @@ const apiLimiter = rateLimiter({
   message: "Too many requests from this IP, please try again after 15 minutes",
 });
 
+// The base URL
+// app.use("/api/v1/auth", authRouter);
+
 import {
   register,
   login,
