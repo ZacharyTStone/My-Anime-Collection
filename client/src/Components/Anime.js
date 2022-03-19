@@ -250,7 +250,7 @@ function Anime({
 }
 
 const Wrapper = styled.article`
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     flex-direction: row;
     .anime-cover-image {
       height: 100px;
