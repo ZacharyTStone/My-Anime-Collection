@@ -128,27 +128,14 @@ const Wrapper = styled.section`
   & > h5 {
     font-weight: 700;
   }
-  .animes {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 2rem;
-    color: var(--textColor);
-  }
-  @media (min-width: 992px) {
-    .animes {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-      align-items: center;
-    }
-  }
-  // old
+
   .animes {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+    color: var(--textColor);
   }
 
   margin-top: 4rem;
@@ -158,20 +145,13 @@ const Wrapper = styled.section`
   & > h5 {
     font-weight: 700;
   }
+
   .animes {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 2rem;
-    color: var(--textColor);
-  }
-  @media (min-width: 992px) {
-    .animes {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-      align-items: center;
-    }
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
   }
 `;
 
