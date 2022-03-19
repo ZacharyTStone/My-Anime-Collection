@@ -9,6 +9,8 @@ import checkPermissions from "../utils/checkPermissions.js";
 import mongoose from "mongoose";
 import moment from "moment";
 
+// url routes in AnimeRoutes.js
+
 const createAnime = async (req, res) => {
   const oldAnime = await Anime.findOne({
     title: req.body.title,

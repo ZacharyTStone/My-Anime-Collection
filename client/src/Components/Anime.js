@@ -73,6 +73,7 @@ function Anime({
                 color: "var(--textColor)",
                 backgroundColor: "var(--backgroundColor)",
                 minHeight: "75px",
+                textAlign: "center",
               }}
               color="var(--textColor)"
               gutterBottom
@@ -83,91 +84,94 @@ function Anime({
                 anime.attributes.titles.en_jp ||
                 "Title N/A"}
             </Typography>
-            <CardMedia
-              component="img"
-              height="300"
-              image={coverImage || anime.attributes.posterImage.small}
-              title={
-                title ||
-                anime.attributes.titles.en ||
-                anime.attributes.titles.en_jp ||
-                "Title N/A"
-              }
-            />
-            <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
-                {rating === 9001
-                  ? "N/A"
-                  : rating || anime.attributes.averageRating || "N/A"}
-                <span
-                  style={{
-                    color: "var(--grey-500)",
-                  }}
-                >
-                  /100
-                </span>
-              </Button>
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
-                {format ? format : anime.attributes.subtype || "N/A"}
-              </Button>
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
-                {creationDate
-                  ? creationDate.slice(0, 4)
-                  : anime.attributes.startDate
-                  ? anime.attributes.startDate.slice(0, 4)
-                  : "N/A"}
-              </Button>
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
-                <span>
-                  {episodeCount === 9001
-                    ? "N/A"
-                    : episodeCount || anime.attributes.episodeCount || "N/A"}
-                </span>
-                <span style={{ marginLeft: "5px" }}>episodes</span>
-              </Button>
-
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
-                {ageRating || anime.attributes.ageRating || "Rating N/A"}
-              </Button>
-              {youtubeVideoId || anime.attributes.youtubeVideoId ? (
+            <div className="info-container">
+              <CardMedia
+                component="img"
+                className="anime-cover-image"
+                height="300"
+                image={coverImage || anime.attributes.posterImage.small}
+                title={
+                  title ||
+                  anime.attributes.titles.en ||
+                  anime.attributes.titles.en_jp ||
+                  "Title N/A"
+                }
+              />
+              <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
                 <Button
                   sx={{
                     color: "var(--textColor)",
                   }}
                 >
-                  <a
-                    href={`https://www.youtube.com/watch?v=${
-                      youtubeVideoId || anime.attributes.youtubeVideoId
-                    }`}
-                    target={"_blank"}
-                    rel="noreferrer"
+                  {rating === 9001
+                    ? "N/A"
+                    : rating || anime.attributes.averageRating || "N/A"}
+                  <span
+                    style={{
+                      color: "var(--grey-500)",
+                    }}
                   >
-                    {" "}
-                    <FaYoutube color="red" size={30} />{" "}
-                  </a>
+                    /100
+                  </span>
                 </Button>
-              ) : null}
-            </Typography>
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  {format ? format : anime.attributes.subtype || "N/A"}
+                </Button>
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  {creationDate
+                    ? creationDate.slice(0, 4)
+                    : anime.attributes.startDate
+                    ? anime.attributes.startDate.slice(0, 4)
+                    : "N/A"}
+                </Button>
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  <span>
+                    {episodeCount === 9001
+                      ? "N/A"
+                      : episodeCount || anime.attributes.episodeCount || "N/A"}
+                  </span>
+                  <span style={{ marginLeft: "5px" }}>episodes</span>
+                </Button>
+
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                >
+                  {ageRating || anime.attributes.ageRating || "Rating N/A"}
+                </Button>
+                {youtubeVideoId || anime.attributes.youtubeVideoId ? (
+                  <Button
+                    sx={{
+                      color: "var(--textColor)",
+                    }}
+                  >
+                    <a
+                      href={`https://www.youtube.com/watch?v=${
+                        youtubeVideoId || anime.attributes.youtubeVideoId
+                      }`}
+                      target={"_blank"}
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      <FaYoutube color="red" size={30} />{" "}
+                    </a>
+                  </Button>
+                ) : null}
+              </Typography>
+            </div>
           </CardContent>
           <CardActions
             sx={{
@@ -246,6 +250,18 @@ function Anime({
 }
 
 const Wrapper = styled.article`
+  @media (max-width: 768px) {
+    flex-direction: row;
+    .anime-cover-image {
+      height: 100px;
+      width: 100px;
+    }
+    .info-container {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
