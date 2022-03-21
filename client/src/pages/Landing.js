@@ -14,7 +14,7 @@ import { FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import { FaSearch } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import A1 from "../assets/images/sampleAnimes/A1.png";
 import A2 from "../assets/images/sampleAnimes/A2.png";
 import A3 from "../assets/images/sampleAnimes/A3.png";

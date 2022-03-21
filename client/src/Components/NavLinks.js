@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 
-const NavLinks = ({}) => {
+const NavLinks = () => {
   return (
     <Wrapper>
       <div className="nav-links">
