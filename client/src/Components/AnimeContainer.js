@@ -5,20 +5,14 @@ import Anime from "./Anime";
 import Loading from "./Loading";
 import { Helmet } from "react-helmet";
 
-const AnimeContainer = ({
-  searchText,
-  baseURL,
-  filter,
-  pagination,
-  category,
-}) => {
+const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   const [page, setPage] = useState(1);
 
   const [fetchedAnimes, setFetchedAnimes] = useState([]);
 
   useEffect(() => {
     fetchAnimes(1);
-  }, [searchText, category]);
+  }, [searchText, sort]);
 
   const fetchAnimes = (pageNumber) => {
     let APIURL = baseURL;
@@ -29,8 +23,9 @@ const AnimeContainer = ({
     if (pagination === "true") {
       APIURL += "&page[offset]=" + (pageNumber - 1) * 10;
     }
-
-    APIURL += "?sort=-popularity";
+    if (sort !== "false") {
+      APIURL += "&sort=" + sort;
+    }
 
     fetch(APIURL)
       .then((res) => res.json())

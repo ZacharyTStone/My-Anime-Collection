@@ -6,12 +6,16 @@ import AnimeContainer from "../../Components/AnimeContainer";
 
 const AddAnime = () => {
   const [textInput, setTextInput] = useState("");
-  const [category, setCategory] = useState("all");
+  const [sort, setSort] = useState("popularityRank");
 
   const { showAlert } = useAppContext();
 
   const handleTextInput = (e) => {
     setTextInput(e.target.value);
+  };
+
+  const handleSort = (e) => {
+    setSort(e.target.value);
   };
 
   return (
@@ -25,17 +29,44 @@ const AddAnime = () => {
             <FormRow
               type="text"
               name="title"
-              value={textInput}
+              value={textInput["title"]}
               handleChange={handleTextInput}
+            />
+            <FormRowSelect
+              name="sort"
+              value={sort}
+              handleChange={handleSort}
+              list={[
+                {
+                  title: "popularity",
+                  value: "popularityRank",
+                },
+                {
+                  title: "average rating",
+                  value: "-averageRating",
+                },
+                {
+                  title: "release date (newest first)",
+                  value: "-startDate",
+                },
+                {
+                  title: "release date (oldest first)",
+                  value: "startDate",
+                },
+                {
+                  title: "media type",
+                  value: "subtype",
+                },
+              ]}
             />
           </div>
         </form>
         <AnimeContainer
           searchText={textInput}
-          category={category}
           baseURL="https://kitsu.io/api/edge/anime"
           filter={"true"}
           pagination={"true"}
+          sort={sort}
         />
       </main>
     </Wrapper>

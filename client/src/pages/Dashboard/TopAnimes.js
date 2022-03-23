@@ -22,6 +22,7 @@ const MyAnimes = () => {
           baseURL={filterURL}
           filter={"false"}
           pagination={"false"}
+          sort={"false"}
         />
       </main>
     </>
