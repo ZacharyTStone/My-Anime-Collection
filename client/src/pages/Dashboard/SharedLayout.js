@@ -13,7 +13,7 @@ const SharedLayout = () => {
       data-theme={user.theme}
     >
       <ToastContainer
-        position="top-left"
+        position="bottom-left"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
