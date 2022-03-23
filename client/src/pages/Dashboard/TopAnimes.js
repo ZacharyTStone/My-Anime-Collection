@@ -9,7 +9,13 @@ const MyAnimes = () => {
   return (
     <>
       <main className="content full-page" datatype="">
-        <h1>Top Anime</h1>
+        <h1
+          style={{
+            textAlign: "center",
+          }}
+        >
+          Top Anime
+        </h1>
         <AnimeContainer
           searchText={null}
           baseURL={filterURL}
