@@ -69,7 +69,16 @@ const Profile = () => {
             type="select"
             value={theme}
             handleChange={(e) => setTheme(e.target.value)}
-            list={["light", "dark"]}
+            list={[
+              {
+                title: "light",
+                value: "light",
+              },
+              {
+                title: "dark",
+                value: "dark",
+              },
+            ]}
           />
 
           <button
