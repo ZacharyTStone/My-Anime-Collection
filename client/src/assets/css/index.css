@@ -6,7 +6,6 @@
 
 /* fonts */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
-@import "~react-image-gallery/styles/css/image-gallery.css";
 
 html {
   font-size: 100%;
