@@ -1,4 +1,4 @@
-import { FormRow, Alert } from "../../Components";
+import { FormRow, Alert, FormRowSelect } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState } from "react";
@@ -6,6 +6,7 @@ import AnimeContainer from "../../Components/AnimeContainer";
 
 const AddAnime = () => {
   const [textInput, setTextInput] = useState("");
+  const [category, setCategory] = useState("all");
 
   const { showAlert } = useAppContext();
 
@@ -31,6 +32,7 @@ const AddAnime = () => {
         </form>
         <AnimeContainer
           searchText={textInput}
+          category={category}
           baseURL="https://kitsu.io/api/edge/anime"
           filter={"true"}
           pagination={"true"}

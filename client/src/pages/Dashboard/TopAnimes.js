@@ -17,6 +17,7 @@ const MyAnimes = () => {
           Top Anime
         </h1>
         <AnimeContainer
+          category={"all"}
           searchText={null}
           baseURL={filterURL}
           filter={"false"}

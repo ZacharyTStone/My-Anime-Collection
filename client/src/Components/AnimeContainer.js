@@ -5,14 +5,20 @@ import Anime from "./Anime";
 import Loading from "./Loading";
 import { Helmet } from "react-helmet";
 
-const AnimeContainer = ({ searchText, baseURL, filter, pagination }) => {
+const AnimeContainer = ({
+  searchText,
+  baseURL,
+  filter,
+  pagination,
+  category,
+}) => {
   const [page, setPage] = useState(1);
 
   const [fetchedAnimes, setFetchedAnimes] = useState([]);
 
   useEffect(() => {
     fetchAnimes(1);
-  }, [searchText]);
+  }, [searchText, category]);
 
   const fetchAnimes = (pageNumber) => {
     let APIURL = baseURL;
@@ -24,27 +30,19 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination }) => {
       APIURL += "&page[offset]=" + (pageNumber - 1) * 10;
     }
 
+    APIURL += "?sort=-popularity";
+
     fetch(APIURL)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        console.log(APIURL + searchText);
+        console.log(APIURL);
         setFetchedAnimes(data.data);
       });
   };
 
   return (
     <>
-      <Helmet>
-        <meta
-          http-equiv="Content-Security-Policy"
-          connect-src=" default-src 'self' *.kitsu.io *.kitsu.io/api/edge/anime"
-        />
-        <meta
-          http-equiv="Content-Security-Policy"
-          script-src=" 'self' 'unsafe-inline' 'unsafe-eval' *.kitsu.io *.kitsu.io/api/edge/anime"
-        />
-      </Helmet>
       <Wrapper>
         {pagination === "true" && (
           <div className="buttons">
