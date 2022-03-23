@@ -79,8 +79,7 @@ function Anime({
               gutterBottom
             >
               {title ||
-                anime.attributes.titles.en_us ||
-                anime.attributes.canonicalTitle ||
+                anime.attributes.titles.en ||
                 anime.attributes.titles.en_jp ||
                 "Title N/A"}
             </Typography>
