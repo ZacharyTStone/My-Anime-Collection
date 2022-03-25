@@ -51,13 +51,34 @@ const initialState = {
   searchType: "all",
   sort: "latest",
   sortOptions: [
-    "latest",
-    "oldest",
-    "a-z",
-    "z-a",
-    "rating",
-    "format",
-    "date added",
+    {
+      title: "Latest",
+      value: "latest",
+    },
+    {
+      title: "Oldest",
+      value: "oldest",
+    },
+    {
+      title: "A - Z",
+      value: "a-z",
+    },
+    {
+      title: "Z - A",
+      value: "z-a",
+    },
+    {
+      title: "Rating",
+      value: "rating",
+    },
+    {
+      title: "Format",
+      value: "format",
+    },
+    {
+      title: "Date Added",
+      value: "date added",
+    },
   ],
 };
 
