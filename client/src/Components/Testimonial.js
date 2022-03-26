@@ -4,7 +4,7 @@ const Testimonial = ({ name, img, text }) => {
   return (
     <Wrapper>
       <div className="testimonial">
-        <img src={img} alt="testimonial" />
+        <img src={img} alt="testimonial" loading="lazy" />
         <div className="testimonial-text">
           <p>{text}</p>
           <h3>{name}</h3>
