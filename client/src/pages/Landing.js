@@ -8,11 +8,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Slide from "react-reveal/Slide";
 import Fade from "react-reveal/Fade";
-import { FaBuromobelexperte } from "react-icons/fa";
-import { FaSortAmountDown } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
-import { FaSearch } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import A1 from "../assets/images/sampleAnimes/A1.png";
@@ -23,6 +20,7 @@ import A5 from "../assets/images/sampleAnimes/A5.png";
 import A6 from "../assets/images/sampleAnimes/A6.png";
 import A7 from "../assets/images/sampleAnimes/A7.png";
 import A8 from "../assets/images/sampleAnimes/A8.png";
+import Testimonials from "../Components/Testimonials";
 
 const Landing = () => {
   useEffect(() => {
@@ -84,48 +82,7 @@ const Landing = () => {
               <img src={goku} alt="anime character" className="img main-img" />
             </Fade>
           </div>
-          <div className="container">
-            <Fade>
-              <div className="features" id="icon-row">
-                <h3>
-                  <span>How do I use M.A.C.?</span>
-                </h3>
-                <Slide left>
-                  <div className="icon-row">
-                    <div className="icon">
-                      <div className="icon-img">
-                        <FaBuromobelexperte
-                          size={"50px"}
-                          color="var(--primary-500)"
-                        />
-                      </div>
-                      <p>
-                        <span>1.</span> Log the anime you like.
-                      </p>
-                    </div>
-                    <div className="icon">
-                      <FaSortAmountDown
-                        size={"50px"}
-                        color="var(--primary-500)"
-                      />
-                      <p>
-                        <span>2.</span> Sort your collection by title, rating,
-                        creation date, etc.
-                      </p>
-                    </div>
-                    <div className="icon">
-                      <FaSearch size={"50px"} color="var(--primary-500)" />
-                      <p>
-                        <span>3.</span> Use My Anime Collection's built in tools
-                        to find new animes.
-                      </p>
-                    </div>
-                  </div>
-                </Slide>
-              </div>
-            </Fade>
-          </div>
-
+          <Testimonials />
           <div className="container page">
             <Fade>
               <img
