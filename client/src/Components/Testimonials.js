@@ -61,12 +61,12 @@ function Testimonials() {
           <Testimonial
             name="Vegeta"
             img={vegeta}
-            text="Get out of my way. I don't have time to use your dumb website."
+            text="What's a WEBSITE?.. Get out of my way!"
           />
           <Testimonial
             name="Pikachu"
             img={pikachu}
-            text="Pika pika Pikachu! Pika PIKA pika pika. Pika PIKA pika pika."
+            text="PIKA PIKA!! Pikachu! Pika PIKA pika pika. Pika PIKA pika pika."
           />
           <Testimonial
             name="Shinji Ikari"
