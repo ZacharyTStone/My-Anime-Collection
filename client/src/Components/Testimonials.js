@@ -61,7 +61,7 @@ function Testimonials() {
           <Testimonial
             name="Vegeta"
             img={vegeta}
-            text="What's a WEBSITE?.. Get out of my way!"
+            text="Get out of my way earthling! I need to fight Kakarot!"
           />
           <Testimonial
             name="Pikachu"
