@@ -11,7 +11,8 @@ const AddAnime = () => {
   const { showAlert } = useAppContext();
 
   const handleTextInput = (e) => {
-    setTextInput(e.target.value);
+    // filter out spaces
+    setTextInput(e.target.value.replace(/\s/g, ""));
   };
 
   const handleSort = (e) => {
