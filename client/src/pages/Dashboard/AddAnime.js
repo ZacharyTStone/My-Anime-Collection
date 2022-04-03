@@ -1,23 +1,32 @@
 import { FormRow, Alert, FormRowSelect } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import AnimeContainer from "../../Components/AnimeContainer";
+import { debounce } from "lodash";
 
 const AddAnime = () => {
   const [textInput, setTextInput] = useState("");
   const [sort, setSort] = useState("popularityRank");
+  const [searchText, setSearchText] = useState("");
 
   const { showAlert } = useAppContext();
 
+  const request = debounce((value) => {
+    setSearchText(value);
+  }, 500);
+
   const handleTextInput = (e) => {
-    // filter out spaces
-    setTextInput(e.target.value.replace(/\s/g, ""));
+    let value = e.target.value.replace(/\s/g, "+");
+    setTextInput(value);
+    debouceRequest(value);
   };
 
   const handleSort = (e) => {
     setSort(e.target.value);
   };
+
+  const debouceRequest = useCallback((value) => request(value), []);
 
   return (
     <Wrapper>
@@ -63,7 +72,7 @@ const AddAnime = () => {
           </div>
         </form>
         <AnimeContainer
-          searchText={textInput}
+          searchText={searchText}
           baseURL="https://kitsu.io/api/edge/anime"
           filter={"true"}
           pagination={"true"}
