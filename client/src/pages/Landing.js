@@ -129,7 +129,12 @@ const Landing = () => {
             </div>
           </div>
 
-          <div className="container page">
+          <div
+            className="container page"
+            style={{
+              height: "fit-content",
+            }}
+          >
             <div>
               <Slide right>
                 <div>
