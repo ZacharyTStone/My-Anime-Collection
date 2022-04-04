@@ -202,16 +202,16 @@ const Landing = () => {
                 className="animeCard left"
                 loading="lazy"
               />
+            </div>
+          </Fade>
+          <Fade>
+            <div className="animesRight">
               <img
                 src={A4}
                 alt="anime character"
                 className="animeCard left"
                 loading="lazy"
               />
-            </div>
-          </Fade>
-          <Fade>
-            <div className="animesRight">
               <img
                 src={A5}
                 alt="anime character"
@@ -247,8 +247,10 @@ const Landing = () => {
 export default Landing;
 
 const Wrapper = styled.main`
+  overflow: hidden;
   // special css for anime cards
   .animesLeft {
+    height: 90%;
     display: none;
     flex-direction: column;
     /* justify-content: space-evenly; */
@@ -258,6 +260,7 @@ const Wrapper = styled.main`
   }
 
   .animesRight {
+    height: 90%;
     width: min-content;
     padding: 0px;
     margin: 0px;
@@ -305,6 +308,7 @@ const Wrapper = styled.main`
     .animesRight {
       display: flex;
       right: 0%;
+      top: 300px;
     }
 
     .animeCard {
