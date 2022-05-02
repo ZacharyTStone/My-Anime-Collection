@@ -11,12 +11,19 @@ import path from "path";
 
 import helmet from "helmet";
 
-// helmet protections all enabled except for CSP which is disabled to allow for the API
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-);
+// helmet protections
+
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.expectCt());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.originAgentCluster());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
 
 import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
