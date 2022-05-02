@@ -9,7 +9,15 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
 
-// import helmet from "helmet";
+import helmet from "helmet";
+
+// helmet protections all enabled except for CSP which is disabled to allow for the API
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+
 import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
 
@@ -36,7 +44,6 @@ app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 app.use(express.json());
 //secure headers
-// app.use(helmet());
 //sanitize input
 app.use(xss());
 // prevents mongodb operator injection from mongoDB queries
