@@ -36,7 +36,6 @@ import authRouter from "./routes/authRoutes.js";
 import animesRouter from "./routes/animesRoutes.js";
 
 // middleware
-import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import authenticateUser from "./middleware/auth.js";
 
