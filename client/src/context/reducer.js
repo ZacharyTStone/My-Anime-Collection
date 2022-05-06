@@ -92,18 +92,12 @@ const reducer = (state, action) => {
       token: action.payload.token,
       theme: action.payload.theme,
       user: action.payload.user,
-      // showAlert: true,
-      // alertType: "success",
-      // alertText: "User Profile Updated!",
     };
   }
   if (action.type === UPDATE_USER_ERROR) {
     return {
       ...state,
       isLoading: false,
-      // showAlert: true,
-      // alertType: "danger",
-      // alertText: action.payload.msg,
     };
   }
   if (action.type === DELETE_USER_BEGIN) {
@@ -113,18 +107,15 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      // showAlert: true,
-      // alertType: "success",
-      // alertText: "User Profile Deleted! Redirecting to Login Page...",
     };
   }
   if (action.type === DELETE_USER_ERROR) {
     return {
       ...state,
       isLoading: false,
-      // showAlert: true,
-      // alertType: "danger",
-      // alertText: action.payload.msg,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
     };
   }
 
@@ -155,18 +146,12 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      // showAlert: true,
-      // alertType: "success",
-      // alertText: "Anime added!",
     };
   }
   if (action.type === CREATE_ANIME_ERROR) {
     return {
       ...state,
       isLoading: false,
-      // showAlert: true,
-      // alertType: "danger",
-      // alertText: action.payload.msg,
     };
   }
   if (action.type === GET_ANIMES_BEGIN) {
@@ -190,9 +175,6 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      // showAlert: true,
-      // alertType: "success",
-      // alertText: "Anime deleted!",
     };
   }
 
