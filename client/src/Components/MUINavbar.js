@@ -141,12 +141,7 @@ const MUINavbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem key={1}>
-                  <NavLink to="/profile" onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">profile</Typography>
-                  </NavLink>
-                </MenuItem>
-                <MenuItem key={2} onClick={handleLogout}>
+                <MenuItem key={1} onClick={handleLogout}>
                   <Typography textAlign="center">logout</Typography>
                 </MenuItem>
               </Menu>
