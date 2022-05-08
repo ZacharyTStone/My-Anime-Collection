@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 
+// the apiLimiter middleware is used to limit the number of requests for registering and logging in
 import rateLimiter from "express-rate-limit";
 const apiLimiter = rateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes

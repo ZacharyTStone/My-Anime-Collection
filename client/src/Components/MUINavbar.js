@@ -13,8 +13,7 @@ import { useAppContext } from "../context/appContext";
 import NavLinks from "./NavLinks";
 import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
-import { FaUserCircle } from "react-icons/fa";
-import { FaCaretDown } from "react-icons/fa";
+import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
 
 const MUINavbar = () => {

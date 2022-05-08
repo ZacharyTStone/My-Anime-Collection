@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Carousel from "react-simply-carousel";
 import Testimonial from "./Testimonial";
-import vegeta from "../assets/images/testimonials/vegeta.webp";
-import pikachu from "../assets/images/testimonials/pickachu.jpeg";
-import shinji from "../assets/images/testimonials/shinji.jpeg";
-import pegasus from "../assets/images/testimonials/pegasus.jpeg";
+import {
+  pegasus,
+  pikachu,
+  shinji,
+  vegeta,
+} from "../assets/images/testimonials/index";
+
 function Testimonials() {
   const [activeSlide, setActiveSlide] = useState(0);
 

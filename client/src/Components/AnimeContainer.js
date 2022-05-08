@@ -2,8 +2,6 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Anime from "./Anime";
-import Loading from "./Loading";
-import { Helmet } from "react-helmet";
 
 const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   const [page, setPage] = useState(1);
@@ -15,6 +13,7 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   }, [searchText, sort]);
 
   const fetchAnimes = (pageNumber) => {
+    // the fetching is done here. the sorting is passed in from AddAnime Page
     let APIURL = baseURL;
 
     if (filter === "true") {
@@ -23,6 +22,7 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
     if (pagination === "true") {
       APIURL += "&page[offset]=" + (pageNumber - 1) * 10;
     }
+
     if (sort !== "false") {
       APIURL += "&sort=" + sort;
     }

@@ -290,7 +290,6 @@ const AppProvider = ({ children }) => {
           numOfPages,
         },
       });
-      console.log("data", data);
     } catch (error) {
       logoutUser();
     }

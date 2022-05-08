@@ -17,9 +17,9 @@ My Anime Collection is a robust and free-to-use anime tracker. Users can explore
 
 Like 'Haku' it uses Express and Node.js with a series of routers to send, change, and delete data on the database. The front end uses the Kitsu.io API to get data about anime.
 
-The Backend uses Node JS , Express and MongoDB
+Backend: JS , Express and MongoDB
 
-The Front end uses React and Styled Components.
+Front-end: React and Styled Components.
 
 I hope you enjoy this project and if you have any questions or comments feel free to contact me.
 

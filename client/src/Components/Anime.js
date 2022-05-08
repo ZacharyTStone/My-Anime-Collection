@@ -21,7 +21,6 @@ const ExpandMore = styled((props) => {
 
 function Anime({
   _id,
-  id,
   title,
   rating,
   episodeCount,

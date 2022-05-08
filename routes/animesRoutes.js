@@ -11,7 +11,7 @@ import {
 // app.use("/api/v1/animes", authenticateUser, animesRouter);
 
 router.route("/").post(createAnime).get(getAnimes);
-// remember about :id
+// :id is a dynamic parameter
 router.route("/:id").delete(deleteAnime);
 
 export default router;

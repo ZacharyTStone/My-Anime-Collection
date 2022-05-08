@@ -1,13 +1,7 @@
 import Anime from "../models/Anime.js";
 import { StatusCodes } from "http-status-codes";
-import {
-  BadRequestError,
-  NotFoundError,
-  UnAuthenticatedError,
-} from "../errors/index.js";
+import { NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
-import mongoose from "mongoose";
-import moment from "moment";
 
 // REST routes in AnimeRoutes.js
 
@@ -16,7 +10,6 @@ const createAnime = async (req, res) => {
     title: req.body.title,
     createdBy: req.user.userId,
   });
-  console.log(oldAnime);
 
   if (oldAnime) {
     throw new NotFoundError(`You have already added that anime to your list`);
@@ -25,7 +18,6 @@ const createAnime = async (req, res) => {
   req.body.createdBy = req.user.userId;
   const anime = await Anime.create(req.body);
   res.status(StatusCodes.CREATED).json({ anime });
-  console.log(anime);
 };
 const getAnimes = async (req, res) => {
   const { sort, search } = req.query;
@@ -47,7 +39,8 @@ const getAnimes = async (req, res) => {
   } else if (sort === "oldest") {
     result = result.sort({ creationDate: 1 });
   } else if (sort === "rating") {
-    result = result.sort({ rating: -1 });
+    // sort by popularity and then by rating
+    result = result.sort({ rating: -1, popularity: -1 });
   } else if (sort === "episodeCount") {
     result = result.sort({ episodeCount: -1 });
   } else if (sort === "format") {
