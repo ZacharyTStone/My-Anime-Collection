@@ -7,6 +7,26 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
+      login: {
+        title: "Login",
+        email: "Email",
+        password: "Password",
+        switch1: "Not a member yet?",
+        switch2: "Register",
+        submit: "Submit",
+        alert_text: "Login Successful! Redirecting...",
+      },
+      register: {
+        title: "Register",
+        name: "Name",
+        email: "Email",
+        password: "Password",
+        submit: "Submit",
+        switch1: "Already a member?",
+        switch2: "Login",
+        alert_text: "User Created! Redirecting...",
+      },
+
       landing: {
         title: "My Anime Collection",
         title_description:
@@ -57,6 +77,25 @@ const resources = {
   },
   jp: {
     translation: {
+      login: {
+        title: "ログイン",
+        email: "メールアドレス",
+        password: "パスワード",
+        switch1: "まだ会員ではない？",
+        switch2: "登録",
+        submit: "送信",
+        alert_text: "ログインしました！",
+      },
+      register: {
+        title: "登録",
+        name: "名前",
+        email: "メールアドレス",
+        password: "パスワード",
+        submit: "送信",
+        switch1: "もう登録しています？",
+        switch2: "ログイン",
+        alert_text: "登録に成功しました！",
+      },
       landing: {
         title: "マイ・アニメ・コレクション",
         title_description:
