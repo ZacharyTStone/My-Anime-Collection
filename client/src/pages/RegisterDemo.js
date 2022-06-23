@@ -3,6 +3,7 @@ import { Logo, FormRow, Alert } from "../Components";
 import styled from "styled-components";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const initialState = {
   name: "",
@@ -12,6 +13,7 @@ const initialState = {
 };
 
 const Register = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
   const { user, showAlert, setupUser } = useAppContext();
@@ -40,7 +42,7 @@ const Register = () => {
     setupUser({
       currentUser,
       endPoint: "register",
-      alertText: "Demo User Created! Redirecting...",
+      alertText: t("register.alert_text"),
     });
   };
 
@@ -60,24 +62,35 @@ const Register = () => {
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
         <Logo />
-        <h3>{values.isMember ? "Login" : "Register"}</h3>
+        <h3>{values.isMember ? t("login.title") : t("register.title")}</h3>
         {showAlert && <Alert />}
         {/* name input */}
         {!values.isMember && (
           <FormRow
             type="text"
             name="name"
+            labelText={t("register.name")}
             value={values.name}
             handleChange={handleChange}
           />
         )}
 
         {/* email input */}
-        <FormRow type="email" name="email" value={values.email} />
+        <FormRow
+          type="email"
+          name="email"
+          labelText={t("register.email")}
+          value={values.email}
+        />
         {/* password input */}
-        <FormRow type="password" name="password" value={values.password} />
+        <FormRow
+          type="password"
+          name="password"
+          labelText={t("register.password")}
+          value={values.password}
+        />
         <button type="submit" className="btn btn-block" disabled={true}>
-          submit
+          {t("register.submit")}
         </button>
       </form>
     </Wrapper>
