@@ -17,7 +17,7 @@ import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
 
 const MUINavbar = () => {
-  const { logoutUser, user, deleteUser } = useAppContext();
+  const { logoutUser, user, deleteUser, changeSiteLanguage } = useAppContext();
 
   const handleLogout = () => {
     if (user.emailProvider === "demo.com") {
@@ -109,6 +109,20 @@ const MUINavbar = () => {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <NavLinks />
+              <button
+                onClick={() => {
+                  changeSiteLanguage("jp");
+                }}
+              >
+                change language to Japanese
+              </button>
+              <button
+                onClick={() => {
+                  changeSiteLanguage("en");
+                }}
+              >
+                change language to English
+              </button>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
