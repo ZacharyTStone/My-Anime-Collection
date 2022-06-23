@@ -15,7 +15,7 @@ const initialState = {
 };
 
 const Register = () => {
-  const { t } = useTranslation();
+  const { t, useTranslation } = useTranslation();
 
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);

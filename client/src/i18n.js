@@ -7,6 +7,12 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
+      anime: {
+        episode: "EPISODES",
+        synopsis: "Synopsis",
+        add: "Add To Collection",
+        delete: "Delete",
+      },
       profile: {
         title: "Profile",
         name: "Name",
@@ -116,6 +122,13 @@ const resources = {
   },
   jp: {
     translation: {
+      anime: {
+        episode: "エピソード",
+        synopsis: "あらすじ",
+        add: "コレクションに追加",
+        delete: "削除",
+      },
+
       profile: {
         title: "プロフィール",
         name: "名前",

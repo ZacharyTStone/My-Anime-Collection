@@ -19,12 +19,14 @@ import A5 from "../assets/images/sampleAnimes/A5.png";
 import A6 from "../assets/images/sampleAnimes/A6.png";
 import A7 from "../assets/images/sampleAnimes/A7.png";
 import A8 from "../assets/images/sampleAnimes/A8.png";
+import america from "../assets/images/america.webp";
+import japan from "../assets/images/japan.webp";
 import Testimonials from "../Components/Testimonials";
 import { useAppContext } from "../context/appContext";
 
 const Landing = () => {
   const { changeSiteLanguage } = useAppContext();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     toast.success(
       "Hi! 👋 This app is currently in development. Want me to add a feature? Let me know at Zach.Stone.Developer@gmail.com",
@@ -56,20 +58,33 @@ const Landing = () => {
       <Wrapper>
         <nav>
           <Logo />
-          <button
-            onClick={() => {
-              changeSiteLanguage("jp");
-            }}
-          >
-            change language to Japanese
-          </button>
-          <button
-            onClick={() => {
-              changeSiteLanguage("en");
-            }}
-          >
-            change language to English
-          </button>
+          <div className="full-flag-div">
+            <div className="flag-div nav-button">
+              {i18n.language === "en" ? (
+                <div className="flag-div">
+                  <div className="flag-div-holder">
+                    <img
+                      className="flag"
+                      src={japan}
+                      alt="Japan Flag"
+                      onClick={() => changeSiteLanguage("jp")}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="Japanese">
+                  <div className="flag-div-holder">
+                    <img
+                      className="flag"
+                      src={america}
+                      alt="America Flag"
+                      onClick={() => changeSiteLanguage("en")}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </nav>
         <main>
           <RunningImg img={narutoRun} />
@@ -242,6 +257,18 @@ export default Landing;
 const Wrapper = styled.main`
   overflow: hidden;
   // special css for anime cards
+
+  .flag-div-holder {
+    position: fixed;
+    top: 5%;
+    right: 5%;
+    z-index: 100;
+  }
+  .flag {
+    width: 3.5rem;
+    height: 2.2rem;
+    cursor: pointer;
+  }
   .animesLeft {
     height: 90%;
     display: none;
