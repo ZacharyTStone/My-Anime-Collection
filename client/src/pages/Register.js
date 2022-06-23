@@ -15,7 +15,7 @@ const initialState = {
 };
 
 const Register = () => {
-  const { t, useTranslation } = useTranslation();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
@@ -41,13 +41,13 @@ const Register = () => {
       setupUser({
         currentUser,
         endPoint: "login",
-        alertText: t("login.alertText"),
+        alertText: t("login.alert_text"),
       });
     } else {
       setupUser({
         currentUser,
         endPoint: "register",
-        alertText: t("register.alertText"),
+        alertText: t("register.alert_text"),
       });
     }
   };

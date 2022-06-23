@@ -265,8 +265,8 @@ const Wrapper = styled.main`
     z-index: 100;
   }
   .flag {
-    width: 3.5rem;
-    height: 2.2rem;
+    width: 3rem;
+    height: 2rem;
     cursor: pointer;
   }
   .animesLeft {
