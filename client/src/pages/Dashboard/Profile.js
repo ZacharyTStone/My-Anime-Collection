@@ -6,7 +6,9 @@ import styled from "styled-components";
 import pokemon from "../../assets/images/pokemon.png";
 import { BiCoffeeTogo } from "react-icons/bi";
 import { FaBitcoin } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 const Profile = () => {
+  const { t } = useTranslation();
   const {
     user,
     showAlert,
@@ -32,7 +34,7 @@ const Profile = () => {
   };
 
   const handleDelete = () => {
-    if (!window.confirm("Are you sure you want to delete your account?")) {
+    if (!window.confirm(t("profile.confirm"))) {
       return;
     }
     deleteUser();
@@ -42,18 +44,19 @@ const Profile = () => {
   return (
     <Wrapper>
       <form className="form" onSubmit={handleSubmit}>
-        <h3>profile</h3>
+        <h3>{t("profile.title")}</h3>
         {showAlert && <Alert />}
         <div className="form-center">
           <FormRow
             type="text"
             name="name"
+            labelText={t("profile.name")}
             value={name}
             handleChange={(e) => setName(e.target.value)}
           />
           <FormRow
             type="text"
-            labelText="last name"
+            labelText={t("profile.last_name")}
             name="lastName"
             value={lastName}
             handleChange={(e) => setLastName(e.target.value)}
@@ -61,12 +64,14 @@ const Profile = () => {
           <FormRow
             type="email"
             name="email"
+            labelText={t("profile.email")}
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
           />
           <FormRowSelect
             name="theme"
             type="select"
+            labelText={t("profile.theme")}
             value={theme}
             handleChange={(e) => setTheme(e.target.value)}
             list={[
@@ -86,7 +91,7 @@ const Profile = () => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? "Please Wait..." : "save changes"}
+            {isLoading ? t("profile.wait") : t("profile.save")}
           </button>
         </div>
         <img src={pokemon} alt="pokemon" className="pokemon" />
@@ -97,7 +102,7 @@ const Profile = () => {
                 marginRight: "10px",
               }}
             >
-              Enjoy the app?
+              {t("profile.enjoy")}
             </span>
             <button className="btn btn-hipster" type="button">
               <a
@@ -107,7 +112,7 @@ const Profile = () => {
               >
                 <div>
                   <BiCoffeeTogo color="var(--primary-500)" />
-                  <span> Buy me a coffee </span>
+                  <span>{t("profile.buy_me_a_coffee")}</span>
                 </div>
               </a>
             </button>
@@ -119,7 +124,7 @@ const Profile = () => {
               >
                 <div>
                   <FaBitcoin color="var(--primary-500)" />
-                  <span> Donate With Crypto </span>
+                  <span>{t("profile.crypto")}</span>
                   <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
                 </div>
               </a>
@@ -129,7 +134,7 @@ const Profile = () => {
       </form>
       <button className="btn btn-danger" onClick={() => handleDelete()}>
         {" "}
-        Delete Account{" "}
+        {t("profile.delete")}{" "}
       </button>
     </Wrapper>
   );

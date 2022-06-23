@@ -12,11 +12,13 @@ import MenuItem from "@mui/material/MenuItem";
 import { useAppContext } from "../context/appContext";
 import NavLinks from "./NavLinks";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Logo from "./Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
 
 const MUINavbar = () => {
+  const { t } = useTranslation();
   const { logoutUser, user, deleteUser, changeSiteLanguage } = useAppContext();
 
   const handleLogout = () => {
@@ -156,7 +158,9 @@ const MUINavbar = () => {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem key={1} onClick={handleLogout}>
-                  <Typography textAlign="center">logout</Typography>
+                  <Typography textAlign="center">
+                    {t("navbar.logout")}
+                  </Typography>
                 </MenuItem>
               </Menu>
             </Box>

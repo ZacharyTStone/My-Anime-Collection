@@ -1,9 +1,33 @@
-import links from "../utils/links";
 import { NavLink } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const NavLinks = () => {
+  const { t } = useTranslation();
+
+  const links = [
+    {
+      id: 1,
+      text: t("navbar.home"),
+      path: "my-animes",
+    },
+    {
+      id: 2,
+      text: t("navbar.add"),
+      path: "add-anime",
+    },
+    {
+      id: 3,
+      text: t("navbar.top"),
+      path: "top-animes",
+    },
+    {
+      id: 4,
+      text: t("navbar.profile"),
+      path: "profile",
+    },
+  ];
   return (
     <Wrapper>
       <div className="nav-links">

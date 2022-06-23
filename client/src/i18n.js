@@ -7,6 +7,45 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
+      profile: {
+        title: "Profile",
+        name: "Name",
+        last_name: "Last Name",
+        email: "Email",
+        theme: "Theme",
+        save: "Save Changes",
+        enjoy: "Enjoy the app?",
+        buy_me_a_coffee: "Buy me a coffee",
+        crypto: "Donate with Crypto",
+        delete: "Delete Account",
+        confirm: "Are you sure you want to delete this account?",
+        wait: "Please wait...",
+      },
+      top_animes: {
+        title: "Top Animes",
+      },
+      add_anime: {
+        title: "Add Anime",
+        search: "Title",
+        sort: "Sort",
+      },
+      search_container: {
+        title: "Filter Your Collection",
+        search: "Search",
+        sort: "Sort",
+        clear_filters: "Clear Filters",
+      },
+      my_animes_container: {
+        no_anime_message1: "Couldn't find any anime. Click",
+        no_anime_message2: "Here To Add An Anime",
+      },
+      navbar: {
+        home: "My Anime Collection",
+        add: "Add Anime",
+        top: "Top Animes",
+        profile: "Profile",
+        logout: "Logout",
+      },
       login: {
         title: "Login",
         email: "Email",
@@ -77,6 +116,47 @@ const resources = {
   },
   jp: {
     translation: {
+      profile: {
+        title: "プロフィール",
+        name: "名前",
+        last_name: "姓",
+        email: "メールアドレス",
+        theme: "テーマ",
+        save: "変更を保存",
+        enjoy: "アプリを楽しんでいますか？",
+        buy_me_a_coffee: "コーヒーを買ってください",
+        crypto: "Cryptoで寄付",
+        delete: "アカウントを削除",
+        confirm: "本当にアカウントを削除しますか？",
+        wait: "しばらくお待ちください...",
+      },
+
+      top_animes: {
+        title: "人気なアニメ",
+      },
+      add_anime: {
+        title: "アニメを追加する",
+        search: "タイトル",
+        sort: "ソート",
+      },
+
+      search_container: {
+        title: "あなたのコレクションをフィルターしましょう",
+        search: "検索",
+        sort: "ソート",
+        clear_filters: "フィルターをクリア",
+      },
+      my_animes_container: {
+        no_anime_message1: "アニメが見つかりませんでした。",
+        no_anime_message2: "ここをクリックしてアニメを追加してください。",
+      },
+      navbar: {
+        home: "マイアニメコレクション",
+        add: "アニメを追加",
+        top: "トップアニメ",
+        profile: "プロフィール",
+        logout: "ログアウト",
+      },
       login: {
         title: "ログイン",
         email: "メールアドレス",

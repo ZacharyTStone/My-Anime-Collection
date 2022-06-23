@@ -1,8 +1,10 @@
 import { FormRow, FormRowSelect } from ".";
 import { useAppContext } from "../context/appContext";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const SearchContainer = () => {
+  const { t } = useTranslation();
   const { isLoading, search, sort, sortOptions, handleChange, clearFilters } =
     useAppContext();
   const handleSearch = (e) => {
@@ -16,18 +18,20 @@ const SearchContainer = () => {
   return (
     <Wrapper>
       <form className="form">
-        <h4>Filter Your Collection</h4>
+        <h4>{t("search_container.title")}</h4>
         <div className="form-center">
           <FormRow
             type="text"
             name="search"
             value={search}
+            labelText={t("search_container.search")}
             handleChange={handleSearch}
           />
           {/* sort */}
           <FormRowSelect
             name="sort"
             value={sort}
+            labelText={t("search_container.sort")}
             handleChange={handleSearch}
             list={sortOptions}
           />
@@ -36,7 +40,7 @@ const SearchContainer = () => {
             disabled={isLoading}
             onClick={handleSubmit}
           >
-            clear filters
+            {t("search_container.clear_filters")}
           </button>
         </div>
       </form>
