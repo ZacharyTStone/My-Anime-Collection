@@ -20,8 +20,11 @@ import A6 from "../assets/images/sampleAnimes/A6.png";
 import A7 from "../assets/images/sampleAnimes/A7.png";
 import A8 from "../assets/images/sampleAnimes/A8.png";
 import Testimonials from "../Components/Testimonials";
+import { useAppContext } from "../context/appContext";
 
 const Landing = () => {
+  const { changeSiteLanguage } = useAppContext();
+  const { t } = useTranslation();
   useEffect(() => {
     toast.success(
       "Hi! 👋 This app is currently in development. Want me to add a feature? Let me know at Zach.Stone.Developer@gmail.com",
@@ -53,24 +56,35 @@ const Landing = () => {
       <Wrapper>
         <nav>
           <Logo />
+          <button
+            onClick={() => {
+              changeSiteLanguage("jp");
+            }}
+          >
+            change language to Japanese
+          </button>
+          <button
+            onClick={() => {
+              changeSiteLanguage("en");
+            }}
+          >
+            change language to English
+          </button>
         </nav>
         <main>
           <RunningImg img={narutoRun} />
           <div className="container page">
             <div>
               <h1>
-                <span> My Anime Collection</span>
+                <span>{t("landing.title")}</span>
               </h1>
-              <p>
-                My Anime Collection also called M.A.C. is an application that
-                let's you track, and find new anime.
-              </p>
+              <p>{t("landing.title_description")}</p>
               <div className="login-div">
                 <Link to="/register" className="btn btn-hero">
-                  Login/Register
+                  {t("landing.login_button")}
                 </Link>
                 <Link to="/register-demo" className="btn btn-hipster">
-                  Demo
+                  {t("landing.demo_button")}
                 </Link>
               </div>
             </div>
@@ -88,32 +102,29 @@ const Landing = () => {
 
             <div>
               <h3>
-                <span> Why use My Anime Collection?</span>
+                <span>{t("landing.why.title")}</span>
               </h3>
               <ul>
                 <li>
-                  <FaCheck /> It's 100% free and contains no ads.
+                  <FaCheck /> {t("landing.why.point1")}
                 </li>
                 <li>
-                  <FaCheck /> It's easy to use and intuitive.
-                </li>
-                <li>
-                  {" "}
-                  <FaCheck />
-                  We take security very seriously and use advanced encyrption to
-                  protect your information from breaches, and hacking attempts.
+                  <FaCheck /> {t("landing.why.point2")}
                 </li>
                 <li>
                   {" "}
                   <FaCheck />
-                  My Anime Collection does not use cookies to track you for
-                  advertising purposes and does not request personal data from
-                  any third parties.
+                  {t("landing.why.point3")}
                 </li>
                 <li>
                   {" "}
                   <FaCheck />
-                  We're always working on adding new features and improvements.
+                  {t("landing.why.point4")}
+                </li>
+                <li>
+                  {" "}
+                  <FaCheck />
+                  {t("landing.why.point5")}
                 </li>
               </ul>
             </div>
@@ -127,16 +138,16 @@ const Landing = () => {
           >
             <div>
               <div>
-                <h3>Let's go find some anime!</h3>
+                <h3>{t("landing.call_to_action.title")}</h3>
                 <div className="login-div">
                   <Link to="/register" className="btn btn-hero">
-                    Login/Register
+                    {t("landing.login_button")}
                   </Link>
                   <Link
                     to="/register-demo"
                     className="btn btn-hero btn-hipster"
                   >
-                    Demo
+                    {t("landing.demo_button")}
                   </Link>
                 </div>
                 <h5
@@ -144,7 +155,7 @@ const Landing = () => {
                     marginTop: "2rem",
                   }}
                 >
-                  For all inquieres please contact Zach Stone at{" "}
+                  {t("landing.call_to_action.contact_info")}{" "}
                   <span>
                     <a
                       href="https://zstone.dev"
