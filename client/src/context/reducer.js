@@ -23,11 +23,19 @@ import {
   DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
+  CHANGE_SITE_LANGUAGE,
 } from "./actions";
 
 import { initialState } from "./appContext";
 
 const reducer = (state, action) => {
+  if (action.type === CHANGE_SITE_LANGUAGE) {
+    return {
+      ...state,
+      siteLanguage: action.payload,
+    };
+  }
+
   if (action.type === DISPLAY_ALERT) {
     return {
       ...state,

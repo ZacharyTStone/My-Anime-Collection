@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "normalize.css";
 import "../src/assets/css/index.css";
 import App from "./App";
+import "./i18n.js";
 import { AppProvider } from "./context/appContext";
 
 ReactDOM.render(

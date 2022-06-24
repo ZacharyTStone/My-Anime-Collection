@@ -11,6 +11,7 @@ import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FaYoutube } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -33,6 +34,7 @@ function Anime({
   youtubeVideoId,
   ageRating,
 }) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -140,7 +142,9 @@ function Anime({
                       ? "N/A"
                       : episodeCount || anime.attributes.episodeCount || "N/A"}
                   </span>
-                  <span style={{ marginLeft: "5px" }}>episodes</span>
+                  <span style={{ marginLeft: "5px" }}>
+                    {t("anime.episode")}
+                  </span>
                 </Button>
 
                 <Button
@@ -196,7 +200,7 @@ function Anime({
                   fontSize: "1rem",
                 }}
               >
-                Synopsis
+                {t("anime.synopsis")}
               </span>
             </ExpandMore>
             {type === "delete" ? (
@@ -205,7 +209,7 @@ function Anime({
                 className="btn delete-btn"
                 onClick={() => deleteAnime(_id)}
               >
-                Delete
+                {t("anime.delete")}
               </button>
             ) : (
               <Button
@@ -213,7 +217,7 @@ function Anime({
                 className="card-btn add"
                 onClick={handleSubmit}
               >
-                Add to Collection
+                {t("anime.add")}
               </Button>
             )}
           </CardActions>

@@ -12,12 +12,16 @@ import MenuItem from "@mui/material/MenuItem";
 import { useAppContext } from "../context/appContext";
 import NavLinks from "./NavLinks";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Logo from "./Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
+import america from "../assets/images/america.webp";
+import japan from "../assets/images/japan.webp";
 
 const MUINavbar = () => {
-  const { logoutUser, user, deleteUser } = useAppContext();
+  const { t, i18n } = useTranslation();
+  const { logoutUser, user, deleteUser, changeSiteLanguage } = useAppContext();
 
   const handleLogout = () => {
     if (user.emailProvider === "demo.com") {
@@ -110,7 +114,33 @@ const MUINavbar = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <NavLinks />
             </Box>
-
+            <Box className="full-flag-div">
+              <div className="flag-div nav-button">
+                {i18n.language === "en" ? (
+                  <div className="flag-div">
+                    <div className="flag-div-holder">
+                      <img
+                        className="flag"
+                        src={japan}
+                        alt="Japan Flag"
+                        onClick={() => changeSiteLanguage("jp")}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="Japanese">
+                    <div className="flag-div-holder">
+                      <img
+                        className="flag"
+                        src={america}
+                        alt="America Flag"
+                        onClick={() => changeSiteLanguage("en")}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Box>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings" className="nav-link">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -142,7 +172,9 @@ const MUINavbar = () => {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem key={1} onClick={handleLogout}>
-                  <Typography textAlign="center">logout</Typography>
+                  <Typography textAlign="center">
+                    {t("navbar.logout")}
+                  </Typography>
                 </MenuItem>
               </Menu>
             </Box>
@@ -159,6 +191,19 @@ const Wrapper = styled.nav`
   align-items: center;
   justify-content: center;
   box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.1);
+
+  .full-flag-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    padding-top: 10px;
+  }
+  .flag {
+    width: 3rem;
+    height: 2rem;
+    cursor: pointer;
+  }
   .logo {
     display: flex;
     align-items: center;

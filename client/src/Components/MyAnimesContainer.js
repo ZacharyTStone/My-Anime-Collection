@@ -5,8 +5,10 @@ import Anime from "./Anime";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const AnimesContainer = () => {
+  const { t } = useTranslation();
   const {
     getAnimes,
     animes,
@@ -32,9 +34,9 @@ const AnimesContainer = () => {
     return (
       <Wrapper>
         <h2>
-          Couldn't find any anime. Click
+          {t("my_animes_container.no_anime_message1")}
           <NavLink to="/add-anime" className="btn btn-block btn-hipster">
-            Here to add an anime
+            {t("my_animes_container.no_anime_message2")}
           </NavLink>
         </h2>
       </Wrapper>
@@ -80,5 +82,4 @@ const Wrapper = styled.section`
     }
   }
 `;
-
 export default AnimesContainer;

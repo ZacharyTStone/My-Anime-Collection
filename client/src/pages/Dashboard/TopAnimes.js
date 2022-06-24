@@ -1,7 +1,9 @@
+import { useTranslation } from "react-i18next";
 import AnimeContainer from "../../Components/AnimeContainer";
 import { useState } from "react";
 
 const MyAnimes = () => {
+  const { t } = useTranslation();
   const [filterURL, setFilterURL] = useState(
     "https://kitsu.io/api/edge/trending/anime"
   );
@@ -14,7 +16,7 @@ const MyAnimes = () => {
             textAlign: "center",
           }}
         >
-          Top Anime
+          {t("top_animes.title")}
         </h1>
         <AnimeContainer
           category={"all"}

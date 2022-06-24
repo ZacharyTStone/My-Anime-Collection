@@ -5,6 +5,7 @@ import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 import RunningImg from "../Components/RunningImg";
 import narutoRun from "../assets/images/narutoRun.gif";
+import { useTranslation } from "react-i18next";
 
 const initialState = {
   name: "",
@@ -14,6 +15,8 @@ const initialState = {
 };
 
 const Register = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
   const { user, isLoading, showAlert, displayAlert, setupUser } =
@@ -38,13 +41,13 @@ const Register = () => {
       setupUser({
         currentUser,
         endPoint: "login",
-        alertText: "Login Successful! Redirecting...",
+        alertText: t("login.alert_text"),
       });
     } else {
       setupUser({
         currentUser,
         endPoint: "register",
-        alertText: "User Created! Redirecting...",
+        alertText: t("register.alert_text"),
       });
     }
   };
@@ -61,13 +64,14 @@ const Register = () => {
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
         <Logo />
-        <h3>{values.isMember ? "Login" : "Register"}</h3>
+        <h3>{values.isMember ? t("register.title") : t("login.title")}</h3>
         {showAlert && <Alert />}
         {/* name input */}
         {!values.isMember && (
           <FormRow
             type="text"
             name="name"
+            labelText={t("register.name")}
             value={values.name}
             handleChange={handleChange}
           />
@@ -77,6 +81,7 @@ const Register = () => {
         <FormRow
           type="email"
           name="email"
+          labelText={t("register.email")}
           value={values.email}
           handleChange={handleChange}
         />
@@ -84,6 +89,7 @@ const Register = () => {
         <FormRow
           type="password"
           name="password"
+          labelText={t("register.password")}
           value={values.password}
           handleChange={handleChange}
         />
@@ -92,12 +98,12 @@ const Register = () => {
           className="btn btn-block btn-submit"
           disabled={isLoading}
         >
-          submit
+          {t("register.submit")}
         </button>
         <p>
-          {values.isMember ? "Not a member yet?" : "Already a member?"}
+          {values.isMember ? t("login.switch1") : t("register.switch1")}
           <button type="button" onClick={toggleMember} className="member-btn">
-            {values.isMember ? "Register" : "Login"}
+            {values.isMember ? t("login.switch2") : t("register.switch2")}
           </button>
         </p>
       </form>

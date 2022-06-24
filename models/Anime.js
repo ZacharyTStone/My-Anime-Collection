@@ -19,6 +19,10 @@ const AnimeSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide title"],
     },
+    japanese_title: {
+      type: String,
+      required: [false, "Please provide japanese title"],
+    },
     rating: {
       type: Number,
       required: false,

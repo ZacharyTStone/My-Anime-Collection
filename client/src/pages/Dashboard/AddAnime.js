@@ -4,8 +4,10 @@ import styled from "styled-components";
 import React, { useState, useCallback } from "react";
 import AnimeContainer from "../../Components/AnimeContainer";
 import { debounce } from "lodash";
+import { useTranslation } from "react-i18next";
 
 const AddAnime = () => {
+  const { t } = useTranslation();
   const [textInput, setTextInput] = useState("");
   const [sort, setSort] = useState("popularityRank");
   const [searchText, setSearchText] = useState("");
@@ -32,19 +34,21 @@ const AddAnime = () => {
     <Wrapper>
       <main className="content full-page">
         <form className="form">
-          <h3>Add Anime</h3>
+          <h3>{t("add_anime.title")}</h3>
           {showAlert && <Alert />}
           <div className="form-center">
             {/* title */}
             <FormRow
               type="text"
               name="title"
+              labelText={t("add_anime.search")}
               value={textInput["title"]}
               handleChange={handleTextInput}
             />
             <FormRowSelect
               name="sort"
               value={sort}
+              labelText={t("add_anime.sort")}
               handleChange={handleSort}
               list={[
                 {

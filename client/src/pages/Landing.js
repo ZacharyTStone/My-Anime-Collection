@@ -6,8 +6,7 @@ import RunningImg from "../Components/RunningImg";
 import { Logo } from "../Components";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Slide from "react-reveal/Slide";
-import Fade from "react-reveal/Fade";
+import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,9 +19,14 @@ import A5 from "../assets/images/sampleAnimes/A5.png";
 import A6 from "../assets/images/sampleAnimes/A6.png";
 import A7 from "../assets/images/sampleAnimes/A7.png";
 import A8 from "../assets/images/sampleAnimes/A8.png";
+import america from "../assets/images/america.webp";
+import japan from "../assets/images/japan.webp";
 import Testimonials from "../Components/Testimonials";
+import { useAppContext } from "../context/appContext";
 
 const Landing = () => {
+  const { changeSiteLanguage } = useAppContext();
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     toast.success(
       "Hi! 👋 This app is currently in development. Want me to add a feature? Let me know at Zach.Stone.Developer@gmail.com",
@@ -54,78 +58,90 @@ const Landing = () => {
       <Wrapper>
         <nav>
           <Logo />
+          <div className="full-flag-div">
+            <div className="flag-div nav-button">
+              {i18n.language === "en" ? (
+                <div className="flag-div">
+                  <div className="flag-div-holder">
+                    <img
+                      className="flag"
+                      src={japan}
+                      alt="Japan Flag"
+                      onClick={() => changeSiteLanguage("jp")}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="Japanese">
+                  <div className="flag-div-holder">
+                    <img
+                      className="flag"
+                      src={america}
+                      alt="America Flag"
+                      onClick={() => changeSiteLanguage("en")}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </nav>
         <main>
           <RunningImg img={narutoRun} />
           <div className="container page">
             <div>
-              <Slide left>
-                <h1>
-                  <span> My Anime Collection</span>
-                </h1>
-                <p>
-                  My Anime Collection also called M.A.C. is an application that
-                  let's you track, and find new anime.
-                </p>
-                <div className="login-div">
-                  <Link to="/register" className="btn btn-hero">
-                    Login/Register
-                  </Link>
-                  <Link to="/register-demo" className="btn btn-hipster">
-                    Demo
-                  </Link>
-                </div>
-              </Slide>
+              <h1>
+                <span>{t("landing.title")}</span>
+              </h1>
+              <p>{t("landing.title_description")}</p>
+              <div className="login-div">
+                <Link to="/register" className="btn btn-hero">
+                  {t("landing.login_button")}
+                </Link>
+                <Link to="/register-demo" className="btn btn-hipster">
+                  {t("landing.demo_button")}
+                </Link>
+              </div>
             </div>
 
-            <Fade>
-              <img src={goku} alt="anime character" className="img main-img" />
-            </Fade>
+            <img src={goku} alt="anime character" className="img main-img" />
           </div>
           <Testimonials />
           <div className="container page">
-            <Fade>
-              <img
-                src={aot}
-                alt="anime character"
-                loading="lazy"
-                className="img main-img"
-              />
-            </Fade>
+            <img
+              src={aot}
+              alt="anime character"
+              loading="lazy"
+              className="img main-img"
+            />
+
             <div>
-              <Slide right>
-                <h3>
-                  <span> Why use My Anime Collection?</span>
-                </h3>
-                <ul>
-                  <li>
-                    <FaCheck /> It's 100% free and contains no ads.
-                  </li>
-                  <li>
-                    <FaCheck /> It's easy to use and intuitive.
-                  </li>
-                  <li>
-                    {" "}
-                    <FaCheck />
-                    We take security very seriously and use advanced encyrption
-                    to protect your information from breaches, and hacking
-                    attempts.
-                  </li>
-                  <li>
-                    {" "}
-                    <FaCheck />
-                    My Anime Collection does not use cookies to track you for
-                    advertising purposes and does not request personal data from
-                    any third parties.
-                  </li>
-                  <li>
-                    {" "}
-                    <FaCheck />
-                    We're always working on adding new features and
-                    improvements.
-                  </li>
-                </ul>
-              </Slide>
+              <h3>
+                <span>{t("landing.why.title")}</span>
+              </h3>
+              <ul>
+                <li>
+                  <FaCheck /> {t("landing.why.point1")}
+                </li>
+                <li>
+                  <FaCheck /> {t("landing.why.point2")}
+                </li>
+                <li>
+                  {" "}
+                  <FaCheck />
+                  {t("landing.why.point3")}
+                </li>
+                <li>
+                  {" "}
+                  <FaCheck />
+                  {t("landing.why.point4")}
+                </li>
+                <li>
+                  {" "}
+                  <FaCheck />
+                  {t("landing.why.point5")}
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -136,109 +152,101 @@ const Landing = () => {
             }}
           >
             <div>
-              <Slide right>
-                <div>
-                  <h3>Let's go find some anime!</h3>
-                  <div className="login-div">
-                    <Link to="/register" className="btn btn-hero">
-                      Login/Register
-                    </Link>
-                    <Link
-                      to="/register-demo"
-                      className="btn btn-hero btn-hipster"
-                    >
-                      Demo
-                    </Link>
-                  </div>
-                  <h5
-                    style={{
-                      marginTop: "2rem",
-                    }}
+              <div>
+                <h3>{t("landing.call_to_action.title")}</h3>
+                <div className="login-div">
+                  <Link to="/register" className="btn btn-hero">
+                    {t("landing.login_button")}
+                  </Link>
+                  <Link
+                    to="/register-demo"
+                    className="btn btn-hero btn-hipster"
                   >
-                    For all inquieres please contact Zach Stone at{" "}
-                    <span>
-                      <a
-                        href="https://zstone.dev"
-                        target={"_blank"}
-                        rel="noreferrer"
-                        style={{
-                          textDecoration: "underline",
-                          color: "black",
-                        }}
-                      >
-                        ZStone.dev
-                      </a>
-                    </span>
-                  </h5>
+                    {t("landing.demo_button")}
+                  </Link>
                 </div>
-              </Slide>
+                <h5
+                  style={{
+                    marginTop: "2rem",
+                  }}
+                >
+                  {t("landing.call_to_action.contact_info")}{" "}
+                  <span>
+                    <a
+                      href="https://zstone.dev"
+                      target={"_blank"}
+                      rel="noreferrer"
+                      style={{
+                        textDecoration: "underline",
+                        color: "black",
+                      }}
+                    >
+                      ZStone.dev
+                    </a>
+                  </span>
+                </h5>
+              </div>
             </div>
-            <Fade>
-              <img
-                src={lucy}
-                alt="anime character"
-                loading="lazy"
-                className="img main-img"
-              />
-            </Fade>
+            <img
+              src={lucy}
+              alt="anime character"
+              loading="lazy"
+              className="img main-img"
+            />
           </div>
-          <Fade>
-            <div className="animesLeft">
-              <img
-                src={A1}
-                alt="anime character"
-                className="animeCard left"
-                loading="lazy"
-              />
-              <img
-                src={A2}
-                alt="anime character"
-                className="animeCard left"
-                loading="lazy"
-              />
-              <img
-                src={A3}
-                alt="anime character"
-                className="animeCard left"
-                loading="lazy"
-              />
-            </div>
-          </Fade>
-          <Fade>
-            <div className="animesRight">
-              <img
-                src={A4}
-                alt="anime character"
-                className="animeCard left"
-                loading="lazy"
-              />
-              <img
-                src={A5}
-                alt="anime character"
-                className="animeCard right"
-                loading="lazy"
-              />
-              <img
-                src={A6}
-                alt="anime character"
-                className="animeCard right"
-                loading="lazy"
-              />
+          <div className="animesLeft">
+            <img
+              src={A1}
+              alt="anime character"
+              className="animeCard left"
+              loading="lazy"
+            />
+            <img
+              src={A2}
+              alt="anime character"
+              className="animeCard left"
+              loading="lazy"
+            />
+            <img
+              src={A3}
+              alt="anime character"
+              className="animeCard left"
+              loading="lazy"
+            />
+          </div>
+          <div className="animesRight">
+            <img
+              src={A4}
+              alt="anime character"
+              className="animeCard left"
+              loading="lazy"
+            />
+            <img
+              src={A5}
+              alt="anime character"
+              className="animeCard right"
+              loading="lazy"
+            />
+            <img
+              src={A6}
+              alt="anime character"
+              className="animeCard right"
+              loading="lazy"
+            />
 
-              <img
-                src={A7}
-                alt="anime character"
-                className="animeCard right"
-                loading="lazy"
-              />
-              <img
-                src={A8}
-                alt="anime character"
-                className="animeCard right"
-                loading="lazy"
-              />
-            </div>
-          </Fade>
+            <img
+              src={A7}
+              alt="anime character"
+              className="animeCard right"
+              loading="lazy"
+            />
+            <img
+              src={A8}
+              alt="anime character"
+              className="animeCard right"
+              loading="lazy"
+            />
+          </div>
         </main>
       </Wrapper>
     </>
@@ -249,6 +257,18 @@ export default Landing;
 const Wrapper = styled.main`
   overflow: hidden;
   // special css for anime cards
+
+  .flag-div-holder {
+    position: fixed;
+    top: 5%;
+    right: 5%;
+    z-index: 100;
+  }
+  .flag {
+    width: 3rem;
+    height: 2rem;
+    cursor: pointer;
+  }
   .animesLeft {
     height: 90%;
     display: none;

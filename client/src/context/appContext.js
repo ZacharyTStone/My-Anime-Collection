@@ -1,6 +1,6 @@
 import React, { useReducer, useContext } from "react";
 import { toast } from "react-toastify";
-
+import { useTranslation } from "react-i18next";
 import reducer from "./reducer";
 import axios from "axios";
 import {
@@ -28,7 +28,9 @@ import {
   DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
+  CHANGE_SITE_LANGUAGE,
 } from "./actions";
+import i18next from "i18next";
 
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
@@ -80,11 +82,15 @@ const initialState = {
       value: "date added",
     },
   ],
+
+  siteLanguage: "en",
 };
 
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
+  const { i18n } = useTranslation();
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // axios
@@ -115,6 +121,15 @@ const AppProvider = ({ children }) => {
       return Promise.reject(error);
     }
   );
+
+  const changeSiteLanguage = (lang) => {
+    dispatch({
+      type: CHANGE_SITE_LANGUAGE,
+      payload: lang,
+    });
+
+    i18n.changeLanguage(lang);
+  };
 
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT });
@@ -331,7 +346,7 @@ const AppProvider = ({ children }) => {
         clearValues,
         createAnime,
         getAnimes,
-
+        changeSiteLanguage,
         deleteAnime,
 
         clearFilters,

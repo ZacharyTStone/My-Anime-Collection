@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Carousel from "react-simply-carousel";
 import Testimonial from "./Testimonial";
+import { useTranslation } from "react-i18next";
 import {
   pegasus,
   pikachu,
@@ -10,12 +11,15 @@ import {
 } from "../assets/images/testimonials/index";
 
 function Testimonials() {
+  const { t } = useTranslation();
   const [activeSlide, setActiveSlide] = useState(0);
 
   return (
     <Wrapper>
       <div className="testimonials">
-        <h1 className="testimonials-title">Testimonials</h1>
+        <h1 className="testimonials-title">
+          {t("landing.testimonials.title")}
+        </h1>
         <Carousel
           updateOnItemClick
           containerProps={{
@@ -62,24 +66,24 @@ function Testimonials() {
           speed={400}
         >
           <Testimonial
-            name="Vegeta"
+            name={t("landing.testimonials.vegeta.name")}
             img={vegeta}
-            text="Get out of my way Earthling! I need to fight Kakarot!"
+            text={t("landing.testimonials.vegeta.description")}
           />
           <Testimonial
-            name="Pikachu"
+            name={t("landing.testimonials.pikachu.name")}
             img={pikachu}
-            text="PIKA PIKA!! Pikachu! Pika PIKA pika pika. Pika PIKA pika pika."
+            text={t("landing.testimonials.pikachu.description")}
           />
           <Testimonial
-            name="Shinji Ikari"
+            name={t("landing.testimonials.shinji.name")}
             img={shinji}
-            text="I guess I like My Anime Collection. Please don't make me pilot the EVA anymore..."
+            text={t("landing.testimonials.shinji.description")}
           />
           <Testimonial
-            name="Pegasus"
+            name={t("landing.testimonials.pegasus.name")}
             img={pegasus}
-            text="The best thing ever creAATED~~~ Good job, Zachy boy!"
+            text={t("landing.testimonials.pegasus.description")}
           />
         </Carousel>
       </div>

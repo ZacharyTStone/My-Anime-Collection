@@ -40,6 +40,12 @@ const UserSchema = new mongoose.Schema({
     enum: ["light", "dark"],
     default: "dark",
   },
+
+  language: {
+    type: String,
+    enum: ["en", "jp"],
+    default: "en",
+  },
 });
 
 UserSchema.pre("save", async function () {
