@@ -192,7 +192,7 @@ const resources = {
       landing: {
         title: "マイ・アニメ・コレクション",
         title_description:
-          "マイ・アニメ・コレクションはアニメを追跡し、新しいアニメを探すことができるアプリケーションです。",
+          "マイ・アニメ・コレクションではアニメを調べられるし、忘れないように好きなアニメをリストに入れます",
         login_button: "ログイン/登録",
         demo_button: "デモ",
 
@@ -200,7 +200,7 @@ const resources = {
           title: "お客様の声",
           vegeta: {
             name: "ベジータ",
-            description: "邪魔になるな！カカロットと戦うぞ！",
+            description: "オイ地球人！邪魔になるな！カカロットと戦うぞ！",
           },
           pikachu: {
             name: "ピカチュウ",
