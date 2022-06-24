@@ -137,10 +137,10 @@ const resources = {
         theme: "テーマ",
         save: "変更を保存",
         enjoy: "アプリを楽しんでいますか？",
-        buy_me_a_coffee: "コーヒーを買ってください",
-        crypto: "Cryptoで寄付",
+        buy_me_a_coffee: "コーヒーを買いたいなら",
+        crypto: "Cryptoを上げたいなら",
         delete: "アカウントを削除",
-        confirm: "本当にアカウントを削除しますか？",
+        confirm: "本当にアカウントを削除しましょうか？",
         wait: "しばらくお待ちください...",
       },
 
@@ -154,7 +154,7 @@ const resources = {
       },
 
       search_container: {
-        title: "あなたのコレクションをフィルターしましょう",
+        title: "コレクションをフィルターしましょう",
         search: "検索",
         sort: "ソート",
         clear_filters: "フィルターをクリア",
@@ -174,10 +174,10 @@ const resources = {
         title: "ログイン",
         email: "メールアドレス",
         password: "パスワード",
-        switch1: "まだ会員ではない？",
+        switch1: "登録していませんか？",
         switch2: "登録",
         submit: "送信",
-        alert_text: "ログインしました！",
+        alert_text: "ログインできました！",
       },
       register: {
         title: "登録",
@@ -200,8 +200,7 @@ const resources = {
           title: "お客様の声",
           vegeta: {
             name: "ベジータ",
-            description:
-              "地球の邪魔にならないように！カカロットと戦う必要がある！",
+            description: "邪魔になるな！カカロットと戦うぞ！",
           },
           pikachu: {
             name: "ピカチュウ",
@@ -210,12 +209,11 @@ const resources = {
           shinji: {
             name: "シンジ",
             description:
-              "私は私のアニメコレクションが好きだと思います。 もうEVAを操縦させないでください",
+              "アニメコレクションが好きだと思います。 もうEVAを乗りさせないでください",
           },
           pegasus: {
             name: "ペグサス",
-            description:
-              "史上最高のものが作成されました~~~お疲れ様でした、Zachyboy！",
+            description: "史上最高のものが作成した~~~グッドジョブZachyボイ！",
           },
         },
         why: {
