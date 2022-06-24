@@ -200,8 +200,8 @@ const Wrapper = styled.nav`
     padding-top: 10px;
   }
   .flag {
-    width: 3rem;
-    height: 2rem;
+    width: 2.2rem;
+    height: 1.5rem;
     cursor: pointer;
   }
   .logo {
