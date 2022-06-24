@@ -31,6 +31,7 @@ function Anime({
   coverImage,
   anime,
   type,
+  japanese_title,
   youtubeVideoId,
   ageRating,
 }) {
@@ -46,7 +47,7 @@ function Anime({
     createAnime(anime);
   };
 
-  const { createAnime, deleteAnime } = useAppContext();
+  const { createAnime, deleteAnime, siteLanguage } = useAppContext();
   return (
     <Wrapper>
       <Card
@@ -79,10 +80,15 @@ function Anime({
               color="var(--textColor)"
               gutterBottom
             >
-              {title ||
-                anime.attributes.titles.en ||
-                anime.attributes.titles.en_jp ||
-                "Title N/A"}
+              {siteLanguage === "en"
+                ? title ||
+                  anime.attributes.titles.en ||
+                  anime.attributes.titles.en_jp ||
+                  "Title N/A"
+                : japanese_title ||
+                  anime.attributes.titles.ja_jp ||
+                  anime.attributes.titles.en ||
+                  "Title N/A"}
             </Typography>
             <div className="info-container">
               <CardMedia

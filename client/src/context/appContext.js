@@ -243,7 +243,7 @@ const AppProvider = ({ children }) => {
 
   const createAnime = async (anime) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
-
+    console.log(anime);
     try {
       const creationDate = anime.attributes.startDate;
       const title =
@@ -259,6 +259,11 @@ const AppProvider = ({ children }) => {
       const coverImage = anime.attributes.posterImage.small || "N/A";
       const youtubeVideoId = anime.attributes.youtubeVideoId || "N/A";
       const ageRating = anime.attributes.ageRating || "N/A";
+      const japanese_title =
+        anime.attributes.titles.ja_jp ||
+        anime.attributes.titles.en_jp ||
+        anime.attributes.canonicalTitle ||
+        "Title N/A";
 
       await authFetch.post("/animes", {
         title,
@@ -271,6 +276,7 @@ const AppProvider = ({ children }) => {
         creationDate,
         youtubeVideoId,
         ageRating,
+        japanese_title,
       });
       toast.success(`${title} has been added to your list!`);
       dispatch({ type: CREATE_ANIME_SUCCESS });
