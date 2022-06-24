@@ -228,7 +228,7 @@ const resources = {
         },
 
         call_to_action: {
-          title: "アニメを探してみよう！",
+          title: "好きなアニメを調べましょう！",
           contact_info: "ご質問はお気軽にお問い合わせください。",
         },
       },
