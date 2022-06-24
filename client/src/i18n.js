@@ -213,7 +213,8 @@ const resources = {
           },
           pegasus: {
             name: "ペグサス",
-            description: "史上最高のものが作成した~~~グッドジョブZachyボイ！",
+            description:
+              "ユーは史上最高のアプリを作成した~~~グッドジョブZachyボイ！",
           },
         },
         why: {
