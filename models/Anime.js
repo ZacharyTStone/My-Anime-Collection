@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+const playlistSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 50,
+  },
+  id: {
+    type: Number,
+    required: true,
+    minlength: 1,
+    maxlength: 50,
+  },
+  descipription: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 500,
+  },
+});
+
 const AnimeSchema = new mongoose.Schema(
   {
     createdBy: {
@@ -47,10 +68,15 @@ const AnimeSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    ageRating: {
-      type: String,
+    playlists: {
+      // nested objects
+      type: { playlistSchema },
       required: false,
     },
+    // ageRating: {
+    //   type: String,
+    //   required: false,
+    // },
   },
   { timestamps: true }
 );
