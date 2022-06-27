@@ -52,6 +52,8 @@ const initialState = {
   searchStared: "all",
   searchType: "all",
   sort: "latest",
+  currentPlaylistID: 0,
+  userPlaylists: [],
   sortOptions: [
     {
       title: "Latest",
@@ -241,7 +243,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CLEAR_VALUES });
   };
 
-  const createAnime = async (anime) => {
+  const createAnime = async (anime, playlistID) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
     console.log(anime);
     try {
@@ -277,6 +279,7 @@ const AppProvider = ({ children }) => {
         youtubeVideoId,
         ageRating,
         japanese_title,
+        playlistID,
       });
       toast.success(`${title} has been added to your list!`);
       dispatch({ type: CREATE_ANIME_SUCCESS });

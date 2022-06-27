@@ -21,6 +21,7 @@ const AnimesContainer = () => {
     searchStared,
     sort,
     numOfPages,
+    currentPlaylistID,
   } = useAppContext();
   useEffect(() => {
     getAnimes();
@@ -50,7 +51,9 @@ const AnimesContainer = () => {
       </h5>
       <div className="animes">
         {animes.map((anime) => {
-          return <Anime key={anime._id} {...anime} type="delete" />;
+          if (currentPlaylistID === anime.playlistID) {
+            return <Anime key={anime._id} {...anime} type="delete" />;
+          }
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}

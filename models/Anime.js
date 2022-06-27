@@ -13,12 +13,6 @@ const playlistSchema = new mongoose.Schema({
     minlength: 1,
     maxlength: 50,
   },
-  descipription: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 500,
-  },
 });
 
 const AnimeSchema = new mongoose.Schema(
@@ -68,15 +62,15 @@ const AnimeSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    playlists: {
+    playlistID: {
       // nested objects
-      type: { playlistSchema },
+      type: Number,
+      required: true,
+    },
+    ageRating: {
+      type: String,
       required: false,
     },
-    // ageRating: {
-    //   type: String,
-    //   required: false,
-    // },
   },
   { timestamps: true }
 );
