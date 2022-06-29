@@ -20,16 +20,20 @@ const createAnime = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ anime });
 };
 const getAnimes = async (req, res) => {
-  const { sort, search } = req.query;
+  const { sort, search, currentPlaylistID } = req.query;
+  console.log(req.query);
 
   const queryObject = {
     createdBy: req.user.userId,
+    playlistID: currentPlaylistID,
   };
   // add stuff based on condition
 
   if (search) {
     queryObject.title = { $regex: search, $options: "i" };
   }
+
+  console.log("queary Object", queryObject);
   // NO AWAIT
 
   let result = Anime.find(queryObject);
@@ -64,6 +68,8 @@ const getAnimes = async (req, res) => {
 
   const totalAnimes = await Anime.countDocuments(queryObject);
   const numOfPages = Math.ceil(totalAnimes / limit);
+
+  console.log(animes, totalAnimes, numOfPages);
 
   res.status(StatusCodes.OK).json({ animes, totalAnimes, numOfPages });
 };

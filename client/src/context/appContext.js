@@ -18,6 +18,7 @@ import {
   DELETE_USER_SUCCESS,
   DELETE_USER_ERROR,
   HANDLE_CHANGE,
+  HANDLE_PLAYLIST_CHANGE,
   CLEAR_VALUES,
   CREATE_ANIME_BEGIN,
   CREATE_ANIME_SUCCESS,
@@ -52,8 +53,20 @@ const initialState = {
   searchStared: "all",
   searchType: "all",
   sort: "latest",
-  currentPlaylistID: 0,
-  userPlaylists: [],
+  currentPlaylist: {
+    title: "default",
+    id: 0,
+  },
+  userPlaylists: [
+    {
+      title: "default",
+      id: 0,
+    },
+    {
+      title: "test1",
+      id: 1,
+    },
+  ],
   sortOptions: [
     {
       title: "Latest",
@@ -239,6 +252,15 @@ const AppProvider = ({ children }) => {
   const handleChange = ({ name, value }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
+
+  const handlePlaylistChange = ({ value }) => {
+    // find the playlist with the name of the value
+    const playlist = state.userPlaylists.find(
+      (playlist) => playlist.title === value
+    );
+
+    dispatch({ type: HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
+  };
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
   };
@@ -296,9 +318,10 @@ const AppProvider = ({ children }) => {
   };
 
   const getAnimes = async () => {
-    const { page, search, searchStatus, searchType, sort } = state;
+    const { page, search, searchStatus, searchType, sort, currentPlaylist } =
+      state;
 
-    let url = `/animes?page=${page}&status=${searchStatus}&animeType=${searchType}&sort=${sort}`;
+    let url = `/animes?page=${page}&status=${searchStatus}&animeType=${searchType}&sort=${sort}&currentPlaylistID=${currentPlaylist.id}`;
     if (search) {
       url = url + `&search=${search}`;
     }
@@ -352,6 +375,7 @@ const AppProvider = ({ children }) => {
         updateUser,
         deleteUser,
         handleChange,
+        handlePlaylistChange,
         clearValues,
         createAnime,
         getAnimes,

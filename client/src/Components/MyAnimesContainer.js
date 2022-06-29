@@ -21,12 +21,24 @@ const AnimesContainer = () => {
     searchStared,
     sort,
     numOfPages,
-    currentPlaylistID,
+    currentPlaylist,
   } = useAppContext();
   useEffect(() => {
+    alert("useEffect");
     getAnimes();
+
+    // find the current playlist
+
     // eslint-disable-next-line
-  }, [page, search, searchStatus, searchStared, searchType, sort]);
+  }, [
+    page,
+    search,
+    searchStatus,
+    searchStared,
+    searchType,
+    sort,
+    currentPlaylist,
+  ]);
   if (isLoading) {
     return <Loading center />;
   }
@@ -51,9 +63,7 @@ const AnimesContainer = () => {
       </h5>
       <div className="animes">
         {animes.map((anime) => {
-          if (currentPlaylistID === anime.playlistID) {
-            return <Anime key={anime._id} {...anime} type="delete" />;
-          }
+          return <Anime key={anime._id} {...anime} type="delete" />;
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}

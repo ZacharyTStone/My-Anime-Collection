@@ -24,6 +24,7 @@ import {
   CLEAR_FILTERS,
   CHANGE_PAGE,
   CHANGE_SITE_LANGUAGE,
+  HANDLE_PLAYLIST_CHANGE,
 } from "./actions";
 
 import { initialState } from "./appContext";
@@ -134,6 +135,18 @@ const reducer = (state, action) => {
       [action.payload.name]: action.payload.value,
     };
   }
+
+  if (action.type === HANDLE_PLAYLIST_CHANGE) {
+    console.log(action.payload, "reducer");
+    return {
+      ...state,
+      currentPlaylist: {
+        title: action.payload.playlist.title,
+        id: action.payload.playlist.id,
+      },
+    };
+  }
+
   if (action.type === CLEAR_VALUES) {
     const initialState = {
       isEditing: false,

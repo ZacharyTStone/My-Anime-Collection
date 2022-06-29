@@ -1,20 +1,5 @@
 import mongoose from "mongoose";
 
-const playlistSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 50,
-  },
-  id: {
-    type: Number,
-    required: true,
-    minlength: 1,
-    maxlength: 50,
-  },
-});
-
 const AnimeSchema = new mongoose.Schema(
   {
     createdBy: {
@@ -64,7 +49,7 @@ const AnimeSchema = new mongoose.Schema(
     },
     playlistID: {
       // nested objects
-      type: Number,
+      type: String,
       required: true,
     },
     ageRating: {

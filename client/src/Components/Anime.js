@@ -44,10 +44,10 @@ function Anime({
 
   const handleSubmit = () => {
     console.log("submit");
-    createAnime(anime, currentPlaylistID);
+    createAnime(anime, currentPlaylist.id);
   };
 
-  const { createAnime, deleteAnime, siteLanguage, currentPlaylistID } =
+  const { createAnime, deleteAnime, siteLanguage, currentPlaylist } =
     useAppContext();
   return (
     <Wrapper>

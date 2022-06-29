@@ -5,12 +5,30 @@ import { useTranslation } from "react-i18next";
 
 const SearchContainer = () => {
   const { t } = useTranslation();
-  const { isLoading, search, sort, sortOptions, handleChange, clearFilters } =
-    useAppContext();
+  const {
+    isLoading,
+    search,
+    sort,
+    sortOptions,
+    handleChange,
+    handlePlaylistChange,
+    clearFilters,
+    currentPlaylist,
+    userPlaylists,
+  } = useAppContext();
   const handleSearch = (e) => {
     if (isLoading) return;
     handleChange({ name: e.target.name, value: e.target.value });
   };
+
+  const handleLocalPlaylistChange = (e) => {
+    if (isLoading) return;
+    console.log(e.target.value);
+    console.log(e.target.name);
+    console.log("handleLocalPlaylistChange", e.target.name, e.target.value);
+    handlePlaylistChange({ name: e.target.name, value: e.target.value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     clearFilters();
@@ -34,6 +52,13 @@ const SearchContainer = () => {
             labelText={t("search_container.sort")}
             handleChange={handleSearch}
             list={sortOptions}
+          />
+          <FormRowSelect
+            name="currentPlaylist"
+            value={currentPlaylist.title}
+            labelText={t("search_container.playlist")}
+            handleChange={handleLocalPlaylistChange}
+            list={userPlaylists}
           />
           <button
             className="btn btn-block btn-hipster"
