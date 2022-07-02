@@ -19,6 +19,8 @@ import {
   CREATE_ANIME_ERROR,
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
+  GET_PLAYLIST_BEGIN,
+  GET_PLAYLIST_SUCCESS,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
@@ -101,6 +103,7 @@ const reducer = (state, action) => {
       token: action.payload.token,
       theme: action.payload.theme,
       user: action.payload.user,
+      playlist: action.payload.playlist,
     };
   }
   if (action.type === UPDATE_USER_ERROR) {
@@ -185,6 +188,17 @@ const reducer = (state, action) => {
       animes: action.payload.animes,
       totalAnimes: action.payload.totalAnimes,
       numOfPages: action.payload.numOfPages,
+    };
+  }
+
+  if (action.type === GET_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+  if (action.type === GET_PLAYLIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      userPlaylists: action.payload.playlists,
     };
   }
 

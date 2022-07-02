@@ -2,6 +2,15 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
+const playlist = new mongoose.Schema(
+  {
+    title: String,
+    id: String,
+  },
+  { timestamps: true }
+);
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -45,6 +54,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ["en", "jp"],
     default: "en",
+  },
+
+  playlists: {
+    type: [playlist],
+    default: [
+      {
+        title: "Default",
+        id: "0",
+      },
+    ],
   },
 });
 

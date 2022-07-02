@@ -23,9 +23,7 @@ const SearchContainer = () => {
 
   const handleLocalPlaylistChange = (e) => {
     if (isLoading) return;
-    console.log(e.target.value);
-    console.log(e.target.name);
-    console.log("handleLocalPlaylistChange", e.target.name, e.target.value);
+
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 

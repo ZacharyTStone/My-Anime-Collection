@@ -40,6 +40,7 @@ const resources = {
         search: "Search",
         sort: "Sort",
         clear_filters: "Clear Filters",
+        playlist: "Playlist",
       },
       my_animes_container: {
         no_anime_message1: "Couldn't find any anime. Click",
@@ -158,6 +159,7 @@ const resources = {
         search: "検索",
         sort: "ソート",
         clear_filters: "フィルターをクリア",
+        playlist: "プレイリスト",
       },
       my_animes_container: {
         no_anime_message1: "アニメが見つかりませんでした。",

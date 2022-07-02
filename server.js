@@ -34,6 +34,7 @@ import connectDB from "./db/connect.js";
 // routers
 import authRouter from "./routes/authRoutes.js";
 import animesRouter from "./routes/animesRoutes.js";
+import playlistsRouter from "./routes/playlistsRoutes.js";
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
@@ -58,6 +59,7 @@ app.use(mongoSanitize());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/animes", authenticateUser, animesRouter);
+app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
 
 // only when ready to deploy
 app.get("*", (req, res) => {

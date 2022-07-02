@@ -3,6 +3,7 @@ import { Register, Landing, Error, ProtectedRoute } from "./pages";
 import AddAnime from "./pages/Dashboard/AddAnime";
 import MyAnimes from "./pages/Dashboard/MyAnimes";
 import Profile from "./pages/Dashboard/Profile";
+import EditPlaylist from "./pages/Dashboard/EditPlaylist";
 import TopAnimes from "./pages/Dashboard/TopAnimes";
 import SharedLayout from "./pages/Dashboard/SharedLayout";
 import RegisterDemo from "./pages/RegisterDemo";
@@ -20,6 +21,7 @@ function App() {
           }
         >
           <Route index path="my-animes" element={<MyAnimes />} />
+          <Route index path="edit-playlist" element={<EditPlaylist />} />
           <Route path="add-anime" element={<AddAnime />} />
           <Route path="profile" element={<Profile />} />
           <Route path="top-animes" element={<TopAnimes />} />

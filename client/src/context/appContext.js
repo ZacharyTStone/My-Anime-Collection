@@ -25,6 +25,11 @@ import {
   CREATE_ANIME_ERROR,
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
+  GET_PLAYLIST_BEGIN,
+  GET_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_BEGIN,
+  CREATE_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_ERROR,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
@@ -55,18 +60,9 @@ const initialState = {
   sort: "latest",
   currentPlaylist: {
     title: "default",
-    id: 0,
+    id: "0",
   },
-  userPlaylists: [
-    {
-      title: "default",
-      id: 0,
-    },
-    {
-      title: "test1",
-      id: 1,
-    },
-  ],
+  userPlaylists: [],
   sortOptions: [
     {
       title: "Latest",
@@ -364,6 +360,63 @@ const AppProvider = ({ children }) => {
   const changePage = (page) => {
     dispatch({ type: CHANGE_PAGE, payload: { page } });
   };
+
+  const getPlaylists = async () => {
+    dispatch({ type: GET_PLAYLIST_BEGIN });
+    try {
+      const { data } = await authFetch("/playlists");
+      const { playlists } = data;
+      console.log(playlists, "app contet get playlists");
+
+      dispatch({
+        type: GET_PLAYLIST_SUCCESS,
+        payload: { playlists },
+      });
+    } catch (error) {
+      alert(error.response.data.msg);
+      // logoutUser();
+    }
+    // clearAlert();
+  };
+
+  const createPlaylist = async (playlistTitle) => {
+    // dispatch({ type: CREATE_PLAYLIST_BEGIN, payload: playlist });
+
+    // make sure the playlist is not already in the database
+    console.log(playlistTitle, "playlistTitle");
+    console.log(state.userPlaylists, "userPlaylists");
+
+    let playlist = state.userPlaylists.find(
+      (playlist) => playlist.title === playlistTitle
+    );
+    if (playlist) {
+      toast.error("Playlist already exists");
+      return;
+    }
+
+    playlist = {
+      title: playlistTitle,
+      userId: `${state.userPlaylists.length + 1}`,
+    };
+
+    try {
+      const { data } = await authFetch.post("/playlists", playlist);
+      const { playlist: newPlaylist } = data;
+      toast.success("Playlist created successfully");
+      // dispatch({
+      //   type: CREATE_PLAYLIST_SUCCESS,
+      //   payload: { playlist: newPlaylist },
+      // });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      toast.error(`Woops. ${error.response.data.msg}`);
+      // dispatch({
+      //   type: CREATE_PLAYLIST_ERROR,
+      //   payload: { msg: error.response.data.msg },
+      // });
+    }
+    // clearAlert();
+  };
   return (
     <AppContext.Provider
       value={{
@@ -379,6 +432,8 @@ const AppProvider = ({ children }) => {
         clearValues,
         createAnime,
         getAnimes,
+        getPlaylists,
+        createPlaylist,
         changeSiteLanguage,
         deleteAnime,
 

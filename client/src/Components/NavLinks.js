@@ -14,16 +14,21 @@ const NavLinks = () => {
     },
     {
       id: 2,
+      text: t("navbar.edit_playlist"),
+      path: "edit-playlist",
+    },
+    {
+      id: 3,
       text: t("navbar.add"),
       path: "add-anime",
     },
     {
-      id: 3,
+      id: 4,
       text: t("navbar.top"),
       path: "top-animes",
     },
     {
-      id: 4,
+      id: 5,
       text: t("navbar.profile"),
       path: "profile",
     },

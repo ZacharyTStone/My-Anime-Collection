@@ -24,7 +24,6 @@ const AnimesContainer = () => {
     currentPlaylist,
   } = useAppContext();
   useEffect(() => {
-    alert("useEffect");
     getAnimes();
 
     // find the current playlist
