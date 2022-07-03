@@ -51,25 +51,43 @@ const Profile = () => {
       return;
     }
     setTitle(playlist.title);
+    setId(playlist.id);
     await handlePlaylistChange({ name: playlist.id, value: playlist.title });
   };
 
   const handleNewPlaylistSubmit = async (e) => {
     e.preventDefault();
-    await createPlaylist(newTitle);
+    const numberOfPlaylists = userPlaylists.length;
+    await createPlaylist(`Default ${numberOfPlaylists + 1}`);
     setNewTitle("");
+    await getPlaylists();
+  };
+
+  const handlePlaylistEdit = async (e) => {
+    e.preventDefault();
+    console.log("handlePlaylistEdit");
+
+    console.log(title, id);
+
+    await updatePlaylist({
+      title: title,
+      id: id,
+    });
     await getPlaylists();
   };
 
   return (
     <Wrapper>
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handlePlaylistEdit}>
         <h3>{t("Edit_Playlist.title")}</h3>
         {showAlert && <Alert />}
         <div className="form-left">
           <ul>
             {userPlaylists.map((playlist) => (
-              <li onClick={() => handleClickOnPlaylist(playlist.title)}>
+              <li
+                onClick={() => handleClickOnPlaylist(playlist.title)}
+                className={playlist.title === title ? "active" : ""}
+              >
                 {playlist.title ? playlist.title : "(Title N/A"}
               </li>
             ))}
@@ -111,7 +129,6 @@ const Profile = () => {
             name="newTitle"
             value={newTitle}
             labelText={t("Edit_Playlist.create")}
-            handleChange={(e) => setNewTitle(e.target.value)}
           />
 
           <button
@@ -128,6 +145,15 @@ const Profile = () => {
 };
 
 const Wrapper = styled.section`
+  .active {
+    background-color: #f5f5f5;
+    color: #000;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
   .btn-hipster:hover {
     background-color: var(--primary-50);
     color: var(--primary-100);

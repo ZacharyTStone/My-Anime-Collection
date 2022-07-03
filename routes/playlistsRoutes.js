@@ -13,6 +13,6 @@ import {
 
 router.route("/").post(createPlaylist).get(getPlaylists);
 // :id is a dynamic parameter
-router.route("/:id").delete(deletePlaylist).patch(updatePlaylist);
+router.route("/:id").delete(deletePlaylist).put(updatePlaylist);
 
 export default router;

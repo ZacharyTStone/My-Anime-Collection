@@ -420,6 +420,34 @@ const AppProvider = ({ children }) => {
     }
     // clearAlert();
   };
+
+  const updatePlaylist = async (playlist) => {
+    // dispatch({ type: UPDATE_PLAYLIST_BEGIN, payload: playlist });
+    console.log(playlist, "playlist in updatePlaylist");
+    try {
+      const { data } = await authFetch.put(
+        `/playlists/${playlist.id}`,
+        playlist
+      );
+      const { playlist: updatedPlaylist } = data;
+
+      console.log(data);
+      toast.success("Playlist updated successfully");
+      // dispatch({
+      //   type: UPDATE_PLAYLIST_SUCCESS,
+      //   payload: { playlist: updatedPlaylist },
+      // });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      toast.error(`Woops. ${error.response.data.msg}`);
+      // dispatch({
+      //   type: UPDATE_PLAYLIST_ERROR,
+
+      //   payload: { msg: error.response.data.msg },
+      // });
+    }
+    // clearAlert();
+  };
   return (
     <AppContext.Provider
       value={{
@@ -439,6 +467,7 @@ const AppProvider = ({ children }) => {
         createPlaylist,
         changeSiteLanguage,
         deleteAnime,
+        updatePlaylist,
 
         clearFilters,
         changePage,

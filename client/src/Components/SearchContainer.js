@@ -2,6 +2,7 @@ import { FormRow, FormRowSelect } from ".";
 import { useAppContext } from "../context/appContext";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 const SearchContainer = () => {
   const { t } = useTranslation();
@@ -13,9 +14,15 @@ const SearchContainer = () => {
     handleChange,
     handlePlaylistChange,
     clearFilters,
+    getPlaylists,
     currentPlaylist,
     userPlaylists,
   } = useAppContext();
+
+  useEffect(() => {
+    console.log(currentPlaylist, "currentPlaylist in useEffect");
+    getPlaylists();
+  }, []);
   const handleSearch = (e) => {
     if (isLoading) return;
     handleChange({ name: e.target.name, value: e.target.value });
