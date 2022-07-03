@@ -250,10 +250,13 @@ const AppProvider = ({ children }) => {
   };
 
   const handlePlaylistChange = ({ value }) => {
+    console.log(value, "value");
     // find the playlist with the name of the value
     const playlist = state.userPlaylists.find(
       (playlist) => playlist.title === value
     );
+
+    console.log(playlist, "found playlist in app context");
 
     dispatch({ type: HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
   };

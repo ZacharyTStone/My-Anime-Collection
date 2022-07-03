@@ -23,6 +23,7 @@ const Profile = () => {
     logoutUser,
     userPlaylists,
     currentPlaylist,
+    handlePlaylistChange,
   } = useAppContext();
 
   const [title, setTitle] = useState(currentPlaylist.title);
@@ -36,6 +37,21 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     console.log("handleSubmit");
+  };
+
+  const handleClickOnPlaylist = async (title) => {
+    console.log("handleClickOnPlaylist");
+    console.log(title);
+    // find the playlist with the title
+    const playlist = userPlaylists.find((playlist) => playlist.title === title);
+    // update the current playlist
+    console.log(playlist, "playlist");
+    if (!playlist) {
+      showAlert(t("profile.playlist_not_found"));
+      return;
+    }
+    setTitle(playlist.title);
+    await handlePlaylistChange({ name: playlist.id, value: playlist.title });
   };
 
   const handleNewPlaylistSubmit = async (e) => {
@@ -53,7 +69,9 @@ const Profile = () => {
         <div className="form-left">
           <ul>
             {userPlaylists.map((playlist) => (
-              <li>{playlist.title}</li>
+              <li onClick={() => handleClickOnPlaylist(playlist.title)}>
+                {playlist.title ? playlist.title : "(Title N/A"}
+              </li>
             ))}
           </ul>
         </div>
