@@ -448,6 +448,22 @@ const AppProvider = ({ children }) => {
     }
     // clearAlert();
   };
+
+  const deletePlaylist = async (playlistId) => {
+    // dispatch({ type: DELETE_PLAYLIST_BEGIN });
+    try {
+      await authFetch.delete(`/playlists/${playlistId}`);
+      getPlaylists();
+      toast.success("Playlist deleted successfully");
+      // dispatch({
+      //   type: DELETE_PLAYLIST_SUCCESS,
+      // });
+    } catch (error) {
+      logoutUser();
+    }
+    // clearAlert();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -468,6 +484,7 @@ const AppProvider = ({ children }) => {
         changeSiteLanguage,
         deleteAnime,
         updatePlaylist,
+        deletePlaylist,
 
         clearFilters,
         changePage,

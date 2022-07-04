@@ -51,6 +51,7 @@ const updatePlaylist = async (req, res) => {
 };
 
 const deletePlaylist = async (req, res) => {
+  console.log("delete playlist in controler");
   const user = await User.findOne({ _id: req.user.userId });
 
   const playlist = user.playlists.find(

@@ -89,6 +89,16 @@ const Profile = () => {
                 className={playlist.title === title ? "active" : ""}
               >
                 {playlist.title ? playlist.title : "(Title N/A"}
+
+                <button
+                  onClick={async () => {
+                    await deletePlaylist(playlist.id);
+                    setTitle("");
+                    setId("");
+                  }}
+                >
+                  <BiCoffeeTogo />
+                </button>
               </li>
             ))}
           </ul>
@@ -115,13 +125,7 @@ const Profile = () => {
       <form className="form" onSubmit={handleNewPlaylistSubmit}>
         <h3>{t("Edit_Playlist.create")}</h3>
         {showAlert && <Alert />}
-        <div className="form-left">
-          <ul>
-            {userPlaylists.map((playlist) => (
-              <span>{playlist.title}</span>
-            ))}
-          </ul>
-        </div>
+        <div className="form-left"></div>
 
         <div className="form-center">
           <FormRow
