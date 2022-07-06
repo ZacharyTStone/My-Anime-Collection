@@ -392,10 +392,10 @@ const AppProvider = ({ children }) => {
     let playlist = state.userPlaylists.find(
       (playlist) => playlist.title === playlistTitle
     );
-    if (playlist) {
-      toast.error("Playlist already exists");
-      return;
-    }
+    // if (playlist) {
+    //   toast.error("Playlist already exists");
+    //   return;
+    // }
 
     playlist = {
       title: playlistTitle,

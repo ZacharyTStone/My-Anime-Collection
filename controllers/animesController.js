@@ -9,6 +9,7 @@ const createAnime = async (req, res) => {
   const oldAnime = await Anime.findOne({
     title: req.body.title,
     createdBy: req.user.userId,
+    playlistID: req.body.playlistID,
   });
 
   if (oldAnime) {

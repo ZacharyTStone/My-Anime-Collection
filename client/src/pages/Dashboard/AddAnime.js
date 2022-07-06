@@ -1,7 +1,7 @@
 import { FormRow, Alert, FormRowSelect } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import AnimeContainer from "../../Components/AnimeContainer";
 import { debounce } from "lodash";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,14 @@ const AddAnime = () => {
   const [sort, setSort] = useState("popularityRank");
   const [searchText, setSearchText] = useState("");
 
-  const { showAlert } = useAppContext();
+  const {
+    showAlert,
+    getPlaylists,
+    currentPlaylist,
+    userPlaylists,
+    isLoading,
+    handlePlaylistChange,
+  } = useAppContext();
 
   const request = debounce((value) => {
     setSearchText(value);
@@ -27,6 +34,17 @@ const AddAnime = () => {
   const handleSort = (e) => {
     setSort(e.target.value);
   };
+
+  const handleLocalPlaylistChange = (e) => {
+    if (isLoading) return;
+
+    handlePlaylistChange({ name: e.target.name, value: e.target.value });
+  };
+
+  useEffect(() => {
+    console.log(currentPlaylist, "currentPlaylist in useEffect");
+    getPlaylists();
+  }, []);
 
   const debouceRequest = useCallback((value) => request(value), []);
 
@@ -72,6 +90,13 @@ const AddAnime = () => {
                   value: "subtype",
                 },
               ]}
+            />
+            <FormRowSelect
+              name="currentPlaylist"
+              value={currentPlaylist.title}
+              labelText={t("search_container.playlist")}
+              handleChange={handleLocalPlaylistChange}
+              list={userPlaylists}
             />
           </div>
         </form>

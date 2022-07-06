@@ -4,8 +4,8 @@ import { Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import pokemon from "../../assets/images/pokemon.png";
-import { BiCoffeeTogo } from "react-icons/bi";
-import { FaBitcoin } from "react-icons/fa";
+import { AiFillDelete } from "react-icons/ai";
+
 import { useTranslation } from "react-i18next";
 const Profile = () => {
   const { t } = useTranslation();
@@ -26,12 +26,17 @@ const Profile = () => {
     handlePlaylistChange,
   } = useAppContext();
 
-  const [title, setTitle] = useState(currentPlaylist.title);
+  const [title, setTitle] = useState("");
   const [newTitle, setNewTitle] = useState("");
-  const [id, setId] = useState(currentPlaylist.id);
+  const [id, setId] = useState("");
 
-  useEffect(() => {
-    getPlaylists();
+  useEffect(async () => {
+    await getPlaylists();
+    console.log(currentPlaylist, "currentPlaylist in useEffect");
+    setNewTitle(currentPlaylist.title);
+    setId(currentPlaylist.id);
+    setTitle(currentPlaylist.title);
+
     console.log(userPlaylists, "userPlaylists in use effect");
   }, []);
 
@@ -51,6 +56,7 @@ const Profile = () => {
       return;
     }
     setTitle(playlist.title);
+    setNewTitle(playlist.title);
     setId(playlist.id);
     await handlePlaylistChange({ name: playlist.id, value: playlist.title });
   };
@@ -58,6 +64,8 @@ const Profile = () => {
   const handleNewPlaylistSubmit = async (e) => {
     e.preventDefault();
     const numberOfPlaylists = userPlaylists.length;
+    console.log(numberOfPlaylists.length, "numberOfPlaylists");
+
     await createPlaylist(`Default ${numberOfPlaylists + 1}`);
     setNewTitle("");
     await getPlaylists();
@@ -70,7 +78,7 @@ const Profile = () => {
     console.log(title, id);
 
     await updatePlaylist({
-      title: title,
+      title: newTitle,
       id: id,
     });
     await getPlaylists();
@@ -85,61 +93,60 @@ const Profile = () => {
           <ul>
             {userPlaylists.map((playlist) => (
               <li
-                onClick={() => handleClickOnPlaylist(playlist.title)}
-                className={playlist.title === title ? "active" : ""}
+                key={playlist.id}
+                className={playlist.id === currentPlaylist.id ? "active" : ""}
               >
-                {playlist.title ? playlist.title : "(Title N/A"}
+                <span onClick={() => handleClickOnPlaylist(playlist.title)}>
+                  {playlist.title ? playlist.title : "(Title N/A"}
+                </span>
 
-                <button
+                <span
+                  style={{
+                    padding: "0px 10px",
+                  }}
                   onClick={async () => {
                     await deletePlaylist(playlist.id);
                     setTitle("");
                     setId("");
                   }}
                 >
-                  <BiCoffeeTogo />
-                </button>
+                  <AiFillDelete
+                    style={{
+                      display: "-ms-flexbox",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "red",
+                      fontSize: "1.5rem",
+                      marginLeft: "1rem",
+                      backgroundColor: "transparent",
+                    }}
+                  />
+                </span>
               </li>
             ))}
           </ul>
+
+          <button className="btn" onClick={handleNewPlaylistSubmit}>
+            Add New Playlist
+          </button>
         </div>
 
+        <hr
+          style={{
+            border: "1px solid #ccc",
+            margin: "1rem 0",
+          }}
+        ></hr>
         <div className="form-center">
           <FormRow
             type="text"
             name="title"
-            value={title}
-            labelText={t("Edit_Playlist.name")}
-            handleChange={(e) => setTitle(e.target.value)}
-          />
-
-          <button
-            className="btn btn-block btn-submit"
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? t("profile.wait") : t("profile.save")}
-          </button>
-        </div>
-      </form>
-      <form className="form" onSubmit={handleNewPlaylistSubmit}>
-        <h3>{t("Edit_Playlist.create")}</h3>
-        {showAlert && <Alert />}
-        <div className="form-left"></div>
-
-        <div className="form-center">
-          <FormRow
-            type="text"
-            name="newTitle"
             value={newTitle}
-            labelText={t("Edit_Playlist.create")}
+            labelText={t("Edit_Playlist.name")}
+            handleChange={(e) => setNewTitle(e.target.value)}
           />
 
-          <button
-            className="btn btn-block btn-submit"
-            type="submit"
-            disabled={isLoading}
-          >
+          <button className="btn btn-block" type="submit" disabled={isLoading}>
             {isLoading ? t("profile.wait") : t("profile.save")}
           </button>
         </div>
@@ -150,12 +157,11 @@ const Profile = () => {
 
 const Wrapper = styled.section`
   .active {
-    background-color: #f5f5f5;
-    color: #000;
     font-weight: bold;
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 5px;
+    border: 5px solid #ccc;
     cursor: pointer;
   }
   .btn-hipster:hover {
