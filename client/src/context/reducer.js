@@ -21,6 +21,8 @@ import {
   GET_ANIMES_SUCCESS,
   GET_PLAYLIST_BEGIN,
   GET_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_BEGIN,
+  CREATE_PLAYLIST_SUCCESS,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
@@ -225,6 +227,23 @@ const reducer = (state, action) => {
   if (action.type === CHANGE_PAGE) {
     return { ...state, page: action.payload.page };
   }
+
+  if (action.type === CREATE_PLAYLIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      userPlaylists: action.payload.playlists,
+      currentPlaylist: {
+        title: action.payload.playlist.title,
+        id: action.payload.playlist.id,
+      },
+    };
+  }
+
+  if (action.type === CREATE_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
   throw new Error(`no such action : ${action.type}`);
 };
 

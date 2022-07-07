@@ -31,7 +31,12 @@ const SearchContainer = () => {
   const handleLocalPlaylistChange = (e) => {
     if (isLoading) return;
 
-    handlePlaylistChange({ name: e.target.name, value: e.target.value });
+    // find the playlist with the title
+    const playlist = userPlaylists.find(
+      (playlist) => playlist.title === e.target.value
+    );
+
+    handlePlaylistChange({ name: e.target.name, value: playlist.id });
   };
 
   const handleSubmit = (e) => {

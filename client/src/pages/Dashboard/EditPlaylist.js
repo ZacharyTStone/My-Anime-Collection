@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
-import { FormRow, FormRowSelect } from "../../Components";
+import { FormRow } from "../../Components";
 import { Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
-import pokemon from "../../assets/images/pokemon.png";
 import { AiFillDelete } from "react-icons/ai";
 
 import { useTranslation } from "react-i18next";
 const Profile = () => {
   const { t } = useTranslation();
   const {
-    user,
     showAlert,
-    displayAlert,
-    updateUser,
+
     getPlaylists,
     updatePlaylist,
     deletePlaylist,
     createPlaylist,
     isLoading,
-    deleteUser,
-    logoutUser,
+
     userPlaylists,
     currentPlaylist,
     handlePlaylistChange,
@@ -30,46 +26,43 @@ const Profile = () => {
   const [newTitle, setNewTitle] = useState("");
   const [id, setId] = useState("");
 
-  useEffect(async () => {
-    await getPlaylists();
-    console.log(currentPlaylist, "currentPlaylist in useEffect");
-    setNewTitle(currentPlaylist.title);
-    setId(currentPlaylist.id);
-    setTitle(currentPlaylist.title);
-
-    console.log(userPlaylists, "userPlaylists in use effect");
-  }, []);
-
-  const handleSubmit = (e) => {
-    console.log("handleSubmit");
-  };
-
-  const handleClickOnPlaylist = async (title) => {
-    console.log("handleClickOnPlaylist");
-    console.log(title);
+  const handleClickOnPlaylist = async (id) => {
     // find the playlist with the title
-    const playlist = userPlaylists.find((playlist) => playlist.title === title);
+    const playlist = userPlaylists.find((playlist) => playlist.id === id);
     // update the current playlist
     console.log(playlist, "playlist");
     if (!playlist) {
-      showAlert(t("profile.playlist_not_found"));
+      alert("playlist not found");
       return;
     }
+    await handlePlaylistChange({ name: playlist.id, value: playlist.id });
     setTitle(playlist.title);
     setNewTitle(playlist.title);
     setId(playlist.id);
-    await handlePlaylistChange({ name: playlist.id, value: playlist.title });
   };
+
+  useEffect(async () => {
+    // random wacky word from array
+
+    await getPlaylists();
+    setNewTitle(currentPlaylist.title);
+    setId(currentPlaylist.id);
+    setTitle(currentPlaylist.title);
+  }, []);
 
   const handleNewPlaylistSubmit = async (e) => {
     e.preventDefault();
-    const numberOfPlaylists = userPlaylists.length;
-    console.log(numberOfPlaylists.length, "numberOfPlaylists");
-
-    await createPlaylist(`Default ${numberOfPlaylists + 1}`);
-    setNewTitle("");
+    const numberOfPlaylists = userPlaylists.length - 1;
     await getPlaylists();
+    await createPlaylist(`New Playlist #`);
+
+    await getPlaylists();
+
+    setNewTitle(userPlaylists[numberOfPlaylists].title);
+    setId(userPlaylists[numberOfPlaylists].id);
+    setTitle(userPlaylists[numberOfPlaylists].title);
   };
+  // set the most recent playlist as the current playlist
 
   const handlePlaylistEdit = async (e) => {
     e.preventDefault();
@@ -86,7 +79,7 @@ const Profile = () => {
 
   return (
     <Wrapper>
-      <form className="form" onSubmit={handlePlaylistEdit}>
+      <div className="profile-container">
         <h3>{t("Edit_Playlist.title")}</h3>
         {showAlert && <Alert />}
         <div className="form-left">
@@ -96,8 +89,8 @@ const Profile = () => {
                 key={playlist.id}
                 className={playlist.id === currentPlaylist.id ? "active" : ""}
               >
-                <span onClick={() => handleClickOnPlaylist(playlist.title)}>
-                  {playlist.title ? playlist.title : "(Title N/A"}
+                <span onClick={() => handleClickOnPlaylist(playlist.id)}>
+                  {playlist.title}
                 </span>
 
                 <span
@@ -107,6 +100,7 @@ const Profile = () => {
                   onClick={async () => {
                     await deletePlaylist(playlist.id);
                     setTitle("");
+                    setNewTitle("");
                     setId("");
                   }}
                 >
@@ -130,13 +124,16 @@ const Profile = () => {
             Add New Playlist
           </button>
         </div>
+      </div>
 
-        <hr
-          style={{
-            border: "1px solid #ccc",
-            margin: "1rem 0",
-          }}
-        ></hr>
+      <hr
+        style={{
+          border: "1px solid #ccc",
+          margin: "1rem 0",
+        }}
+      ></hr>
+
+      <form className="form" onSubmit={handlePlaylistEdit}>
         <div className="form-center">
           <FormRow
             type="text"

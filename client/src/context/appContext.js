@@ -253,18 +253,19 @@ const AppProvider = ({ children }) => {
     console.log(value, "value");
     // find the playlist with the name of the value
     const playlist = state.userPlaylists.find(
-      (playlist) => playlist.title === value
+      (playlist) => playlist.id === value
     );
 
-    console.log(playlist, "found playlist in app context");
-
+    if (!playlist) {
+      alert("Playlist not found");
+    }
     dispatch({ type: HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
   };
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
   };
 
-  const createAnime = async (anime, playlistID) => {
+  const createAnime = async (anime, playlistID, playlistTitle) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
     console.log(anime);
     try {
@@ -302,7 +303,10 @@ const AppProvider = ({ children }) => {
         japanese_title,
         playlistID,
       });
-      toast.success(`${title} has been added to your list!`);
+
+      toast.success(
+        `${title} has been added to your playlist called ${playlistTitle}`
+      );
       dispatch({ type: CREATE_ANIME_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
@@ -392,10 +396,9 @@ const AppProvider = ({ children }) => {
     let playlist = state.userPlaylists.find(
       (playlist) => playlist.title === playlistTitle
     );
-    // if (playlist) {
-    //   toast.error("Playlist already exists");
-    //   return;
-    // }
+    if (playlist) {
+      playlistTitle += `${Math.floor(Math.random() * 100)}`;
+    }
 
     playlist = {
       title: playlistTitle,
@@ -424,6 +427,17 @@ const AppProvider = ({ children }) => {
   const updatePlaylist = async (playlist) => {
     // dispatch({ type: UPDATE_PLAYLIST_BEGIN, payload: playlist });
     console.log(playlist, "playlist in updatePlaylist");
+
+    // make sure the playlist with the same title does not already exist
+    let playlistTitle = playlist.title;
+    let playlistToUpdate = state.userPlaylists.find(
+      (playlist) => playlist.title === playlistTitle
+    );
+    if (playlistToUpdate) {
+      playlist.title += `${Math.floor(Math.random() * 100)}`;
+    }
+    playlist.title = playlistTitle;
+
     try {
       const { data } = await authFetch.put(
         `/playlists/${playlist.id}`,
@@ -459,7 +473,8 @@ const AppProvider = ({ children }) => {
       //   type: DELETE_PLAYLIST_SUCCESS,
       // });
     } catch (error) {
-      logoutUser();
+      if (error.response.status === 401) return;
+      toast.error(`Woops. ${error.response.data.msg}`);
     }
     // clearAlert();
   };

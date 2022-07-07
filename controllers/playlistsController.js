@@ -1,6 +1,10 @@
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
+import {
+  BadRequestError,
+  UnAuthenticatedError,
+  NotFoundError,
+} from "../errors/index.js";
 
 // REST routes set up in playlistRoutes.js
 
@@ -51,8 +55,16 @@ const updatePlaylist = async (req, res) => {
 };
 
 const deletePlaylist = async (req, res) => {
+  // don't delete the playlist if it is the only one
+
   console.log("delete playlist in controler");
+
   const user = await User.findOne({ _id: req.user.userId });
+
+  if (user.playlists.length === 1) {
+    console.log("cannot delete the only playlist");
+    throw new BadRequestError("You must have at least one playlist");
+  }
 
   const playlist = user.playlists.find(
     (playlist) => playlist.id === req.params.id
@@ -61,6 +73,12 @@ const deletePlaylist = async (req, res) => {
   if (!playlist) {
     throw new BadRequestError("Playlist not found");
   }
+
+  // delete all the animes in the playlist
+  const animes = await Anime.find({ playlistId: req.params.id });
+  await animes.forEach((anime) => {
+    anime.remove();
+  });
 
   user.playlists = user.playlists.filter(
     (playlist) => playlist.id !== req.params.id

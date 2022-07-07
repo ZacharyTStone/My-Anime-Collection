@@ -43,9 +43,7 @@ function Anime({
   };
 
   const handleSubmit = () => {
-    console.log("submit");
-    console.log(anime, currentPlaylist.id);
-    createAnime(anime, currentPlaylist.id);
+    createAnime(anime, currentPlaylist.id, currentPlaylist.title);
   };
 
   const { createAnime, deleteAnime, siteLanguage, currentPlaylist } =
