@@ -243,7 +243,7 @@ const reducer = (state, action) => {
   if (action.type === CREATE_PLAYLIST_BEGIN) {
     return { ...state, isLoading: true };
   }
-
+  3;
   throw new Error(`no such action : ${action.type}`);
 };
 
