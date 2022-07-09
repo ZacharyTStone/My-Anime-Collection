@@ -62,7 +62,7 @@ const SearchContainer = () => {
           />
 
           {/* playlist */}
-          <form className="form-row">
+          <form className="">
             <label htmlFor="playlist" className="form-label">
               {t("search_container.playlist")}
             </label>

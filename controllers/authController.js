@@ -75,15 +75,8 @@ const deleteUser = async (req, res) => {
   // delete all animes
 
   const animes = await Anime.find({ createdBy: req.user.userId });
-  await animes.forEach((anime) => {
+  animes.forEach((anime) => {
     anime.remove();
-  });
-
-  // delete all playlists
-
-  const playlists = await Playlist.find({ createdBy: req.user.userId });
-  await playlists.forEach((playlist) => {
-    playlist.remove();
   });
 };
 

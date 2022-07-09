@@ -78,7 +78,7 @@ const deletePlaylist = async (req, res) => {
     throw new BadRequestError("Playlist not found");
   }
 
-  if (playlist.title === "Default") {
+  if (playlist.id === "0") {
     console.log("cannot delete the default playlist");
     throw new BadRequestError("You cannot delete the default playlist");
   }
