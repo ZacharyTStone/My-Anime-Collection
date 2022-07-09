@@ -30,8 +30,6 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
     fetch(APIURL)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        console.log(APIURL);
         setFetchedAnimes(data.data);
       });
   };

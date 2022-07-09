@@ -18,14 +18,23 @@ import {
   DELETE_USER_SUCCESS,
   DELETE_USER_ERROR,
   HANDLE_CHANGE,
+  HANDLE_PLAYLIST_CHANGE,
   CLEAR_VALUES,
   CREATE_ANIME_BEGIN,
   CREATE_ANIME_SUCCESS,
   CREATE_ANIME_ERROR,
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
+  GET_PLAYLIST_BEGIN,
+  GET_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_BEGIN,
+  CREATE_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_ERROR,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
+  DELETE_PLAYLIST_BEGIN,
+  DELETE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_ERROR,
   CLEAR_FILTERS,
   CHANGE_PAGE,
   CHANGE_SITE_LANGUAGE,
@@ -52,6 +61,11 @@ const initialState = {
   searchStared: "all",
   searchType: "all",
   sort: "latest",
+  currentPlaylist: {
+    title: "default",
+    id: "0",
+  },
+  userPlaylists: [],
   sortOptions: [
     {
       title: "Latest",
@@ -237,11 +251,24 @@ const AppProvider = ({ children }) => {
   const handleChange = ({ name, value }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
+
+  const handlePlaylistChange = ({ value }) => {
+    console.log(value, "value");
+    // find the playlist with the name of the value
+    const playlist = state.userPlaylists.find(
+      (playlist) => playlist.id === value
+    );
+
+    if (!playlist) {
+      alert("Playlist not found");
+    }
+    dispatch({ type: HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
+  };
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
   };
 
-  const createAnime = async (anime) => {
+  const createAnime = async (anime, playlistID, playlistTitle) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
     console.log(anime);
     try {
@@ -277,8 +304,12 @@ const AppProvider = ({ children }) => {
         youtubeVideoId,
         ageRating,
         japanese_title,
+        playlistID,
       });
-      toast.success(`${title} has been added to your list!`);
+
+      toast.success(
+        `${title} has been added to your playlist called ${playlistTitle}`
+      );
       dispatch({ type: CREATE_ANIME_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
@@ -293,9 +324,10 @@ const AppProvider = ({ children }) => {
   };
 
   const getAnimes = async () => {
-    const { page, search, searchStatus, searchType, sort } = state;
+    const { page, search, searchStatus, searchType, sort, currentPlaylist } =
+      state;
 
-    let url = `/animes?page=${page}&status=${searchStatus}&animeType=${searchType}&sort=${sort}`;
+    let url = `/animes?page=${page}&status=${searchStatus}&animeType=${searchType}&sort=${sort}&currentPlaylistID=${currentPlaylist.id}`;
     if (search) {
       url = url + `&search=${search}`;
     }
@@ -321,11 +353,11 @@ const AppProvider = ({ children }) => {
     dispatch({ type: DELETE_ANIME_BEGIN });
     try {
       await authFetch.delete(`/animes/${animeId}`);
-      getAnimes();
       toast.success("Anime deleted successfully");
       dispatch({
         type: DELETE_ANIME_SUCCESS,
       });
+      getAnimes();
     } catch (error) {
       logoutUser();
     }
@@ -338,6 +370,125 @@ const AppProvider = ({ children }) => {
   const changePage = (page) => {
     dispatch({ type: CHANGE_PAGE, payload: { page } });
   };
+
+  const getPlaylists = async () => {
+    dispatch({ type: GET_PLAYLIST_BEGIN });
+    try {
+      const { data } = await authFetch("/playlists");
+      const { playlists } = data;
+      console.log(playlists, "app contet get playlists");
+
+      dispatch({
+        type: GET_PLAYLIST_SUCCESS,
+        payload: { playlists },
+      });
+    } catch (error) {
+      alert(error.response.data.msg);
+      // logoutUser();
+    }
+    // clearAlert();
+  };
+
+  const createPlaylist = async (playlistTitle) => {
+    // dispatch({ type: CREATE_PLAYLIST_BEGIN, payload: playlist });
+
+    // make sure the playlist is not already in the database
+    console.log(playlistTitle, "playlistTitle");
+    console.log(state.userPlaylists, "userPlaylists");
+
+    let playlist = state.userPlaylists.find(
+      (playlist) => playlist.title === playlistTitle
+    );
+    if (playlist) {
+      playlistTitle += `${Math.floor(Math.random() * 100)}`;
+    }
+
+    playlist = {
+      title: playlistTitle,
+      userId: `${state.userPlaylists.length + 1}`,
+    };
+
+    try {
+      const { data } = await authFetch.post("/playlists", playlist);
+      const { playlist: newPlaylist } = data;
+
+      getPlaylists();
+      toast.success("Playlist created successfully");
+      // dispatch({
+      //   type: CREATE_PLAYLIST_SUCCESS,
+      //   payload: { playlist: newPlaylist },
+      // });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      toast.error(`Woops. ${error.response.data.msg}`);
+      // dispatch({
+      //   type: CREATE_PLAYLIST_ERROR,
+      //   payload: { msg: error.response.data.msg },
+      // });
+    }
+
+    // clearAlert();
+  };
+
+  const updatePlaylist = async (playlist) => {
+    // dispatch({ type: UPDATE_PLAYLIST_BEGIN, payload: playlist });
+    console.log(playlist, "playlist in updatePlaylist");
+
+    // make sure the playlist with the same title does not already exist
+    let playlistTitle = playlist.title;
+    let playlistToUpdate = state.userPlaylists.find(
+      (playlist) => playlist.title === playlistTitle
+    );
+    if (playlistToUpdate) {
+      playlist.title += `${Math.floor(Math.random() * 100)}`;
+    }
+    playlist.title = playlistTitle;
+
+    try {
+      const { data } = await authFetch.put(
+        `/playlists/${playlist.id}`,
+        playlist
+      );
+      const { playlist: updatedPlaylist } = data;
+
+      console.log(data);
+      toast.success("Playlist updated successfully");
+      // dispatch({
+      //   type: UPDATE_PLAYLIST_SUCCESS,
+      //   payload: { playlist: updatedPlaylist },
+      // });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      toast.error(`Woops. ${error.response.data.msg}`);
+      // dispatch({
+      //   type: UPDATE_PLAYLIST_ERROR,
+
+      //   payload: { msg: error.response.data.msg },
+      // });
+    }
+    // clearAlert();
+  };
+
+  const deletePlaylist = async (playlistId) => {
+    dispatch({ type: DELETE_PLAYLIST_BEGIN });
+    try {
+      await authFetch.delete(`/playlists/${playlistId}`);
+      getPlaylists();
+      toast.success("Playlist deleted successfully");
+      dispatch({
+        type: DELETE_PLAYLIST_SUCCESS,
+      });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      toast.error(`Woops. ${error.response.data.msg}`);
+      dispatch({
+        type: DELETE_PLAYLIST_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -349,11 +500,16 @@ const AppProvider = ({ children }) => {
         updateUser,
         deleteUser,
         handleChange,
+        handlePlaylistChange,
         clearValues,
         createAnime,
         getAnimes,
+        getPlaylists,
+        createPlaylist,
         changeSiteLanguage,
         deleteAnime,
+        updatePlaylist,
+        deletePlaylist,
 
         clearFilters,
         changePage,

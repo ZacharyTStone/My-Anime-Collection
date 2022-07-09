@@ -19,11 +19,19 @@ import {
   CREATE_ANIME_ERROR,
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
+  GET_PLAYLIST_BEGIN,
+  GET_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_BEGIN,
+  CREATE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_BEGIN,
+  DELETE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_ERROR,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
   CHANGE_SITE_LANGUAGE,
+  HANDLE_PLAYLIST_CHANGE,
 } from "./actions";
 
 import { initialState } from "./appContext";
@@ -100,6 +108,7 @@ const reducer = (state, action) => {
       token: action.payload.token,
       theme: action.payload.theme,
       user: action.payload.user,
+      playlist: action.payload.playlist,
     };
   }
   if (action.type === UPDATE_USER_ERROR) {
@@ -134,6 +143,18 @@ const reducer = (state, action) => {
       [action.payload.name]: action.payload.value,
     };
   }
+
+  if (action.type === HANDLE_PLAYLIST_CHANGE) {
+    console.log(action.payload, "reducer");
+    return {
+      ...state,
+      currentPlaylist: {
+        title: action.payload.playlist.title,
+        id: action.payload.playlist.id,
+      },
+    };
+  }
+
   if (action.type === CLEAR_VALUES) {
     const initialState = {
       isEditing: false,
@@ -175,6 +196,17 @@ const reducer = (state, action) => {
     };
   }
 
+  if (action.type === GET_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+  if (action.type === GET_PLAYLIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      userPlaylists: action.payload.playlists,
+    };
+  }
+
   if (action.type === DELETE_ANIME_BEGIN) {
     return { ...state, isLoading: true };
   }
@@ -198,6 +230,42 @@ const reducer = (state, action) => {
   if (action.type === CHANGE_PAGE) {
     return { ...state, page: action.payload.page };
   }
+
+  if (action.type === CREATE_PLAYLIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      userPlaylists: action.payload.playlists,
+      currentPlaylist: {
+        title: action.payload.playlist.title,
+        id: action.payload.playlist.id,
+      },
+    };
+  }
+
+  if (action.type === CREATE_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === DELETE_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === DELETE_PLAYLIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      // userPlaylists: action.payload.playlists,
+    };
+  }
+
+  if (action.type === DELETE_PLAYLIST_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }
+
   throw new Error(`no such action : ${action.type}`);
 };
 

@@ -21,11 +21,23 @@ const AnimesContainer = () => {
     searchStared,
     sort,
     numOfPages,
+    currentPlaylist,
   } = useAppContext();
   useEffect(() => {
     getAnimes();
+
+    // find the current playlist
+
     // eslint-disable-next-line
-  }, [page, search, searchStatus, searchStared, searchType, sort]);
+  }, [
+    page,
+    search,
+    searchStatus,
+    searchStared,
+    searchType,
+    sort,
+    currentPlaylist,
+  ]);
   if (isLoading) {
     return <Loading center />;
   }

@@ -10,7 +10,7 @@ const resources = {
       anime: {
         episode: "EPISODES",
         synopsis: "Synopsis",
-        add: "Add To Collection",
+        add: "Add To Playlist",
         delete: "Delete",
       },
       profile: {
@@ -36,10 +36,11 @@ const resources = {
         sort: "Sort",
       },
       search_container: {
-        title: "Filter Your Collection",
+        title: "Filter Your Playlist",
         search: "Search",
         sort: "Sort",
         clear_filters: "Clear Filters",
+        playlist: "Playlist",
       },
       my_animes_container: {
         no_anime_message1: "Couldn't find any anime. Click",
@@ -51,6 +52,12 @@ const resources = {
         top: "Top Animes",
         profile: "Profile",
         logout: "Logout",
+        edit_playlist: "Edit Playlists",
+      },
+
+      edit_playlist: {
+        cta: "Click on a playlist to edit it's name",
+        new_playlist: "Create a new playlist",
       },
       login: {
         title: "Login",
@@ -125,7 +132,7 @@ const resources = {
       anime: {
         episode: "エピソード",
         synopsis: "あらすじ",
-        add: "コレクションに追加",
+        add: "プレーリストに追加",
         delete: "削除",
       },
 
@@ -154,10 +161,11 @@ const resources = {
       },
 
       search_container: {
-        title: "コレクションをフィルターしましょう",
+        title: "プレーリストをフィルターしましょう",
         search: "検索",
         sort: "ソート",
         clear_filters: "フィルターをクリア",
+        playlist: "プレイリスト",
       },
       my_animes_container: {
         no_anime_message1: "アニメが見つかりませんでした。",
@@ -169,6 +177,12 @@ const resources = {
         top: "トップアニメ",
         profile: "プロフィール",
         logout: "ログアウト",
+        edit_playlist: "プレイリストを編集",
+      },
+
+      edit_playlist: {
+        new_playlist: "新しいプレイリストを作る",
+        cta: "プレイリストの名前を編集するにはプレイリストにクリックしてください",
       },
       login: {
         title: "ログイン",

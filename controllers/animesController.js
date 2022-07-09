@@ -9,6 +9,7 @@ const createAnime = async (req, res) => {
   const oldAnime = await Anime.findOne({
     title: req.body.title,
     createdBy: req.user.userId,
+    playlistID: req.body.playlistID,
   });
 
   if (oldAnime) {
@@ -20,17 +21,17 @@ const createAnime = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ anime });
 };
 const getAnimes = async (req, res) => {
-  const { sort, search } = req.query;
+  const { sort, search, currentPlaylistID } = req.query;
 
   const queryObject = {
     createdBy: req.user.userId,
+    playlistID: currentPlaylistID,
   };
   // add stuff based on condition
 
   if (search) {
     queryObject.title = { $regex: search, $options: "i" };
   }
-  // NO AWAIT
 
   let result = Anime.find(queryObject);
 

@@ -2,15 +2,40 @@ import { FormRow, FormRowSelect } from ".";
 import { useAppContext } from "../context/appContext";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 const SearchContainer = () => {
   const { t } = useTranslation();
-  const { isLoading, search, sort, sortOptions, handleChange, clearFilters } =
-    useAppContext();
+  const {
+    isLoading,
+    search,
+    sort,
+    sortOptions,
+    handleChange,
+    handlePlaylistChange,
+    clearFilters,
+    getPlaylists,
+    currentPlaylist,
+    userPlaylists,
+  } = useAppContext();
+
+  useEffect(() => {
+    console.log(currentPlaylist, "currentPlaylist in useEffect");
+    getPlaylists();
+  }, []);
   const handleSearch = (e) => {
     if (isLoading) return;
     handleChange({ name: e.target.name, value: e.target.value });
   };
+
+  const handleLocalPlaylistChange = (e) => {
+    if (isLoading) return;
+
+    e.preventDefault();
+
+    handlePlaylistChange({ name: e.target.name, value: e.target.value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     clearFilters();
@@ -35,6 +60,28 @@ const SearchContainer = () => {
             handleChange={handleSearch}
             list={sortOptions}
           />
+
+          {/* playlist */}
+          <form className="form-row">
+            <label htmlFor="playlist" className="form-label">
+              {t("search_container.playlist")}
+            </label>
+            <select
+              name="playlist"
+              value={currentPlaylist.id}
+              onChange={handleLocalPlaylistChange}
+              className="form-select"
+            >
+              {userPlaylists.map((playlist, index) => {
+                return (
+                  <option key={index} value={playlist.id}>
+                    {playlist.title}
+                  </option>
+                );
+              })}
+            </select>
+          </form>
+
           <button
             className="btn btn-block btn-hipster"
             disabled={isLoading}
