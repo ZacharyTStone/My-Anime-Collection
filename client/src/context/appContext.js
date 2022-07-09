@@ -432,6 +432,11 @@ const AppProvider = ({ children }) => {
 
   const updatePlaylist = async (playlist) => {
     // dispatch({ type: UPDATE_PLAYLIST_BEGIN, payload: playlist });
+
+    if (playlist.id === "0") {
+      toast.error(`Woops. The default playlist can not be edited`);
+      return;
+    }
     console.log(playlist, "playlist in updatePlaylist");
 
     // make sure the playlist with the same title does not already exist

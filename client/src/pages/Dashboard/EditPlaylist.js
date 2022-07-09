@@ -69,8 +69,6 @@ const Profile = () => {
     if (isLoading) return;
     console.log("handlePlaylistEdit");
 
-    console.log(title, id);
-
     await updatePlaylist({
       title: newTitle,
       id: id,
