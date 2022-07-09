@@ -32,6 +32,9 @@ import {
   CREATE_PLAYLIST_ERROR,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
+  DELETE_PLAYLIST_BEGIN,
+  DELETE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_ERROR,
   CLEAR_FILTERS,
   CHANGE_PAGE,
   CHANGE_SITE_LANGUAGE,
@@ -350,11 +353,11 @@ const AppProvider = ({ children }) => {
     dispatch({ type: DELETE_ANIME_BEGIN });
     try {
       await authFetch.delete(`/animes/${animeId}`);
-      getAnimes();
       toast.success("Anime deleted successfully");
       dispatch({
         type: DELETE_ANIME_SUCCESS,
       });
+      getAnimes();
     } catch (error) {
       logoutUser();
     }
@@ -408,6 +411,8 @@ const AppProvider = ({ children }) => {
     try {
       const { data } = await authFetch.post("/playlists", playlist);
       const { playlist: newPlaylist } = data;
+
+      getPlaylists();
       toast.success("Playlist created successfully");
       // dispatch({
       //   type: CREATE_PLAYLIST_SUCCESS,
@@ -421,6 +426,7 @@ const AppProvider = ({ children }) => {
       //   payload: { msg: error.response.data.msg },
       // });
     }
+
     // clearAlert();
   };
 
@@ -464,19 +470,23 @@ const AppProvider = ({ children }) => {
   };
 
   const deletePlaylist = async (playlistId) => {
-    // dispatch({ type: DELETE_PLAYLIST_BEGIN });
+    dispatch({ type: DELETE_PLAYLIST_BEGIN });
     try {
       await authFetch.delete(`/playlists/${playlistId}`);
       getPlaylists();
       toast.success("Playlist deleted successfully");
-      // dispatch({
-      //   type: DELETE_PLAYLIST_SUCCESS,
-      // });
+      dispatch({
+        type: DELETE_PLAYLIST_SUCCESS,
+      });
     } catch (error) {
       if (error.response.status === 401) return;
       toast.error(`Woops. ${error.response.data.msg}`);
+      dispatch({
+        type: DELETE_PLAYLIST_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
-    // clearAlert();
+    clearAlert();
   };
 
   return (

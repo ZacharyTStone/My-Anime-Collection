@@ -4,6 +4,7 @@ import { Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import { AiFillDelete } from "react-icons/ai";
+import Loading from "../../Components/Loading";
 
 import { useTranslation } from "react-i18next";
 const Profile = () => {
@@ -27,12 +28,12 @@ const Profile = () => {
   const [id, setId] = useState("");
 
   const handleClickOnPlaylist = async (id) => {
+    if (isLoading) return;
     // find the playlist with the title
     const playlist = userPlaylists.find((playlist) => playlist.id === id);
     // update the current playlist
     console.log(playlist, "playlist");
     if (!playlist) {
-      alert("playlist not found");
       return;
     }
     await handlePlaylistChange({ name: playlist.id, value: playlist.id });
@@ -52,11 +53,10 @@ const Profile = () => {
 
   const handleNewPlaylistSubmit = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
     const numberOfPlaylists = userPlaylists.length - 1;
-    await getPlaylists();
-    await createPlaylist(`New Playlist #`);
 
-    await getPlaylists();
+    await createPlaylist(`New Playlist #`);
 
     setNewTitle(userPlaylists[numberOfPlaylists].title);
     setId(userPlaylists[numberOfPlaylists].id);
@@ -66,6 +66,7 @@ const Profile = () => {
 
   const handlePlaylistEdit = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
     console.log("handlePlaylistEdit");
 
     console.log(title, id);
@@ -77,10 +78,15 @@ const Profile = () => {
     await getPlaylists();
   };
 
+  if (isLoading) {
+    return <Loading center />;
+  }
+
   return (
     <Wrapper>
       <div className="profile-container">
-        <h3>{t("Edit_Playlist.title")}</h3>
+        <h3>{t("edit_playlist.title")}</h3>
+
         {showAlert && <Alert />}
         <div className="form-left">
           <ul>
@@ -98,10 +104,16 @@ const Profile = () => {
                     padding: "0px 10px",
                   }}
                   onClick={async () => {
-                    await deletePlaylist(playlist.id);
-                    setTitle("");
-                    setNewTitle("");
-                    setId("");
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this playlist?"
+                      )
+                    ) {
+                      await deletePlaylist(playlist.id);
+                      setTitle("");
+                      setNewTitle("");
+                      setId("");
+                    }
                   }}
                 >
                   <AiFillDelete
@@ -121,7 +133,7 @@ const Profile = () => {
           </ul>
 
           <button className="btn" onClick={handleNewPlaylistSubmit}>
-            Add New Playlist
+            {t("edit_playlist.new_playlist")}
           </button>
         </div>
       </div>
@@ -139,10 +151,9 @@ const Profile = () => {
             type="text"
             name="title"
             value={newTitle}
-            labelText={t("Edit_Playlist.name")}
+            labelText={t("edit_playlist.cta")}
             handleChange={(e) => setNewTitle(e.target.value)}
           />
-
           <button className="btn btn-block" type="submit" disabled={isLoading}>
             {isLoading ? t("profile.wait") : t("profile.save")}
           </button>

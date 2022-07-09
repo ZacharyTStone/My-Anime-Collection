@@ -31,12 +31,9 @@ const SearchContainer = () => {
   const handleLocalPlaylistChange = (e) => {
     if (isLoading) return;
 
-    // find the playlist with the title
-    const playlist = userPlaylists.find(
-      (playlist) => playlist.title === e.target.value
-    );
+    e.preventDefault();
 
-    handlePlaylistChange({ name: e.target.name, value: playlist.id });
+    handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -63,13 +60,28 @@ const SearchContainer = () => {
             handleChange={handleSearch}
             list={sortOptions}
           />
-          <FormRowSelect
-            name="currentPlaylist"
-            value={currentPlaylist.title}
-            labelText={t("search_container.playlist")}
-            handleChange={handleLocalPlaylistChange}
-            list={userPlaylists}
-          />
+
+          {/* playlist */}
+          <form className="form-row">
+            <label htmlFor="playlist" className="form-label">
+              {t("search_container.playlist")}
+            </label>
+            <select
+              name="playlist"
+              value={currentPlaylist.id}
+              onChange={handleLocalPlaylistChange}
+              className="form-select"
+            >
+              {userPlaylists.map((playlist, index) => {
+                return (
+                  <option key={index} value={playlist.id}>
+                    {playlist.title}
+                  </option>
+                );
+              })}
+            </select>
+          </form>
+
           <button
             className="btn btn-block btn-hipster"
             disabled={isLoading}

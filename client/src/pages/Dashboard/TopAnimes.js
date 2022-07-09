@@ -1,17 +1,12 @@
 import { useTranslation } from "react-i18next";
 import AnimeContainer from "../../Components/AnimeContainer";
 import { useAppContext } from "../../context/appContext";
-import { useState, useEffect } from "react";
-import { FormRowSelect } from "../../Components";
+import { useEffect } from "react";
 
 const MyAnimes = () => {
   const { t } = useTranslation();
-  const [filterURL, setFilterURL] = useState(
-    "https://kitsu.io/api/edge/trending/anime"
-  );
 
   const {
-    showAlert,
     getPlaylists,
     currentPlaylist,
     userPlaylists,
@@ -51,18 +46,31 @@ const MyAnimes = () => {
             alignItems: "center",
           }}
         >
-          <FormRowSelect
-            name="currentPlaylist"
-            value={currentPlaylist.title}
-            labelText={t("search_container.playlist")}
-            handleChange={handleLocalPlaylistChange}
-            list={userPlaylists}
-          />
+          {/* playlist */}
+          <form className="form-row">
+            <label htmlFor="playlist" className="form-label">
+              {t("search_container.playlist")}
+            </label>
+            <select
+              name="playlist"
+              value={currentPlaylist.id}
+              onChange={handleLocalPlaylistChange}
+              className="form-select"
+            >
+              {userPlaylists.map((playlist, index) => {
+                return (
+                  <option key={index} value={playlist.id}>
+                    {playlist.title}
+                  </option>
+                );
+              })}
+            </select>
+          </form>
         </div>
         <AnimeContainer
           category={"all"}
           searchText={null}
-          baseURL={filterURL}
+          baseURL={"https://kitsu.io/api/edge/trending/anime"}
           filter={"false"}
           pagination={"false"}
           sort={"false"}

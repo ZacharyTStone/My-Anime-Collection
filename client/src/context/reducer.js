@@ -23,6 +23,9 @@ import {
   GET_PLAYLIST_SUCCESS,
   CREATE_PLAYLIST_BEGIN,
   CREATE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_BEGIN,
+  DELETE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_ERROR,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
@@ -243,7 +246,26 @@ const reducer = (state, action) => {
   if (action.type === CREATE_PLAYLIST_BEGIN) {
     return { ...state, isLoading: true };
   }
-  3;
+
+  if (action.type === DELETE_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === DELETE_PLAYLIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      // userPlaylists: action.payload.playlists,
+    };
+  }
+
+  if (action.type === DELETE_PLAYLIST_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }
+
   throw new Error(`no such action : ${action.type}`);
 };
 

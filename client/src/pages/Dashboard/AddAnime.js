@@ -42,7 +42,6 @@ const AddAnime = () => {
   };
 
   useEffect(() => {
-    console.log(currentPlaylist, "currentPlaylist in useEffect");
     getPlaylists();
   }, []);
 
@@ -91,13 +90,26 @@ const AddAnime = () => {
                 },
               ]}
             />
-            <FormRowSelect
-              name="currentPlaylist"
-              value={currentPlaylist.title}
-              labelText={t("search_container.playlist")}
-              handleChange={handleLocalPlaylistChange}
-              list={userPlaylists}
-            />
+            {/* playlist */}
+            <form className="form-row">
+              <label htmlFor="playlist" className="form-label">
+                {t("search_container.playlist")}
+              </label>
+              <select
+                name="playlist"
+                value={currentPlaylist.id}
+                onChange={handleLocalPlaylistChange}
+                className="form-select"
+              >
+                {userPlaylists.map((playlist, index) => {
+                  return (
+                    <option key={index} value={playlist.id}>
+                      {playlist.title}
+                    </option>
+                  );
+                })}
+              </select>
+            </form>
           </div>
         </form>
         <AnimeContainer
