@@ -56,6 +56,7 @@ const resources = {
       },
 
       edit_playlist: {
+        title: "My Playlists",
         cta: "Click on a playlist to edit it's name",
         new_playlist: "Create a new playlist",
       },
@@ -181,6 +182,7 @@ const resources = {
       },
 
       edit_playlist: {
+        title: "マイ・プレーリスト",
         new_playlist: "新しいプレイリストを作る",
         cta: "プレイリストの名前を編集するにはプレイリストにクリックしてください",
       },
