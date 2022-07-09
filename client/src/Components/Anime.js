@@ -33,7 +33,6 @@ function Anime({
   type,
   japanese_title,
   youtubeVideoId,
-  ageRating,
 }) {
   const { t } = useTranslation();
   const [expanded, setExpanded] = React.useState(false);
@@ -151,14 +150,6 @@ function Anime({
                   <span style={{ marginLeft: "5px" }}>
                     {t("anime.episode")}
                   </span>
-                </Button>
-
-                <Button
-                  sx={{
-                    color: "var(--textColor)",
-                  }}
-                >
-                  {ageRating || anime.attributes.ageRating || "Rating N/A"}
                 </Button>
                 {youtubeVideoId || anime.attributes.youtubeVideoId ? (
                   <Button

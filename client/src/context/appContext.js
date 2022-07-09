@@ -285,7 +285,6 @@ const AppProvider = ({ children }) => {
       const synopsis = anime.attributes.synopsis || "N/A";
       const coverImage = anime.attributes.posterImage.small || "N/A";
       const youtubeVideoId = anime.attributes.youtubeVideoId || "N/A";
-      const ageRating = anime.attributes.ageRating || "N/A";
       const japanese_title =
         anime.attributes.titles.ja_jp ||
         anime.attributes.titles.en_jp ||
@@ -302,7 +301,6 @@ const AppProvider = ({ children }) => {
         coverImage,
         creationDate,
         youtubeVideoId,
-        ageRating,
         japanese_title,
         playlistID,
       });

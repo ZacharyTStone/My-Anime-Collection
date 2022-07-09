@@ -52,10 +52,6 @@ const AnimeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    ageRating: {
-      type: String,
-      required: false,
-    },
   },
   { timestamps: true }
 );
