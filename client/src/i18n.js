@@ -40,7 +40,7 @@ const resources = {
         search: "Search",
         sort: "Sort",
         clear_filters: "Clear Filters",
-        playlist: "Playlist To Add Anime To",
+        playlist: "Playlist To Add To",
       },
       my_animes_container: {
         no_anime_message1: "Couldn't find any anime. Click",
