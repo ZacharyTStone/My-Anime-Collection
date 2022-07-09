@@ -23,12 +23,21 @@ import {
   GET_PLAYLIST_SUCCESS,
   CREATE_PLAYLIST_BEGIN,
   CREATE_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_ERROR,
+  UPDATE_PLAYLIST_BEGIN,
+  UPDATE_PLAYLIST_SUCCESS,
+  UPDATE_PLAYLIST_ERROR,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
   CHANGE_SITE_LANGUAGE,
-  HANDLE_PLAYLIST_CHANGE,
+  HANDLE_PLAYLIST_CHANGE_BEGIN,
+  HANDLE_PLAYLIST_CHANGE_SUCCESS,
+  HANDLE_PLAYLIST_CHANGE_ERROR,
+  DELETE_PLAYLIST_BEGIN,
+  DELETE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_ERROR,
 } from "./actions";
 
 import { initialState } from "./appContext";
@@ -141,14 +150,28 @@ const reducer = (state, action) => {
     };
   }
 
-  if (action.type === HANDLE_PLAYLIST_CHANGE) {
-    console.log(action.payload, "reducer");
+  if (action.type === HANDLE_PLAYLIST_CHANGE_BEGIN) {
     return {
       ...state,
-      currentPlaylist: {
-        title: action.payload.playlist.title,
-        id: action.payload.playlist.id,
-      },
+      isLoading: true,
+    };
+  }
+
+  if (action.type === HANDLE_PLAYLIST_CHANGE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      currentPlaylist: action.payload.playlist,
+    };
+  }
+
+  if (action.type === HANDLE_PLAYLIST_CHANGE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
     };
   }
 
@@ -243,7 +266,88 @@ const reducer = (state, action) => {
   if (action.type === CREATE_PLAYLIST_BEGIN) {
     return { ...state, isLoading: true };
   }
-  3;
+
+  if (action.type === CREATE_PLAYLIST_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === HANDLE_PLAYLIST_CHANGE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === HANDLE_PLAYLIST_CHANGE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      userPlaylists: action.payload.playlists,
+      currentPlaylist: {
+        title: action.payload.playlist.title,
+        id: action.payload.playlist.id,
+      },
+    };
+  }
+
+  if (action.type === DELETE_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === DELETE_PLAYLIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      userPlaylists: action.payload.playlists,
+    };
+  }
+
+  if (action.type === DELETE_PLAYLIST_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === HANDLE_PLAYLIST_CHANGE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }
+
+  if (action.type === UPDATE_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === UPDATE_PLAYLIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      userPlaylists: action.payload.playlists,
+      currentPlaylist: {
+        title: action.payload.playlist.title,
+        id: action.payload.playlist.id,
+      },
+    };
+  }
+
+  if (action.type === UPDATE_PLAYLIST_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
   throw new Error(`no such action : ${action.type}`);
 };
 

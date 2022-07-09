@@ -6,6 +6,8 @@ import {
   NotFoundError,
 } from "../errors/index.js";
 
+import Anime from "../models/Anime.js";
+
 // REST routes set up in playlistRoutes.js
 
 const getPlaylists = async (req, res) => {
@@ -76,9 +78,12 @@ const deletePlaylist = async (req, res) => {
 
   // delete all the animes in the playlist
   const animes = await Anime.find({ playlistId: req.params.id });
-  await animes.forEach((anime) => {
-    anime.remove();
-  });
+
+  if (animes) {
+    animes.forEach((anime) => {
+      anime.remove();
+    });
+  }
 
   user.playlists = user.playlists.filter(
     (playlist) => playlist.id !== req.params.id

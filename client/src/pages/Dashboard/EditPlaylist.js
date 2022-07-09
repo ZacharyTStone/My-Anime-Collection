@@ -27,9 +27,8 @@ const Profile = () => {
   const [id, setId] = useState("");
 
   const handleClickOnPlaylist = async (id) => {
-    // find the playlist with the title
     const playlist = userPlaylists.find((playlist) => playlist.id === id);
-    // update the current playlist
+
     console.log(playlist, "playlist");
     if (!playlist) {
       alert("playlist not found");
@@ -42,8 +41,6 @@ const Profile = () => {
   };
 
   useEffect(async () => {
-    // random wacky word from array
-
     await getPlaylists();
     setNewTitle(currentPlaylist.title);
     setId(currentPlaylist.id);

@@ -18,7 +18,6 @@ import {
   DELETE_USER_SUCCESS,
   DELETE_USER_ERROR,
   HANDLE_CHANGE,
-  HANDLE_PLAYLIST_CHANGE,
   CLEAR_VALUES,
   CREATE_ANIME_BEGIN,
   CREATE_ANIME_SUCCESS,
@@ -30,8 +29,14 @@ import {
   CREATE_PLAYLIST_BEGIN,
   CREATE_PLAYLIST_SUCCESS,
   CREATE_PLAYLIST_ERROR,
+  HANDLE_PLAYLIST_CHANGE_BEGIN,
+  HANDLE_PLAYLIST_CHANGE_SUCCESS,
+  HANDLE_PLAYLIST_CHANGE_ERROR,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
+  UPDATE_PLAYLIST_BEGIN,
+  UPDATE_PLAYLIST_SUCCESS,
+  UPDATE_PLAYLIST_ERROR,
   CLEAR_FILTERS,
   CHANGE_PAGE,
   CHANGE_SITE_LANGUAGE,
@@ -250,6 +255,7 @@ const AppProvider = ({ children }) => {
   };
 
   const handlePlaylistChange = ({ value }) => {
+    dispatch({ type: HANDLE_PLAYLIST_CHANGE_BEGIN });
     console.log(value, "value");
     // find the playlist with the name of the value
     const playlist = state.userPlaylists.find(
@@ -257,9 +263,13 @@ const AppProvider = ({ children }) => {
     );
 
     if (!playlist) {
+      dispatch({ type: HANDLE_PLAYLIST_CHANGE_ERROR });
       alert("Playlist not found");
+      return;
     }
-    dispatch({ type: HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
+
+    console.log(playlist, "playlist in App context");
+    dispatch({ type: HANDLE_PLAYLIST_CHANGE_SUCCESS, payload: { playlist } });
   };
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
@@ -383,11 +393,11 @@ const AppProvider = ({ children }) => {
       alert(error.response.data.msg);
       // logoutUser();
     }
-    // clearAlert();
+    clearAlert();
   };
 
   const createPlaylist = async (playlistTitle) => {
-    // dispatch({ type: CREATE_PLAYLIST_BEGIN, payload: playlist });
+    dispatch({ type: CREATE_PLAYLIST_BEGIN });
 
     // make sure the playlist is not already in the database
     console.log(playlistTitle, "playlistTitle");
@@ -409,23 +419,23 @@ const AppProvider = ({ children }) => {
       const { data } = await authFetch.post("/playlists", playlist);
       const { playlist: newPlaylist } = data;
       toast.success("Playlist created successfully");
-      // dispatch({
-      //   type: CREATE_PLAYLIST_SUCCESS,
-      //   payload: { playlist: newPlaylist },
-      // });
+      dispatch({
+        type: CREATE_PLAYLIST_SUCCESS,
+        payload: { playlist: newPlaylist },
+      });
     } catch (error) {
       if (error.response.status === 401) return;
       toast.error(`Woops. ${error.response.data.msg}`);
-      // dispatch({
-      //   type: CREATE_PLAYLIST_ERROR,
-      //   payload: { msg: error.response.data.msg },
-      // });
+      dispatch({
+        type: CREATE_PLAYLIST_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
-    // clearAlert();
+    clearAlert();
   };
 
   const updatePlaylist = async (playlist) => {
-    // dispatch({ type: UPDATE_PLAYLIST_BEGIN, payload: playlist });
+    dispatch({ type: UPDATE_PLAYLIST_BEGIN, payload: playlist });
     console.log(playlist, "playlist in updatePlaylist");
 
     // make sure the playlist with the same title does not already exist
@@ -447,20 +457,20 @@ const AppProvider = ({ children }) => {
 
       console.log(data);
       toast.success("Playlist updated successfully");
-      // dispatch({
-      //   type: UPDATE_PLAYLIST_SUCCESS,
-      //   payload: { playlist: updatedPlaylist },
-      // });
+      dispatch({
+        type: UPDATE_PLAYLIST_SUCCESS,
+        payload: { playlist: updatedPlaylist },
+      });
     } catch (error) {
       if (error.response.status === 401) return;
       toast.error(`Woops. ${error.response.data.msg}`);
-      // dispatch({
-      //   type: UPDATE_PLAYLIST_ERROR,
+      dispatch({
+        type: UPDATE_PLAYLIST_ERROR,
 
-      //   payload: { msg: error.response.data.msg },
-      // });
+        payload: { msg: error.response.data.msg },
+      });
     }
-    // clearAlert();
+    clearAlert();
   };
 
   const deletePlaylist = async (playlistId) => {
