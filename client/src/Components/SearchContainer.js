@@ -3,6 +3,7 @@ import { useAppContext } from "../context/appContext";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
+import TwitterShare from "./TwitterShare";
 
 const SearchContainer = () => {
   const { t } = useTranslation();
@@ -89,6 +90,8 @@ const SearchContainer = () => {
           >
             {t("search_container.clear_filters")}
           </button>
+
+          <TwitterShare />
         </div>
       </form>
     </Wrapper>
