@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../context/appContext";
 import { FaTwitter } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
 
 const TwitterShare = () => {
   const { t } = useTranslation();
