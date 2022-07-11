@@ -30,6 +30,9 @@ const resources = {
       top_animes: {
         title: "Top Animes",
       },
+      twitter: {
+        share: "Share Playlist On Twitter",
+      },
       add_anime: {
         title: "Add Anime",
         search: "Title",
@@ -194,6 +197,9 @@ const resources = {
         switch2: "登録",
         submit: "送信",
         alert_text: "ログインできました！",
+      },
+      twitter: {
+        share: "Twitterでプレーリストをシェア",
       },
       register: {
         title: "登録",

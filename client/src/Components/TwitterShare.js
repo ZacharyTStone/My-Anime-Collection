@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../context/appContext";
 import { FaTwitter } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const TwitterShare = () => {
+  const { t } = useTranslation();
   const { animes } = useAppContext();
 
   let twitterUrl =
@@ -37,7 +39,7 @@ const TwitterShare = () => {
             }}
           >
             {" "}
-            Share On Twitter{" "}
+            {t("anime.share")}
           </span>
           <FaTwitter />
         </button>
