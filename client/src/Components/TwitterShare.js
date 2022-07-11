@@ -38,7 +38,7 @@ const TwitterShare = () => {
             }}
           >
             {" "}
-            {t("anime.share")}
+            {t("twitter.share")}
           </span>
           <FaTwitter />
         </button>
