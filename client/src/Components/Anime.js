@@ -42,11 +42,23 @@ function Anime({
   };
 
   const handleSubmit = () => {
+    if (isLoading) return;
     createAnime(anime, currentPlaylist.id, currentPlaylist.title);
+    if (addToDefault) {
+      if (currentPlaylist.id !== "0" || currentPlaylist.title !== "default") {
+        createAnime(anime, "0", "default");
+      }
+    }
   };
 
-  const { createAnime, deleteAnime, siteLanguage, currentPlaylist } =
-    useAppContext();
+  const {
+    createAnime,
+    deleteAnime,
+    siteLanguage,
+    currentPlaylist,
+    addToDefault,
+    isLoading,
+  } = useAppContext();
   return (
     <Wrapper>
       <Card

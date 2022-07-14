@@ -19,6 +19,8 @@ const AddAnime = () => {
     userPlaylists,
     isLoading,
     handlePlaylistChange,
+    addToDefault,
+    changeDefaultPlaylistPolicy,
   } = useAppContext();
 
   const request = debounce((value) => {
@@ -41,6 +43,11 @@ const AddAnime = () => {
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 
+  const handleChangeForDefault = (e) => {
+    if (isLoading) return;
+    changeDefaultPlaylistPolicy();
+  };
+
   useEffect(() => {
     getPlaylists();
   }, []);
@@ -50,8 +57,14 @@ const AddAnime = () => {
   return (
     <Wrapper>
       <main className="content full-page">
-        <form className="form">
+        <form
+          className="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
           <h3>{t("add_anime.title")}</h3>
+
           {showAlert && <Alert />}
           <div className="form-center">
             {/* title */}
@@ -111,6 +124,22 @@ const AddAnime = () => {
               </select>
             </form>
           </div>
+
+          <div className="form-checkbox">
+            <input
+              type="checkbox"
+              name="addToDefault"
+              checked={addToDefault}
+              onChange={(e) => {
+                handleChangeForDefault(e);
+              }}
+              className="form-checkbox-input"
+              id="addToDefault"
+            />
+            <label htmlFor="addToDefault">
+              {t("add_anime.add_to_default")}
+            </label>
+          </div>
         </form>
         <AnimeContainer
           searchText={searchText}
@@ -125,6 +154,23 @@ const AddAnime = () => {
 };
 
 const Wrapper = styled.section`
+  .form-checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+
+    .input {
+      margin-right: 0.5rem;
+    }
+  }
+  .form-checkbox-input {
+    margin-right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .form-checkbox-label {
+    margin-left: 0.5rem;
+  }
   .btn-hipster {
     opacity: 0.7;
   }

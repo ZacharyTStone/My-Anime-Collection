@@ -37,65 +37,73 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   return (
     <>
       <Wrapper>
-        {pagination === "true" && (
-          <div className="buttons">
-            <Button
-              onClick={() => {
-                setPage(page - 1);
-                setFetchedAnimes([]);
-                fetchAnimes(page - 1);
-              }}
-              color="primary"
-              variant="contained"
-              disabled={page === 1}
-              sx={{
-                m: 2,
-                display: { xs: "flex", md: "flex" },
-              }}
-            >
-              Previous
-            </Button>
-            <Button
-              onClick={() => {
-                setPage(page + 1);
-                setFetchedAnimes([]);
-                fetchAnimes(page + 1);
-              }}
-              color="primary"
-              disabled={fetchedAnimes.length === 0}
-              variant="contained"
-              sx={{
-                m: 2,
-                display: { xs: "flex", md: "flex" },
-              }}
-            >
-              Next
-            </Button>
+        {fetchedAnimes.length > 0 ? (
+          <div>
+            {pagination === "true" && (
+              <div className="buttons">
+                <Button
+                  onClick={() => {
+                    setPage(page - 1);
+                    setFetchedAnimes([]);
+                    fetchAnimes(page - 1);
+                  }}
+                  color="primary"
+                  variant="contained"
+                  disabled={page === 1}
+                  sx={{
+                    m: 2,
+                    display: { xs: "flex", md: "flex" },
+                  }}
+                >
+                  Previous
+                </Button>
+                <Button
+                  onClick={() => {
+                    setPage(page + 1);
+                    setFetchedAnimes([]);
+                    fetchAnimes(page + 1);
+                  }}
+                  color="primary"
+                  disabled={fetchedAnimes.length === 0}
+                  variant="contained"
+                  sx={{
+                    m: 2,
+                    display: { xs: "flex", md: "flex" },
+                  }}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
+            <div className="animes">
+              {fetchedAnimes.map((anime) => {
+                return <Anime key={anime.id} anime={anime} type="add" />;
+              })}
+              {pagination === "true" && fetchedAnimes.length === 0 && (
+                <Button
+                  onClick={() => {
+                    setPage(page + 1);
+                    setFetchedAnimes([]);
+                    fetchAnimes(page + 1);
+                  }}
+                  color="primary"
+                  disabled={fetchedAnimes.length === 0}
+                  className={
+                    fetchedAnimes.length === 0
+                      ? "hidden"
+                      : "btn btn-block btn-load-more"
+                  }
+                >
+                  Load next page
+                </Button>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="no-animes">
+            <h2>No animes found.</h2>
           </div>
         )}
-        <div className="animes">
-          {fetchedAnimes.map((anime) => {
-            return <Anime key={anime.id} anime={anime} type="add" />;
-          })}
-          {pagination === "true" && fetchedAnimes.length === 0 && (
-            <Button
-              onClick={() => {
-                setPage(page + 1);
-                setFetchedAnimes([]);
-                fetchAnimes(page + 1);
-              }}
-              color="primary"
-              disabled={fetchedAnimes.length === 0}
-              className={
-                fetchedAnimes.length === 0
-                  ? "hidden"
-                  : "btn btn-block btn-load-more"
-              }
-            >
-              Load next page
-            </Button>
-          )}
-        </div>
       </Wrapper>
     </>
   );

@@ -37,6 +37,7 @@ const resources = {
         title: "Add Anime",
         search: "Title",
         sort: "Sort",
+        add_to_default: "Always Add To Default & Selected Playlist",
       },
       search_container: {
         title: "Filter Your Playlist",
@@ -162,6 +163,7 @@ const resources = {
         title: "アニメを追加する",
         search: "タイトル",
         sort: "ソート",
+        add_to_default: "いつもデフォルト＆選択したプレイリストに追加",
       },
 
       search_container: {

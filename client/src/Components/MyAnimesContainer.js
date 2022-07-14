@@ -58,14 +58,16 @@ const AnimesContainer = () => {
   return (
     <Wrapper>
       <h5>
-        {totalAnimes} anime{animes.length > 1 && "s"} found
+        {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
       <div className="animes">
         {animes.map((anime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}
       </div>
-      {numOfPages > 1 && <PageBtnContainer />}
+      <div className="pageBtnContainer">
+        {numOfPages > 1 && <PageBtnContainer />}
+      </div>
     </Wrapper>
   );
 };
@@ -83,6 +85,12 @@ const Wrapper = styled.section`
     grid-template-columns: 1fr;
     row-gap: 2rem;
     color: var(--textColor);
+  }
+
+  .pageBtnContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
   }
   @media (min-width: 992px) {
     .animes {

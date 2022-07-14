@@ -43,7 +43,12 @@ const SearchContainer = () => {
   };
   return (
     <Wrapper>
-      <form className="form">
+      <form
+        className="form"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <h4>{t("search_container.title")}</h4>
         <div className="form-center">
           <FormRow

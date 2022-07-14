@@ -27,9 +27,7 @@ import {
   GET_ANIMES_SUCCESS,
   GET_PLAYLIST_BEGIN,
   GET_PLAYLIST_SUCCESS,
-  CREATE_PLAYLIST_BEGIN,
-  CREATE_PLAYLIST_SUCCESS,
-  CREATE_PLAYLIST_ERROR,
+  CHANGE_DEFAULT_PLAYLIST_POLICY,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
   DELETE_PLAYLIST_BEGIN,
@@ -98,6 +96,7 @@ const initialState = {
   ],
 
   siteLanguage: "en",
+  addToDefault: false,
 };
 
 const AppContext = React.createContext();
@@ -135,6 +134,12 @@ const AppProvider = ({ children }) => {
       return Promise.reject(error);
     }
   );
+
+  const changeDefaultPlaylistPolicy = () => {
+    dispatch({
+      type: CHANGE_DEFAULT_PLAYLIST_POLICY,
+    });
+  };
 
   const changeSiteLanguage = (lang) => {
     dispatch({
@@ -513,7 +518,7 @@ const AppProvider = ({ children }) => {
         deleteAnime,
         updatePlaylist,
         deletePlaylist,
-
+        changeDefaultPlaylistPolicy,
         clearFilters,
         changePage,
       }}

@@ -32,6 +32,7 @@ import {
   CHANGE_PAGE,
   CHANGE_SITE_LANGUAGE,
   HANDLE_PLAYLIST_CHANGE,
+  CHANGE_DEFAULT_PLAYLIST_POLICY,
 } from "./actions";
 
 import { initialState } from "./appContext";
@@ -263,6 +264,14 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
+    };
+  }
+
+  if (action.type === CHANGE_DEFAULT_PLAYLIST_POLICY) {
+    let change = !state.addToDefault;
+    return {
+      ...state,
+      addToDefault: change,
     };
   }
 
