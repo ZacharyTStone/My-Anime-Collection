@@ -19,13 +19,11 @@ import A5 from "../assets/images/sampleAnimes/A5.png";
 import A6 from "../assets/images/sampleAnimes/A6.png";
 import A7 from "../assets/images/sampleAnimes/A7.png";
 import A8 from "../assets/images/sampleAnimes/A8.png";
-import america from "../assets/images/america.webp";
-import japan from "../assets/images/japan.webp";
+
 import Testimonials from "../Components/Testimonials";
-import { useAppContext } from "../context/appContext";
+import MusicAndFlag from "../Components/MusicAndFlag";
 
 const Landing = () => {
-  const { changeSiteLanguage } = useAppContext();
   const { t, i18n } = useTranslation();
   useEffect(() => {
     toast.success(
@@ -58,33 +56,7 @@ const Landing = () => {
       <Wrapper>
         <nav>
           <Logo />
-          <div className="full-flag-div">
-            <div className="flag-div nav-button">
-              {i18n.language === "en" ? (
-                <div className="flag-div">
-                  <div className="flag-div-holder">
-                    <img
-                      className="flag"
-                      src={japan}
-                      alt="Japan Flag"
-                      onClick={() => changeSiteLanguage("jp")}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="Japanese">
-                  <div className="flag-div-holder">
-                    <img
-                      className="flag"
-                      src={america}
-                      alt="America Flag"
-                      onClick={() => changeSiteLanguage("en")}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          <MusicAndFlag />
         </nav>
         <main>
           <RunningImg img={narutoRun} />
@@ -259,16 +231,16 @@ const Wrapper = styled.main`
   // special css for anime cards
 
   .flag-div-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     position: fixed;
     top: 5%;
     right: 5%;
     z-index: 100;
   }
-  .flag {
-    width: 3rem;
-    height: 2rem;
-    cursor: pointer;
-  }
+
   .animesLeft {
     height: 90%;
     display: none;

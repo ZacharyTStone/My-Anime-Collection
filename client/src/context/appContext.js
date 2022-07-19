@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer, useContext, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import reducer from "./reducer";
 import axios from "axios";
@@ -44,8 +44,10 @@ import {
   CLEAR_FILTERS,
   CHANGE_PAGE,
   CHANGE_SITE_LANGUAGE,
+  CHANGE_AUDIO_STATE,
 } from "./actions";
-import i18next from "i18next";
+
+import song from "../audio/anime2.mp3";
 
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
@@ -108,6 +110,8 @@ const initialState = {
   fetchedAnimes: [],
   totalFetchedAnimes: 0,
   numOfFetchedAnimesPages: 0,
+  isAudioPlaying: false,
+  audio: null,
 };
 
 const AppContext = React.createContext();
@@ -116,6 +120,10 @@ const AppProvider = ({ children }) => {
   const { i18n } = useTranslation();
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const audio = new Audio(song);
+  const audioRef = useRef(audio);
+
+  initialState.audio = audioRef;
 
   // axios
   const authFetch = axios.create({
@@ -145,6 +153,22 @@ const AppProvider = ({ children }) => {
       return Promise.reject(error);
     }
   );
+
+  const playOrPauseAudio = () => {
+    if (state.isAudioPlaying === true) {
+      audioRef.current.pause();
+      dispatch({
+        type: CHANGE_AUDIO_STATE,
+        payload: false,
+      });
+    } else {
+      audioRef.current.play();
+      dispatch({
+        type: CHANGE_AUDIO_STATE,
+        payload: true,
+      });
+    }
+  };
 
   const changeDefaultPlaylistPolicy = () => {
     dispatch({
@@ -277,7 +301,7 @@ const AppProvider = ({ children }) => {
 
   const createAnime = async (anime, playlistID, playlistTitle) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
-    console.log(anime);
+
     try {
       const creationDate = anime.attributes.startDate;
       const title =
@@ -510,7 +534,10 @@ const AppProvider = ({ children }) => {
         .then((res) => res.json())
         .then((data) => {
           let animes = data.data;
-          let totalFetchedAnimes = data.meta.count;
+          let totalFetchedAnimes = 10;
+          if (filter === "true") {
+            totalFetchedAnimes = data.meta.count;
+          }
           let numOfFetchedAnimesPages = Math.ceil(totalFetchedAnimes / 10);
 
           console.log(totalFetchedAnimes, numOfFetchedAnimesPages);
@@ -563,6 +590,7 @@ const AppProvider = ({ children }) => {
         clearFilters,
         changePage,
         fetchAnimes,
+        playOrPauseAudio,
       }}
     >
       {children}

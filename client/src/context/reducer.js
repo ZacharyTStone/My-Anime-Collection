@@ -39,6 +39,7 @@ import {
   UPDATE_PLAYLIST_BEGIN,
   UPDATE_PLAYLIST_SUCCESS,
   UPDATE_PLAYLIST_ERROR,
+  CHANGE_AUDIO_STATE,
 } from "./actions";
 
 import { toast } from "react-toastify";
@@ -187,7 +188,10 @@ const reducer = (state, action) => {
 
   if (action.type === CREATE_ANIME_SUCCESS) {
     toast.success(
-      `${action.payload.title} has been added to your playlist called ${action.payload.playlistTitle}`
+      `${action.payload.title} has been added to your playlist called ${action.payload.playlistTitle}`,
+      {
+        toastId: "createAnime",
+      }
     );
 
     return {
@@ -197,8 +201,12 @@ const reducer = (state, action) => {
   }
   if (action.type === CREATE_ANIME_ERROR) {
     action.payload.msg
-      ? toast.error(action.payload.msg)
-      : toast.error("Something went wrong");
+      ? toast.error(action.payload.msg, {
+          toastId: "createAnime",
+        })
+      : toast.error("Something went wrong", {
+          toastId: "createAnime",
+        });
     return {
       ...state,
       isLoading: false,
@@ -233,7 +241,9 @@ const reducer = (state, action) => {
   }
 
   if (action.type === DELETE_ANIME_SUCCESS) {
-    toast.success("Anime deleted successfully");
+    toast.success("Anime deleted successfully", {
+      toastId: "deleteAnime",
+    });
     return {
       ...state,
       isLoading: false,
@@ -331,9 +341,6 @@ const reducer = (state, action) => {
   }
 
   if (action.type === CHANGE_DEFAULT_PLAYLIST_POLICY) {
-    toast.success("Default playlist policy changed successfully", {
-      toastId: "changeDefaultPlaylistPolicy",
-    });
     let change = !state.addToDefault;
     return {
       ...state,
@@ -366,6 +373,39 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
+    };
+  }
+
+  if (action.type === CHANGE_AUDIO_STATE) {
+    // if (action.payload === true) {
+    //   toast.success(
+    //     "Playing 100 ANIME SONGS in 30 MINUTES!!!.... by HalcyonMusic / ハルシオン Anime Piano Covers.",
+    //     {
+    //       toastId: "changeAudioState1",
+    //       autoClose: 8000,
+    //     }
+    //   );
+
+    //   toast.success(
+    //     "Learn more about his music at https://halcyonmusic.carrd.co",
+    //     {
+    //       toastId: "changeAudioState2",
+    //       autoClose: 8000,
+    //     }
+    //   );
+    // }
+    // if (action.payload === false) {
+    //   toast.success(
+    //     "100 ANIME SONGS in 30 MINUTES!!!.... by HalcyonMusic / ハルシオン Anime Piano Covers.",
+    //     {
+    //       toastId: "changeAudioState1",
+    //     }
+    //   );
+    // }
+
+    return {
+      ...state,
+      isAudioPlaying: action.payload,
     };
   }
 

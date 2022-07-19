@@ -10,6 +10,7 @@
 html {
   font-size: 100%;
   scroll-behavior: smooth;
+  background-color: black;
 } /*16px*/
 
 :root {
@@ -448,4 +449,11 @@ ul {
   .coffee-info a {
     font-size: 0.875rem;
   }
+}
+
+.flag {
+  width: 3rem;
+  height: 2rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
 }

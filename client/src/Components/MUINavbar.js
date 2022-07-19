@@ -16,8 +16,7 @@ import { useTranslation } from "react-i18next";
 import Logo from "./Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
-import america from "../assets/images/america.webp";
-import japan from "../assets/images/japan.webp";
+import MusicAndFlag from "./MusicAndFlag";
 
 const MUINavbar = () => {
   const { t, i18n } = useTranslation();
@@ -114,33 +113,8 @@ const MUINavbar = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <NavLinks />
             </Box>
-            <Box className="full-flag-div">
-              <div className="flag-div nav-button">
-                {i18n.language === "en" ? (
-                  <div className="flag-div">
-                    <div className="flag-div-holder">
-                      <img
-                        className="flag"
-                        src={japan}
-                        alt="Japan Flag"
-                        onClick={() => changeSiteLanguage("jp")}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="Japanese">
-                    <div className="flag-div-holder">
-                      <img
-                        className="flag"
-                        src={america}
-                        alt="America Flag"
-                        onClick={() => changeSiteLanguage("en")}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </Box>
+            <MusicAndFlag />
+
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings" className="nav-link">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -197,7 +171,6 @@ const Wrapper = styled.nav`
     align-items: center;
     justify-content: center;
     margin-right: 20px;
-    padding-top: 10px;
   }
   .flag {
     width: 2.2rem;
