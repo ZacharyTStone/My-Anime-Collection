@@ -23,7 +23,6 @@ const Profile = () => {
     handlePlaylistChange,
   } = useAppContext();
 
-  const [title, setTitle] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [id, setId] = useState("");
 
@@ -37,18 +36,14 @@ const Profile = () => {
       return;
     }
     await handlePlaylistChange({ name: playlist.id, value: playlist.id });
-    setTitle(playlist.title);
     setNewTitle(playlist.title);
     setId(playlist.id);
   };
 
   useEffect(async () => {
-    // random wacky word from array
-
     await getPlaylists();
     setNewTitle(currentPlaylist.title);
     setId(currentPlaylist.id);
-    setTitle(currentPlaylist.title);
   }, []);
 
   const handleNewPlaylistSubmit = async (e) => {
@@ -60,7 +55,6 @@ const Profile = () => {
 
     setNewTitle(userPlaylists[numberOfPlaylists].title);
     setId(userPlaylists[numberOfPlaylists].id);
-    setTitle(userPlaylists[numberOfPlaylists].title);
   };
   // set the most recent playlist as the current playlist
 
@@ -108,7 +102,6 @@ const Profile = () => {
                       )
                     ) {
                       await deletePlaylist(playlist.id);
-                      setTitle("");
                       setNewTitle("");
                       setId("");
                     }
