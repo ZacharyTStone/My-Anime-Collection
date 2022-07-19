@@ -4,7 +4,6 @@ import {
   SETUP_USER_BEGIN,
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
-  TOGGLE_SIDEBAR,
   LOGOUT_USER,
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
@@ -26,6 +25,7 @@ import {
   FETCH_ANIMES_ERROR,
   CREATE_PLAYLIST_BEGIN,
   CREATE_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_ERROR,
   DELETE_PLAYLIST_BEGIN,
   DELETE_PLAYLIST_SUCCESS,
   DELETE_PLAYLIST_ERROR,
@@ -36,7 +36,12 @@ import {
   CHANGE_SITE_LANGUAGE,
   HANDLE_PLAYLIST_CHANGE,
   CHANGE_DEFAULT_PLAYLIST_POLICY,
+  UPDATE_PLAYLIST_BEGIN,
+  UPDATE_PLAYLIST_SUCCESS,
+  UPDATE_PLAYLIST_ERROR,
 } from "./actions";
+
+import { toast } from "react-toastify";
 
 import { initialState } from "./appContext";
 
@@ -89,12 +94,6 @@ const reducer = (state, action) => {
       alertText: action.payload.msg,
     };
   }
-  if (action.type === TOGGLE_SIDEBAR) {
-    return {
-      ...state,
-      showSidebar: !state.showSidebar,
-    };
-  }
   if (action.type === LOGOUT_USER) {
     return {
       ...initialState,
@@ -106,6 +105,7 @@ const reducer = (state, action) => {
     return { ...state, isLoading: true };
   }
   if (action.type === UPDATE_USER_SUCCESS) {
+    toast.success("User updated successfully");
     return {
       ...state,
       isLoading: false,
@@ -116,6 +116,12 @@ const reducer = (state, action) => {
     };
   }
   if (action.type === UPDATE_USER_ERROR) {
+    if (action.payload.msg) {
+      toast.error(action.payload.msg);
+    } else {
+      toast.error("Something went wrong");
+    }
+
     return {
       ...state,
       isLoading: false,
@@ -125,12 +131,17 @@ const reducer = (state, action) => {
     return { ...state, isLoading: true };
   }
   if (action.type === DELETE_USER_SUCCESS) {
+    toast.success("User deleted successfully");
     return {
       ...state,
       isLoading: false,
     };
   }
   if (action.type === DELETE_USER_ERROR) {
+    action.payload.msg
+      ? toast.error(action.payload.msg)
+      : toast.error("Something went wrong");
+
     return {
       ...state,
       isLoading: false,
@@ -149,7 +160,6 @@ const reducer = (state, action) => {
   }
 
   if (action.type === HANDLE_PLAYLIST_CHANGE) {
-    console.log(action.payload, "reducer");
     return {
       ...state,
       currentPlaylist: {
@@ -176,12 +186,19 @@ const reducer = (state, action) => {
   }
 
   if (action.type === CREATE_ANIME_SUCCESS) {
+    toast.success(
+      `${action.payload.title} has been added to your playlist called ${action.payload.playlistTitle}`
+    );
+
     return {
       ...state,
       isLoading: false,
     };
   }
   if (action.type === CREATE_ANIME_ERROR) {
+    action.payload.msg
+      ? toast.error(action.payload.msg)
+      : toast.error("Something went wrong");
     return {
       ...state,
       isLoading: false,
@@ -216,6 +233,7 @@ const reducer = (state, action) => {
   }
 
   if (action.type === DELETE_ANIME_SUCCESS) {
+    toast.success("Anime deleted successfully");
     return {
       ...state,
       isLoading: false,
@@ -236,14 +254,13 @@ const reducer = (state, action) => {
   }
 
   if (action.type === CREATE_PLAYLIST_SUCCESS) {
+    toast.success("Playlist created successfully", {
+      toastId: "createPlaylist",
+    });
+
     return {
       ...state,
       isLoading: false,
-      userPlaylists: action.payload.playlists,
-      currentPlaylist: {
-        title: action.payload.playlist.title,
-        id: action.payload.playlist.id,
-      },
     };
   }
 
@@ -251,19 +268,62 @@ const reducer = (state, action) => {
     return { ...state, isLoading: true };
   }
 
+  if (action.type === CREATE_PLAYLIST_ERROR) {
+    action.payload.msg
+      ? toast.error(action.payload.msg)
+      : toast.error("Something went wrong");
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }
+
+  if (action.type === UPDATE_PLAYLIST_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === UPDATE_PLAYLIST_SUCCESS) {
+    toast.success("Playlist updated successfully", {
+      toastId: "updatePlaylist",
+    });
+
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }
+
+  if (action.type === UPDATE_PLAYLIST_ERROR) {
+    action.payload.msg
+      ? toast.error(action.payload.msg, {
+          toastId: "updatePlaylist",
+        })
+      : toast.error("Something went wrong", {
+          toastId: "updatePlaylist",
+        });
+  }
   if (action.type === DELETE_PLAYLIST_BEGIN) {
     return { ...state, isLoading: true };
   }
 
   if (action.type === DELETE_PLAYLIST_SUCCESS) {
+    toast.success("Playlist deleted successfully", {
+      toastId: "deletePlaylist",
+    });
     return {
       ...state,
       isLoading: false,
-      // userPlaylists: action.payload.playlists,
     };
   }
 
   if (action.type === DELETE_PLAYLIST_ERROR) {
+    action.payload.msg
+      ? toast.error(action.payload.msg, {
+          toastId: "deletePlaylist",
+        })
+      : toast.error("Something went wrong", {
+          toastId: "deletePlaylist",
+        });
     return {
       ...state,
       isLoading: false,
@@ -271,6 +331,9 @@ const reducer = (state, action) => {
   }
 
   if (action.type === CHANGE_DEFAULT_PLAYLIST_POLICY) {
+    toast.success("Default playlist policy changed successfully", {
+      toastId: "changeDefaultPlaylistPolicy",
+    });
     let change = !state.addToDefault;
     return {
       ...state,
@@ -287,10 +350,19 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       fetchedAnimes: action.payload.animes,
+      totalFetchedAnimes: action.payload.totalFetchedAnimes,
+      numOfFetchedAnimesPages: action.payload.numOfFetchedAnimesPages,
     };
   }
 
   if (action.type === FETCH_ANIMES_ERROR) {
+    action.payload.msg
+      ? toast.error(action.payload.msg, {
+          toastId: "fetchAnimes",
+        })
+      : toast.error("Something went wrong", {
+          toastId: "fetchAnimes",
+        });
     return {
       ...state,
       isLoading: false,

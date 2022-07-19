@@ -8,7 +8,13 @@ import Loading from "./Loading";
 const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   const [page, setPage] = useState(1);
 
-  const { fetchAnimes, isLoading, fetchedAnimes } = useAppContext();
+  const {
+    fetchAnimes,
+    isLoading,
+    fetchedAnimes,
+    totalFetchedAnimes,
+    numOfFetchedAnimesPages,
+  } = useAppContext();
 
   useEffect(() => {
     fetchAnimes({
@@ -29,81 +35,89 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
     <>
       <Wrapper>
         {fetchedAnimes.length > 0 ? (
-          <div>
-            {pagination === "true" && (
-              <div className="buttons">
-                <Button
-                  onClick={() => {
-                    setPage(page - 1);
+          <>
+            <div>
+              {pagination === "true" && (
+                <div className="buttons">
+                  <Button
+                    onClick={() => {
+                      setPage(page - 1);
 
-                    fetchAnimes({
-                      baseURL,
-                      searchText,
-                      filter,
-                      pagination,
-                      sort,
-                      page: page - 1,
-                    });
-                  }}
-                  color="primary"
-                  variant="contained"
-                  disabled={page === 1}
-                  sx={{
-                    m: 2,
-                    display: { xs: "flex", md: "flex" },
-                  }}
-                >
-                  Previous
-                </Button>
-                <Button
-                  onClick={() => {
-                    setPage(page + 1);
+                      fetchAnimes({
+                        baseURL,
+                        searchText,
+                        filter,
+                        pagination,
+                        sort,
+                        page: page - 1,
+                      });
+                    }}
+                    color="primary"
+                    variant="contained"
+                    disabled={page === 1}
+                    sx={{
+                      m: 2,
+                      display: { xs: "flex", md: "flex" },
+                    }}
+                  >
+                    Previous
+                  </Button>
+                  <div className="top-info">
+                    <h3>We found {totalFetchedAnimes} animes </h3>
+                    <h5>
+                      page {page} of {numOfFetchedAnimesPages}
+                    </h5>
+                  </div>
+                  <Button
+                    onClick={() => {
+                      setPage(page + 1);
 
-                    fetchAnimes({
-                      baseURL,
-                      searchText,
-                      filter,
-                      pagination,
-                      sort,
-                      page: page + 1,
-                    });
-                  }}
-                  color="primary"
-                  disabled={fetchedAnimes.length === 0}
-                  variant="contained"
-                  sx={{
-                    m: 2,
-                    display: { xs: "flex", md: "flex" },
-                  }}
-                >
-                  Next
-                </Button>
-              </div>
-            )}
-            <div className="animes">
-              {fetchedAnimes.map((anime) => {
-                return <Anime key={anime.id} anime={anime} type="add" />;
-              })}
-              {pagination === "true" && fetchedAnimes.length === 0 && (
-                <Button
-                  onClick={() => {
-                    setPage(page + 1);
-
-                    fetchAnimes(page + 1);
-                  }}
-                  color="primary"
-                  disabled={fetchedAnimes.length === 0}
-                  className={
-                    fetchedAnimes.length === 0
-                      ? "hidden"
-                      : "btn btn-block btn-load-more"
-                  }
-                >
-                  Load next page
-                </Button>
+                      fetchAnimes({
+                        baseURL,
+                        searchText,
+                        filter,
+                        pagination,
+                        sort,
+                        page: page + 1,
+                      });
+                    }}
+                    color="primary"
+                    disabled={fetchedAnimes.length === 0}
+                    variant="contained"
+                    sx={{
+                      m: 2,
+                      display: { xs: "flex", md: "flex" },
+                    }}
+                  >
+                    Next
+                  </Button>
+                </div>
               )}
+              <div className="animes">
+                {fetchedAnimes.map((anime) => {
+                  return <Anime key={anime.id} anime={anime} type="add" />;
+                })}
+                {pagination === "true" && fetchedAnimes.length === 0 && (
+                  <Button
+                    onClick={() => {
+                      setPage(page + 1);
+
+                      fetchAnimes(page + 1);
+                    }}
+                    color="primary"
+                    disabled={fetchedAnimes.length === 0}
+                    className={
+                      fetchedAnimes.length === 0
+                        ? "hidden"
+                        : "btn btn-block btn-load-more"
+                    }
+                  >
+                    Load next page
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
+          </>
         ) : (
           <div className="no-animes">
             <h2>No animes found.</h2>
