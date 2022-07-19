@@ -21,6 +21,9 @@ import {
   GET_ANIMES_SUCCESS,
   GET_PLAYLIST_BEGIN,
   GET_PLAYLIST_SUCCESS,
+  FETCH_ANIMES_BEGIN,
+  FETCH_ANIMES_SUCCESS,
+  FETCH_ANIMES_ERROR,
   CREATE_PLAYLIST_BEGIN,
   CREATE_PLAYLIST_SUCCESS,
   DELETE_PLAYLIST_BEGIN,
@@ -272,6 +275,25 @@ const reducer = (state, action) => {
     return {
       ...state,
       addToDefault: change,
+    };
+  }
+
+  if (action.type === FETCH_ANIMES_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === FETCH_ANIMES_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      fetchedAnimes: action.payload.animes,
+    };
+  }
+
+  if (action.type === FETCH_ANIMES_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
     };
   }
 

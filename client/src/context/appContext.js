@@ -25,6 +25,9 @@ import {
   CREATE_ANIME_ERROR,
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
+  FETCH_ANIMES_BEGIN,
+  FETCH_ANIMES_SUCCESS,
+  FETCH_ANIMES_ERROR,
   GET_PLAYLIST_BEGIN,
   GET_PLAYLIST_SUCCESS,
   CHANGE_DEFAULT_PLAYLIST_POLICY,
@@ -97,6 +100,7 @@ const initialState = {
 
   siteLanguage: "en",
   addToDefault: false,
+  fetchedAnimes: [],
 };
 
 const AppContext = React.createContext();
@@ -497,6 +501,58 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  const fetchAnimes = async ({
+    page,
+    baseURL,
+    filter,
+    searchText,
+    pagination,
+    sort,
+  }) => {
+    console.log(filter, "filter");
+    dispatch({ type: FETCH_ANIMES_BEGIN });
+    // the fetching is done here. the sorting is passed in from AddAnime Page
+    let APIURL = baseURL;
+
+    if (filter === "true") {
+      APIURL += "?filter[text]=" + searchText + "&page[limit]=10";
+    }
+    if (pagination === "true") {
+      APIURL += "&page[offset]=" + (page - 1) * 10;
+    }
+
+    if (sort !== "false") {
+      APIURL += "&sort=" + sort;
+    }
+
+    try {
+      fetch(APIURL)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data, "data");
+          let animes = data.data;
+
+          if (!animes) {
+            toast.error("No animes found");
+            animes = [];
+          }
+
+          console.log(animes, "animes");
+
+          dispatch({
+            type: FETCH_ANIMES_SUCCESS,
+            payload: { animes },
+          });
+        })
+        .catch((error) => {
+          console.log(error, "error");
+        });
+    } catch (error) {
+      console.log(error, "error");
+    }
+    // clearAlert();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -521,6 +577,7 @@ const AppProvider = ({ children }) => {
         changeDefaultPlaylistPolicy,
         clearFilters,
         changePage,
+        fetchAnimes,
       }}
     >
       {children}

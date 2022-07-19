@@ -2,37 +2,28 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Anime from "./Anime";
+import { useAppContext } from "../context/appContext";
+import Loading from "./Loading";
 
 const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   const [page, setPage] = useState(1);
 
-  const [fetchedAnimes, setFetchedAnimes] = useState([]);
+  const { fetchAnimes, isLoading, fetchedAnimes } = useAppContext();
 
   useEffect(() => {
-    fetchAnimes(1);
+    fetchAnimes({
+      page,
+      baseURL,
+      filter,
+      searchText,
+      pagination,
+      sort,
+    });
   }, [searchText, sort]);
 
-  const fetchAnimes = (pageNumber) => {
-    // the fetching is done here. the sorting is passed in from AddAnime Page
-    let APIURL = baseURL;
-
-    if (filter === "true") {
-      APIURL += "?filter[text]=" + searchText + "&page[limit]=10";
-    }
-    if (pagination === "true") {
-      APIURL += "&page[offset]=" + (pageNumber - 1) * 10;
-    }
-
-    if (sort !== "false") {
-      APIURL += "&sort=" + sort;
-    }
-
-    fetch(APIURL)
-      .then((res) => res.json())
-      .then((data) => {
-        setFetchedAnimes(data.data);
-      });
-  };
+  if (isLoading) {
+    return <Loading center />;
+  }
 
   return (
     <>
@@ -44,8 +35,15 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                 <Button
                   onClick={() => {
                     setPage(page - 1);
-                    setFetchedAnimes([]);
-                    fetchAnimes(page - 1);
+
+                    fetchAnimes({
+                      baseURL,
+                      searchText,
+                      filter,
+                      pagination,
+                      sort,
+                      page: page - 1,
+                    });
                   }}
                   color="primary"
                   variant="contained"
@@ -60,8 +58,15 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                 <Button
                   onClick={() => {
                     setPage(page + 1);
-                    setFetchedAnimes([]);
-                    fetchAnimes(page + 1);
+
+                    fetchAnimes({
+                      baseURL,
+                      searchText,
+                      filter,
+                      pagination,
+                      sort,
+                      page: page + 1,
+                    });
                   }}
                   color="primary"
                   disabled={fetchedAnimes.length === 0}
@@ -83,7 +88,7 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                 <Button
                   onClick={() => {
                     setPage(page + 1);
-                    setFetchedAnimes([]);
+
                     fetchAnimes(page + 1);
                   }}
                   color="primary"
