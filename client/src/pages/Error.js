@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import img from "../assets/images/allanime.jpg";
+import img from "../assets/images/allanime.webp";
 import styled from "styled-components";
 
 const Error = () => {

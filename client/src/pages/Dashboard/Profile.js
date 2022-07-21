@@ -3,7 +3,7 @@ import { FormRow, FormRowSelect } from "../../Components";
 import { Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
-import pokemon from "../../assets/images/pokemon.png";
+import pokemon from "../../assets/images/pokemon.webp";
 import { BiCoffeeTogo } from "react-icons/bi";
 import { FaBitcoin } from "react-icons/fa";
 import { useTranslation } from "react-i18next";

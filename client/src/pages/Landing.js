@@ -1,6 +1,6 @@
-import goku from "../assets/images/goku.png";
-import aot from "../assets/images/aot.png";
-import lucy from "../assets/images/lucy.png";
+import goku from "../assets/images/goku.webp";
+import aot from "../assets/images/aot.webp";
+import lucy from "../assets/images/lucy.webp";
 import narutoRun from "../assets/images/narutoRun.gif";
 import RunningImg from "../Components/RunningImg";
 import { Logo } from "../Components";
@@ -11,20 +11,20 @@ import { FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import A1 from "../assets/images/sampleAnimes/A1.png";
-import A2 from "../assets/images/sampleAnimes/A2.png";
-import A3 from "../assets/images/sampleAnimes/A3.png";
-import A4 from "../assets/images/sampleAnimes/A4.png";
-import A5 from "../assets/images/sampleAnimes/A5.png";
-import A6 from "../assets/images/sampleAnimes/A6.png";
-import A7 from "../assets/images/sampleAnimes/A7.png";
-import A8 from "../assets/images/sampleAnimes/A8.png";
+import A1 from "../assets/images/sampleAnimes/A1.webp";
+import A2 from "../assets/images/sampleAnimes/A2.webp";
+import A3 from "../assets/images/sampleAnimes/A3.webp";
+import A4 from "../assets/images/sampleAnimes/A4.webp";
+import A5 from "../assets/images/sampleAnimes/A5.webp";
+import A6 from "../assets/images/sampleAnimes/A6.webp";
+import A7 from "../assets/images/sampleAnimes/A7.webp";
+import A8 from "../assets/images/sampleAnimes/A8.webp";
 
 import Testimonials from "../Components/Testimonials";
 import MusicAndFlag from "../Components/MusicAndFlag";
 
 const Landing = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
     toast.success(
       "Hi! 👋 This app is currently in development. Want me to add a feature? Let me know at Zach.Stone.Developer@gmail.com",
