@@ -23,7 +23,6 @@ const register = async (req, res) => {
     user: {
       email: user.email,
       emailProvider: user.emailProvider,
-      lastName: user.lastName,
       name: user.name,
       theme: user.theme,
     },
