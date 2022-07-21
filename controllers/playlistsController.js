@@ -1,10 +1,6 @@
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
-import {
-  BadRequestError,
-  UnAuthenticatedError,
-  NotFoundError,
-} from "../errors/index.js";
+import { BadRequestError } from "../errors/index.js";
 
 import Anime from "../models/Anime.js";
 
@@ -61,12 +57,9 @@ const updatePlaylist = async (req, res) => {
 const deletePlaylist = async (req, res) => {
   // don't delete the playlist if it is the only one
 
-  console.log("delete playlist in controler");
-
   const user = await User.findOne({ _id: req.user.userId });
 
   if (user.playlists.length === 1) {
-    console.log("cannot delete the default playlist");
     throw new BadRequestError("You cannot delete the default playlist");
   }
 
@@ -79,7 +72,6 @@ const deletePlaylist = async (req, res) => {
   }
 
   if (playlist.id === "0") {
-    console.log("cannot delete the default playlist");
     throw new BadRequestError("You cannot delete the default playlist");
   }
 
@@ -92,7 +84,6 @@ const deletePlaylist = async (req, res) => {
 
   animes.forEach((anime) => {
     if (anime.playlistID.includes(playlist.id)) {
-      console.log("deleted anime", anime.playlistID);
       // delete the anime
       anime.remove();
     }

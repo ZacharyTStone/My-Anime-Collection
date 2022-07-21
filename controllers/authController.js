@@ -49,15 +49,14 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user, token });
 };
 const updateUser = async (req, res) => {
-  const { email, name, lastName, theme } = req.body;
-  if (!email || !name || !lastName) {
+  const { email, name, theme } = req.body;
+  if (!email || !name || !theme) {
     throw new BadRequestError("Please provide all values");
   }
   const user = await User.findOne({ _id: req.user.userId });
 
   user.email = email;
   user.name = name;
-  user.lastName = lastName;
   user.theme = theme;
 
   await user.save();

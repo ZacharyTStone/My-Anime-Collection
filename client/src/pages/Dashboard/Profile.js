@@ -21,16 +21,15 @@ const Profile = () => {
 
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
-  const [lastName, setLastName] = useState(user?.lastName);
   const [theme, setTheme] = useState(user?.theme);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !lastName) {
+    if (!name || !email) {
       displayAlert();
       return;
     }
-    updateUser({ name, email, lastName, theme });
+    updateUser({ name, email, theme });
   };
 
   const handleDelete = () => {
@@ -53,13 +52,6 @@ const Profile = () => {
             labelText={t("profile.name")}
             value={name}
             handleChange={(e) => setName(e.target.value)}
-          />
-          <FormRow
-            type="text"
-            labelText={t("profile.last_name")}
-            name="lastName"
-            value={lastName}
-            handleChange={(e) => setLastName(e.target.value)}
           />
           <FormRow
             type="email"
@@ -104,43 +96,61 @@ const Profile = () => {
             >
               {t("profile.enjoy")}
             </span>
-            <button className="btn btn-hipster" type="button">
-              <a
-                href="https://www.buymeacoffee.com/zachinjapan"
-                target={"_blank"}
-                rel="noopener noreferrer"
-              >
-                <div>
-                  <BiCoffeeTogo color="var(--primary-500)" />
-                  <span>{t("profile.buy_me_a_coffee")}</span>
-                </div>
-              </a>
-            </button>
-            <button className="btn btn-hipster" type="button">
-              <a
-                href="https://commerce.coinbase.com/checkout/ae3c63d4-ddd8-485e-a6d9-8b1dce89ee42"
-                target={"_blank"}
-                rel="noopener noreferrer"
-              >
-                <div>
-                  <FaBitcoin color="var(--primary-500)" />
-                  <span>{t("profile.crypto")}</span>
-                  <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
-                </div>
-              </a>
-            </button>
+            <div className="btn-group">
+              <div>
+                <button className="btn btn-hipster" type="button">
+                  <a
+                    href="https://www.buymeacoffee.com/zachinjapan"
+                    target={"_blank"}
+                    rel="noopener noreferrer"
+                  >
+                    <div>
+                      <BiCoffeeTogo color="var(--primary-500)" />
+                      <span>{t("profile.buy_me_a_coffee")}</span>
+                    </div>
+                  </a>
+                </button>
+                <button className="btn btn-hipster" type="button">
+                  <a
+                    href="https://commerce.coinbase.com/checkout/ae3c63d4-ddd8-485e-a6d9-8b1dce89ee42"
+                    target={"_blank"}
+                    rel="noopener noreferrer"
+                  >
+                    <div>
+                      <FaBitcoin color="var(--primary-500)" />
+                      <span>{t("profile.crypto")}</span>
+                      <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
+                    </div>
+                  </a>
+                </button>
+              </div>
+              <div>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete()}
+                >
+                  {" "}
+                  {t("profile.delete")}{" "}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </form>
-      <button className="btn btn-danger" onClick={() => handleDelete()}>
-        {" "}
-        {t("profile.delete")}{" "}
-      </button>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
+  .btn-submit {
+    margin-top: 50px !important;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .btn-hipster:hover {
     background-color: var(--primary-50);
     color: var(--primary-100);

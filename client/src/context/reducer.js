@@ -106,7 +106,9 @@ const reducer = (state, action) => {
     return { ...state, isLoading: true };
   }
   if (action.type === UPDATE_USER_SUCCESS) {
-    toast.success("User updated successfully");
+    toast.success("User updated successfully", {
+      toastId: "user-update-success",
+    });
     return {
       ...state,
       isLoading: false,

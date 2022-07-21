@@ -22,12 +22,12 @@ function App() {
         >
           <Route index path="my-animes" element={<MyAnimes />} />
           <Route index path="edit-playlist" element={<EditPlaylist />} />
-          <Route path="add-anime" element={<AddAnime />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="top-animes" element={<TopAnimes />} />
+          <Route index path="add-anime" element={<AddAnime />} />
+          <Route index path="profile" element={<Profile />} />
+          <Route index path="top-animes" element={<TopAnimes />} />
         </Route>
-        <Route path="/register" element={<Register />} />
-        <Route path="/register-demo" element={<RegisterDemo />} />
+        <Route index path="/register" element={<Register />} />
+        <Route index path="/register-demo" element={<RegisterDemo />} />
         <Route index path="/landing" element={<Landing />} />
         <Route path="*" element={<Error />} />
       </Routes>
