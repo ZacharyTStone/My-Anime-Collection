@@ -1,5 +1,5 @@
-@import "darkVars.css";
-@import "lightVars.css";
+@import "dark.css";
+@import "light.css";
 @import "text.css";
 
 /* The code below ensures that all elements are sized in this more intuitive way. 
@@ -163,25 +163,6 @@ ul {
   letter-spacing: var(--letterSpacing);
   text-transform: capitalize;
 }
-/* alert */
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading {
-  width: 6rem;
-  height: 6rem;
-  border: 5px solid var(--grey-400);
-  border-radius: 50%;
-  border-top-color: var(--primary-500);
-  animation: spinner 2s linear infinite;
-}
-.loading-center {
-  margin: 0 auto;
-}
 
 .container {
   width: var(--fluid-width);
@@ -192,6 +173,7 @@ ul {
   min-height: 100vh;
 }
 
+/* mobile only */
 @media (max-width: 725px) {
   .form-input,
   .form-select,
@@ -204,10 +186,4 @@ ul {
   .form-alert {
     font-size: 0.875rem;
   }
-}
-.flag {
-  width: 3rem;
-  height: 2rem;
-  cursor: pointer;
-  margin-top: 0.5rem;
 }

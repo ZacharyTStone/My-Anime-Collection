@@ -4,6 +4,7 @@ import japan from "../assets/images/japan.webp";
 import Box from "@mui/material/Box";
 import { useAppContext } from "../context/appContext";
 import { useTranslation } from "react-i18next";
+import styled from "styled-components";
 
 //icons
 import { PlayCircle, PauseCircle } from "@mui/icons-material";
@@ -14,7 +15,7 @@ const MusicAndFlag = () => {
   const { t, i18n } = useTranslation();
 
   return (
-    <>
+    <Wrapper>
       {i18n.language === "en" ? (
         <Box className="full-flag-div flag-div-holder">
           <IconButton
@@ -68,8 +69,17 @@ const MusicAndFlag = () => {
           </div>
         </Box>
       )}
-    </>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  .flag {
+    width: 3rem;
+    height: 2rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+  }
+`;
 
 export default MusicAndFlag;

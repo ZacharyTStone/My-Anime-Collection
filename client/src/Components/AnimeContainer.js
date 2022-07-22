@@ -17,6 +17,8 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   } = useAppContext();
 
   useEffect(() => {
+    setPage(1);
+
     fetchAnimes({
       page,
       baseURL,
@@ -82,7 +84,7 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                       });
                     }}
                     color="primary"
-                    disabled={fetchedAnimes.length === 0}
+                    disabled={page === numOfFetchedAnimesPages}
                     variant="contained"
                     sx={{
                       m: 2,

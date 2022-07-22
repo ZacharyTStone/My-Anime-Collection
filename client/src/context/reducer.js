@@ -379,32 +379,6 @@ const reducer = (state, action) => {
   }
 
   if (action.type === CHANGE_AUDIO_STATE) {
-    // if (action.payload === true) {
-    //   toast.success(
-    //     "Playing 100 ANIME SONGS in 30 MINUTES!!!.... by HalcyonMusic / ハルシオン Anime Piano Covers.",
-    //     {
-    //       toastId: "changeAudioState1",
-    //       autoClose: 8000,
-    //     }
-    //   );
-
-    //   toast.success(
-    //     "Learn more about his music at https://halcyonmusic.carrd.co",
-    //     {
-    //       toastId: "changeAudioState2",
-    //       autoClose: 8000,
-    //     }
-    //   );
-    // }
-    // if (action.payload === false) {
-    //   toast.success(
-    //     "100 ANIME SONGS in 30 MINUTES!!!.... by HalcyonMusic / ハルシオン Anime Piano Covers.",
-    //     {
-    //       toastId: "changeAudioState1",
-    //     }
-    //   );
-    // }
-
     return {
       ...state,
       isAudioPlaying: action.payload,

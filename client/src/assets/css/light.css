@@ -32,17 +32,9 @@
   --red-dark: #842029;
   --black: #222;
   --white: #fff;
-  --green-light: #d1e7dd;
-  --green-dark: #0f5132;
-  --hipster-background: "white";
-
-  /* font  */
-  --headingFont: "open sans";
-  --bodyFont: "Noto Sans", sans-serif;
-  --small-text: 0.875rem;
-  --extra-small-text: 0.7em;
 
   /* rest of the vars */
+  --hipster-background: "white";
   --backgroundColor: var(--grey-50);
   --textColor: var(--grey-900);
   --borderRadius: 0.25rem;
@@ -53,12 +45,4 @@
   --fluid-width: 90vw;
   --breakpoint-lg: 992px;
   --nav-height: 6rem;
-  /* box shadow*/
-  --shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
