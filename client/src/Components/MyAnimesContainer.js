@@ -25,10 +25,6 @@ const AnimesContainer = () => {
   } = useAppContext();
   useEffect(() => {
     getAnimes();
-
-    // find the current playlist
-
-    // eslint-disable-next-line
   }, [
     page,
     search,

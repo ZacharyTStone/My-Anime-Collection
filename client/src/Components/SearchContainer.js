@@ -21,7 +21,6 @@ const SearchContainer = () => {
   } = useAppContext();
 
   useEffect(() => {
-    console.log(currentPlaylist, "currentPlaylist in useEffect");
     getPlaylists();
   }, []);
   const handleSearch = (e) => {

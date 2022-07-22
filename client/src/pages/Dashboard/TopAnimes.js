@@ -85,7 +85,7 @@ const MyAnimes = () => {
                 id="addToDefault"
               />
               <label htmlFor="addToDefault">
-                {t("add_anime.add_to_default")}
+                <span> {t("add_anime.add_to_default")}</span>
               </label>
             </div>
           </form>

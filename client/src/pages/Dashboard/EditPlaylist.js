@@ -31,7 +31,7 @@ const Profile = () => {
     // find the playlist with the title
     const playlist = userPlaylists.find((playlist) => playlist.id === id);
     // update the current playlist
-    console.log(playlist, "playlist");
+
     if (!playlist) {
       return;
     }
@@ -40,8 +40,8 @@ const Profile = () => {
     setId(playlist.id);
   };
 
-  useEffect(async () => {
-    await getPlaylists();
+  useEffect(() => {
+    getPlaylists();
     setNewTitle(currentPlaylist.title);
     setId(currentPlaylist.id);
   }, []);
@@ -61,7 +61,6 @@ const Profile = () => {
   const handlePlaylistEdit = async (e) => {
     e.preventDefault();
     if (isLoading) return;
-    console.log("handlePlaylistEdit");
 
     await updatePlaylist({
       title: newTitle,

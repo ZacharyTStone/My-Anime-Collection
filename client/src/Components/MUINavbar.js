@@ -11,7 +11,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useAppContext } from "../context/appContext";
 import NavLinks from "./NavLinks";
-import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Logo from "./Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
@@ -19,12 +18,11 @@ import styled from "styled-components";
 import MusicAndFlag from "./MusicAndFlag";
 
 const MUINavbar = () => {
-  const { t, i18n } = useTranslation();
-  const { logoutUser, user, deleteUser, changeSiteLanguage } = useAppContext();
+  const { t } = useTranslation();
+  const { logoutUser, user, deleteUser } = useAppContext();
 
   const handleLogout = () => {
     if (user.emailProvider === "demo.com") {
-      console.log(user.emailProvider);
       deleteUser();
       logoutUser();
     } else {

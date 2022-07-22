@@ -12,7 +12,7 @@ import { PlayCircle, PauseCircle } from "@mui/icons-material";
 const MusicAndFlag = () => {
   const { changeSiteLanguage, playOrPauseAudio, isAudioPlaying } =
     useAppContext();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   return (
     <Wrapper>

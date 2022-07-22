@@ -33,6 +33,12 @@
   --black: #222;
   --white: #fff;
 
+  /* fonts  */
+  --headingFont: "Roboto Condensed", Sans-Serif;
+  --bodyFont: "Cabin", Sans-Serif;
+  --small-text: 0.875rem;
+  --extra-small-text: 0.7em;
+
   /* rest of the vars */
   --hipster-background: "white";
   --backgroundColor: var(--grey-50);

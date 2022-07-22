@@ -326,20 +326,6 @@ const Wrapper = styled.article`
   .content {
     padding: 1rem 1.5rem;
   }
-  .content-center {
-    /* display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 0.5rem;
-    @media (min-width: 576px) {
-      grid-template-columns: 1fr 1fr;
-    }
-    @media (min-width: 992px) {
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 1120px) {
-      grid-template-columns: 1fr 1fr;
-    } */
-  }
 
   footer {
     margin-top: 1rem;

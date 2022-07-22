@@ -284,7 +284,6 @@ const AppProvider = ({ children }) => {
   };
 
   const handlePlaylistChange = ({ value }) => {
-    console.log(value, "value");
     // find the playlist with the name of the value
     const playlist = state.userPlaylists.find(
       (playlist) => playlist.id === value
@@ -403,7 +402,6 @@ const AppProvider = ({ children }) => {
     try {
       const { data } = await authFetch("/playlists");
       const { playlists } = data;
-      console.log(playlists, "app contet get playlists");
 
       dispatch({
         type: GET_PLAYLIST_SUCCESS,
@@ -540,8 +538,6 @@ const AppProvider = ({ children }) => {
           }
           let numOfFetchedAnimesPages = Math.ceil(totalFetchedAnimes / 10);
 
-          console.log(totalFetchedAnimes, numOfFetchedAnimesPages);
-
           if (!animes) {
             toast.error("No animes found", {
               toastId: "no-animes-found",
@@ -555,7 +551,10 @@ const AppProvider = ({ children }) => {
           });
         })
         .catch((error) => {
-          console.log(error, "error");
+          dispatch({
+            type: FETCH_ANIMES_ERROR,
+            payload: { msg: error.response.data.msg },
+          });
         });
     } catch (error) {
       dispatch({
