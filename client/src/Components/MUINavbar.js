@@ -95,6 +95,8 @@ const MUINavbar = () => {
                 onClose={handleCloseNavMenu}
                 sx={{
                   display: { xs: "flex", md: "none" },
+                  flexDirection: "column",
+                  alignItems: "left",
                 }}
               >
                 <NavLinks />
