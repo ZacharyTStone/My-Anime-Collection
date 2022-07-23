@@ -9,13 +9,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useAppContext } from "../context/appContext";
-import NavLinks from "./NavLinks";
+import { useAppContext } from "../../context/appContext";
+import NavLinks from "../Atoms/NavLinks";
 import { useTranslation } from "react-i18next";
-import Logo from "./Logo";
+import Logo from "../Atoms/Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
-import MusicAndFlag from "./MusicAndFlag";
+import MusicAndFlag from "../Molecules/MusicAndFlag";
 
 const MUINavbar = () => {
   const { t } = useTranslation();
@@ -50,7 +50,7 @@ const MUINavbar = () => {
 
   return (
     <Wrapper>
-      <AppBar position="static" color="transparent" width="100%">
+      <AppBar position="static" color="transparent" width="fit-content">
         <Container>
           <Toolbar disableGutters>
             <Typography
@@ -182,12 +182,7 @@ const Wrapper = styled.nav`
     align-items: center;
     width: 100px;
   }
-  .nav-center {
-    display: flex;
-    width: 90vw;
-    align-items: center;
-    justify-content: space-between;
-  }
+
   .toggle-btn {
     background: transparent;
     border-color: transparent;
@@ -219,14 +214,6 @@ const Wrapper = styled.nav`
   }
   .active .icon {
     color: var(--primary-500);
-  }
-
-  @media (min-width: 992px) {
-    top: 0;
-
-    .nav-center {
-      width: 90%;
-    }
   }
 `;
 export default MUINavbar;

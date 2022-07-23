@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Logo, FormRow, Alert } from "../Components";
+import { Logo, FormRow, Alert } from "../Components/Atoms";
 import styled from "styled-components";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
-import RunningImg from "../Components/RunningImg";
+import { RunningImg } from "../Components/Atoms";
 import narutoRun from "../assets/images/narutoRun.gif";
 import { useTranslation } from "react-i18next";
 

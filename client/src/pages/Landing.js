@@ -2,8 +2,8 @@ import goku from "../assets/images/goku.webp";
 import aot from "../assets/images/aot.webp";
 import lucy from "../assets/images/lucy.webp";
 import narutoRun from "../assets/images/narutoRun.gif";
-import RunningImg from "../Components/RunningImg";
-import { Logo } from "../Components";
+import { RunningImg, Logo } from "../Components/Atoms";
+
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
@@ -19,9 +19,7 @@ import A5 from "../assets/images/sampleAnimes/A5.webp";
 import A6 from "../assets/images/sampleAnimes/A6.webp";
 import A7 from "../assets/images/sampleAnimes/A7.webp";
 import A8 from "../assets/images/sampleAnimes/A8.webp";
-
-import Testimonials from "../Components/Testimonials";
-import MusicAndFlag from "../Components/MusicAndFlag";
+import { MusicAndFlag, Testimonials } from "../Components/Molecules";
 
 const Landing = () => {
   const { t } = useTranslation();

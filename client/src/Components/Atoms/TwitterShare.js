@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useAppContext } from "../context/appContext";
+import { useAppContext } from "../../context/appContext";
 import { FaTwitter } from "react-icons/fa";
 
 const TwitterShare = () => {

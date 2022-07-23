@@ -1,10 +1,9 @@
+import { Loading, FormRow, Alert } from "../../Components/Atoms";
+
 import { useEffect, useState } from "react";
-import { FormRow } from "../../Components";
-import { Alert } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import { AiFillDelete } from "react-icons/ai";
-import Loading from "../../Components/Loading";
 
 import { useTranslation } from "react-i18next";
 const Profile = () => {

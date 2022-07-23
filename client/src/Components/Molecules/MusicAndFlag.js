@@ -1,8 +1,8 @@
-import america from "../assets/images/america.webp";
+import america from "../../assets/images/america.webp";
 import IconButton from "@mui/material/IconButton";
-import japan from "../assets/images/japan.webp";
+import japan from "../../assets/images/japan.webp";
 import Box from "@mui/material/Box";
-import { useAppContext } from "../context/appContext";
+import { useAppContext } from "../../context/appContext";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 

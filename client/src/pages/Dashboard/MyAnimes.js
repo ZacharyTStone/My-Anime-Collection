@@ -1,4 +1,6 @@
-import { MyAnimesContainer, SearchContainer, Alert } from "../../Components";
+import { Alert } from "../../Components/Atoms";
+import { SearchContainer } from "../../Components/Molecules";
+import { MyAnimesContainer } from "../../Components/Organisms";
 import { useAppContext } from "../../context/appContext";
 
 const MyAnimes = () => {

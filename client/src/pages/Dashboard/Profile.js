@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { FormRow, FormRowSelect } from "../../Components";
-import { Alert } from "../../Components";
+import { FormRow, FormRowSelect, Alert } from "../../Components/Atoms";
+
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import pokemon from "../../assets/images/pokemon.webp";

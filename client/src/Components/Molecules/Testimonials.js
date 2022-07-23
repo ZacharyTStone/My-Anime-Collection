@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Carousel from "react-simply-carousel";
-import Testimonial from "./Testimonial";
+import Testimonial from "../Atoms/Testimonial";
 import { useTranslation } from "react-i18next";
 import {
   pegasus,
   pikachu,
   shinji,
   vegeta,
-} from "../assets/images/testimonials/index";
+} from "../../assets/images/testimonials/index";
 
 function Testimonials() {
   const { t } = useTranslation();

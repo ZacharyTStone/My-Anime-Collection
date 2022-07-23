@@ -1,9 +1,9 @@
-import { FormRow, FormRowSelect } from ".";
-import { useAppContext } from "../context/appContext";
+import { FormRow, FormRowSelect } from "../Atoms";
+import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
-import TwitterShare from "./TwitterShare";
+import TwitterShare from "../Atoms/TwitterShare";
 
 const SearchContainer = () => {
   const { t } = useTranslation();

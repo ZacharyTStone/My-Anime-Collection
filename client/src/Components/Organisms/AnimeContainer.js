@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Anime from "./Anime";
-import { useAppContext } from "../context/appContext";
-import Loading from "./Loading";
+import { Anime } from "../Molecules";
+import { useAppContext } from "../../context/appContext";
+import Loading from "../Atoms/Loading";
 
 const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   const [page, setPage] = useState(1);

@@ -1,13 +1,13 @@
-import { useAppContext } from "../context/appContext";
+import { useAppContext } from "../../context/appContext";
 import { useEffect } from "react";
-import Loading from "./Loading";
-import Anime from "./Anime";
+import Loading from "../Atoms/Loading";
+import Anime from "../Molecules/Anime";
 import styled from "styled-components";
-import PageBtnContainer from "./PageBtnContainer";
+import PageBtnContainer from "../Molecules/PageBtnContainer";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const AnimesContainer = () => {
+const MyAnimesContainer = () => {
   const { t } = useTranslation();
   const {
     getAnimes,
@@ -98,4 +98,4 @@ const Wrapper = styled.section`
     }
   }
 `;
-export default AnimesContainer;
+export default MyAnimesContainer;

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { MUINavbar } from "../../Components";
+import { MUINavbar } from "../../Components/Organisms";
 import { useAppContext } from "../../context/appContext";
 import { ToastContainer } from "react-toastify";
 const SharedLayout = () => {

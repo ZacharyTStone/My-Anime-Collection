@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import AnimeContainer from "../../Components/AnimeContainer";
+import { AnimeContainer } from "../../Components/Organisms";
 import { useAppContext } from "../../context/appContext";
 import { useEffect } from "react";
 

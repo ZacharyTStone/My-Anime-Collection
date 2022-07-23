@@ -48,7 +48,6 @@ const AnimeSchema = new mongoose.Schema(
       required: false,
     },
     playlistID: {
-      // nested objects
       type: String,
       required: true,
     },

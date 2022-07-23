@@ -1,8 +1,9 @@
-import { FormRow, Alert, FormRowSelect } from "../../Components";
+import { FormRow, Alert, FormRowSelect } from "../../Components/Atoms";
+import { AnimeContainer } from "../../Components/Organisms";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
-import AnimeContainer from "../../Components/AnimeContainer";
+
 import { debounce } from "lodash";
 import { useTranslation } from "react-i18next";
 
