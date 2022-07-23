@@ -57,7 +57,7 @@ const MusicAndFlag = () => {
           </IconButton>
           <div className="flag-div nav-button">
             <div className="flag-div">
-              <div className="">
+              <div>
                 <img
                   className="flag"
                   src={america}
