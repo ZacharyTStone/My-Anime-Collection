@@ -5,7 +5,6 @@ import CustomAPIError from "./custom-api.js";
 ./middleware/auth.js:    throw new UnAuthenticatedError("Authentication Invalid");
 ./utils/checkPermissions.js:    throw new UnAuthenticatedError("Not authorized to access this route");
 ./controllers/authController.js:    throw new UnAuthenticatedError("Invalid Credentials");
-
 */
 
 class UnAuthenticatedError extends CustomAPIError {
