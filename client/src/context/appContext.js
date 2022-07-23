@@ -431,7 +431,7 @@ const AppProvider = ({ children }) => {
     };
 
     try {
-      const { data } = await authFetch.post("/playlists", playlist);
+      await authFetch.post("/playlists", playlist);
 
       getPlaylists();
       dispatch({
