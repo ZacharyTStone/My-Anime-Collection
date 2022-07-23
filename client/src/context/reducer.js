@@ -134,7 +134,9 @@ const reducer = (state, action) => {
     return { ...state, isLoading: true };
   }
   if (action.type === DELETE_USER_SUCCESS) {
-    toast.success("User deleted successfully");
+    toast.success("User deleted successfully", {
+      toastId: "user-delete-success",
+    });
     return {
       ...state,
       isLoading: false,
@@ -142,8 +144,12 @@ const reducer = (state, action) => {
   }
   if (action.type === DELETE_USER_ERROR) {
     action.payload.msg
-      ? toast.error(action.payload.msg)
-      : toast.error("Something went wrong");
+      ? toast.error(action.payload.msg, {
+          toastId: "user-delete-error",
+        })
+      : toast.error("Something went wrong", {
+          toastId: "user-delete-error",
+        });
 
     return {
       ...state,

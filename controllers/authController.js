@@ -6,7 +6,8 @@ import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 // REST routes set up in authRoutes.js
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, isDemo } = req.body;
+  // email provider is used to certain that the user is a demo user or not. If the user is a demo user, the emial provider is set to "demo"
   const emailProvider = email.split("@")[1];
 
   if (!name || !email || !password) {
@@ -16,13 +17,13 @@ const register = async (req, res) => {
   if (userAlreadyExists) {
     throw new BadRequestError("Email already in use");
   }
-  const user = await User.create({ name, email, password, emailProvider });
+  const user = await User.create({ name, email, password, isDemo });
 
   const token = user.createJWT();
   res.status(StatusCodes.CREATED).json({
     user: {
       email: user.email,
-      emailProvider: user.emailProvider,
+      isDemo: user.isDemo,
       name: user.name,
       theme: user.theme,
     },

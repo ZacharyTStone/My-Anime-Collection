@@ -32,11 +32,13 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const { name, email, password, isMember } = values;
+    const isDemo = false;
+
     if (!email || !password || (!isMember && !name)) {
       displayAlert();
       return;
     }
-    const currentUser = { name, email, password };
+    const currentUser = { name, email, password, isDemo };
     if (isMember) {
       setupUser({
         currentUser,

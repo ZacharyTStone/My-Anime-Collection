@@ -229,8 +229,12 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
-  const logoutUser = () => {
+  const logoutUser = async () => {
     dispatch({ type: LOGOUT_USER });
+    console.log(state.user);
+    if (state.user.isDemo === true) {
+      await deleteUser(state.user);
+    }
     removeUserFromLocalStorage();
   };
 

@@ -19,16 +19,7 @@ import MusicAndFlag from "../Molecules/MusicAndFlag";
 
 const MUINavbar = () => {
   const { t } = useTranslation();
-  const { logoutUser, user, deleteUser } = useAppContext();
-
-  const handleLogout = () => {
-    if (user.emailProvider === "demo.com") {
-      deleteUser();
-      logoutUser();
-    } else {
-      logoutUser();
-    }
-  };
+  const { logoutUser, user } = useAppContext();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -145,7 +136,7 @@ const MUINavbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem key={1} onClick={handleLogout}>
+                <MenuItem key={1} onClick={logoutUser}>
                   <Typography textAlign="center">
                     {t("navbar.logout")}
                   </Typography>

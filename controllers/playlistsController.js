@@ -34,15 +34,11 @@ const createPlaylist = async (req, res) => {
 };
 
 const updatePlaylist = async (req, res) => {
-  console.log("update playlist in controler");
   const user = await User.findOne({ _id: req.user.userId });
-  console.log(user, "updatePlaylist user");
 
   const playlist = user.playlists.find(
     (playlist) => playlist.id === req.params.id
   );
-
-  console.log(playlist, "updatePlaylist playlist");
 
   if (!playlist) {
     throw new BadRequestError("Playlist not found");
@@ -55,10 +51,9 @@ const updatePlaylist = async (req, res) => {
 };
 
 const deletePlaylist = async (req, res) => {
-  // don't delete the playlist if it is the only one
-
   const user = await User.findOne({ _id: req.user.userId });
 
+  // don't delete the playlist if it is the only one
   if (user.playlists.length === 1) {
     throw new BadRequestError("You cannot delete the default playlist");
   }
@@ -70,7 +65,7 @@ const deletePlaylist = async (req, res) => {
   if (!playlist) {
     throw new BadRequestError("Playlist not found");
   }
-
+  // you can never delete the default playlist
   if (playlist.id === "0") {
     throw new BadRequestError("You cannot delete the default playlist");
   }

@@ -22,7 +22,7 @@ const Register = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
   const onSubmit = () => {
-    const { name, email, password } = {
+    const { name, email, password, isDemo } = {
       name: "DEMO",
       email:
         "DEMO" +
@@ -31,12 +31,14 @@ const Register = () => {
         Math.floor(Math.random() * 102) +
         "@demo.com",
       password: "DEMO" + Math.floor(Math.random() * 100) + "DEMO",
+      isDemo: true,
     };
 
     const currentUser = {
       name,
       email,
       password,
+      isDemo,
     };
 
     setupUser({
