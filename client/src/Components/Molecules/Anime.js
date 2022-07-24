@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
+})(() => ({
   marginLeft: "auto",
 }));
 

@@ -30,6 +30,7 @@ const getAnimes = async (req, res) => {
   // add stuff based on condition
 
   if (search) {
+    //i: To match both lower case and upper case pattern in the string.
     queryObject.title = { $regex: search, $options: "i" };
   }
 

@@ -10,13 +10,11 @@ const Profile = () => {
   const { t } = useTranslation();
   const {
     showAlert,
-
     getPlaylists,
     updatePlaylist,
     deletePlaylist,
     createPlaylist,
     isLoading,
-
     userPlaylists,
     currentPlaylist,
     handlePlaylistChange,
