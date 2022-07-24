@@ -30,11 +30,13 @@ import {
   UPDATE_PLAYLIST_ERROR,
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
+  GET_ANIMES_ERROR,
   FETCH_ANIMES_BEGIN,
   FETCH_ANIMES_SUCCESS,
   FETCH_ANIMES_ERROR,
   GET_PLAYLIST_BEGIN,
   GET_PLAYLIST_SUCCESS,
+  GET_PLAYLIST_ERROR,
   CHANGE_DEFAULT_PLAYLIST_POLICY,
   DELETE_ANIME_BEGIN,
   DELETE_ANIME_SUCCESS,
@@ -375,9 +377,11 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      logoutUser();
+      dispatch({
+        type: GET_ANIMES_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
-    // clearAlert();
   };
 
   const deleteAnime = async (animeId) => {
@@ -412,8 +416,10 @@ const AppProvider = ({ children }) => {
         payload: { playlists },
       });
     } catch (error) {
-      alert(error.response.data.msg);
-      // logoutUser();
+      dispatch({
+        type: GET_PLAYLIST_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
     // clearAlert();
   };

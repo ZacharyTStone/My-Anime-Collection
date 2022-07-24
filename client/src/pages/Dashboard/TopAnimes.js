@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { AnimeContainer } from "../../Components/Organisms";
+import { FetchedAnimesContainer } from "../../Components/Organisms";
 import { useAppContext } from "../../context/appContext";
 import { useEffect } from "react";
 
@@ -90,7 +90,7 @@ const MyAnimes = () => {
             </div>
           </form>
         </div>
-        <AnimeContainer
+        <FetchedAnimesContainer
           category={"all"}
           searchText={null}
           baseURL={"https://kitsu.io/api/edge/trending/anime"}

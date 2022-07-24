@@ -1,5 +1,5 @@
-import AnimeContainer from "./AnimeContainer";
+import FetchedAnimesContainer from "./FetchedAnimesContainer";
 import MUINavbar from "./MUINavbar";
 import MyAnimesContainer from "./MyAnimesContainer";
 
-export { AnimeContainer, MUINavbar, MyAnimesContainer };
+export { FetchedAnimesContainer, MUINavbar, MyAnimesContainer };

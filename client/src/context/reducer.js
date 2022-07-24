@@ -18,8 +18,10 @@ import {
   CREATE_ANIME_ERROR,
   GET_ANIMES_BEGIN,
   GET_ANIMES_SUCCESS,
+  GET_ANIMES_ERROR,
   GET_PLAYLIST_BEGIN,
   GET_PLAYLIST_SUCCESS,
+  GET_PLAYLIST_ERROR,
   FETCH_ANIMES_BEGIN,
   FETCH_ANIMES_SUCCESS,
   FETCH_ANIMES_ERROR,
@@ -221,7 +223,7 @@ const reducer = (state, action) => {
     };
   }
   if (action.type === GET_ANIMES_BEGIN) {
-    return { ...state, isLoading: true, showAlert: false };
+    return { ...state, isLoading: true };
   }
   if (action.type === GET_ANIMES_SUCCESS) {
     return {
@@ -233,6 +235,20 @@ const reducer = (state, action) => {
     };
   }
 
+  if (action.type === GET_ANIMES_ERROR) {
+    action.payload.msg
+      ? toast.error(action.payload.msg, {
+          toastId: "getAnimes",
+        })
+      : toast.error("Something went wrong", {
+          toastId: "getAnimes",
+        });
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }
+
   if (action.type === GET_PLAYLIST_BEGIN) {
     return { ...state, isLoading: true };
   }
@@ -241,6 +257,20 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       userPlaylists: action.payload.playlists,
+    };
+  }
+
+  if (action.type === GET_PLAYLIST_ERROR) {
+    action.payload.msg
+      ? toast.error(action.payload.msg, {
+          toastId: "getPlaylist",
+        })
+      : toast.error("Something went wrong", {
+          toastId: "getPlaylist",
+        });
+    return {
+      ...state,
+      isLoading: false,
     };
   }
 

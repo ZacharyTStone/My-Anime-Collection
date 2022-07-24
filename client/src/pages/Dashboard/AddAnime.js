@@ -1,5 +1,5 @@
 import { FormRow, Alert, FormRowSelect } from "../../Components/Atoms";
-import { AnimeContainer } from "../../Components/Organisms";
+import { FetchedAnimesContainer } from "../../Components/Organisms";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
@@ -142,7 +142,7 @@ const AddAnime = () => {
             </label>
           </div>
         </form>
-        <AnimeContainer
+        <FetchedAnimesContainer
           searchText={searchText}
           baseURL="https://kitsu.io/api/edge/anime"
           filter={"true"}
