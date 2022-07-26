@@ -51,6 +51,10 @@ const AnimeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isDemoAnime: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

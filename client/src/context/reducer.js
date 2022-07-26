@@ -200,7 +200,8 @@ const reducer = (state, action) => {
     toast.success(
       `${action.payload.title} has been added to your playlist called ${action.payload.playlistTitle}`,
       {
-        toastId: "createAnime",
+        toastId: action.payload.title,
+        autoClose: 5000,
       }
     );
 

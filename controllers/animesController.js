@@ -17,6 +17,7 @@ const createAnime = async (req, res) => {
   }
 
   req.body.createdBy = req.user.userId;
+
   const anime = await Anime.create(req.body);
   res.status(StatusCodes.CREATED).json({ anime });
 };
