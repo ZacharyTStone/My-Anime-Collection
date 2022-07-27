@@ -155,38 +155,24 @@ const AddAnime = () => {
 };
 
 const Wrapper = styled.section`
-  .form-checkbox {
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
-
-    .input {
-      margin-right: 0.5rem;
-    }
-  }
-  .form-checkbox-input {
-    margin-right: 0.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  .form-checkbox-label {
-    margin-left: 0.5rem;
-  }
-  .btn-hipster {
-    opacity: 0.7;
-  }
-  .btn:hover {
-    /* opacity: 1; */
-    transform: scale(1.1);
-  }
   border-radius: var(--borderRadius);
   width: 100%;
   background: var(--white);
   padding: 3rem 2rem 4rem;
   box-shadow: var(--shadow-2);
-  h3 {
-    margin-top: 0;
+  .form-checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    margin-right: 0.5rem;
   }
+
+  .form-checkbox-input {
+    margin-right: 40px;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
   .form {
     margin: 0;
     border-radius: 0;
@@ -207,30 +193,12 @@ const Wrapper = styled.section`
     height: 35px;
     margin-top: 1rem;
   }
-  .btn-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1rem;
-    align-self: flex-end;
-    margin-top: 1rem;
-    button {
-      height: 35px;
-    }
-  }
-  .clear-btn {
-    background: var(--grey-700);
-  }
-  .clear-btn:hover {
-    background: var(--red-dark);
-  }
+
   @media (min-width: 992px) {
     .form-center {
       grid-template-columns: 1fr 1fr;
       align-items: center;
       column-gap: 1rem;
-    }
-    .btn-container {
-      margin-top: 0;
     }
   }
   @media (min-width: 1120px) {

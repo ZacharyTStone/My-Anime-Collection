@@ -340,11 +340,7 @@ const Wrapper = styled.main`
     margin-top: -3rem;
     height: 80vh;
   }
-  .features {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 10px;
-  }
+
   p {
     text-align: left;
     span {
@@ -386,9 +382,6 @@ const Wrapper = styled.main`
     transition: all 0.5s ease-in-out;
   }
 
-  .features {
-    text-align: center;
-  }
   h1 {
     font-weight: 700;
     span {

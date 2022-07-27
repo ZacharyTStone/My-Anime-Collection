@@ -261,32 +261,15 @@ function Anime({
 }
 
 const Wrapper = styled.article`
-  @media (max-width: 1000px) {
-    flex-direction: row;
-    .anime-cover-image {
-      height: 100px;
-      width: 100px;
-    }
-    .info-container {
-      display: flex;
-      flex-direction: row;
-    }
-  }
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .anime {
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-  }
-
-  p {
-    word-break: break-all;
-    white-space: normal;
   }
 
   header {
@@ -300,54 +283,26 @@ const Wrapper = styled.article`
     }
   }
 
-  .info {
-    h5 {
-      margin-bottom: 0.25rem;
-    }
-    p {
-      margin: 0;
-      text-transform: capitalize;
-      color: var(--grey-400);
-      letter-spacing: var(--letterSpacing);
-    }
-  }
-  .pending {
-    background: var(--yellow-light);
-    color: var(--yellow);
-  }
-  .interview {
-    background: #e0e8f9;
-    color: #647acb;
-  }
-  .declined {
-    color: #d66a6a;
-    background: #ffeeee;
-  }
-  .content {
-    padding: 1rem 1.5rem;
-  }
-
-  footer {
-    margin-top: 1rem;
-  }
-  .edit-btn,
   .delete-btn {
     letter-spacing: var(--letterSpacing);
     cursor: pointer;
     height: 30px;
-  }
-
-  .delete-btn {
-    margin-right: 10px;
-    margin-top: 0px;
-    margin-left: 0px;
+    margin: 10px 10px 10px 10px;
     color: var(--red-dark);
     background: var(--red-light);
     align-self: center;
-    margin-bottom: "1rem";
   }
-  &:hover .actions {
-    visibility: visible;
+
+  @media (max-width: 1000px) {
+    flex-direction: row;
+    .anime-cover-image {
+      height: 100px;
+      width: 100px;
+    }
+    .info-container {
+      display: flex;
+      flex-direction: row;
+    }
   }
 `;
 

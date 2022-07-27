@@ -22,14 +22,12 @@ const Wrapper = styled.section`
     align-items: center;
     justify-content: flex-start;
     text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px 0 20px 20px;
     border: 2px solid var(--primary-500);
     min-width: 140px;
     width: 10vw;
     height: fit-content;
     padding: 10px;
-    margin-left: 20px;
   }
   img {
     width: 100px;

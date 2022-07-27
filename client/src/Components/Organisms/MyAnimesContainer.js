@@ -56,13 +56,13 @@ const MyAnimesContainer = () => {
       <h5>
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
+      <div className="pageBtnContainer">
+        {numOfPages > 1 && <PageBtnContainer />}
+      </div>
       <div className="animes">
         {animes.map((anime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}
-      </div>
-      <div className="pageBtnContainer">
-        {numOfPages > 1 && <PageBtnContainer />}
       </div>
     </Wrapper>
   );
@@ -86,7 +86,7 @@ const Wrapper = styled.section`
   .pageBtnContainer {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: 50px;
   }
   @media (min-width: 992px) {
     .animes {

@@ -99,8 +99,7 @@ const Wrapper = styled.section`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 0px;
-    margin-bottom: 100px;
+    margin: 0px 0px 100px 0px;
     /* border: 5px solid var(--primary-500); */
     min-width: 250px;
   }
