@@ -281,7 +281,8 @@ const reducer = (state, action) => {
 
   if (action.type === DELETE_ANIME_SUCCESS) {
     toast.success("Anime deleted successfully", {
-      toastId: "deleteAnime",
+      toastId: "deleteAnime" + action.payload.animeId,
+      autoClose: 5000,
     });
     return {
       ...state,

@@ -392,6 +392,7 @@ const AppProvider = ({ children }) => {
       await authFetch.delete(`/animes/${animeId}`);
       dispatch({
         type: DELETE_ANIME_SUCCESS,
+        payload: { animeId },
       });
       getAnimes();
     } catch (error) {
