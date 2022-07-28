@@ -89,35 +89,36 @@ const Profile = () => {
                 >
                   {playlist.title}
                 </span>
-
-                <span
-                  style={{
-                    padding: "0px 10px",
-                  }}
-                  onClick={async () => {
-                    if (
-                      window.confirm(
-                        "Are you sure you want to delete this playlist?"
-                      )
-                    ) {
-                      await deletePlaylist(playlist.id);
-                      setNewTitle("");
-                      setId("");
-                    }
-                  }}
-                >
-                  <AiFillDelete
+                {playlist.id !== "0" && (
+                  <span
                     style={{
-                      display: "-ms-flexbox",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      color: "red",
-                      fontSize: "1.5rem",
-                      marginLeft: "1rem",
-                      backgroundColor: "transparent",
+                      padding: "0px 10px",
                     }}
-                  />
-                </span>
+                    onClick={async () => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this playlist?"
+                        )
+                      ) {
+                        await deletePlaylist(playlist.id);
+                        setNewTitle("");
+                        setId("");
+                      }
+                    }}
+                  >
+                    <AiFillDelete
+                      style={{
+                        display: "-ms-flexbox",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "red",
+                        fontSize: "1.5rem",
+                        marginLeft: "1rem",
+                        backgroundColor: "transparent",
+                      }}
+                    />
+                  </span>
+                )}
               </li>
             ))}
           </ul>
@@ -134,21 +135,26 @@ const Profile = () => {
           margin: "1rem 0",
         }}
       ></hr>
-
-      <form className="form" onSubmit={handlePlaylistEdit}>
-        <div className="form-center">
-          <FormRow
-            type="text"
-            name="title"
-            value={newTitle}
-            labelText={t("edit_playlist.cta")}
-            handleChange={(e) => setNewTitle(e.target.value)}
-          />
-          <button className="btn btn-block" type="submit" disabled={isLoading}>
-            {isLoading ? t("profile.wait") : t("profile.save")}
-          </button>
-        </div>
-      </form>
+      {currentPlaylist.id !== "0" && (
+        <form className="form" onSubmit={handlePlaylistEdit}>
+          <div className="form-center">
+            <FormRow
+              type="text"
+              name="title"
+              value={newTitle}
+              labelText={t("edit_playlist.cta")}
+              handleChange={(e) => setNewTitle(e.target.value)}
+            />
+            <button
+              className="btn btn-block"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? t("profile.wait") : t("profile.save")}
+            </button>
+          </div>
+        </form>
+      )}
     </Wrapper>
   );
 };
