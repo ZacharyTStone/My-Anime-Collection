@@ -233,7 +233,6 @@ const AppProvider = ({ children }) => {
 
   const logoutUser = async () => {
     dispatch({ type: LOGOUT_USER });
-    console.log(state.user);
     if (state.user.isDemo === true) {
       await deleteUser(state.user);
     }
@@ -260,14 +259,12 @@ const AppProvider = ({ children }) => {
         });
       }
     }
-    // clearAlert();
   };
 
   const deleteUser = async (currentUser) => {
     dispatch({ type: DELETE_USER_BEGIN });
     try {
       const { data } = await authFetch.delete("/auth/deleteUser", currentUser);
-
       const { user, token } = data;
       dispatch({
         type: DELETE_USER_SUCCESS,
