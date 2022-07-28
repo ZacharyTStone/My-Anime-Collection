@@ -1,12 +1,12 @@
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Anime } from "../Molecules";
 import { useAppContext } from "../../context/appContext";
 import Loading from "../Atoms/Loading";
 
 const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
 
   const {
     fetchAnimes,
@@ -17,7 +17,7 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
   } = useAppContext();
 
   useEffect(() => {
-    setPage(1);
+    page.current = 1;
 
     fetchAnimes({
       page,
@@ -43,7 +43,8 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                 <div className="buttons">
                   <Button
                     onClick={() => {
-                      setPage(page - 1);
+                      page.current = page.current - 1;
+                      console.log(page.current);
 
                       fetchAnimes({
                         baseURL,
@@ -51,12 +52,12 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                         filter,
                         pagination,
                         sort,
-                        page: page - 1,
+                        page: page.current,
                       });
                     }}
                     color="primary"
                     variant="contained"
-                    disabled={page === 1}
+                    disabled={page.current === 1}
                     sx={{
                       m: 2,
                       display: { xs: "flex", md: "flex" },
@@ -67,12 +68,12 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                   <div className="top-info">
                     <h3>We found {totalFetchedAnimes} animes </h3>
                     <h5>
-                      page {page} of {numOfFetchedAnimesPages}
+                      page {page.current} of {numOfFetchedAnimesPages}
                     </h5>
                   </div>
                   <Button
                     onClick={() => {
-                      setPage(page + 1);
+                      page.current = page.current + 1;
 
                       fetchAnimes({
                         baseURL,
@@ -80,11 +81,11 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                         filter,
                         pagination,
                         sort,
-                        page: page + 1,
+                        page: page.current,
                       });
                     }}
                     color="primary"
-                    disabled={page === numOfFetchedAnimesPages}
+                    disabled={page.current === numOfFetchedAnimesPages}
                     variant="contained"
                     sx={{
                       m: 2,
@@ -102,9 +103,9 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                 {pagination === "true" && fetchedAnimes.length === 0 && (
                   <Button
                     onClick={() => {
-                      setPage(page + 1);
+                      page.current = page.current + 1;
 
-                      fetchAnimes(page + 1);
+                      fetchAnimes(page.current + 1);
                     }}
                     color="primary"
                     disabled={fetchedAnimes.length === 0}

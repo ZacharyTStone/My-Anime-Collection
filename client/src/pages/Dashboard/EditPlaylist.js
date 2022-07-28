@@ -1,4 +1,4 @@
-import { Loading, FormRow, Alert } from "../../Components/Atoms";
+import { Loading, FormRow } from "../../Components/Atoms";
 
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/appContext";
@@ -74,8 +74,6 @@ const Profile = () => {
     <Wrapper>
       <div className="profile-container">
         <h3>{t("edit_playlist.title")}</h3>
-
-        {showAlert && <Alert />}
         <div className="form-left">
           <ul>
             {userPlaylists.map((playlist) => (

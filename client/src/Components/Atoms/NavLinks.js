@@ -51,10 +51,9 @@ const NavLinks = () => {
           const { text, path, id, icon } = link;
 
           return (
-            <Button>
+            <Button key={id}>
               <NavLink
                 to={path}
-                key={id}
                 className={({ isActive }) =>
                   isActive ? "nav-link active" : "nav-link"
                 }
