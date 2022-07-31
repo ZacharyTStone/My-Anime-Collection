@@ -93,7 +93,7 @@ const Landing = () => {
                 </Link>
               </div>
             </div>
-            <LazyLoad height={766.016} width={536}>
+            <LazyLoad>
               <img src={goku} alt="anime character" className="img main-img" />
             </LazyLoad>
           </div>
@@ -101,7 +101,7 @@ const Landing = () => {
             <Testimonials />
           </Suspense>
           <div className="container page">
-            <LazyLoad height={789.234} width={536}>
+            <LazyLoad>
               <img
                 src={aot}
                 alt="anime character"
@@ -182,7 +182,7 @@ const Landing = () => {
                 </h5>
               </div>
             </div>
-            <LazyLoad height={762.031} width={536}>
+            <LazyLoad>
               <img
                 src={lucy}
                 alt="anime character"
