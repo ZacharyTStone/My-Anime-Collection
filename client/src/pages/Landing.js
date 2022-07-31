@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LazyLoad from "react-lazy-load";
 
 // images
 import narutoRun from "../assets/images/narutoRun.gif";
@@ -93,22 +92,19 @@ const Landing = () => {
                 </Link>
               </div>
             </div>
-            <LazyLoad>
-              <img src={goku} alt="anime character" className="img main-img" />
-            </LazyLoad>
+
+            <img src={goku} alt="anime character" className="img main-img" />
           </div>
           <Suspense fallback={<div>Loading...</div>}>
             <Testimonials />
           </Suspense>
           <div className="container page">
-            <LazyLoad>
-              <img
-                src={aot}
-                alt="anime character"
-                loading="lazy"
-                className="img main-img"
-              />
-            </LazyLoad>
+            <img
+              src={aot}
+              alt="anime character"
+              loading="lazy"
+              className="img main-img"
+            />
 
             <div>
               <h3>
@@ -182,14 +178,13 @@ const Landing = () => {
                 </h5>
               </div>
             </div>
-            <LazyLoad>
-              <img
-                src={lucy}
-                alt="anime character"
-                loading="lazy"
-                className="img main-img"
-              />
-            </LazyLoad>
+
+            <img
+              src={lucy}
+              alt="anime character"
+              loading="lazy"
+              className="img main-img"
+            />
           </div>
 
           <div className="animesLeft">
