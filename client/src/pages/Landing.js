@@ -1,16 +1,22 @@
-import goku from "../assets/images/goku.webp";
-import aot from "../assets/images/aot.webp";
-import lucy from "../assets/images/lucy.webp";
-import narutoRun from "../assets/images/narutoRun.gif";
-import { RunningImg, Logo } from "../Components/Atoms";
-
+import React, { useEffect, Suspense } from "react";
 import { Link } from "react-router-dom";
+
+// Components
+import { Logo } from "../Components/Atoms";
+
+// library imports
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
+import LazyLoad from "react-lazy-load";
+
+// images
+import narutoRun from "../assets/images/narutoRun.gif";
+import goku from "../assets/images/goku.webp";
+import aot from "../assets/images/aot.webp";
+import lucy from "../assets/images/lucy.webp";
 import A1 from "../assets/images/sampleAnimes/A1.webp";
 import A2 from "../assets/images/sampleAnimes/A2.webp";
 import A3 from "../assets/images/sampleAnimes/A3.webp";
@@ -19,7 +25,17 @@ import A5 from "../assets/images/sampleAnimes/A5.webp";
 import A6 from "../assets/images/sampleAnimes/A6.webp";
 import A7 from "../assets/images/sampleAnimes/A7.webp";
 import A8 from "../assets/images/sampleAnimes/A8.webp";
-import { MusicAndFlag, Testimonials } from "../Components/Molecules";
+
+// lazy loaded Components
+const Testimonials = React.lazy(() =>
+  import("../Components/Molecules/Testimonials")
+);
+
+const MusicAndFlag = React.lazy(() =>
+  import("../Components/Molecules/MusicAndFlag")
+);
+
+const RunningImg = React.lazy(() => import("../Components/Atoms/RunningImg"));
 
 const Landing = () => {
   const { t } = useTranslation();
@@ -54,10 +70,14 @@ const Landing = () => {
       <Wrapper>
         <nav>
           <Logo />
-          <MusicAndFlag />
+          <Suspense fallback={<div>Loading...</div>}>
+            <MusicAndFlag />
+          </Suspense>
         </nav>
         <main>
-          <RunningImg img={narutoRun} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <RunningImg img={narutoRun} />
+          </Suspense>
           <div className="container page">
             <div>
               <h1>
@@ -73,17 +93,22 @@ const Landing = () => {
                 </Link>
               </div>
             </div>
-
-            <img src={goku} alt="anime character" className="img main-img" />
+            <LazyLoad height={766.016} width={536}>
+              <img src={goku} alt="anime character" className="img main-img" />
+            </LazyLoad>
           </div>
-          <Testimonials />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Testimonials />
+          </Suspense>
           <div className="container page">
-            <img
-              src={aot}
-              alt="anime character"
-              loading="lazy"
-              className="img main-img"
-            />
+            <LazyLoad height={789.234} width={536}>
+              <img
+                src={aot}
+                alt="anime character"
+                loading="lazy"
+                className="img main-img"
+              />
+            </LazyLoad>
 
             <div>
               <h3>
@@ -157,13 +182,16 @@ const Landing = () => {
                 </h5>
               </div>
             </div>
-            <img
-              src={lucy}
-              alt="anime character"
-              loading="lazy"
-              className="img main-img"
-            />
+            <LazyLoad height={762.031} width={536}>
+              <img
+                src={lucy}
+                alt="anime character"
+                loading="lazy"
+                className="img main-img"
+              />
+            </LazyLoad>
           </div>
+
           <div className="animesLeft">
             <img
               src={A1}
@@ -184,6 +212,7 @@ const Landing = () => {
               loading="lazy"
             />
           </div>
+
           <div className="animesRight">
             <img
               src={A4}
