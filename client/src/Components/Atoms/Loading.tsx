@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Loading = ({ center }) => {
+const Loading = ({ center }: { center?: boolean }) => {
   return (
     <Wrapper>
       <div className={center ? "loading loading-center" : "loading"}></div>

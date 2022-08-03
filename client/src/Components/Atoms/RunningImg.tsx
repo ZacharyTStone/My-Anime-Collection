@@ -1,5 +1,5 @@
 import styled from "styled-components";
-const RunningImg = ({ img }) => {
+const RunningImg = ({ img }: { img: string }) => {
   return (
     <Wrapper>
       <img
