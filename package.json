@@ -18,10 +18,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/styled-components": "^5.1.25",
     "concurrently": "^6.5.1",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "babel-jest": "^26.6.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.5.1",
     "cors": "^2.8.5",
@@ -38,8 +40,7 @@
     "morgan": "^1.10.0",
     "react-helmet": "^6.1.0",
     "validator": "^13.7.0",
-    "xss-clean": "^0.1.1",
-    "babel-jest": "^26.6.0"
+    "xss-clean": "^0.1.1"
   },
   "engines": {
     "node": "16.13.0"
