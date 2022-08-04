@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-const Testimonial = ({ name, img, text }) => {
+interface testimonailProps {
+  name: string;
+  img: string;
+  text: string;
+}
+
+const Testimonial = ({ name, img, text }: testimonailProps) => {
   return (
     <Wrapper>
       <div className="testimonial">

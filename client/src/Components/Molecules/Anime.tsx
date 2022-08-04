@@ -20,6 +20,50 @@ const ExpandMore = styled((props) => {
   marginLeft: "auto",
 }));
 
+interface anime {
+  attributes: {
+    titles: {
+      en: string;
+      en_jp: string;
+      ja_jp: string;
+    };
+    posterImage: {
+      medium: string;
+      small: string;
+    };
+    synopsis: string;
+    coverImage: string;
+    averageRating: number;
+    subtype: string;
+    startDate: string;
+    youtubeVideoId: string;
+    episodeCount: number;
+    format: string;
+    rating: number;
+    creationDate: string;
+    type: string;
+  };
+  id: string;
+  type: string;
+}
+
+interface animeProps {
+  anime: anime;
+  _id: string;
+  title: string;
+  rating: number;
+  episodeCount: number;
+  format: string;
+  creationDate: string;
+  synopsis: string;
+  coverImage: string;
+  description: string;
+  youtube: string;
+  type: string;
+  japanese_title: string;
+  youtubeVideoId: string;
+}
+
 function Anime({
   _id,
   title,
@@ -33,7 +77,7 @@ function Anime({
   type,
   japanese_title,
   youtubeVideoId,
-}) {
+}: animeProps) {
   const { t } = useTranslation();
   const [expanded, setExpanded] = React.useState(false);
 

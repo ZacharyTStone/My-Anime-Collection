@@ -5,7 +5,19 @@ const FormRowSelect = ({
   value,
   handleChange,
   list,
+}: {
+  labelText: string;
+  disabled: boolean;
+  name: string;
+  value: string;
+  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  list: string[];
 }) => {
+  // interface IOption {
+  //   value: string;
+  //   title: string;
+  // }
+
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">
@@ -18,7 +30,8 @@ const FormRowSelect = ({
         onChange={handleChange}
         className="form-select"
       >
-        {list.map((itemValue, index) => {
+        {list.map((itemValue: any, index: number) => {
+          console.log(itemValue);
           return (
             <option key={index} value={itemValue.value}>
               {itemValue.title}
