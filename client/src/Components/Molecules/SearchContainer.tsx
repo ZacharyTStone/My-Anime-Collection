@@ -23,12 +23,12 @@ const SearchContainer = () => {
   useEffect(() => {
     getPlaylists();
   }, []);
-  const handleSearch = (e) => {
+  const handleSearch = (e: any) => {
     if (isLoading) return;
     handleChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleLocalPlaylistChange = (e) => {
+  const handleLocalPlaylistChange = (e: any) => {
     if (isLoading) return;
 
     e.preventDefault();
@@ -36,7 +36,7 @@ const SearchContainer = () => {
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     clearFilters();
   };
@@ -59,6 +59,7 @@ const SearchContainer = () => {
           />
           {/* sort */}
           <FormRowSelect
+            disabled={isLoading}
             name="sort"
             value={sort}
             labelText={t("search_container.sort")}
@@ -77,13 +78,21 @@ const SearchContainer = () => {
               onChange={handleLocalPlaylistChange}
               className="form-select"
             >
-              {userPlaylists.map((playlist, index) => {
-                return (
-                  <option key={index} value={playlist.id}>
-                    {playlist.title}
-                  </option>
-                );
-              })}
+              {userPlaylists.map(
+                (
+                  playlist: {
+                    id: string;
+                    title: string;
+                  },
+                  index: number
+                ) => {
+                  return (
+                    <option key={index} value={playlist.id}>
+                      {playlist.title}
+                    </option>
+                  );
+                }
+              )}
             </select>
           </form>
 
