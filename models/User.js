@@ -58,6 +58,14 @@ const UserSchema = new mongoose.Schema(
           title: "Default",
           id: "0",
         },
+        {
+          title: "Watch List",
+          id: "1",
+        },
+        {
+          title: "All Time Favorites",
+          id: "2",
+        },
       ],
     },
   },
