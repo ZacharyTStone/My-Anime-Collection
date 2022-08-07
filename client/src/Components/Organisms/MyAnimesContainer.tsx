@@ -60,7 +60,7 @@ const MyAnimesContainer = () => {
         {numOfPages > 1 && <PageBtnContainer />}
       </div>
       <div className="animes">
-        {animes.map((anime) => {
+        {animes.map((anime: any) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}
       </div>

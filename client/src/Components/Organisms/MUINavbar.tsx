@@ -24,10 +24,10 @@ const MUINavbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = (event: any) => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -41,7 +41,7 @@ const MUINavbar = () => {
 
   return (
     <Wrapper>
-      <AppBar position="static" color="transparent" width="fit-content">
+      <AppBar position="static" color="transparent">
         <Container>
           <Toolbar disableGutters>
             <Typography
