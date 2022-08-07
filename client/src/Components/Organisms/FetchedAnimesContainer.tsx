@@ -5,7 +5,63 @@ import { Anime } from "../Molecules";
 import { useAppContext } from "../../context/appContext";
 import Loading from "../Atoms/Loading";
 
-const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
+interface anime {
+  attributes: {
+    titles: {
+      en: string;
+      en_jp: string;
+      ja_jp: string;
+    };
+    posterImage: {
+      medium: string;
+      small: string;
+    };
+    synopsis: string;
+    coverImage: string;
+    averageRating: number;
+    subtype: string;
+    startDate: string;
+    youtubeVideoId: string;
+    episodeCount: number;
+    format: string;
+    rating: number;
+    creationDate: string;
+    type: string;
+  };
+  id: string;
+  type: string;
+}
+
+interface animeProps {
+  anime: anime;
+  _id: string;
+  title: string;
+  rating: number;
+  episodeCount: number;
+  format: string;
+  creationDate: string;
+  synopsis: string;
+  coverImage: string;
+  description: string;
+  youtube: string;
+  type: string;
+  japanese_title: string;
+  youtubeVideoId: string;
+}
+
+const AnimeContainer = ({
+  searchText,
+  baseURL,
+  filter,
+  pagination,
+  sort,
+}: {
+  searchText: string;
+  baseURL: string;
+  filter: string;
+  pagination: string;
+  sort: string;
+}) => {
   const page = useRef(1);
 
   const {
@@ -97,8 +153,26 @@ const AnimeContainer = ({ searchText, baseURL, filter, pagination, sort }) => {
                 </div>
               )}
               <div className="animes">
-                {fetchedAnimes.map((anime) => {
-                  return <Anime key={anime.id} anime={anime} type="add" />;
+                {fetchedAnimes.map((anime: anime) => {
+                  return (
+                    <Anime
+                      key={anime.id}
+                      anime={anime}
+                      type="add"
+                      _id={""}
+                      title={""}
+                      rating={0}
+                      episodeCount={0}
+                      format={""}
+                      creationDate={""}
+                      synopsis={""}
+                      coverImage={""}
+                      description={""}
+                      youtube={""}
+                      japanese_title={""}
+                      youtubeVideoId={""}
+                    />
+                  );
                 })}
                 {pagination === "true" && fetchedAnimes.length === 0 && (
                   <Button

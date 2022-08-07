@@ -62,6 +62,7 @@ interface animeProps {
   type: string;
   japanese_title: string;
   youtubeVideoId: string;
+  key: string;
 }
 
 function Anime({
@@ -77,6 +78,7 @@ function Anime({
   type,
   japanese_title,
   youtubeVideoId,
+  key,
 }: animeProps) {
   const { t } = useTranslation();
   const [expanded, setExpanded] = React.useState(false);
@@ -104,7 +106,7 @@ function Anime({
     isLoading,
   } = useAppContext();
   return (
-    <Wrapper>
+    <Wrapper key={key}>
       <Card
         variant="outlined"
         sx={{
