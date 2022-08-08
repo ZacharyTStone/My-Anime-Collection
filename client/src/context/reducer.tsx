@@ -48,7 +48,13 @@ import { toast } from "react-toastify";
 
 import { initialState } from "./appContext";
 
-const reducer = (state, action) => {
+const reducer = (
+  state: any,
+  action: {
+    type: string;
+    payload: any;
+  }
+) => {
   if (action.type === CHANGE_SITE_LANGUAGE) {
     return {
       ...state,
