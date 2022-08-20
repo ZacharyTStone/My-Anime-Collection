@@ -92,7 +92,7 @@ const AnimeContainer = ({
   return (
     <>
       <Wrapper>
-        {fetchedAnimes.length > 0 ? (
+        {fetchedAnimes.length > 0 && searchText ? (
           <>
             <div>
               {pagination === "true" && (
