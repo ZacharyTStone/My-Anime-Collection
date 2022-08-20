@@ -64,6 +64,7 @@ const AnimeContainer = ({
 }) => {
   const page = useRef(1);
 
+  
   const {
     fetchAnimes,
     isLoading,
@@ -74,6 +75,9 @@ const AnimeContainer = ({
 
   useEffect(() => {
     page.current = 1;
+    console.log("searchText", searchText.length >0);
+    console.log("test 1 ",totalFetchedAnimes !== 0)
+    console.log("fetchedAnimes", totalFetchedAnimes !== 0 && searchText.length >0)
 
     fetchAnimes({
       page,
@@ -92,7 +96,7 @@ const AnimeContainer = ({
   return (
     <>
       <Wrapper>
-        {fetchedAnimes.length > 0 && searchText !== "" ? (
+        {fetchedAnimes.length > 0 ? (
           <>
             <div>
               {pagination === "true" && (
@@ -197,7 +201,9 @@ const AnimeContainer = ({
           </>
         ) : (
           <div className="no-animes">
+            {(searchText && !isLoading) && (
             <h2>No animes found.</h2>
+            )}
           </div>
         )}
       </Wrapper>
