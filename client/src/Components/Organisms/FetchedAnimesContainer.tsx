@@ -75,9 +75,6 @@ const AnimeContainer = ({
 
   useEffect(() => {
     page.current = 1;
-    console.log("searchText", searchText.length >0);
-    console.log("test 1 ",totalFetchedAnimes !== 0)
-    console.log("fetchedAnimes", totalFetchedAnimes !== 0 && searchText.length >0)
 
     fetchAnimes({
       page,
@@ -96,7 +93,7 @@ const AnimeContainer = ({
   return (
     <>
       <Wrapper>
-        {fetchedAnimes.length > 0 ? (
+        {fetchedAnimes?.length > 0 ? (
           <>
             <div>
               {pagination === "true" && (
@@ -178,7 +175,7 @@ const AnimeContainer = ({
                     />
                   );
                 })}
-                {pagination === "true" && fetchedAnimes.length === 0 && (
+                {pagination === "true" && fetchedAnimes?.length === 0 && (
                   <Button
                     onClick={() => {
                       page.current = page.current + 1;
