@@ -25,7 +25,7 @@ const MusicAndFlag = () => {
               <PlayCircle fontSize="large" />
             )}
           </IconButton>
-          */}s
+          */}
           <div className="flag-div nav-button">
             <img
               className="flag"
