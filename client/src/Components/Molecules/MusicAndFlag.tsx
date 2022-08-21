@@ -18,13 +18,14 @@ const MusicAndFlag = () => {
     <Wrapper>
       {i18n.language === "en" ? (
         <Box className="full-flag-div flag-div-holder">
-          <IconButton color="warning" size="medium" onClick={playOrPauseAudio}>
+         {/* <IconButton color="warning" size="medium" onClick={playOrPauseAudio}>
             {isAudioPlaying ? (
               <PauseCircle fontSize="large" />
             ) : (
               <PlayCircle fontSize="large" />
             )}
           </IconButton>
+          */}s
           <div className="flag-div nav-button">
             <img
               className="flag"
@@ -36,6 +37,7 @@ const MusicAndFlag = () => {
         </Box>
       ) : (
         <Box className="full-flag-div flag-div-holder">
+          {/*
           <IconButton color="warning" size="medium" onClick={playOrPauseAudio}>
             {isAudioPlaying ? (
               <PauseCircle fontSize="large" />
@@ -43,6 +45,7 @@ const MusicAndFlag = () => {
               <PlayCircle fontSize="large" />
             )}
           </IconButton>
+          */}
           <div className="flag-div nav-button">
             <div className="flag-div">
               <div>
