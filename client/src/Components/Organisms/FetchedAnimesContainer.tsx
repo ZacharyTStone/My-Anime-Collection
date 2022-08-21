@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { Anime } from "../Molecules";
 import { useAppContext } from "../../context/appContext";
 import Loading from "../Atoms/Loading";
-
+import { MoreInfoModal } from "../Organisms";
+;
 interface anime {
   attributes: {
     titles: {
@@ -75,9 +76,7 @@ const AnimeContainer = ({
 
   useEffect(() => {
     page.current = 1;
-    console.log("searchText", searchText.length >0);
-    console.log("test 1 ",totalFetchedAnimes !== 0)
-    console.log("fetchedAnimes", totalFetchedAnimes !== 0 && searchText.length >0)
+     console.log(fetchedAnimes);
 
     fetchAnimes({
       page,
@@ -96,6 +95,7 @@ const AnimeContainer = ({
   return (
     <>
       <Wrapper>
+        <MoreInfoModal anime={{}} />
         {fetchedAnimes.length > 0 ? (
           <>
             <div>

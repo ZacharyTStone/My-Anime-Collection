@@ -48,7 +48,6 @@ import {
   CHANGE_SITE_LANGUAGE,
   CHANGE_AUDIO_STATE,
 } from "./actions";
-
 import song from "../audio/anime2.mp3";
 
 const token = localStorage.getItem("token");
