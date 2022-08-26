@@ -233,9 +233,6 @@ const AppProvider = ({ children }) => {
 
   const logoutUser = async () => {
     dispatch({ type: LOGOUT_USER });
-    if (state.user.isDemo === true) {
-      await deleteUser(state.user);
-    }
     removeUserFromLocalStorage();
   };
 
