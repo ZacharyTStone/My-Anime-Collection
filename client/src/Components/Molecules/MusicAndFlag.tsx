@@ -19,11 +19,23 @@ const MusicAndFlag = () => {
 			<Box className="full-flag-div flag-div-holder">
 				{theme === "light" ? (
 					<IconButton onClick={() => changeTheme("dark")}>
-						<ModeNightIcon htmlColor="var(--primary-800)" />
+						<ModeNightIcon
+							htmlColor="var(--primary-800)"
+							sx={{
+								transform: "scale(2)",
+								paddingRight: "0.5rem",
+							}}
+						/>
 					</IconButton>
 				) : (
 					<IconButton onClick={() => changeTheme("light")}>
-						<WbSunnyIcon htmlColor="var(--primary-800)" />
+						<WbSunnyIcon
+							sx={{
+								transform: "scale(2)",
+								paddingRight: "0.5rem",
+							}}
+							htmlColor="var(--primary-800)"
+						/>
 					</IconButton>
 				)}
 				{i18n.language === "en" ? (
