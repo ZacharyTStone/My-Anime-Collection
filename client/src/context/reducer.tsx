@@ -116,6 +116,7 @@ const reducer = (
 			...initialState,
 			user: null,
 			token: null,
+			theme: "light",
 		};
 	}
 	if (action.type === UPDATE_USER_BEGIN) {

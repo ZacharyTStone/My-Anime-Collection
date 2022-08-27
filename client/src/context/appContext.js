@@ -236,10 +236,6 @@ const AppProvider = ({ children }) => {
 
 	const logoutUser = async () => {
 		dispatch({ type: LOGOUT_USER });
-		dispatch({
-			type: CHANGE_THEME,
-			payload: "light",
-		});
 		removeUserFromLocalStorage();
 	};
 
