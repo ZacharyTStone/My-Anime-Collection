@@ -23,7 +23,7 @@ const Profile = () => {
 	const [email, setEmail] = useState(user?.email);
 	const [theme, setTheme] = useState(user?.theme);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		if (!name || !email) {
 			displayAlert();
@@ -62,10 +62,10 @@ const Profile = () => {
 					/>
 					<FormRowSelect
 						name="theme"
-						type="select"
+						disabled={isLoading}
 						labelText={t("profile.theme")}
 						value={theme}
-						handleChange={(e) => setTheme(e.target.value)}
+						handleChange={(e: any) => setTheme(e.target.value)}
 						list={[
 							{
 								title: "light",

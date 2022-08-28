@@ -58,7 +58,7 @@ const initialState = {
 	alertText: "",
 	alertType: "",
 	user: user ? JSON.parse(user) : null,
-	theme: user ? user.theme : "light",
+	theme: user ? JSON.parse(user).theme : "light",
 	token: token,
 	animes: [],
 	totalAnimes: 0,
@@ -69,10 +69,12 @@ const initialState = {
 	searchStared: "all",
 	searchType: "all",
 	sort: "latest",
-	currentPlaylist: {
-		title: "default",
-		id: "0",
-	},
+	currentPlaylist: user
+		? user.playlist
+		: {
+				title: "default",
+				id: "0",
+		  },
 	userPlaylists: [],
 	sortOptions: [
 		{
@@ -169,6 +171,13 @@ const AppProvider = ({ children }) => {
 			type: CHANGE_THEME,
 			payload: theme,
 		});
+
+		// if there is a user, update the default theme in database
+		if (state.user) {
+			const user = state.user;
+			user.theme = theme;
+			updateUser(user);
+		}
 	};
 
 	const changeDefaultPlaylistPolicy = () => {
@@ -242,13 +251,15 @@ const AppProvider = ({ children }) => {
 	const updateUser = async (currentUser) => {
 		dispatch({ type: UPDATE_USER_BEGIN });
 		try {
+			const oldUser = JSON.parse(localStorage.getItem("user"));
+
 			const { data } = await authFetch.patch("/auth/updateUser", currentUser);
 
 			const { user, token } = data;
 
 			dispatch({
 				type: UPDATE_USER_SUCCESS,
-				payload: { user, token },
+				payload: { oldUser, user, token },
 			});
 			dispatch({
 				type: CHANGE_THEME,

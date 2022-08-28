@@ -57,6 +57,8 @@ const reducer = (
 	}
 ) => {
 	if (action.type === CHANGE_THEME) {
+		const user = localStorage.getItem("user");
+
 		return {
 			...state,
 			theme: action.payload,
@@ -123,18 +125,20 @@ const reducer = (
 		return { ...state, isLoading: true };
 	}
 	if (action.type === UPDATE_USER_SUCCESS) {
-		toast.success("User updated successfully", {
-			toastId: "user-update-success",
+		toast.success(`User updated successfully.`, {
+			toastId: "user-update-success" + action.payload.user.theme,
 		});
+
 		return {
 			...state,
 			isLoading: false,
-			token: action.payload.token,
-			theme: action.payload.theme,
-			user: action.payload.user,
-			playlist: action.payload.playlist,
+			token: action.payload.token || state.token,
+			theme: action.payload.theme || state.theme,
+			user: action.payload.user || state.user,
+			playlist: action.payload.playlist || state.playlist,
 		};
 	}
+
 	if (action.type === UPDATE_USER_ERROR) {
 		if (action.payload.msg) {
 			toast.error(action.payload.msg);
