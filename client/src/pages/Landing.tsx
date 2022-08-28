@@ -27,12 +27,12 @@ import A7 from "../assets/images/sampleAnimes/A7.webp";
 import A8 from "../assets/images/sampleAnimes/A8.webp";
 
 // lazy loaded Components
-const Testimonials = React.lazy(() =>
-	import("../Components/Molecules/Testimonials")
+const Testimonials = React.lazy(
+	() => import("../Components/Molecules/Testimonials")
 );
 
-const MusicAndFlag = React.lazy(() =>
-	import("../Components/Molecules/MusicAndFlag")
+const MusicAndFlag = React.lazy(
+	() => import("../Components/Molecules/MusicAndFlag")
 );
 
 const RunningImg = React.lazy(() => import("../Components/Atoms/RunningImg"));
