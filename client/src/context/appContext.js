@@ -69,12 +69,10 @@ const initialState = {
 	searchStared: "all",
 	searchType: "all",
 	sort: "latest",
-	currentPlaylist: user
-		? user.playlist
-		: {
-				title: "default",
-				id: "0",
-		  },
+	currentPlaylist: {
+		title: "default",
+		id: "0",
+	},
 	userPlaylists: [],
 	sortOptions: [
 		{
