@@ -1,6 +1,6 @@
 import { useAppContext } from "../context/appContext";
 import { Navigate, useNavigate } from "react-router-dom";
-import React, { suseEffect } from 'react';
+import React, { useEffect } from 'react';
 
 // not sure what the type for any React component is
 const ProtectedRoute = ({ children }: any) => {
