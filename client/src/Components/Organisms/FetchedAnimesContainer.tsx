@@ -76,10 +76,7 @@ const AnimeContainer = ({
 
   useEffect(() => {
     page.current = 1;
-
-    return(() => {
-      resetFetchedAnimes()
-    })
+    
 
     fetchAnimes({
       page,
@@ -89,6 +86,10 @@ const AnimeContainer = ({
       pagination,
       sort,
     });
+
+    return(() => {
+      resetFetchedAnimes()
+    })
   }, [searchText, sort]);
 
   if (isLoading) {
