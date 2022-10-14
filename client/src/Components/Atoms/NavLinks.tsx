@@ -57,17 +57,19 @@ const NavLinks = () => {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-                 <Button key={id}>
+            
                 <IconContext.Provider
                   value={{
                     size: "1.5rem",
                     color: "var(--primary-500)",
                   }}
                 >
+                       <Button key={id}>
                   <span className="icon">{icon}</span>
-                </IconContext.Provider>
-                {text}
+                  {text}
                 </Button>
+                </IconContext.Provider>
+             
               </NavLink>
           );
         })}
