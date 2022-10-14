@@ -87,10 +87,13 @@ const AnimeContainer = ({
       sort,
     });
 
+  }, [searchText, sort]);
+
+  useEffect(() => {
     return(() => {
       resetFetchedAnimes()
     })
-  }, [searchText, sort]);
+  }, []);
 
   if (isLoading) {
     return <Loading center />;
