@@ -57,19 +57,17 @@ const NavLinks = () => {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-            
+                 <Button key={id}>
                 <IconContext.Provider
                   value={{
                     size: "1.5rem",
                     color: "var(--primary-500)",
                   }}
                 >
-                       <Button key={id}>
                   <span className="icon">{icon}</span>
-                  {text}
-                </Button>
                 </IconContext.Provider>
-             
+                {text}
+                </Button>
               </NavLink>
           );
         })}
@@ -88,16 +86,20 @@ const Wrapper = styled.section`
     }
   }
 
+  .nav-links {
+    display: flex;
+  }
+
   .icon {
     margin-right: 0.5rem;
     size: 140%;
   }
 
-  // .nav-link {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  // }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .nav-link.active {
     color: var(--primary-500);
