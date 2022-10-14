@@ -93,11 +93,11 @@ const Wrapper = styled.section`
     size: 140%;
   }
 
-  .nav-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  // .nav-link {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  // }
 
   .nav-link.active {
     color: var(--primary-500);
