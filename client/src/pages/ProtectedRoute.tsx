@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }: any) => {
 	 useEffect(() => {
 		if (user &&  window.location.pathname === "/") {
 			console.log("navigating to my animes")
-			return <Navigate to="/my-animes" />;
+			navigate("/my-animes")
 		}
 
 	 }, [user] );
