@@ -18,6 +18,7 @@ import {
 	DELETE_USER_ERROR,
 	HANDLE_CHANGE,
 	HANDLE_PLAYLIST_CHANGE,
+	RESET_FETCHED_ANIMES,
 	CLEAR_VALUES,
 	CREATE_ANIME_BEGIN,
 	CREATE_ANIME_SUCCESS,
@@ -527,6 +528,11 @@ const AppProvider = ({ children }) => {
 		}
 	};
 
+	const resetFetchedAnimes = () => {
+		console.log("reset animes")
+		dispatch({ type: RESET_FETCHED_ANIMES})
+	}
+
 	const fetchAnimes = async ({
 		page,
 		baseURL,
@@ -613,6 +619,7 @@ const AppProvider = ({ children }) => {
 				changePage,
 				fetchAnimes,
 				changeTheme,
+				resetFetchedAnimes
 			}}
 		>
 			{children}

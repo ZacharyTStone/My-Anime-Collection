@@ -48,6 +48,7 @@ import {
 import { toast } from "react-toastify";
 
 import { initialState } from "./appContext";
+import { RESET_FETCHED_ANIMES } from "./actions";
 
 const reducer = (
 	state: any,
@@ -421,6 +422,14 @@ const reducer = (
 		};
 	}
 
+	if (action.type === RESET_FETCHED_ANIMES) {
+		return {
+			...state,
+			fetchedAnimes: [],
+			totalFetchedAnimes: 0,
+			numOfFetchedAnimesPages: 0,
+		}
+	}
 	if (action.type === FETCH_ANIMES_ERROR) {
 		action.payload.msg
 			? toast.error(action.payload.msg, {

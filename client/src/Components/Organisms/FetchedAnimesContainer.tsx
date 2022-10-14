@@ -71,10 +71,15 @@ const AnimeContainer = ({
     fetchedAnimes,
     totalFetchedAnimes,
     numOfFetchedAnimesPages,
+    resetFetchedAnimes,
   } = useAppContext();
 
   useEffect(() => {
     page.current = 1;
+
+    return(() => {
+      resetFetchedAnimes()
+    })
 
     fetchAnimes({
       page,
