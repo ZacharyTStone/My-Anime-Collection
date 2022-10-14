@@ -7,6 +7,11 @@ const ProtectedRoute = ({ children }: any) => {
 	if (!user) {
 		return <Navigate to="/landing" />;
 	}
+
+	if (user &&  window.location.pathname === "/") {
+		console.log("navigating to my animes")
+		return <Navigate to="/my-animes"/>;
+	}
 	return children;
 };
 
