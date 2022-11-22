@@ -72,7 +72,7 @@ const Register = () => {
 			<Wrapper className="full-page">
 				<form className="form" onSubmit={onSubmit}>
 					<Logo />
-					<h3>{values.isMember ? t("register.title") : t("login.title")}</h3>
+								<h3>{values.isMember ? t("login.title") : t("register.title")}</h3>
 					{showAlert && <Alert />}
 					{/* name input */}
 					{!values.isMember && (
