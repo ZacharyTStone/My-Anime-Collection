@@ -19,7 +19,7 @@
 }
 
 .btn-hipster .span {
-	color+ var(--primary-500);
+	color: var(--primary-500);
 }
 
 .btn-hero + .btn-hipster {
