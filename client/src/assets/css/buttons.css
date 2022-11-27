@@ -18,6 +18,10 @@
 	background: var(--hipster-background);
 }
 
+.btn-hipster .span {
+	color+ var(--primary-500);
+}
+
 .btn-hero + .btn-hipster {
 	font-size: 1.25rem;
 	padding: 0.5rem 1.25rem;
