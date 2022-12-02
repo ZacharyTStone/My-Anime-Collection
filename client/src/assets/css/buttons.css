@@ -13,13 +13,15 @@
 	text-transform: capitalize;
 }
 
+
 .btn-hipster {
-	color: var(--primary-500);
-	background: var(--hipster-background);
+	color: var(--primary-500) !important;
+	background: var(--hipster-background) !important;
+
 }
 
 .btn-hipster .span {
-	color: var(--primary-500);
+	color: var(--primary-500) !important;
 }
 
 .btn-hero + .btn-hipster {
