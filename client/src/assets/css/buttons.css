@@ -4,6 +4,7 @@
 	cursor: pointer;
 	color: var(--white);
 	background: var(--primary-500);
+	background-color: var(--primary-500);
 	border: transparent;
 	border-radius: var(--borderRadius);
 	letter-spacing: var(--letterSpacing);
@@ -17,6 +18,7 @@
 .btn-hipster {
 	color: var(--primary-500) !important;
 	background: var(--hipster-background) !important;
+	background-color: var(--hipster-background) !important;
 
 }
 
@@ -41,6 +43,7 @@
 }
 .btn-danger {
 	background: var(--grey-400);
+	background-color:var(--grey-400);
 	color: var(--white);
 }
 .btn-danger:hover {
