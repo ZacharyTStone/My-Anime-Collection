@@ -125,7 +125,7 @@ const AddAnime = () => {
               </select>
             </form>
           </div>
-
+{/*
           <div className="form-checkbox">
             <input
               type="checkbox"
@@ -141,6 +141,7 @@ const AddAnime = () => {
               {t("add_anime.add_to_default")}
             </label>
           </div>
+          */}
         </form>
         <FetchedAnimesContainer
           searchText={searchText}
