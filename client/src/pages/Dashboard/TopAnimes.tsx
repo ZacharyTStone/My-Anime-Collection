@@ -68,7 +68,7 @@ const MyAnimes = () => {
 							})}
 						</select>
 
-						<div
+						{/*<div
 							className="form-checkbox"
 							style={{
 								color: "white",
@@ -88,6 +88,7 @@ const MyAnimes = () => {
 								<span> {t("add_anime.add_to_default")}</span>
 							</label>
 						</div>
+						*/}
 					</form>
 				</div>
 				<FetchedAnimesContainer
