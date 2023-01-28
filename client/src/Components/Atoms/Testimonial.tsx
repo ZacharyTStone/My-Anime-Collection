@@ -12,7 +12,9 @@ const Testimonial = ({ name, img, text }: testimonailProps) => {
       <div className="testimonial">
         <img src={img} alt="testimonial" loading="lazy" />
         <div className="testimonial-text">
-          <p>{text}</p>
+          <p style={{
+            minHeight: "175px"
+          }}>{text}</p>
           <h3>{name}</h3>
         </div>
       </div>
@@ -33,7 +35,12 @@ const Wrapper = styled.section`
     min-width: 140px;
     width: 10vw;
     height: fit-content;
+
     padding: 10px;
+  }
+
+  .testimonial-text {
+    min-height: 300px;
   }
   img {
     width: 100px;
