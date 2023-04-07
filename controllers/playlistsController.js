@@ -1,26 +1,20 @@
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../errors/index.js";
-
 import Anime from "../models/Anime.js";
 
-// REST routes set up in playlistRoutes.js
+// REST routes are defined in playlistRoutes.js
 
 const getPlaylists = async (req, res) => {
-  // get all playlists from the current user and return them
-
   const user = await User.findOne({ _id: req.user.userId });
   const playlists = user.playlists;
   res.status(StatusCodes.OK).json({ playlists });
 };
 
 const createPlaylist = async (req, res) => {
-  // create a new playlist for the current user and return it
-
   const user = await User.findOne({ _id: req.user.userId });
 
   const randomPlaylistID = Math.floor(Math.random() * 1000000);
-
   const randomTitle = Math.floor(Math.random() * 1000);
 
   const playlist = {
@@ -35,7 +29,6 @@ const createPlaylist = async (req, res) => {
 
 const updatePlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
-
   const playlist = user.playlists.find(
     (playlist) => playlist.id === req.params.id
   );
@@ -53,7 +46,6 @@ const updatePlaylist = async (req, res) => {
 const deletePlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
-  // don't delete the playlist if it is the only one
   if (user.playlists.length === 1) {
     throw new BadRequestError("You cannot delete the default playlist");
   }
@@ -65,13 +57,12 @@ const deletePlaylist = async (req, res) => {
   if (!playlist) {
     throw new BadRequestError("Playlist not found");
   }
-  // you can never delete the default playlist
+
   if (playlist.id === "0") {
     throw new BadRequestError("You cannot delete the default playlist");
   }
 
-  // delete all the animes that are the user's and are in the playlist
-
+  // Delete all user's animes in the playlist
   const animes = await Anime.find({
     createdBy: req.user.userId,
     playlistID: req.params.id,
@@ -79,12 +70,12 @@ const deletePlaylist = async (req, res) => {
 
   animes.forEach((anime) => {
     if (anime.playlistID.includes(playlist.id)) {
-      // delete the anime
       anime.remove();
     }
   });
 
-  user.playlists = await user.playlists.filter(
+  // Remove playlist
+  user.playlists = user.playlists.filter(
     (playlist) => playlist.id !== req.params.id
   );
 
