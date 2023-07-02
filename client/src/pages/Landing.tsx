@@ -40,20 +40,7 @@ const RunningImg = React.lazy(() => import("../Components/Atoms/RunningImg"));
 const Landing = () => {
 	const { t } = useTranslation();
 	const { theme } = useAppContext();
-	useEffect(() => {
-		toast.success(
-			"Hi! 👋 This app is currently in development. Want me to add a feature? Let me know at Zach.Stone.Developer@gmail.com",
-			{
-				position: "top-left",
-				autoClose: 6000,
-				hideProgressBar: true,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-			}
-		);
-	}, []);
+
 
 	return (
 		<div data-theme={theme ? theme : "light"}>
