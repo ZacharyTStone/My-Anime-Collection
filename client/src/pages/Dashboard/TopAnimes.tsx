@@ -12,8 +12,7 @@ const MyAnimes = () => {
 		userPlaylists,
 		isLoading,
 		handlePlaylistChange,
-		addToDefault,
-		changeDefaultPlaylistPolicy,
+	
 	} = useAppContext();
 
 	useEffect(() => {
@@ -67,28 +66,6 @@ const MyAnimes = () => {
 								);
 							})}
 						</select>
-
-						{/*<div
-							className="form-checkbox"
-							style={{
-								color: "white",
-							}}
-						>
-							<input
-								type="checkbox"
-								name="addToDefault"
-								checked={addToDefault}
-								onChange={(e) => {
-									changeDefaultPlaylistPolicy(e);
-								}}
-								className="form-checkbox-input"
-								id="addToDefault"
-							/>
-							<label htmlFor="addToDefault">
-								<span> {t("add_anime.add_to_default")}</span>
-							</label>
-						</div>
-						*/}
 					</form>
 				</div>
 				<FetchedAnimesContainer

@@ -25,6 +25,7 @@ const Register = () => {
 
 	const localTheme = theme ? theme : "light";
 	const onSubmit = () => {
+		// this should be moved to server side
 		const { name, email, password, isDemo, theme } = {
 			name: "DEMO",
 			email:

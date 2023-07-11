@@ -4,14 +4,15 @@ import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
 
-import { debounce } from "lodash";
+// @ts-ignore
+import { debounce } from "lodash"
 import { useTranslation } from "react-i18next";
 
-const AddAnime = () => {
+const AddAnime: React.FC = () => {
   const { t } = useTranslation();
-  const [textInput, setTextInput] = useState("");
-  const [sort, setSort] = useState("popularityRank");
-  const [searchText, setSearchText] = useState("");
+  const [textInput, setTextInput] = useState<string>("");
+  const [sort, setSort] = useState<string>("popularityRank");
+  const [searchText, setSearchText] = useState<string>("");
 
   const {
     showAlert,
@@ -20,31 +21,29 @@ const AddAnime = () => {
     userPlaylists,
     isLoading,
     handlePlaylistChange,
-    addToDefault,
     changeDefaultPlaylistPolicy,
   } = useAppContext();
 
-  const request = debounce((value) => {
+  const request = debounce((value: string) => {
     setSearchText(value);
   }, 500);
 
-  const handleTextInput = (e) => {
+  const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\s/g, "+");
     setTextInput(value);
     debouceRequest(value);
   };
 
-  const handleSort = (e) => {
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value);
   };
 
-  const handleLocalPlaylistChange = (e) => {
+  const handleLocalPlaylistChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (isLoading) return;
-
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleChangeForDefault = (e) => {
+  const handleChangeForDefault = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (isLoading) return;
     changeDefaultPlaylistPolicy();
   };
@@ -53,7 +52,7 @@ const AddAnime = () => {
     getPlaylists();
   }, []);
 
-  const debouceRequest = useCallback((value) => request(value), []);
+  const debouceRequest = useCallback((value: string) => request(value), []);
 
   return (
     <Wrapper>
@@ -73,10 +72,11 @@ const AddAnime = () => {
               type="text"
               name="title"
               labelText={t("add_anime.search")}
-              value={textInput["title"]}
+              value={textInput}
               handleChange={handleTextInput}
             />
             <FormRowSelect
+              disabled={isLoading}
               name="sort"
               value={sort}
               labelText={t("add_anime.sort")}
@@ -115,9 +115,12 @@ const AddAnime = () => {
                 onChange={handleLocalPlaylistChange}
                 className="form-select"
               >
-                {userPlaylists.map((playlist, index) => {
+                {userPlaylists.map((playlist :{
+                  id: string;
+                  title: string;
+                }, index: number) => {
                   return (
-                    <option key={index} value={playlist.id}>
+                    <option key={playlist?.title + index} value={playlist.id}>
                       {playlist.title}
                     </option>
                   );
@@ -125,23 +128,6 @@ const AddAnime = () => {
               </select>
             </form>
           </div>
-{/*
-          <div className="form-checkbox">
-            <input
-              type="checkbox"
-              name="addToDefault"
-              checked={addToDefault}
-              onChange={(e) => {
-                handleChangeForDefault(e);
-              }}
-              className="form-checkbox-input"
-              id="addToDefault"
-            />
-            <label htmlFor="addToDefault">
-              {t("add_anime.add_to_default")}
-            </label>
-          </div>
-          */}
         </form>
         <FetchedAnimesContainer
           searchText={searchText}

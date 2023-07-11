@@ -1,15 +1,13 @@
-import { Loading, FormRow } from "../../Components/Atoms";
-
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import { AiFillDelete } from "react-icons/ai";
-
 import { useTranslation } from "react-i18next";
-const Profile = () => {
+import { Loading, FormRow } from "../../Components/Atoms";
+
+const Profile: React.FC = () => {
   const { t } = useTranslation();
   const {
-    showAlert,
     getPlaylists,
     updatePlaylist,
     deletePlaylist,
@@ -23,12 +21,13 @@ const Profile = () => {
   const [newTitle, setNewTitle] = useState("");
   const [id, setId] = useState("");
 
-  const handleClickOnPlaylist = async (id) => {
+  const handleClickOnPlaylist = async (id: string) => {
     if (isLoading) return;
-    // find the playlist with the title
-    const playlist = userPlaylists.find((playlist) => playlist.id === id);
-    // update the current playlist
-
+    const playlist = userPlaylists.find((playlist : {
+			id: string;
+			title: string;
+			
+	}) => playlist.id === id);
     if (!playlist) {
       return;
     }
@@ -43,22 +42,18 @@ const Profile = () => {
     setId(currentPlaylist.id);
   }, []);
 
-  const handleNewPlaylistSubmit = async (e) => {
+  const handleNewPlaylistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
     const numberOfPlaylists = userPlaylists.length - 1;
-
     await createPlaylist(`New Playlist #`);
-
     setNewTitle(userPlaylists[numberOfPlaylists].title);
     setId(userPlaylists[numberOfPlaylists].id);
   };
-  // set the most recent playlist as the current playlist
 
-  const handlePlaylistEdit = async (e) => {
+  const handlePlaylistEdit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
-
     await updatePlaylist({
       title: newTitle,
       id: id,
@@ -76,7 +71,11 @@ const Profile = () => {
         <h3>{t("edit_playlist.title")}</h3>
         <div className="form-left">
           <ul>
-            {userPlaylists.map((playlist) => (
+            {userPlaylists.map((playlist : {
+					id: string;
+					title: string;
+
+			}) => (
               <li
                 key={playlist.id}
                 className={playlist.id === currentPlaylist.id ? "active" : ""}
