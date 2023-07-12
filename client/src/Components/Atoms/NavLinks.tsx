@@ -91,8 +91,7 @@ const Wrapper = styled.section`
   }
 
   .icon {
-    margin-right: 0.5rem;
-    size: 140%;
+    display: flex;
   }
 
   .nav-link {
