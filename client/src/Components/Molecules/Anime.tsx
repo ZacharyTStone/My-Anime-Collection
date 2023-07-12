@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import * as React from "react";
@@ -10,15 +11,11 @@ import { CardMedia } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {BsReverseLayoutTextWindowReverse} from "react-icons/bs";
 import { FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(() => ({
-  marginLeft: "auto",
-}));
+
 
 interface anime {
   attributes: {
@@ -81,10 +78,19 @@ function Anime({
   key,
 }: animeProps) {
   const { t } = useTranslation();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   const handleSubmit = () => {
@@ -105,6 +111,7 @@ function Anime({
     addToDefault,
     isLoading,
   } = useAppContext();
+
   return (
     <Wrapper key={key}>
       <Card
@@ -115,6 +122,18 @@ function Anime({
           color: "var(--textColor)",
           backgroundColor: "var(--backgroundColor)",
           marginBottom: "1rem",
+          // glassmorphism
+          boxShadow: "0 4px 12px 0 var(--primary-50)",
+          backdropFilter: "blur(4px)",
+          borderRadius: "10px",
+          border: "1px solid var(--primary-50)",
+
+          // get bigger on hover
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.02)",
+          },
+       
         }}
       >
         <React.Fragment>
@@ -238,15 +257,20 @@ function Anime({
               backgroundColor: "var(--backgroundColor)",
             }}
           >
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
+            <Button 
+              size="small"
+              className="card-btn"
+              onClick={handleModalOpen}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px"
+              }
+            }
             >
-              <ExpandMoreIcon
+              <BsReverseLayoutTextWindowReverse
                 style={{
-                  color: "var(--textColor)",
+                  color: "var(--primary-500)",
                 }}
               />
               <span
@@ -257,7 +281,7 @@ function Anime({
               >
                 {t("anime.synopsis")}
               </span>
-            </ExpandMore>
+            </Button>
             {type === "delete" ? (
               <button
                 type="button"
@@ -292,16 +316,46 @@ function Anime({
                 color="var(--textColor)"
                 gutterBottom
               >
-                {synopsis
-                  ? synopsis
-                  : anime.attributes.synopsis
-                  ? anime.attributes.synopsis.replace(/<[^>]*>?/gm, "")
-                  : "No synopsis available"}
+                <Button
+                  sx={{
+                    color: "var(--textColor)",
+                  }}
+                  onClick={handleModalOpen}
+                >
+                  {t("anime.showSynopsis")}
+                </Button>
               </Typography>
             </CardContent>
           </Collapse>
         </React.Fragment>
       </Card>
+      {modalOpen && (
+        <Modal onClose={handleModalClose} 
+        onClick={handleModalClose}
+         
+        >
+          <ModalContent>
+            <Typography variant="h5" gutterBottom>
+              {siteLanguage === "en"
+                ? title ||
+                  anime.attributes.titles.en ||
+                  anime.attributes.titles.en_jp ||
+                  "Title N/A"
+                : japanese_title ||
+                  anime.attributes.titles.ja_jp ||
+                  anime.attributes.titles.en ||
+                  "Title N/A"}
+            </Typography>
+            <Typography variant="body1">
+              {synopsis
+                ? synopsis
+                : anime.attributes.synopsis
+                ? anime.attributes.synopsis.replace(/<[^>]*>?/gm, "")
+                : "No synopsis available"}
+            </Typography>
+          </ModalContent>
+        </Modal>
+      )}
     </Wrapper>
   );
 }
@@ -351,5 +405,42 @@ const Wrapper = styled.article`
     }
   }
 `;
+
+// Modal styles
+const Modal = styled.div<{ onClose: () => void }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+`;
+
+
+const ModalContent = styled.div`
+  background-color: var(--backgroundColor);
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+
+  h5 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--textColor);
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--textColor);
+  }
+`;
+
 
 export default Anime;

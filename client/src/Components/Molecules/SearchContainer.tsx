@@ -1,8 +1,8 @@
+import { useState, useEffect } from "react";
 import { FormRow, FormRowSelect } from "../Atoms";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 import TwitterShare from "../Atoms/TwitterShare";
 
 const SearchContainer = () => {
@@ -23,23 +23,28 @@ const SearchContainer = () => {
   useEffect(() => {
     getPlaylists();
   }, []);
-  const handleSearch = (e: any) => {
+
+  const handleSearch = (e : 
+     React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> 
+    ) => {
     if (isLoading) return;
     handleChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleLocalPlaylistChange = (e: any) => {
+  const handleLocalPlaylistChange =  (e : 
+    React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> 
+   )  => {
     if (isLoading) return;
-
     e.preventDefault();
-
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit =  (e : 
+    any)  => {
     e.preventDefault();
     clearFilters();
   };
+
   return (
     <Wrapper>
       <form
@@ -115,11 +120,35 @@ const Wrapper = styled.section`
   .form {
     width: 100%;
     max-width: 100%;
+
+
+    border-radius: 8px;
+
+
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--primary-50);
+    box-shadow: 0 4px 16px 0 var(--primary-50);
+
+
   }
   .form-input,
   .form-select,
   .btn-block {
     height: 35px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 16px;
+    color: #333;
+  }
+  .form-input:focus,
+  .form-select:focus,
+  .btn-block:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   }
   .form-row {
     margin-bottom: 0;
@@ -136,6 +165,14 @@ const Wrapper = styled.section`
   .btn-block {
     align-self: end;
     margin-top: 1rem;
+    background-color: var(--primary-400);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .btn-block:hover {
+    background-color: var(--primary-500)
   }
   @media (min-width: 768px) {
     .form-center {

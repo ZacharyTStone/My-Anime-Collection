@@ -104,7 +104,11 @@ const Profile = () => {
 										target={"_blank"}
 										rel="noopener noreferrer"
 									>
-										<div>
+										<div style={{
+											display: "flex",
+											alignItems: "center",
+											gap: "8px"
+										}}>
 											<BiCoffeeTogo color="var(--primary-500)" />
 											<span>{t("profile.buy_me_a_coffee")}</span>
 										</div>
@@ -116,11 +120,15 @@ const Profile = () => {
 										target={"_blank"}
 										rel="noopener noreferrer"
 									>
-										<div>
+										<div style={{
+											display: "flex",
+											alignItems: "center",
+											gap: "8px"
+										}}>
 											<FaBitcoin color="var(--primary-500)" />
 											<span>{t("profile.crypto")}</span>
-											<script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
 										</div>
+										<script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
 									</a>
 								</button>
 							</div>

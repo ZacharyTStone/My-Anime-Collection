@@ -107,7 +107,7 @@ const MUINavbar = () => {
             <MusicAndFlag />
 
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings" className="nav-link">
+              <Tooltip title="Other Settings" className="nav-link">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <FaUserCircle color="var(--textColor)" />
                   <span

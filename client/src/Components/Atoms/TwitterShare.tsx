@@ -1,17 +1,26 @@
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/appContext";
 import { FaTwitter } from "react-icons/fa";
 
-const TwitterShare = () => {
+const TwitterShare: React.FC = () => {
   const { t } = useTranslation();
   const { animes } = useAppContext();
 
-  let twitterUrl =
-    "https://twitter.com/intent/tweet?text= Check out my awesome list of anime!&hashtags=anime&url=https://www.my-anime-collection.com/ ";
+  const twitterUrl = React.useMemo(() => {
+    let url =
+      "https://twitter.com/intent/tweet?text= Check out my awesome list of anime!&hashtags=anime&url=https://www.my-anime-collection.com/";
 
-  for (let i = 0; i < animes.length; i++) {
-    twitterUrl += `${i + 1}: ${animes[i].title} \n \n \t `;
-  }
+    for (let i = 0; i < animes.length; i++) {
+      url += `${i + 1}: ${animes[i].title} \n \n \t `;
+    }
+
+    return url;
+  }, [animes]);
+
+  const openTwitterUrl = () => {
+    window.open(twitterUrl, "_blank");
+  };
 
   return (
     <div
@@ -25,21 +34,9 @@ const TwitterShare = () => {
         width: "100%",
       }}
     >
-      <a href={twitterUrl} target="_blank">
-        <button
-          className="btn  btn-hipster"
-          onClick={() => {
-            window.open(twitterUrl, "_blank");
-          }}
-        >
-          <span
-            style={{
-              marginRight: "10px",
-            }}
-          >
-            {" "}
-            {t("twitter.share")}
-          </span>
+      <a href={twitterUrl} target="_blank" rel="noopener noreferrer">
+        <button className="btn btn-hipster" onClick={openTwitterUrl}>
+          <span style={{ marginRight: "10px" }}>{t("twitter.share")}</span>
           <FaTwitter />
         </button>
       </a>
