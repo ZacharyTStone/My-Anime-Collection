@@ -53,11 +53,10 @@ const NavLinks = () => {
           return (
               <NavLink
                 to={path}
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
               >
-                 <Button key={id}>
+                 <Button key={id} 
+                   className="nav-link"
+                  >
                 <IconContext.Provider
                   value={{
                     size: "1.5rem",
@@ -66,7 +65,10 @@ const NavLinks = () => {
                 >
                   <span className="icon">{icon}</span>
                 </IconContext.Provider>
-                {text}
+                <span   className={
+                    window.location.pathname === path 
+                    ? "active icon" : "icon"
+                 }>{text}</span>
                 </Button>
               </NavLink>
           );
@@ -96,12 +98,12 @@ const Wrapper = styled.section`
 
   .nav-link {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    gap: 8px!important;
+    width: max-content;
   }
 
   .nav-link.active {
-    color: var(--primary-500);
+    color: var(--primary-500) !important;
   }
 `;
 
