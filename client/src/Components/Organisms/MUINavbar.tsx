@@ -155,7 +155,6 @@ const Wrapper = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.1);
 
   // override styles to prevent the links from wrapping when switching to Japanese
   .css-1oqqzyl-MuiContainer-root {
@@ -202,7 +201,7 @@ const Wrapper = styled.nav`
     justify-content: center;
     gap: 0 0.5rem;
     position: relative;
-    box-shadow: var(--shadow-2);
+
   }
 
   .active {
