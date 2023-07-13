@@ -269,18 +269,12 @@ function Anime({
             }
             >
               <BsReverseLayoutTextWindowReverse
+               size = {20}
                 style={{
                   color: "var(--primary-500)",
                 }}
               />
-              <span
-                style={{
-                  color: "var(--textColor)",
-                  fontSize: "1rem",
-                }}
-              >
-                {t("anime.synopsis")}
-              </span>
+            
             </Button>
             {type === "delete" ? (
               <button

@@ -48,7 +48,7 @@ const MUINavbar = () => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+              sx={{ mr: 2, display: { xs: "none", lg: "flex" } }}
             >
               <Logo />
             </Typography>
@@ -97,7 +97,7 @@ const MUINavbar = () => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+              sx={{ flexGrow: 1, display: { xs: "flex",sm: "none", md: "none" } }}
             >
               <Logo />
             </Typography>

@@ -1,15 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Landing, Error, ProtectedRoute } from "./pages";
+import { Landing, Error, ProtectedRoute,} from "./pages";
 import { Suspense, lazy } from "react";
 import Loading from "./Components/Atoms/Loading";
 import ErrorBoundary from "./pages/ErrorBoundry";
+import SharedLayout from "./pages/Dashboard/SharedLayout";
+import AddAnime from "./pages/Dashboard/AddAnime";
+import MyAnimes from "./pages/Dashboard/MyAnimes";
+import EditPlaylist from "./pages/Dashboard/EditPlaylist";
+import TopAnimes from "./pages/Dashboard/TopAnimes";
 
-const SharedLayout = lazy(() => import("./pages/Dashboard/SharedLayout"));
-const AddAnime = lazy(() => import("./pages/Dashboard/AddAnime"));
-const MyAnimes = lazy(() => import("./pages/Dashboard/MyAnimes"));
-const EditPlaylist = lazy(() => import("./pages/Dashboard/EditPlaylist"));
+
 const Profile = lazy(() => import("./pages/Dashboard/Profile"));
-const TopAnimes = lazy(() => import("./pages/Dashboard/TopAnimes"));
 const RegisterDemo = lazy(() => import("./pages/RegisterDemo"));
 const Register = lazy(() => import("./pages/Register"));
 
