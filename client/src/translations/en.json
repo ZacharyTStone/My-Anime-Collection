@@ -36,7 +36,8 @@
 			"search": "Search",
 			"sort": "Sort",
 			"clear_filters": "Clear Filters",
-			"playlist": "Playlist To Add To"
+			"playlist": "Playlist To Add To",
+			"current_playlist": "Current Playlist"
 		},
 		"my_animes_container": {
 			"no_anime_message1": "Couldn't find any anime. Click",

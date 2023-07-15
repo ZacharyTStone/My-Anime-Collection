@@ -36,7 +36,8 @@
 			"search": "検索",
 			"sort": "ソート",
 			"clear_filters": "フィルターをクリア",
-			"playlist": "アニメに入れるのプレーリスト"
+			"playlist": "アニメに入れるのプレーリスト",
+			"current_playlist": "選択したプレーリスト"
 		},
 		"my_animes_container": {
 			"no_anime_message1": "アニメが見つかりませんでした。",

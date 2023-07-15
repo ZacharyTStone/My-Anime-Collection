@@ -75,7 +75,7 @@ const SearchContainer = () => {
           {/* playlist */}
           <form className="">
             <label htmlFor="playlist" className="form-label">
-              {t("search_container.playlist")}
+              {t("search_container.current_playlist")}
             </label>
             <select
               name="playlist"
@@ -126,10 +126,7 @@ const Wrapper = styled.section`
 
 
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--primary-50);
-    box-shadow: 0 4px 16px 0 var(--primary-50);
+   
 
 
   }

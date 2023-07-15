@@ -101,7 +101,7 @@ const MUINavbar = () => {
             >
               <Logo />
             </Typography>
-            <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
+            <Box sx={{ flexGrow: 6, display: { xs: "none", md: "flex" } }}>
               <NavLinks />
             </Box>
             <MusicAndFlag />
@@ -155,7 +155,14 @@ const Wrapper = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
+ min-width: 100% !important;
 
+
+  // override styles to prevent the links from wrapping when switching to Japanese
+  .css-1oqqzyl-MuiContainer-root {
+    max-width: 1300px;
+  }
+  
   // override styles to prevent the links from wrapping when switching to Japanese
   .css-1oqqzyl-MuiContainer-root {
     max-width: 1300px;
