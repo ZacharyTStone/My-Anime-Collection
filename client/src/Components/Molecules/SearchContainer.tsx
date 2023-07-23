@@ -133,7 +133,7 @@ const Wrapper = styled.section`
   .form-input,
   .form-select,
   .btn-block {
-    height: 35px;
+    min-height: 35px;
     background-color: rgba(255, 255, 255, 0.5);
     border: none;
     border-radius: 8px;

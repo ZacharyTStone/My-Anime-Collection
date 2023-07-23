@@ -32,11 +32,12 @@
   background-color: var(--backgroundColor);
   border: 1px solid var(--grey-200);
   -webkit-appearance: none;
+  appearance: none;
 }
 .form-input,
 .form-select,
 .btn-block {
-  height: 35px;
+  min-height: 35px;
 }
 .form-row {
   margin-bottom: 1rem;
