@@ -136,12 +136,12 @@ const Wrapper = styled.section`
     color: #333;
   } */
 
-  .form-input:focus,
+  /* .form-input:focus,
   .form-select:focus,
   .btn-block:focus {
     outline: none;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  }
+  } */
   .form-row {
     margin-bottom: 0;
   }
