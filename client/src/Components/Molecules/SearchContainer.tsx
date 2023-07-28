@@ -124,7 +124,7 @@ const Wrapper = styled.section`
     width: 100%;
     max-width: 100%;
   }
-  .form-input,
+  /* .form-input,
   .form-select,
   .btn-block {
     min-height: 35px;
@@ -134,7 +134,8 @@ const Wrapper = styled.section`
     padding: 8px;
     font-size: 16px;
     color: #333;
-  }
+  } */
+
   .form-input:focus,
   .form-select:focus,
   .btn-block:focus {
