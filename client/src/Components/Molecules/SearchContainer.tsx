@@ -24,23 +24,26 @@ const SearchContainer = () => {
     getPlaylists();
   }, []);
 
-  const handleSearch = (e : 
-     React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> 
-    ) => {
+  const handleSearch = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     if (isLoading) return;
     handleChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleLocalPlaylistChange =  (e : 
-    React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> 
-   )  => {
+  const handleLocalPlaylistChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     if (isLoading) return;
     e.preventDefault();
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleSubmit =  (e : 
-    any)  => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     clearFilters();
   };
@@ -120,15 +123,6 @@ const Wrapper = styled.section`
   .form {
     width: 100%;
     max-width: 100%;
-
-
-    border-radius: 8px;
-
-
-    background: rgba(255, 255, 255, 0.1);
-   
-
-
   }
   .form-input,
   .form-select,
@@ -169,7 +163,7 @@ const Wrapper = styled.section`
     transition: background-color 0.3s ease;
   }
   .btn-block:hover {
-    background-color: var(--primary-500)
+    background-color: var(--primary-500);
   }
   @media (min-width: 768px) {
     .form-center {
