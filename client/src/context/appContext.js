@@ -545,19 +545,30 @@ const AppProvider = ({ children }) => {
 		// the fetching is done here. the sorting is passed in from AddAnime Page
 		let APIURL = baseURL;
 
-		if (filter === "true") {
+		if (filter === "true" && searchText) {
 			APIURL += "?filter[text]=" + searchText + "&page[limit]=10";
 		}
-		if (pagination === "true") {
+		if (pagination === "true" && page) {
 			APIURL += "&page[offset]=" + (page - 1) * 10;
 		}
 
-		if (sort !== "false") {
+		if (sort !== "false" && sort) {
 			APIURL += "&sort=" + sort;
 		}
 
 		try {
 			fetch(APIURL)
+			    // check if the response is ok
+				.then((res) => {
+					if (!res.ok && res.status !== 404 ) {
+						dispatch({
+							type: FETCH_ANIMES_ERROR,
+							payload: { msg: 'could not fetch animes from API' },
+						});
+						throw Error("Could not fetch the data for that resource");
+					}
+					return res;
+				})
 				.then((res) => res.json())
 				.then((data) => {
 					let animes = data.data;
