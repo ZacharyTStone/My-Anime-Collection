@@ -548,8 +548,8 @@ const AppProvider = ({ children }) => {
 		if (filter === "true" && searchText) {
 			APIURL += "?filter[text]=" + searchText + "&page[limit]=10";
 		}
-		if (pagination === "true" && page) {
-			APIURL += "&page[offset]=" + (page - 1) * 10;
+		if (pagination === "true" && page ) {
+			APIURL += "&page[offset]=" + (page * 10 || 1);
 		}
 
 		if (sort !== "false" && sort) {
