@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 const AddAnime: React.FC = () => {
   const { t } = useTranslation();
   const [textInput, setTextInput] = useState<string>("");
-  const [sort, setSort] = useState<string>("popularityRank");
+  const [sort, setSort] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
 
   const {
@@ -84,7 +84,8 @@ const AddAnime: React.FC = () => {
               list={[
                 {
                   title: "popularity",
-                  value: "popularityRank",
+                  // value: "popularityRank",
+                  value: "",
                 },
                 {
                   title: "average rating",
