@@ -1,7 +1,7 @@
 import Anime from "../models/Anime.js";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/index.js";
-import checkPermissions from "../utils/checkPermissions.js";
+import checkPermissions from "../utils/checkPermissions.ts";
 
 // REST routes are defined in AnimeRoutes.js
 
