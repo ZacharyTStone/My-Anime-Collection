@@ -11,5 +11,3 @@ const checkPermissions = (requestUser, resourceUserId) => {
 };
 
 export default checkPermissions;
-
-// test
