@@ -12,6 +12,17 @@
     "skipLibCheck": true,
     "allowJs": true
   },
-  "include": ["**/*.ts"],
+  "include": [
+    "**/*.ts",
+    "controllers/playlistsController.js",
+    "routes/playlistsRoutes.js",
+    "controllers/animesController.js",
+    "models/Anime.js",
+    "models/User.js",
+    "controllers/authController.js",
+    "routes/authRoutes.js",
+    "routes/animesRoutes.js",
+    "db/connect.js"
+  ],
   "exclude": ["node_modules", "dist", "client"]
 }
