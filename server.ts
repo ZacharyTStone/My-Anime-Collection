@@ -65,16 +65,16 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // only when ready to deploy
-// @ts-expect-error
-const newDirname = dirname(fileURLToPath(import.meta.url));
+
+// const newDirname = dirname(fileURLToPath(import.meta.url));
 // can't use import.meta
 // const newDirname = path.dirname(__filename);
-app.use(express.static(path.resolve(newDirname, "./client/build")));
+// app.use(express.static(path.resolve(newDirname, "./client/build")));
 
 // only when ready to deploy
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(newDirname, "./client/build", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(newDirname, "./client/build", "index.html"));
+// });
 
 // start the server
 

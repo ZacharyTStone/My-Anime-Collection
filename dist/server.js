@@ -16,9 +16,6 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 require("express-async-errors");
 const morgan_1 = __importDefault(require("morgan"));
-const path_1 = __importDefault(require("path")); // Import path module
-const path_2 = require("path");
-const url_1 = require("url");
 // protections
 const helmet_1 = __importDefault(require("helmet"));
 // @ts-ignore
@@ -65,15 +62,14 @@ if (process.env.NODE_ENV !== "production") {
     app.use((0, morgan_1.default)("dev"));
 }
 // only when ready to deploy
-// @ts-expect-error
-const newDirname = (0, path_2.dirname)((0, url_1.fileURLToPath)(import.meta.url));
+// const newDirname = dirname(fileURLToPath(import.meta.url));
 // can't use import.meta
 // const newDirname = path.dirname(__filename);
-app.use(express_1.default.static(path_1.default.resolve(newDirname, "./client/build")));
+// app.use(express.static(path.resolve(newDirname, "./client/build")));
 // only when ready to deploy
-app.get("*", (req, res) => {
-    res.sendFile(path_1.default.resolve(newDirname, "./client/build", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(newDirname, "./client/build", "index.html"));
+// });
 // start the server
 const port = process.env.PORT || 5001;
 const start = () => __awaiter(void 0, void 0, void 0, function* () {

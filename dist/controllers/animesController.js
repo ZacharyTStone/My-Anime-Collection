@@ -16,7 +16,7 @@ exports.getAnimes = exports.deleteAnime = exports.createAnime = void 0;
 const Anime_js_1 = __importDefault(require("../models/Anime.js"));
 const http_status_codes_1 = require("http-status-codes");
 const index_js_1 = require("../errors/index.js");
-const checkPermissions_ts_1 = __importDefault(require("../utils/checkPermissions.ts"));
+const checkPermissions_1 = __importDefault(require("../utils/checkPermissions"));
 // REST routes are defined in AnimeRoutes.js
 const createAnime = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const existingAnime = yield Anime_js_1.default.findOne({
@@ -74,7 +74,7 @@ const deleteAnime = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     if (!anime) {
         throw new index_js_1.NotFoundError(`No Anime with id :${animeId}`);
     }
-    (0, checkPermissions_ts_1.default)(req.user, anime.createdBy);
+    (0, checkPermissions_1.default)(req.user, anime.createdBy);
     yield anime.remove();
     res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Success! Anime removed" });
 });
