@@ -1,17 +1,16 @@
 import express from "express";
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 import "express-async-errors";
 import morgan from "morgan";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
 // protections
-import helmet from "helmet";
+const helmet = require("helmet");
 // @ts-ignore
 import xssClean from "xss-clean"; // Correct import syntax
 
-import mongoSanitize from "express-mongo-sanitize";
-
+const mongoSanitize = require("express-mongo-sanitize");
 // db and authenticateUser
 import connectDB from "./db/connect.js";
 
