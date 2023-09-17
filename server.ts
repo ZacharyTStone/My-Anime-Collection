@@ -1,7 +1,11 @@
 import dotenv from "dotenv";
 import "express-async-errors";
 import morgan from "morgan";
+import path from "path";
 import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+import express from "express";
 
 // protections
 import helmet from "helmet";
@@ -24,10 +28,6 @@ import authenticateUser from "./middleware/auth.js";
 
 // Load environment variables from .env file
 dotenv.config();
-
-// start up the server
-const path = require("path");
-const express = require("express");
 
 const app = express();
 
@@ -65,16 +65,13 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // only when ready to deploy
+// Serve static files from the "build" directory
+app.use(express.static(path.join(__dirname, "client/build")));
 
-const currentDir = __dirname; // Use __dirname in CommonJS modules
-
-app.use(express.static(path.resolve(currentDir, "./client/build")));
-
-app.get("*", (req: any, res: any) => {
-  res.sendFile(path.resolve(currentDir, "./client/build", "index.html"));
+// Handle routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
-
-// start the server
 
 const port = process.env.PORT || 5001;
 
