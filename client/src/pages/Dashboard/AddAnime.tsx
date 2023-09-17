@@ -29,9 +29,10 @@ const AddAnime: React.FC = () => {
   }, 500);
 
   const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\s/g, "");
+    const value = e.target.value;
+    let api_value = value?.replace(/\s/g, "+");
     setTextInput(value);
-    debouceRequest(value);
+    debouceRequest(api_value);
   };
 
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
