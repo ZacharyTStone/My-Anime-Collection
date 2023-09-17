@@ -4,7 +4,6 @@
     "rootDir": "./",
     "target": "ES2016",
     "module": "commonjs",
-    "moduleResolution": "node",
     "baseUrl": "./",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

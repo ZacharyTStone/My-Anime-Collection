@@ -2,15 +2,11 @@ import dotenv from "dotenv";
 import "express-async-errors";
 import morgan from "morgan";
 import path from "path";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-
 import express from "express";
 
 // protections
 import helmet from "helmet";
-// @ts-ignore
-import xssClean = require("xss-clean");
+import xssClean from "xss-clean"; // Correct import syntax
 
 import mongoSanitize from "express-mongo-sanitize";
 
@@ -35,17 +31,7 @@ const app = express();
 app.use(express.json());
 
 // protections
-app.use(helmet.dnsPrefetchControl());
-app.use(helmet.expectCt());
-app.use(helmet.frameguard());
-app.use(helmet.hidePoweredBy());
-app.use(helmet.hsts());
-app.use(helmet.ieNoOpen());
-app.use(helmet.noSniff());
-app.use(helmet.originAgentCluster());
-app.use(helmet.permittedCrossDomainPolicies());
-app.use(helmet.referrerPolicy());
-app.use(helmet.xssFilter());
+app.use(helmet());
 
 // sanitize input
 app.use(xssClean());
@@ -65,12 +51,14 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // only when ready to deploy
-// Serve static files from the "build" directory
-app.use(express.static(path.join(__dirname, "client/build")));
+// Serve static files from the "client/build" directory
+const clientBuildPath = path.join(__dirname, "client/build");
+
+app.use(express.static(clientBuildPath));
 
 // Handle routes
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  res.sendFile(path.join(clientBuildPath, "index.html"));
 });
 
 const port = process.env.PORT || 5001;
