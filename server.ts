@@ -71,7 +71,7 @@ app.get("*", (req, res) => {
 
 // start the server
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 
 const start = async () => {
   try {
