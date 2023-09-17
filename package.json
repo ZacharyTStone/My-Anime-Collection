@@ -2,7 +2,7 @@
   "name": "myanimecollection",
   "version": "1.0.1",
   "description": "A anime tracking application",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "install-server": "npm install",

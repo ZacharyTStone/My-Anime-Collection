@@ -7,11 +7,11 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
 // protections
-const helmet = require("helmet");
+import helmet from "helmet";
 // @ts-ignore
 import xssClean from "xss-clean"; // Correct import syntax
 
-const mongoSanitize = require("express-mongo-sanitize");
+import mongoSanitize from "express-mongo-sanitize";
 // db and authenticateUser
 import connectDB from "./db/connect.js";
 
