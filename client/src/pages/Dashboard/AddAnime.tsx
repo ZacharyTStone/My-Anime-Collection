@@ -5,7 +5,7 @@ import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
 
 // @ts-ignore
-import { debounce } from "lodash"
+import { debounce } from "lodash";
 import { useTranslation } from "react-i18next";
 
 const AddAnime: React.FC = () => {
@@ -29,7 +29,7 @@ const AddAnime: React.FC = () => {
   }, 500);
 
   const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\s/g, "+");
+    let value = e.target.value.replace(/\s/g, "");
     setTextInput(value);
     debouceRequest(value);
   };
@@ -38,7 +38,9 @@ const AddAnime: React.FC = () => {
     setSort(e.target.value);
   };
 
-  const handleLocalPlaylistChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleLocalPlaylistChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     if (isLoading) return;
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
@@ -116,16 +118,21 @@ const AddAnime: React.FC = () => {
                 onChange={handleLocalPlaylistChange}
                 className="form-select"
               >
-                {userPlaylists.map((playlist :{
-                  id: string;
-                  title: string;
-                }, index: number) => {
-                  return (
-                    <option key={playlist?.title + index} value={playlist.id}>
-                      {playlist.title}
-                    </option>
-                  );
-                })}
+                {userPlaylists.map(
+                  (
+                    playlist: {
+                      id: string;
+                      title: string;
+                    },
+                    index: number
+                  ) => {
+                    return (
+                      <option key={playlist?.title + index} value={playlist.id}>
+                        {playlist.title}
+                      </option>
+                    );
+                  }
+                )}
               </select>
             </form>
           </div>
