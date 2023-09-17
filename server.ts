@@ -63,15 +63,19 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // only when ready to deploy
-app.use(express.static(path.resolve(__dirname, "./client/build")));
+// const newDirname = dirname(fileURLToPath(import.meta.url));
+// can't use import.meta
+const newDirname = path.dirname(__filename);
+app.use(express.static(path.resolve(newDirname, "./client/build")));
 
+// only when ready to deploy
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+  res.sendFile(path.resolve(newDirname, "./client/build", "index.html"));
 });
 
 // start the server
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 const start = async () => {
   try {
