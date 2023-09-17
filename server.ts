@@ -63,13 +63,11 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // only when ready to deploy
-// const __dirname = path.resolve(); // Use path.resolve() to get the current directory
-// app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-// only when ready to deploy
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 // start the server
 
