@@ -6,6 +6,7 @@ import express from "express";
 
 // protections
 import helmet from "helmet";
+// @ts-ignore
 import xssClean from "xss-clean"; // Correct import syntax
 
 import mongoSanitize from "express-mongo-sanitize";
