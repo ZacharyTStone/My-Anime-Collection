@@ -2,13 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import "express-async-errors";
 import morgan from "morgan";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import path from "path";
+import path from "path"; // Import path module
 
 // protections
 import helmet from "helmet";
-import xss from "xss-clean";
+// @ts-ignore
+import xssClean = require("xss-clean");
+
 import mongoSanitize from "express-mongo-sanitize";
 
 // db and authenticateUser
@@ -45,9 +45,9 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 
-//sanitize input
-app.use(xss());
-// prevents mongodb operator injection from mongoDB queries
+// sanitize input
+app.use(xssClean());
+// prevents MongoDB operator injection from MongoDB queries
 app.use(mongoSanitize());
 
 // app level routes
@@ -63,20 +63,21 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // only when ready to deploy
-const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-// only when ready to deploy
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
 // start the server
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 const start = async () => {
   try {
+    if (!process.env.MONGO_URL) {
+      throw new Error("MONGO_URL must be defined");
+    }
     await connectDB(process.env.MONGO_URL);
     app.listen(port, () => {
       console.log(`Server is listening on port ${port}...`);
