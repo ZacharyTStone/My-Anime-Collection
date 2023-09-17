@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import "express-async-errors";
 import morgan from "morgan";
 import path from "path"; // Import path module
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 // protections
 import helmet from "helmet";
@@ -63,9 +65,10 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // only when ready to deploy
-// const newDirname = dirname(fileURLToPath(import.meta.url));
+// @ts-expect-error
+const newDirname = dirname(fileURLToPath(import.meta.url));
 // can't use import.meta
-const newDirname = path.dirname(__filename);
+// const newDirname = path.dirname(__filename);
 app.use(express.static(path.resolve(newDirname, "./client/build")));
 
 // only when ready to deploy
