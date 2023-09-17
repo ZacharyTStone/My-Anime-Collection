@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "A anime tracking application",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "install-server": "npm install",
     "install-dependencies": "npm run install-client && npm run install-server",
@@ -58,6 +58,7 @@
     "node": "16.13.0"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/helmet": "^4.0.0",
     "@types/morgan": "^1.9.5"
   }

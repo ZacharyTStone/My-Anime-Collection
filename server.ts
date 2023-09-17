@@ -1,5 +1,6 @@
 import express from "express";
-const dotenv = require("dotenv");
+// @ts-ignore
+import dotenv from "dotenv";
 import "express-async-errors";
 import morgan from "morgan";
 import { dirname } from "path";
