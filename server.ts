@@ -1,9 +1,10 @@
+import express from "express";
 import dotenv from "dotenv";
 import "express-async-errors";
 import morgan from "morgan";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 import path from "path";
-import express from "express";
-
 // protections
 import helmet from "helmet";
 // @ts-ignore
@@ -52,14 +53,17 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // only when ready to deploy
-// Serve static files from the "client/build" directory
-const clientBuildPath = path.join(__dirname, "client/build");
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
+}
 
-app.use(express.static(clientBuildPath));
+// only when ready to deploy
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-// Handle routes
+// only when ready to deploy
 app.get("*", (req, res) => {
-  res.sendFile(path.join(clientBuildPath, "index.html"));
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
 const port = process.env.PORT || 5001;
