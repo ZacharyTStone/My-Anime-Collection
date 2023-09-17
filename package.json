@@ -2,24 +2,21 @@
   "name": "myanimecollection",
   "version": "1.0.1",
   "description": "A anime tracking application",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "install-server": "npm install",
-    "install-dependencies": " npm run install-client && npm run install-server ",
+    "install-dependencies": "npm run install-client && npm run install-server",
     "build-client": "cd client && npm run build",
     "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build-client",
-    "server": "nodemon server --ignore client",
-    "client": "npm start --prefix client",
-    "start": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\""
+    "heroku-postbuild": "npm run install-client && npm run build-client && npx tsc",
+    "start-server": "node ./dist/server.js",
+    "start-client": "npm start --prefix client",
+    "start": "concurrently --kill-others-on-fail \"npm run start-server\" \"npm run start-client\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^2.0.20"
-  },
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
@@ -42,6 +39,7 @@
     "moment": "^2.29.4",
     "mongoose": "^6.12.0",
     "morgan": "^1.10.0",
+    "nodemon": "^2.0.22",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.0.0",
@@ -58,5 +56,10 @@
   },
   "engines": {
     "node": "16.13.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/helmet": "^4.0.0",
+    "@types/morgan": "^1.9.5"
   }
 }
