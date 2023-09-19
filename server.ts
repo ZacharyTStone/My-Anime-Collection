@@ -2,8 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import "express-async-errors";
 import morgan from "morgan";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+
 import path from "path";
 
 // protections
@@ -22,6 +21,7 @@ import playlistsRouter from "./routes/playlistsRoutes.js";
 // middleware
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import authenticateUser from "./middleware/auth.js";
+import { getDirname } from "./utils/misc.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -59,11 +59,13 @@ app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
 app.use(errorHandlerMiddleware);
 
 if (process.env.NODE_ENV !== "production") {
+  // @ts-ignore
   app.use(morgan("dev"));
 }
 
 // only when ready to deploy
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = getDirname();
+
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 // only when ready to deploy
@@ -73,7 +75,7 @@ app.get("*", (req, res) => {
 
 // start the server
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 const start = async () => {
   try {
