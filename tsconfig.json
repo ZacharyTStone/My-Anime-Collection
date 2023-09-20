@@ -5,6 +5,6 @@
     "module": "Node16",
     "esModuleInterop": true
   },
-  "include": ["./*"],
+  "include": ["**/*.ts", "**/*.js"],
   "exclude": ["node_modules", "dist", "client"]
 }
