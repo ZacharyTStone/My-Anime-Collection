@@ -1,19 +1,14 @@
-// @ts-ignore
 import express from "express";
-// @ts-ignore
 import dotenv from "dotenv";
 import "express-async-errors";
-// @ts-ignore
 import morgan from "morgan";
-
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 import path from "path";
 
 // protections
-// @ts-ignore
 import helmet from "helmet";
-// @ts-ignore
 import xss from "xss-clean";
-// @ts-ignore
 import mongoSanitize from "express-mongo-sanitize";
 
 // db and authenticateUser
@@ -27,13 +22,6 @@ import playlistsRouter from "./routes/playlistsRoutes.js";
 // middleware
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import authenticateUser from "./middleware/auth.js";
-
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-
-export const getDirname = () => {
-  return dirname(fileURLToPath(import.meta.url));
-};
 
 // Load environment variables from .env file
 dotenv.config();
@@ -71,13 +59,11 @@ app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
 app.use(errorHandlerMiddleware);
 
 if (process.env.NODE_ENV !== "production") {
-  // @ts-ignore
   app.use(morgan("dev"));
 }
 
 // only when ready to deploy
-const __dirname = getDirname();
-
+const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 // only when ready to deploy
@@ -87,7 +73,7 @@ app.get("*", (req, res) => {
 
 // start the server
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 
 const start = async () => {
   try {
