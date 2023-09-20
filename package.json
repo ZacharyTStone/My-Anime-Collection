@@ -9,8 +9,8 @@
     "install-dependencies": "npm run install-client && npm run install-server",
     "build-client": "cd client && npm run build",
     "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-dependencies && npm run build-client",
-    "start-heroku-server": "ts-node ./server.ts",
+    "heroku-postbuild": "npm run install-dependencies && npm run build-client  && tsc",
+    "heroku-server": "nodemon dist/server.js --ignore client",
     "server": "ts-node server/server.ts",
     "client": "npm start --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\""
