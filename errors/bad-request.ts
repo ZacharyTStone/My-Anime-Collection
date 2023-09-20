@@ -11,6 +11,7 @@ import CustomAPIError from "./custom-api.js";
 class BadRequestError extends CustomAPIError {
   constructor(message) {
     super(message);
+    //@ts-ignore
     this.statusCode = StatusCodes.BAD_REQUEST;
   }
 }

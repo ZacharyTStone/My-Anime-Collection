@@ -75,6 +75,7 @@ const deletePlaylist = async (req, res) => {
   });
 
   // Remove playlist
+  //@ts-ignore
   user.playlists = user.playlists.filter(
     (playlist) => playlist.id !== req.params.id
   );
