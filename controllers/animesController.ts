@@ -22,10 +22,16 @@ const createAnime = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ anime });
 };
 
+interface QueryObject {
+  createdBy: string;
+  playlistID: string;
+  title?: any;
+}
+
 const getAnimes = async (req, res) => {
   const { sort, search, currentPlaylistID } = req.query;
 
-  const queryObject = {
+  let queryObject: QueryObject = {
     createdBy: req.user.userId,
     playlistID: currentPlaylistID,
   };

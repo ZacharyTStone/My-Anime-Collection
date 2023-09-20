@@ -5,10 +5,10 @@
   "main": "server.ts",
   "type": "module",
   "scripts": {
+    "install-client": "cd client && npm install",
+    "build-client": "cd client && npm run build",
     "install-server": "npm install",
     "install-dependencies": "npm run install-client && npm run install-server",
-    "build-client": "cd client && npm run build",
-    "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run install-dependencies && npm run build-client  && tsc",
     "start-heroku-server": "node server.js",
     "server": "ts-node server/server.ts",
