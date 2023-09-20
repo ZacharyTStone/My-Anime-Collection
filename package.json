@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",
+    "nodemon": "^2.0.22",
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
