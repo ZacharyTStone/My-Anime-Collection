@@ -1,13 +1,19 @@
+// @ts-ignore
 import express from "express";
+// @ts-ignore
 import dotenv from "dotenv";
 import "express-async-errors";
+// @ts-ignore
 import morgan from "morgan";
 
 import path from "path";
 
 // protections
+// @ts-ignore
 import helmet from "helmet";
+// @ts-ignore
 import xss from "xss-clean";
+// @ts-ignore
 import mongoSanitize from "express-mongo-sanitize";
 
 // db and authenticateUser
@@ -21,7 +27,13 @@ import playlistsRouter from "./routes/playlistsRoutes.js";
 // middleware
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import authenticateUser from "./middleware/auth.js";
-import { getDirname } from "./utils/misc.js";
+
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+export const getDirname = () => {
+  return dirname(fileURLToPath(import.meta.url));
+};
 
 // Load environment variables from .env file
 dotenv.config();
