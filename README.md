@@ -37,9 +37,9 @@ I hope you enjoy this project and if you have any questions or comments feel fre
 
 フロントエンド: React と Styled Components
 
-注意: このアプリケーションは、BE と FE を同じリポジトリから実行するために Concurently パッケージを使用しています（package.json を参照）。
+注意: このアプリケーションは、BE と FE を同じリポジトリから実行するために *Concurently*というパッケージを使用しています。
 
-この構造をお勧めしませんが、それなりに複雑になる可能性があり、標準的な BE / FE リポジトリ構造を好むかもしれません。
+この構造をお勧めしませんが、それなりに複雑になる可能性があり、標準的な BE / FE リポジトリ構造を好むかもしれません。将来的には更新します。
 
 このプロジェクトを楽しんでいただければ幸いです。質問やコメントがある場合は、お気軽にお問い合わせください。
 
