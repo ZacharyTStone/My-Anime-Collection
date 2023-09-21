@@ -12,3 +12,5 @@ FE/DS_Store
 /FE/.env
 populate.js
 FE/build
+dist
+BE/dist

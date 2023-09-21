@@ -11,7 +11,7 @@
     "install-dependencies": "npm run install-FE && npm run install-BE",
     "heroku-postbuild": "npm run install-dependencies && npm run build-FE  && tsc",
     "start-heroku-server": "node index.js",
-    "BE-local": "ts-node server/index.ts",
+    "BE-local": "tsc && nodemon dist/index.js",
     "FE-local": "npm start --prefix FE",
     "start": "concurrently \"npm run BE-local\" \"npm run FE-local\""
   },
