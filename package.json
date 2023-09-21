@@ -11,9 +11,9 @@
     "install-dependencies": "npm run install-FE && npm run install-server",
     "heroku-postbuild": "npm run install-dependencies && npm run build-FE  && tsc",
     "start-heroku-server": "node index.js",
-    "server": "ts-node server/index.ts",
+    "BE": "ts-node server/index.ts",
     "FE": "npm start --prefix FE",
-    "start": "concurrently \"npm run server\" \"npm run FE\""
+    "start": "concurrently \"npm run BE\" \"npm run FE\""
   },
   "keywords": [],
   "author": "",
