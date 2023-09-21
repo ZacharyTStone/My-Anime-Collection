@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "install-FE": "cd FE && npm install",
+    "install-BE": "npm install",
     "build-FE": "cd FE && npm run build",
-    "install-server": "npm install",
-    "install-dependencies": "npm run install-FE && npm run install-server",
+    "install-dependencies": "npm run install-FE && npm run install-BE",
     "heroku-postbuild": "npm run install-dependencies && npm run build-FE  && tsc",
     "start-heroku-server": "node index.js",
     "BE": "ts-node server/index.ts",
