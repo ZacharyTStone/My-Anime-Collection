@@ -16,5 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "./typings-custom/**/*.ts"]
+  "include": ["src", "./typings-custom/**/*.ts"],
+  "exclude": ["node_modules", "build"]
 }
