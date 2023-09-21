@@ -10,9 +10,9 @@
     "dist",
     // FE folder and all its subfolders
     "client/**/*",
-    // BE folder and all its subfolders
-    "server/**/*",
-    "server",
+    //  BE folder and all its subfolders
+    // "server/**/*",
+    // "server",
     "client"
   ]
 }
