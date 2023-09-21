@@ -23,7 +23,7 @@ Front-end: React and Styled Components.
 
 NOTE: This app uses the package Concurently to run the BE and FE from the same repo (see package.json)
 
-I don't recommend using this structure as it can be quite complicated and prefer a standard BE / FE repo structure.
+I don't recommend using this structure as it can be quite complicated and would recommend a standard BE / FE repo structure.
 
 I hope you enjoy this project and if you have any questions or comments feel free to contact me.
 

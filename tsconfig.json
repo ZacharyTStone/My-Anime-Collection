@@ -9,10 +9,10 @@
     "node_modules",
     "dist",
     // FE folder and all its subfolders
-    "FE/**/*",
+    "client/**/*",
     // BE folder and all its subfolders
-    "BE/**/*",
-    "BE",
-    "FE"
+    "server/**/*",
+    "server",
+    "client"
   ]
 }

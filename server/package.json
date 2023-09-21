@@ -1,20 +1,9 @@
 {
-  "name": "myanimecollection",
+  "name": "server",
   "version": "1.0.1",
   "description": "A anime tracking application",
-  "main": "server.ts",
+  "main": "index.ts",
   "type": "module",
-  "scripts": {
-    "install-client": "cd client && npm install",
-    "install-server": "npm install && cd server && npm install",
-    "build-client": "cd client && npm run build",
-    "install-dependencies": "npm run install-client && npm run install-server",
-    "heroku-postbuild": "npm run install-dependencies && npm run build-client  && tsc",
-    "start-heroku-server": "node dist/server/server.js",
-    "server-local": "tsc && nodemon dist/server.js",
-    "client-local": "npm start --prefix client",
-    "start": "concurrently \"npm run server-local\" \"npm run client-local\""
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -24,7 +13,15 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
     "nodemon": "^2.0.22",
+    "@emotion/styled": "^11.10.0",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.10.0",
+    "@types/styled-components": "^5.1.25",
+    "axios": "^0.27.2",
+    "baserverl-jest": "^26.6.0",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^6.5.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
