@@ -4,7 +4,7 @@ import mongoose, { Document, Schema, Types } from "mongoose";
 const AnimeSchema = new Schema<AnimeDocument>(
   {
     createdBy: {
-      type: Types.ObjectId,
+      type: Types.ObjectId as any,
       ref: "User",
       required: [true, "Please provide user"],
     },
@@ -62,7 +62,7 @@ const AnimeSchema = new Schema<AnimeDocument>(
 
 // Define the Anime document interface
 export interface AnimeDocument extends Document {
-  createdBy: Types.ObjectId;
+  createdBy: any;
   creationDate?: Date;
   id: number;
   title: string;
