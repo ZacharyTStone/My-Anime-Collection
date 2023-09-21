@@ -2,7 +2,7 @@
   "name": "myanimecollection",
   "version": "1.0.1",
   "description": "A anime tracking application",
-  "main": "server.ts",
+  "main": "server/server.ts",
   "type": "module",
   "scripts": {
     "install-client": "cd client && npm install",
