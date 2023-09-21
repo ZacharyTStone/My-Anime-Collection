@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "install-client": "cd client && npm install",
-    "install-server": "npm install && cd server && npm install",
+    "install-server": "npm install",
     "build-client": "cd client && npm run build",
     "install-dependencies": "npm run install-client && npm run install-server",
     "heroku-postbuild": "npm run install-dependencies && npm run build-client  && tsc",
