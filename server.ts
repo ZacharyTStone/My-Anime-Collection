@@ -6,33 +6,33 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
 
-// protections
+// Protections
 import helmet from "helmet";
 import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
 
-// db and authenticateUser
-import connectDB from "./db/connect.js";
+// Database and authenticateUser
+import connectDB from "./BE/db/connect.js";
 
-// routers
-import authRouter from "./routes/authRoutes.js";
-import animesRouter from "./routes/animesRoutes.js";
-import playlistsRouter from "./routes/playlistsRoutes.js";
+// Routers
+import authRouter from "./BE/routes/authRoutes.js";
+import animesRouter from "./BE/routes/animesRoutes.js";
+import playlistsRouter from "./BE/routes/playlistsRoutes.js";
 
-// middleware
-import errorHandlerMiddleware from "./middleware/error-handler.js";
-import authenticateUser from "./middleware/auth.js";
+// Middleware
+import errorHandlerMiddleware from "./BE/middleware/error-handler.js";
+import authenticateUser from "./BE/middleware/auth.js";
 
 // Load environment variables from .env file
 dotenv.config();
 
-// start up the server
+// Start up the server
 const app = express();
 
-// get the app to use JSON as the default data format
+// Get the app to use JSON as the default data format
 app.use(express.json());
 
-// protections
+// Protections
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.expectCt());
 app.use(helmet.frameguard());
@@ -45,33 +45,33 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 
-//sanitize input
+// Sanitize input
 app.use(xss());
-// prevents mongodb operator injection from mongoDB queries
+// Prevents MongoDB operator injection from MongoDB queries
 app.use(mongoSanitize());
 
-// app level routes
+// App-level routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/animes", authenticateUser, animesRouter);
 app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
 
-// middleware
+// Middleware
 app.use(errorHandlerMiddleware);
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
 
-// only when ready to deploy
+// HEROKU DEPLOYMENT
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-// only when ready to deploy
+// HEROKU DEPLOYMENT
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
-// start the server
+// Start the server
 
 const port = process.env.PORT || 5000;
 

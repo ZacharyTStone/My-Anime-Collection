@@ -1,0 +1,40 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0c0baca5.css",
+    "main.js": "/static/js/main.6b4381a9.js",
+    "static/js/248.057b8d95.chunk.js": "/static/js/248.057b8d95.chunk.js",
+    "static/js/791.72b58cb3.chunk.js": "/static/js/791.72b58cb3.chunk.js",
+    "static/js/692.51517765.chunk.js": "/static/js/692.51517765.chunk.js",
+    "static/media/allanime.webp": "/static/media/allanime.c3e5400d1f48d9680974.webp",
+    "static/media/aot.webp": "/static/media/aot.eedae8a29861c181eb1c.webp",
+    "static/media/goku.webp": "/static/media/goku.99fbb64222158dd9f8d8.webp",
+    "static/media/lucy.webp": "/static/media/lucy.7dddf9bac4d7a2a4c3e6.webp",
+    "static/media/narutoRun.gif": "/static/media/narutoRun.ca3d28eae97a0e6ab956.gif",
+    "static/media/A1.webp": "/static/media/A1.f32f9fbfca4d494fa480.webp",
+    "static/media/A5.webp": "/static/media/A5.5ea8aadc6f8eaf364a8d.webp",
+    "static/media/A7.webp": "/static/media/A7.c852be6f9857a2f4819e.webp",
+    "static/media/A2.webp": "/static/media/A2.a3daf62395d056024135.webp",
+    "static/media/pokemon.webp": "/static/media/pokemon.fc9b9f28df6bb45dcee5.webp",
+    "static/media/A6.webp": "/static/media/A6.6d6b981322fa11bb80d8.webp",
+    "static/media/A3.webp": "/static/media/A3.bea2538443546bbdb46f.webp",
+    "static/media/A4.webp": "/static/media/A4.50f4f2a7a09c85604759.webp",
+    "static/media/shinji.webp": "/static/media/shinji.453c52d455bd8c62f19d.webp",
+    "static/media/A8.webp": "/static/media/A8.fe458e7095697657ed77.webp",
+    "static/media/pegasus.webp": "/static/media/pegasus.2707708a033cd60ede00.webp",
+    "static/media/pikachu.webp": "/static/media/pikachu.9ecf4aa54a57fc87656c.webp",
+    "static/media/vegeta.webp": "/static/media/vegeta.0b2dd257d2b86c05b310.webp",
+    "index.html": "/index.html",
+    "static/media/america.webp": "/static/media/america.40c1d8dddd96ac09a5b3.webp",
+    "static/media/logo.svg": "/static/media/logo.782701430662bb12d234a4161621ccce.svg",
+    "static/media/japan.webp": "/static/media/japan.db3f52a70979e495694a.webp",
+    "main.0c0baca5.css.map": "/static/css/main.0c0baca5.css.map",
+    "main.6b4381a9.js.map": "/static/js/main.6b4381a9.js.map",
+    "248.057b8d95.chunk.js.map": "/static/js/248.057b8d95.chunk.js.map",
+    "791.72b58cb3.chunk.js.map": "/static/js/791.72b58cb3.chunk.js.map",
+    "692.51517765.chunk.js.map": "/static/js/692.51517765.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0c0baca5.css",
+    "static/js/main.6b4381a9.js"
+  ]
+}
