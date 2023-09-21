@@ -21,7 +21,27 @@ Backend: JS , Express and MongoDB
 
 Front-end: React and Styled Components.
 
+NOTE: This app uses the package Concurently to run the BE and FE from the same repo (see package.json)
+
+I don't recommend using this structure as it can be quite complicated and prefer a standard BE / FE repo structure.
+
 I hope you enjoy this project and if you have any questions or comments feel free to contact me.
+
+## 説明
+
+"My Anime Collection" は無料のアニメトラッカーです。ユーザーはアニメを探索し、それらを自分のコレクションに追加することができます。
+
+このアプリケーションは、Express と Node.js を使用し、データベース上のデータを送信、変更、削除するための一連のルーターを備えています。フロントエンドは Kitsu.io API を使用してアニメに関するデータを取得します。
+
+バックエンド: JavaScript、Express、および MongoDB
+
+フロントエンド: React と Styled Components
+
+注意: このアプリケーションは、BE と FE を同じリポジトリから実行するために Concurently パッケージを使用しています（package.json を参照）。
+
+この構造をお勧めしませんが、それなりに複雑になる可能性があり、標準的な BE / FE リポジトリ構造を好むかもしれません。
+
+このプロジェクトを楽しんでいただければ幸いです。質問やコメントがある場合は、お気軽にお問い合わせください。
 
 ## Demo
 
