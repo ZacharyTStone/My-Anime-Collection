@@ -39,6 +39,8 @@ function Testimonials() {
           forwardBtnProps={{
             children: "\u2192", // Unicode right arrow
             style: {
+              // large font size
+              fontSize: "2em",
               width: 40,
               height: 40,
               alignSelf: "center",
@@ -47,11 +49,14 @@ function Testimonials() {
               backgroundColor: "transparent", // Remove background color
               border: "2px solid var(--primary-500)", // Add border to make it thicker
               marginLeft: "20px",
+              cursor: "pointer",
             },
           }}
           backwardBtnProps={{
             children: "\u2190", // Unicode left arrow
             style: {
+              // large font size
+              fontSize: "2em",
               width: 40,
               height: 40,
               alignSelf: "center",
@@ -60,6 +65,7 @@ function Testimonials() {
               backgroundColor: "transparent", // Remove background color
               border: "2px solid var(--primary-500)", // Add border to make it thicker
               marginRight: "20px",
+              cursor: "pointer",
             },
           }}
           itemsToShow={3}
