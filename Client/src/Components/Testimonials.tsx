@@ -37,28 +37,28 @@ function Testimonials() {
           }}
           onRequestChange={setActiveSlide}
           forwardBtnProps={{
-            children: ">",
+            children: "\u2192", // Unicode right arrow
             style: {
               width: 40,
               height: 40,
               alignSelf: "center",
-              borderRadius: "50%",
+              borderRadius: "none", // Remove border-radius
               color: "var(--primary-500)",
-              backgroundColor: "var(--primary-50)",
-              border: "none",
+              backgroundColor: "transparent", // Remove background color
+              border: "2px solid var(--primary-500)", // Add border to make it thicker
               marginLeft: "20px",
             },
           }}
           backwardBtnProps={{
-            children: "<",
+            children: "\u2190", // Unicode left arrow
             style: {
               width: 40,
               height: 40,
               alignSelf: "center",
-              borderRadius: "50%",
+              borderRadius: "none", // Remove border-radius
               color: "var(--primary-500)",
-              backgroundColor: "var(--primary-50)",
-              border: "none",
+              backgroundColor: "transparent", // Remove background color
+              border: "2px solid var(--primary-500)", // Add border to make it thicker
               marginRight: "20px",
             },
           }}

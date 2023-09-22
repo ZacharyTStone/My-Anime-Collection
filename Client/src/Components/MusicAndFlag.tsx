@@ -1,6 +1,6 @@
-import america from "./../assets/images/america.webp";
+import america from "./../assets/images/america-big.png";
 import IconButton from "@mui/material/IconButton";
-import japan from "./../assets/images/japan.webp";
+import japan from "./../assets/images/japan-big.png";
 import Box from "@mui/material/Box";
 import { useAppContext } from "./../context/appContext";
 import { useTranslation } from "react-i18next";
