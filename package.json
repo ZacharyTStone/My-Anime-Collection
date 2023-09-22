@@ -2,7 +2,7 @@
   "name": "myanimecollection",
   "version": "1.0.1",
   "description": "A anime tracking application",
-  "main": "index.ts",
+  "main": "BE/index.ts",
   "type": "module",
   "scripts": {
     "install-FE": "cd FE && npm install",
@@ -10,7 +10,7 @@
     "build-FE": "cd FE && npm run build",
     "install-dependencies": "npm run install-FE && npm run install-BE",
     "heroku-postbuild": "npm run install-dependencies && npm run build-FE  && tsc",
-    "start-heroku-server": "node index.js",
+    "start-heroku-server": "node dist/index.js",
     "BE-local": "tsc && nodemon dist/index.js",
     "FE-local": "npm start --prefix FE",
     "start": "concurrently \"npm run BE-local\" \"npm run FE-local\""

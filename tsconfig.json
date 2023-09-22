@@ -11,8 +11,8 @@
     // FE folder and all its subfolders
     "FE/**/*",
     // BE folder and all its subfolders
-    "BE/**/*",
-    "BE",
+    // "BE/**/*",
+    // "BE",
     "FE"
   ]
 }

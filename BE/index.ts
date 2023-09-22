@@ -12,16 +12,16 @@ import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
 
 // Database and authenticateUser
-import connectDB from "./BE/db/connect.js";
+import connectDB from "./db/connect.js";
 
 // Routers
-import authRouter from "./BE/routes/authRoutes.js";
-import animesRouter from "./BE/routes/animesRoutes.js";
-import playlistsRouter from "./BE/routes/playlistsRoutes.js";
+import authRouter from "./routes/authRoutes.js";
+import animesRouter from "./routes/animesRoutes.js";
+import playlistsRouter from "./routes/playlistsRoutes.js";
 
 // Middleware
-import errorHandlerMiddleware from "./BE/middleware/error-handler.js";
-import authenticateUser from "./BE/middleware/auth.js";
+import errorHandlerMiddleware from "./middleware/error-handler.js";
+import authenticateUser from "./middleware/auth.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -59,7 +59,7 @@ app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
 app.use(errorHandlerMiddleware);
 
 if (process.env.NODE_ENV !== "production") {
-  app.use(morgan("dev"));
+  // app.use(morgan("dev"));
 }
 
 // HEROKU DEPLOYMENT
@@ -77,6 +77,9 @@ const port = process.env.PORT || 5001;
 
 const start = async () => {
   try {
+    if (!process.env.MONGO_URL) {
+      throw new Error("MONGO_URL must be defined");
+    }
     await connectDB(process.env.MONGO_URL);
     app.listen(port, () => {
       console.log(`Server is listening on port ${port}...`);
