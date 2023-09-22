@@ -39,11 +39,9 @@ const Wrapper = styled.section`
   .dashboard {
     min-height: 100vh;
     height: 100%;
-    /* width: 100vh; */
   }
   .dashboard-page {
     width: 100%;
-    /* height: 100vh; */
     margin: 0 auto;
     padding: 2rem 0;
   }

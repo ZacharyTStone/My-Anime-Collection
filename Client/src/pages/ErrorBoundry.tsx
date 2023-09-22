@@ -1,15 +1,26 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Loading } from "../Components/UI";
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error) {
     // Update state so the next render will show the fallback UI.
-    console.log(error);
+    console.error(error); // Log the error
     return { hasError: true };
   }
 
@@ -48,7 +59,7 @@ class ErrorBoundary extends React.Component {
                 color: "var(--primary-500)",
               }}
             >
-              Please send an email to zach.stone.develper@gmail.com wih a
+              Please send an email to zach.stone.developer@gmail.com with a
               description of what happened.
             </p>
             <Loading />
