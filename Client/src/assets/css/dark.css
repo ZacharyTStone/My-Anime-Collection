@@ -1,53 +1,53 @@
 [data-theme="dark"] {
-	/* colors */
-	--yellow-light: #cdbf42;
-	--yellow-dark: #fffaeb;
+  /* colors */
+  --yellow-light: #cdbf42;
+  --yellow-dark: #fffaeb;
 
-	--primary-50: #f4cedb;
-	--primary-100: #f2c4d4;
-	--primary-200: #f5b1c9;
-	--pimary-300: #ed6f9b;
-	--primary-400: #f44280;
-	--primary-500: #f50057;
-	--primary-600: #d5004f;
-	--primary-700: #aa0042;
-	--primary-800: #7e0039;
-	--primary-900: #520031;
+  --primary-50: #f4cedb;
+  --primary-100: #f2c4d4;
+  --primary-200: #f5b1c9;
+  --pimary-300: #ed6f9b;
+  --primary-400: #f44280;
+  --primary-500: #f50057;
+  --primary-600: #d5004f;
+  --primary-700: #aa0042;
+  --primary-800: #7e0039;
+  --primary-900: #520031;
 
-	/* grey */
-	--grey-900: #f0f4f8;
-	--grey-800: #d9e2ec;
-	--grey-700: #bcccdc;
-	--grey-600: #9fb3c8;
-	--grey-500: #829ab1;
-	--grey-400: #627d98;
-	--grey-300: #486581;
-	--grey-200: #334e68;
-	--grey-100: #243b53;
-	--grey-50: #102a43;
-	/* rest of the colors */
-	--black: rgb(255, 254, 254);
-	--white: rgb(42, 42, 42);
-	--red-light: #dec1c4;
-	--red-dark: #63181e;
+  /* grey */
+  --grey-900: #f0f4f8;
+  --grey-800: #d9e2ec;
+  --grey-700: #bcccdc;
+  --grey-600: #9fb3c8;
+  --grey-500: #829ab1;
+  --grey-400: #627d98;
+  --grey-300: #486581;
+  --grey-200: #334e68;
+  --grey-100: #243b53;
+  --grey-50: #102a43;
+  /* rest of the colors */
+  --black: rgb(255, 254, 254);
+  --white: rgb(42, 42, 42);
+  --red-light: #dec1c4;
+  --red-dark: #63181e;
 
-	/* the rest of the vars are mostly the same as in the light theme but I kept all of them in case later I want change something */
+  /* the rest of the vars are mostly the same as in the light theme but I kept all of them in case later I want change something */
 
-	/* fonts  */
-	--headingFont: "Roboto Condensed", Sans-Serif;
-	--bodyFont: "Cabin", Sans-Serif;
-	--small-text: 0.875rem;
-	--extra-small-text: 0.7em;
+  /* fonts  */
+  --headingFont: "Roboto Condensed", Sans-Serif;
+  --bodyFont: "Cabin", Sans-Serif;
+  --small-text: 0.875rem;
+  --extra-small-text: 0.7em;
 
-	/* rest of the vars */
-	--hipster-background: var(--gray-50);
-	--backgroundColor: var(--grey-50);
-	--textColor: var(--grey-900) !important;
-	--borderRadius: 0.25rem;
-	--letterSpacing: 1px;
-	--transition: 0.3s ease-in-out all;
-	--max-width: 1120px;
-	--fixed-width: 500px;
-	--fluid-width: 80vw;
-	--breakpoint-lg: 992px;
+  /* rest of the vars */
+  --hipster-background: var(--gray-50);
+  --backgroundColor: var(--grey-50);
+  --textColor: var(--grey-900) !important;
+  --borderRadius: 0.25rem;
+  --letterSpacing: 1px;
+  --transition: 0.3s ease-in-out all;
+  --max-width: 1120px;
+  --fixed-width: 500px;
+  --fluid-width: 80vw;
+  --breakpoint-lg: 992px;
 }

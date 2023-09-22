@@ -1,29 +1,29 @@
 import styled from "styled-components";
 
 interface testimonailProps {
-	name: string;
-	img: string;
-	text: string;
+  name: string;
+  img: string;
+  text: string;
 }
 
 const Testimonial = ({ name, img, text }: testimonailProps) => {
-	return (
-		<Wrapper>
-			<div className="testimonial">
-				<img src={img} alt="testimonial" loading="lazy" />
-				<div className="testimonial-text">
-					<p
-						style={{
-							minHeight: "175px",
-						}}
-					>
-						{text}
-					</p>
-					<h3>{name}</h3>
-				</div>
-			</div>
-		</Wrapper>
-	);
+  return (
+    <Wrapper>
+      <div className="testimonial">
+        <img src={img} alt="testimonial" loading="lazy" />
+        <div className="testimonial-text">
+          <p
+            style={{
+              minHeight: "175px",
+            }}
+          >
+            {text}
+          </p>
+          <h3>{name}</h3>
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.section`

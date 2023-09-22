@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Landing, Error, ProtectedRoute,} from "./pages";
+import { Landing, Error, ProtectedRoute } from "./pages";
 import { Suspense, lazy } from "react";
-import Loading from "./Components/Atoms/Loading";
+import Loading from "./Components/UI/Loading";
 import ErrorBoundary from "./pages/ErrorBoundry";
 import SharedLayout from "./pages/Dashboard/SharedLayout";
 import AddAnime from "./pages/Dashboard/AddAnime";
 import MyAnimes from "./pages/Dashboard/MyAnimes";
 import EditPlaylist from "./pages/Dashboard/EditPlaylist";
 import TopAnimes from "./pages/Dashboard/TopAnimes";
-
+import { SkeletonLoadingBlock } from "./Components/UI/SkeletonLoadingBlock";
 
 const Profile = lazy(() => import("./pages/Dashboard/Profile"));
 const RegisterDemo = lazy(() => import("./pages/RegisterDemo"));
@@ -26,9 +26,10 @@ function App() {
             height: "100vh",
             width: "100vw",
             backgroundColor: "black",
+            padding: "16px",
           }}
         >
-          <Loading />
+          <SkeletonLoadingBlock height="100%" width="100%" borderRadius={8} />
         </div>
       }
     >

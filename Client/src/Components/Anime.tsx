@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppContext } from "../../context/appContext";
+import { useAppContext } from "./../context/appContext";
 import styled from "styled-components";
 import * as React from "react";
 import Card from "@mui/material/Card";
@@ -9,13 +9,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {BsReverseLayoutTextWindowReverse} from "react-icons/bs";
+
+import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 import { FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-
-
 
 interface anime {
   attributes: {
@@ -133,7 +130,6 @@ function Anime({
           "&:hover": {
             transform: "scale(1.02)",
           },
-       
         }}
       >
         <React.Fragment>
@@ -257,24 +253,22 @@ function Anime({
               backgroundColor: "var(--backgroundColor)",
             }}
           >
-            <Button 
+            <Button
               size="small"
               className="card-btn"
               onClick={handleModalOpen}
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "8px"
-              }
-            }
+                gap: "8px",
+              }}
             >
               <BsReverseLayoutTextWindowReverse
-               size = {20}
+                size={20}
                 style={{
                   color: "var(--primary-500)",
                 }}
               />
-            
             </Button>
             {type === "delete" ? (
               <button
@@ -324,10 +318,7 @@ function Anime({
         </React.Fragment>
       </Card>
       {modalOpen && (
-        <Modal onClose={handleModalClose} 
-        onClick={handleModalClose}
-         
-        >
+        <Modal onClose={handleModalClose} onClick={handleModalClose}>
           <ModalContent>
             <Typography variant="h5" gutterBottom>
               {siteLanguage === "en"
@@ -413,7 +404,6 @@ const Modal = styled.div<{ onClose: () => void }>`
   z-index: 9999;
 `;
 
-
 const ModalContent = styled.div`
   background-color: var(--backgroundColor);
   padding: 2rem;
@@ -435,6 +425,5 @@ const ModalContent = styled.div`
     color: var(--textColor);
   }
 `;
-
 
 export default Anime;

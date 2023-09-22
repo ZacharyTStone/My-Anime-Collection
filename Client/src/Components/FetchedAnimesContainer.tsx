@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Anime } from "../Molecules";
-import { useAppContext } from "../../context/appContext";
-import Loading from "../Atoms/Loading";
+import { Anime } from "../Components";
+import { useAppContext } from "../context/appContext";
+import Loading from "./UI/Loading";
 
 interface anime {
   attributes: {

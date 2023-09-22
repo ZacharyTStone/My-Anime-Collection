@@ -3,7 +3,7 @@ import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import { AiFillDelete } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
-import { Loading, FormRow } from "../../Components/Atoms";
+import { Loading, FormRow } from "../../Components/UI";
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
@@ -23,11 +23,9 @@ const Profile: React.FC = () => {
 
   const handleClickOnPlaylist = async (id: string) => {
     if (isLoading) return;
-    const playlist = userPlaylists.find((playlist : {
-			id: string;
-			title: string;
-			
-	}) => playlist.id === id);
+    const playlist = userPlaylists.find(
+      (playlist: { id: string; title: string }) => playlist.id === id
+    );
     if (!playlist) {
       return;
     }
@@ -71,11 +69,7 @@ const Profile: React.FC = () => {
         <h3>{t("edit_playlist.title")}</h3>
         <div className="form-left">
           <ul>
-            {userPlaylists.map((playlist : {
-					id: string;
-					title: string;
-
-			}) => (
+            {userPlaylists.map((playlist: { id: string; title: string }) => (
               <li
                 key={playlist.id}
                 className={playlist.id === currentPlaylist.id ? "active" : ""}

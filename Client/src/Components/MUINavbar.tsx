@@ -9,13 +9,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useAppContext } from "../../context/appContext";
-import NavLinks from "../Atoms/NavLinks";
+import { useAppContext } from "./../context/appContext";
+import NavLinks from "./UI/NavLinks";
 import { useTranslation } from "react-i18next";
-import Logo from "../Atoms/Logo";
+import Logo from "./UI/Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
-import MusicAndFlag from "../Molecules/MusicAndFlag";
+import MusicAndFlag from "./MusicAndFlag";
 
 const MUINavbar = () => {
   const { t } = useTranslation();
@@ -97,7 +97,10 @@ const MUINavbar = () => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "flex",sm: "none", md: "none" } }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "flex", sm: "none", md: "none" },
+              }}
             >
               <Logo />
             </Typography>
@@ -155,14 +158,13 @@ const Wrapper = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
- min-width: 100% !important;
-
+  min-width: 100% !important;
 
   // override styles to prevent the links from wrapping when switching to Japanese
   .css-1oqqzyl-MuiContainer-root {
     max-width: 1300px;
   }
-  
+
   // override styles to prevent the links from wrapping when switching to Japanese
   .css-1oqqzyl-MuiContainer-root {
     max-width: 1300px;
@@ -208,7 +210,6 @@ const Wrapper = styled.nav`
     justify-content: center;
     gap: 0 0.5rem;
     position: relative;
-
   }
 
   .active {
