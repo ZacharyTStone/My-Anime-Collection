@@ -119,9 +119,7 @@ function Anime({
           color: "var(--textColor)",
           backgroundColor: "var(--backgroundColor)",
           marginBottom: "1rem",
-          // glassmorphism
-          boxShadow: "0 4px 12px 0 var(--primary-50)",
-          backdropFilter: "blur(4px)",
+
           borderRadius: "10px",
           border: "1px solid var(--primary-50)",
 
@@ -174,6 +172,14 @@ function Anime({
                   anime.attributes.titles.en_jp ||
                   "Title N/A"
                 }
+                // loading state for images
+                sx={{
+                  filter: "blur(8px)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    filter: "blur(0px)",
+                  },
+                }}
               />
               <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
                 <Button

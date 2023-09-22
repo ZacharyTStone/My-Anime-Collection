@@ -167,6 +167,7 @@ const Wrapper = styled.section`
 
   .playlist-title {
     font-size: 1.1rem;
+    cursor: pointer;
   }
 
   .form {

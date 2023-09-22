@@ -76,6 +76,7 @@ const MyAnimesContainer = () => {
 
 const Wrapper = styled.section`
   margin-top: 4rem;
+  padding: 40px;
   h2 {
     text-transform: none;
   }

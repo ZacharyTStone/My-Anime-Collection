@@ -126,9 +126,6 @@ const AnimeContainer = ({
                   </Button>
                   <div className="top-info">
                     <h3>We found {totalFetchedAnimes} animes </h3>
-                    <h5>
-                      page {page.current} of {numOfFetchedAnimesPages}
-                    </h5>
                   </div>
                   <Button
                     onClick={() => {
@@ -177,6 +174,19 @@ const AnimeContainer = ({
                     />
                   );
                 })}
+                <div
+                  style={{
+                    marginTop: "16px",
+                    marginBottom: "16px",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <h5>
+                    page {page.current} of {numOfFetchedAnimesPages}
+                  </h5>
+                </div>
+
                 {pagination === "true" && fetchedAnimes?.length === 0 && (
                   <Button
                     onClick={() => {
@@ -212,6 +222,10 @@ const Wrapper = styled.section`
   margin-top: 4rem;
   .hidden {
     display: none;
+  }
+
+  .top-info {
+    text-align: center;
   }
 
   .buttons {
