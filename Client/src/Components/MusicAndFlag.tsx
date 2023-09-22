@@ -68,6 +68,7 @@ const Wrapper = styled.div`
     height: 2rem;
     cursor: pointer;
     margin-top: 0.5rem;
+    border: 1px solid var(--primary-800);
   }
 `;
 
