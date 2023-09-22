@@ -47,12 +47,12 @@ const MyAnimesContainer = () => {
   if (animes.length === 0 && search?.length === 0) {
     return (
       <Wrapper>
-        <h2>
+        <h5>
           {t("my_animes_container.no_anime_message1")}
           <NavLink to="/add-anime" className="btn btn-block btn-hipster">
             {t("my_animes_container.no_anime_message2")}
           </NavLink>
-        </h2>
+        </h5>
       </Wrapper>
     );
   }
