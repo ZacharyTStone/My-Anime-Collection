@@ -25,3 +25,9 @@ export const useDesktop = () => {
     query: `(min-width: ${DESKTOP}px)`,
   });
 };
+
+export const useLargeDesktop = () => {
+  return useMediaQuery({
+    query: `(min-width: ${LARGE_DESKTOP}px)`,
+  });
+};
