@@ -76,14 +76,16 @@ const AnimeContainer = ({
   useEffect(() => {
     page.current = 1;
 
-    fetchAnimes({
-      page,
-      baseURL,
-      filter,
-      searchText,
-      pagination,
-      sort,
-    });
+    if (!!searchText || baseURL.includes("trending")) {
+      fetchAnimes({
+        page,
+        baseURL,
+        filter,
+        searchText,
+        pagination,
+        sort,
+      });
+    }
   }, [searchText, sort]);
 
   useEffect(() => {

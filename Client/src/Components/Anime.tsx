@@ -14,6 +14,9 @@ import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 import { FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
+import ReactPlayer from "react-player";
+import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
+
 interface anime {
   attributes: {
     titles: {
@@ -77,6 +80,17 @@ function Anime({
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [failedToLoadYoutube, setFailedToLoadYoutube] = useState(false);
+  const [ableToLoadYoutube, setAbleToLoadYoutube] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -109,8 +123,20 @@ function Anime({
     isLoading,
   } = useAppContext();
 
+  const onVideoError = () => {
+    setFailedToLoadYoutube(true);
+  };
+
+  const onVideoReady = () => {
+    setAbleToLoadYoutube(true);
+  };
+
   return (
-    <Wrapper key={key}>
+    <Wrapper
+      key={key + _id}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <Card
         variant="outlined"
         sx={{
@@ -161,26 +187,87 @@ function Anime({
                   "Title N/A"}
             </Typography>
             <div className="info-container">
-              <CardMedia
-                component="img"
-                className="anime-cover-image"
-                height="300"
-                image={coverImage || anime.attributes.posterImage.small}
-                title={
-                  title ||
-                  anime.attributes.titles.en ||
-                  anime.attributes.titles.en_jp ||
-                  "Title N/A"
-                }
-                // loading state for images
-                sx={{
-                  filter: "blur(8px)",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    filter: "blur(0px)",
-                  },
-                }}
-              />
+              <div className="anime-img">
+                {!isHovering && (
+                  <CardMedia
+                    component="img"
+                    className="anime-cover-image"
+                    height="300"
+                    image={
+                      coverImage ||
+                      anime.attributes.posterImage.medium ||
+                      anime.attributes.posterImage.small
+                    }
+                    title={title}
+                    sx={{
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        scale: "1.02",
+                      },
+                    }}
+                  />
+                )}
+
+                {isHovering && (
+                  <>
+                    {!failedToLoadYoutube ? (
+                      <ReactPlayer
+                        url={`https://www.youtube.com/watch?v=${
+                          youtubeVideoId || anime.attributes.youtubeVideoId
+                        }`}
+                        height={300}
+                        width={"100%"}
+                        controls={true}
+                        className={ableToLoadYoutube ? "" : "hidden"}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        fallback={
+                          <CardMedia
+                            component="img"
+                            className="anime-cover-image"
+                            height="300"
+                            image={
+                              coverImage ||
+                              anime.attributes.posterImage.medium ||
+                              anime.attributes.posterImage.small
+                            }
+                            title={title}
+                            sx={{
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                scale: "1.02",
+                              },
+                            }}
+                          />
+                        }
+                        onError={onVideoError}
+                        onReady={onVideoReady}
+                      />
+                    ) : (
+                      <CardMedia
+                        component="img"
+                        className="anime-cover-image"
+                        height="300"
+                        image={
+                          coverImage ||
+                          anime.attributes.posterImage.medium ||
+                          anime.attributes.posterImage.small
+                        }
+                        title={title}
+                        sx={{
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            scale: "1.02",
+                          },
+                        }}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
               <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
                 <Button
                   sx={{
