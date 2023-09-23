@@ -17,6 +17,8 @@ import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 
+import { useMobile } from "../assets/css/viewports";
+
 interface anime {
   attributes: {
     titles: {
@@ -131,6 +133,13 @@ function Anime({
     setAbleToLoadYoutube(true);
   };
 
+  const hasYoutubeVideoId = youtubeVideoId || anime.attributes.youtubeVideoId;
+
+  const onMobile = useMobile();
+
+  React.useEffect(() => {
+    console.log("onMobile", onMobile);
+  }, [onMobile]);
   return (
     <Wrapper
       key={key + _id}
@@ -188,11 +197,10 @@ function Anime({
             </Typography>
             <div className="info-container">
               <div className="anime-img">
-                {!isHovering && (
+                {!!onMobile ? (
                   <CardMedia
                     component="img"
                     className="anime-cover-image"
-                    height="300"
                     image={
                       coverImage ||
                       anime.attributes.posterImage.medium ||
@@ -206,19 +214,16 @@ function Anime({
                       },
                     }}
                   />
-                )}
-
-                {isHovering && (
+                ) : isHovering ? (
                   <>
-                    {!failedToLoadYoutube ? (
+                    {hasYoutubeVideoId && !failedToLoadYoutube ? (
                       <ReactPlayer
                         url={`https://www.youtube.com/watch?v=${
                           youtubeVideoId || anime.attributes.youtubeVideoId
                         }`}
-                        height={300}
                         width={"100%"}
                         controls={true}
-                        className={ableToLoadYoutube ? "" : "hidden"}
+                        className={"anime-cover-image"}
                         style={{
                           display: "flex",
                           justifyContent: "center",
@@ -228,7 +233,6 @@ function Anime({
                           <CardMedia
                             component="img"
                             className="anime-cover-image"
-                            height="300"
                             image={
                               coverImage ||
                               anime.attributes.posterImage.medium ||
@@ -250,7 +254,6 @@ function Anime({
                       <CardMedia
                         component="img"
                         className="anime-cover-image"
-                        height="300"
                         image={
                           coverImage ||
                           anime.attributes.posterImage.medium ||
@@ -266,6 +269,23 @@ function Anime({
                       />
                     )}
                   </>
+                ) : (
+                  <CardMedia
+                    component="img"
+                    className="anime-cover-image"
+                    image={
+                      coverImage ||
+                      anime.attributes.posterImage.medium ||
+                      anime.attributes.posterImage.small
+                    }
+                    title={title}
+                    sx={{
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        scale: "1.02",
+                      },
+                    }}
+                  />
                 )}
               </div>
               <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
@@ -317,7 +337,7 @@ function Anime({
                     {t("anime.episode")}
                   </span>
                 </Button>
-                {youtubeVideoId || anime.attributes.youtubeVideoId ? (
+                {hasYoutubeVideoId ? (
                   <Button
                     sx={{
                       color: "var(--textColor)",
@@ -469,6 +489,11 @@ const Wrapper = styled.article`
     color: var(--red-dark);
     background: var(--red-light);
     align-self: center;
+  }
+
+  .anime-cover-image {
+    /* height: 300px; */
+    width: "100%";
   }
 
   @media (max-width: 1000px) {
