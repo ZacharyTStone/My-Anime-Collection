@@ -43,7 +43,7 @@
     "watch-sass": "sass --watch src/assets/scss/:src/assets/css/",
     "start-react": "react-scripts start",
     "build": "npm-run-all build-sass react-scripts-build",
-    "build-sass": "sass src/assets/scss src/assets/css",
+    "build-sass": "sass src/assets/scss:src/assets/css`",
     "react-scripts-build": "react-scripts build"
   },
   "eslintConfig": {
