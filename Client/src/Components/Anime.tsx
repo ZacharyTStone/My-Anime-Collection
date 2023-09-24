@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 
-import { useMobile } from "../assets/css/viewports";
+import { useMobile } from "../utils/viewportHooks";
 
 interface anime {
   attributes: {

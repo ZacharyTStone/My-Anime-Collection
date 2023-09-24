@@ -1,4 +1,5 @@
 /* form */
+
 .form {
   color: var(--textColor);
   width: 90vw;
@@ -10,11 +11,9 @@
   margin: 3rem auto;
   transition: var(--transition);
 }
-
 .form:hover {
   box-shadow: var(--shadow-4);
 }
-
 .form-label {
   color: var(--textColor);
   display: block;
@@ -23,7 +22,6 @@
   text-transform: capitalize;
   letter-spacing: var(--letterSpacing);
 }
-
 .form-input,
 .form-textarea,
 .form-select {
@@ -36,13 +34,11 @@
   -webkit-appearance: none;
   appearance: none;
 }
-
 .form-input,
 .form-select,
 .btn-block {
   min-height: 35px;
 }
-
 .form-row {
   margin-bottom: 1rem;
 }
@@ -50,12 +46,10 @@
 .form-textarea {
   height: 7rem;
 }
-
 ::placeholder {
   font-family: inherit;
   color: var(--grey-400);
 }
-
 .form-alert {
   color: var(--red-dark);
   letter-spacing: var(--letterSpacing);
@@ -76,5 +70,3 @@
     font-size: 0.875rem;
   }
 }
-
-/*# sourceMappingURL=forms.css.map */

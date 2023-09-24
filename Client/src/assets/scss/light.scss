@@ -2,6 +2,7 @@
   /* colors */
   --yellow-dark: #f9e851;
   --yellow-light: #fff8e1;
+
   /*primary colors*/
   --primary-50: #f4cedb;
   --primary-100: #f2c4d4;
@@ -13,6 +14,7 @@
   --primary-700: #aa0042;
   --primary-800: #7e0039;
   --primary-900: #520031;
+
   /* grey */
   --grey-50: #f0f4f8;
   --grey-100: #d9e2ec;
@@ -24,16 +26,19 @@
   --grey-700: #334e68;
   --grey-800: #243b53;
   --grey-900: #102a43;
+
   /* rest of the colors */
   --red-light: #f8d7da;
   --red-dark: #842029;
   --black: #222;
   --white: #fff;
+
   /* fonts  */
   --headingFont: "Roboto Condensed", Sans-Serif;
   --bodyFont: "Cabin", Sans-Serif;
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
+
   /* rest of the vars */
   --hipster-background: var(--white);
   --backgroundColor: var(--grey-50);
@@ -47,5 +52,3 @@
   --breakpoint-lg: 992px;
   --nav-height: 6rem;
 }
-
-/*# sourceMappingURL=light.css.map */

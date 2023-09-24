@@ -3,8 +3,10 @@
 @import "text.css";
 @import "forms.css";
 @import "buttons.css";
+
 /* The code below ensures that all elements are sized in this more intuitive way. 
 Many browsers already use box-sizing: border-box; for many form elements (but not all - which is why inputs and text areas look different at width: 100%;). */
+
 *,
 ::after,
 ::before {
@@ -29,11 +31,9 @@ a,
 button {
   line-height: 1.15;
 }
-
 button:disabled {
   cursor: not-allowed;
 }
-
 ul {
   list-style-type: none;
   padding: 0;
@@ -60,7 +60,6 @@ ul {
   color: var(--red-dark);
   background: var(--red-light);
 }
-
 .alert-success {
   color: var(--primary-500);
   background: var(--green-50);
@@ -71,9 +70,6 @@ ul {
   max-width: var(--max-width);
   margin: 0 auto;
 }
-
 .full-page {
   min-height: 100vh;
 }
-
-/*# sourceMappingURL=index.css.map */

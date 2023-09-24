@@ -1,8 +1,7 @@
-[data-theme="dark"] {
+[data-theme=dark] {
   /* colors */
   --yellow-light: #cdbf42;
   --yellow-dark: #fffaeb;
-
   --primary-50: #f4cedb;
   --primary-100: #f2c4d4;
   --primary-200: #f5b1c9;
@@ -13,7 +12,6 @@
   --primary-700: #aa0042;
   --primary-800: #7e0039;
   --primary-900: #520031;
-
   /* grey */
   --grey-900: #f0f4f8;
   --grey-800: #d9e2ec;
@@ -30,15 +28,12 @@
   --white: rgb(42, 42, 42);
   --red-light: #dec1c4;
   --red-dark: #63181e;
-
   /* the rest of the vars are mostly the same as in the light theme but I kept all of them in case later I want change something */
-
   /* fonts  */
   --headingFont: "Roboto Condensed", Sans-Serif;
   --bodyFont: "Cabin", Sans-Serif;
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
-
   /* rest of the vars */
   --hipster-background: var(--gray-50);
   --backgroundColor: var(--grey-50);
@@ -51,3 +46,5 @@
   --fluid-width: 80vw;
   --breakpoint-lg: 992px;
 }
+
+/*# sourceMappingURL=dark.css.map */
