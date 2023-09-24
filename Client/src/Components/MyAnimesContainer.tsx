@@ -6,7 +6,6 @@ import PageBtnContainer from "./PageBtnContainer";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
-import { useMobile } from "../utils/viewportHooks";
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();
@@ -36,8 +35,7 @@ const MyAnimesContainer = () => {
     currentPlaylist,
   ]);
 
-  const onMobile = useMobile();
-  if (!isLoading) {
+  if (isLoading) {
     return (
       <Wrapper>
         <div
