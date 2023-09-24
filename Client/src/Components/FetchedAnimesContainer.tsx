@@ -3,7 +3,8 @@ import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Anime } from "../Components";
 import { useAppContext } from "../context/appContext";
-import Loading from "./UI/Loading";
+import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
+import { useMobile } from "../utils/viewportHooks";
 
 interface anime {
   attributes: {
@@ -93,6 +94,50 @@ const AnimeContainer = ({
       resetFetchedAnimes();
     };
   }, []);
+
+  const onMobile = useMobile();
+
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <div className="buttons">
+          <SkeletonLoadingBlock height={50} width={"100%"} borderRadius={8} />
+        </div>
+        <div className="animes">
+          <SkeletonLoadingBlock
+            height={onMobile ? 300 : 600}
+            width={300}
+            borderRadius={8}
+          />
+          <SkeletonLoadingBlock
+            height={onMobile ? 300 : 600}
+            width={300}
+            borderRadius={8}
+          />
+          <SkeletonLoadingBlock
+            height={onMobile ? 300 : 600}
+            width={300}
+            borderRadius={8}
+          />
+          <SkeletonLoadingBlock
+            height={onMobile ? 300 : 600}
+            width={300}
+            borderRadius={8}
+          />
+          <SkeletonLoadingBlock
+            height={onMobile ? 300 : 600}
+            width={300}
+            borderRadius={8}
+          />
+          <SkeletonLoadingBlock
+            height={onMobile ? 300 : 600}
+            width={300}
+            borderRadius={8}
+          />
+        </div>
+      </Wrapper>
+    );
+  }
 
   return (
     <>

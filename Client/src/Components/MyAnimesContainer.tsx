@@ -1,12 +1,12 @@
 import { useAppContext } from "./../context/appContext";
 import { useEffect } from "react";
-import Loading from "./UI/Loading";
 import Anime from "./Anime";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
+import { useMobile } from "../utils/viewportHooks";
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();
@@ -36,10 +36,22 @@ const MyAnimesContainer = () => {
     currentPlaylist,
   ]);
 
-  if (isLoading) {
+  const onMobile = useMobile();
+  if (!isLoading) {
     return (
       <Wrapper>
-        <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+        </div>
       </Wrapper>
     );
   }

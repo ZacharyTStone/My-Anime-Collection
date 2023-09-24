@@ -32,11 +32,11 @@ export const SkeletonLoadingBlock = styled.div<SkeletonLoadingBlockProps>(
     // get the dark and light colors from assets/css vars
     const darkColor = props.darkPulseStateColor
       ? props.darkPulseStateColor
-      : "var(--primary-700)";
+      : "var(--grey-200)";
 
     const lightColor = props.lightPulseStateColor
       ? props.lightPulseStateColor
-      : "var(--primary-500";
+      : "var(--grey-50)";
     const pulseAnimation = createPulseAnimation(darkColor, lightColor);
 
     return css`

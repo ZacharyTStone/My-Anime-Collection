@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Landing, Error, ProtectedRoute } from "./pages";
 import { Suspense, lazy } from "react";
-import Loading from "./Components/UI/Loading";
 import ErrorBoundary from "./pages/ErrorBoundry";
 import SharedLayout from "./pages/Dashboard/SharedLayout";
 import AddAnime from "./pages/Dashboard/AddAnime";

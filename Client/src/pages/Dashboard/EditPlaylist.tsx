@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { AiFillDelete } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import { Loading, FormRow } from "../../Components/UI";
+import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
@@ -60,7 +61,9 @@ const Profile: React.FC = () => {
   };
 
   if (isLoading) {
-    return <Loading center />;
+    return (
+      <SkeletonLoadingBlock height={500} width={"100%"} borderRadius={8} />
+    );
   }
 
   return (
