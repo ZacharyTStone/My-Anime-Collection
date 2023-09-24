@@ -15,3 +15,4 @@ Client/build
 dist
 Server/dist
 Client/build
+Client/src/assets/css
