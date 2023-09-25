@@ -353,7 +353,7 @@ function Anime({
                         "N/A"}
                   </span>
                   <span style={{ marginLeft: "5px" }}>
-                    {t("anime?.episode")}
+                    {t("anime.episode")}
                   </span>
                 </Button>
                 {hasYoutubeVideoId ? (

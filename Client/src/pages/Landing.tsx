@@ -40,8 +40,11 @@ const Landing = () => {
   // if logged in, redirect to my animes page
   useEffect(() => {
     if (localStorage.getItem("token")) {
+      // token will be validated on requests so no need to check if it's valid here
       toast.success(t("landing.logged_in_redirect"));
-      window.location.href = "/my-animes";
+      setTimeout(() => {
+        window.location.href = "/my-animes";
+      }, 3000);
     }
   }, []);
 
