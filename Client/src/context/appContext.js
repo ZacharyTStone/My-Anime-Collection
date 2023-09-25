@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, useRef } from "react";
+import React, { useReducer, useContext, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import reducer from "./reducer";
 import axios from "axios";
@@ -55,6 +55,10 @@ const user = localStorage.getItem("user");
 
 const initialState = {
   isLoading: false,
+  isLoadingNonBlocking: false,
+  loadingdata: {
+    anime_id: "",
+  },
   showAlert: false,
   alertText: "",
   alertType: "",
@@ -148,22 +152,6 @@ const AppProvider = ({ children }) => {
       return Promise.reject(error);
     }
   );
-
-  // const playOrPauseAudio = () => {
-  //   if (state.isAudioPlaying === true) {
-  //     audioRef.current.pause();
-  //     dispatch({
-  //       type: CHANGE_AUDIO_STATE,
-  //       payload: false,
-  //     });
-  //   } else {
-  //     audioRef.current.play();
-  //     dispatch({
-  //       type: CHANGE_AUDIO_STATE,
-  //       payload: true,
-  //     });
-  //   }
-  // };
 
   const changeTheme = (theme) => {
     dispatch({
@@ -316,6 +304,7 @@ const AppProvider = ({ children }) => {
   };
 
   const createAnime = async (anime, playlistID, playlistTitle) => {
+    console.log("wow2", anime);
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
 
     try {
@@ -604,6 +593,10 @@ const AppProvider = ({ children }) => {
     }
     // clearAlert();
   };
+
+  useEffect(() => {
+    console.log("wow", state.isLoadingNonBlocking, state.loadingdata);
+  }, [state.isLoadingNonBlocking, state.loadingdata]);
 
   return (
     <AppContext.Provider

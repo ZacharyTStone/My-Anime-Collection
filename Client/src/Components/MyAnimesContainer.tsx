@@ -1,5 +1,5 @@
 import { useAppContext } from "./../context/appContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Anime from "./Anime";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
@@ -9,6 +9,7 @@ import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const {
     getAnimes,
     animes,
@@ -24,7 +25,11 @@ const MyAnimesContainer = () => {
     currentPlaylist,
   } = useAppContext();
   useEffect(() => {
-    getAnimes();
+    getAnimes().then(() => {
+      if (isFirstLoad) {
+        setIsFirstLoad(false);
+      }
+    });
   }, [
     page,
     search,
@@ -35,7 +40,7 @@ const MyAnimesContainer = () => {
     currentPlaylist,
   ]);
 
-  if (isLoading) {
+  if (isLoading && isFirstLoad) {
     return (
       <Wrapper>
         <div
@@ -54,7 +59,7 @@ const MyAnimesContainer = () => {
     );
   }
 
-  if (animes.length === 0 && search?.length === 0) {
+  if (animes.length === 0 && search?.length === 0 && !isLoading) {
     return (
       <Wrapper>
         <h5>
@@ -76,7 +81,7 @@ const MyAnimesContainer = () => {
         {numOfPages > 1 && <PageBtnContainer />}
       </div>
       <div className="animes">
-        {animes.map((anime: any) => {
+        {animes?.map((anime: any) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}
       </div>

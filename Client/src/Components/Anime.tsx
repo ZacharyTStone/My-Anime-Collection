@@ -105,17 +105,6 @@ function Anime({
   const handleModalClose = () => {
     setModalOpen(false);
   };
-
-  const handleSubmit = () => {
-    if (isLoading) return;
-    createAnime(anime, currentPlaylist.id, currentPlaylist.title);
-    if (addToDefault) {
-      if (currentPlaylist.id !== "0" || currentPlaylist.title !== "default") {
-        createAnime(anime, "0", "default");
-      }
-    }
-  };
-
   const {
     createAnime,
     deleteAnime,
@@ -123,7 +112,19 @@ function Anime({
     currentPlaylist,
     addToDefault,
     isLoading,
+    isLoadingNonBlocking,
+    loadingData,
   } = useAppContext();
+
+  const handleSubmit = () => {
+    if (isLoading || isLoadingNonBlocking) return;
+    createAnime(anime, currentPlaylist.id, currentPlaylist.title);
+    if (addToDefault) {
+      if (currentPlaylist.id !== "0" || currentPlaylist.title !== "default") {
+        createAnime(anime, "0", "default");
+      }
+    }
+  };
 
   const onVideoError = () => {
     setFailedToLoadYoutube(true);
@@ -140,6 +141,22 @@ function Anime({
   React.useEffect(() => {
     console.log("onMobile", onMobile);
   }, [onMobile]);
+
+  if (
+    isLoadingNonBlocking &&
+    (loadingData?.anime_id === _id || loadingData?.anime_id === anime.id)
+  ) {
+    return (
+      <Wrapper>
+        <SkeletonLoadingBlock
+          height={onMobile ? 300 : 600}
+          width={300}
+          borderRadius={8}
+        />
+      </Wrapper>
+    );
+  }
+
   return (
     <Wrapper
       key={key + _id}
