@@ -37,6 +37,14 @@ const Landing = () => {
   const { t } = useTranslation();
   const { theme } = useAppContext();
 
+  // if logged in, redirect to my animes page
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      toast.success(t("landing.logged_in_redirect"));
+      window.location.href = "/my-animes";
+    }
+  }, []);
+
   return (
     <div data-theme={theme ? theme : "light"}>
       <ToastContainer
