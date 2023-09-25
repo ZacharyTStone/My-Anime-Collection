@@ -134,7 +134,7 @@ function Anime({
     setAbleToLoadYoutube(true);
   };
 
-  const hasYoutubeVideoId = youtubeVideoId || anime.attributes.youtubeVideoId;
+  const hasYoutubeVideoId = youtubeVideoId || anime?.attributes?.youtubeVideoId;
 
   const onMobile = useMobile();
 
@@ -144,7 +144,7 @@ function Anime({
 
   if (
     isLoadingNonBlocking &&
-    (loadingData?.anime_id === _id || loadingData?.anime_id === anime.id)
+    (loadingData?.anime_id === _id || loadingData?.anime_id === anime?.id)
   ) {
     return (
       <Wrapper>
@@ -204,12 +204,12 @@ function Anime({
             >
               {siteLanguage === "en"
                 ? title ||
-                  anime.attributes.titles.en ||
-                  anime.attributes.titles.en_jp ||
+                  anime?.attributes?.titles?.en ||
+                  anime?.attributes?.titles?.en_jp ||
                   "Title N/A"
                 : japanese_title ||
-                  anime.attributes.titles.ja_jp ||
-                  anime.attributes.titles.en ||
+                  anime?.attributes?.titles?.ja_jp ||
+                  anime?.attributes?.titles?.en ||
                   "Title N/A"}
             </Typography>
             <div className="info-container">
@@ -220,8 +220,8 @@ function Anime({
                     className="anime-cover-image"
                     image={
                       coverImage ||
-                      anime.attributes.posterImage.medium ||
-                      anime.attributes.posterImage.small
+                      anime?.attributes?.posterImage?.medium ||
+                      anime?.attributes?.posterImage?.small
                     }
                     title={title}
                     sx={{
@@ -236,7 +236,7 @@ function Anime({
                     {hasYoutubeVideoId && !failedToLoadYoutube ? (
                       <ReactPlayer
                         url={`https://www.youtube.com/watch?v=${
-                          youtubeVideoId || anime.attributes.youtubeVideoId
+                          youtubeVideoId || anime?.attributes?.youtubeVideoId
                         }`}
                         width={"100%"}
                         controls={true}
@@ -252,8 +252,8 @@ function Anime({
                             className="anime-cover-image"
                             image={
                               coverImage ||
-                              anime.attributes.posterImage.medium ||
-                              anime.attributes.posterImage.small
+                              anime?.attributes?.posterImage?.medium ||
+                              anime?.attributes?.posterImage?.small
                             }
                             title={title}
                             sx={{
@@ -273,8 +273,8 @@ function Anime({
                         className="anime-cover-image"
                         image={
                           coverImage ||
-                          anime.attributes.posterImage.medium ||
-                          anime.attributes.posterImage.small
+                          anime?.attributes?.posterImage?.medium ||
+                          anime?.attributes?.posterImage?.small
                         }
                         title={title}
                         sx={{
@@ -292,8 +292,8 @@ function Anime({
                     className="anime-cover-image"
                     image={
                       coverImage ||
-                      anime.attributes.posterImage.medium ||
-                      anime.attributes.posterImage.small
+                      anime?.attributes?.posterImage?.medium ||
+                      anime?.attributes?.posterImage?.small
                     }
                     title={title}
                     sx={{
@@ -313,7 +313,7 @@ function Anime({
                 >
                   {rating === 9001
                     ? "N/A"
-                    : rating || anime.attributes.averageRating || "N/A"}
+                    : rating || anime?.attributes?.averageRating || "N/A"}
                   <span
                     style={{
                       color: "var(--grey-500)",
@@ -327,7 +327,7 @@ function Anime({
                     color: "var(--textColor)",
                   }}
                 >
-                  {format ? format : anime.attributes.subtype || "N/A"}
+                  {format ? format : anime?.attributes?.subtype || "N/A"}
                 </Button>
                 <Button
                   sx={{
@@ -336,8 +336,8 @@ function Anime({
                 >
                   {creationDate
                     ? creationDate.slice(0, 4)
-                    : anime.attributes.startDate
-                    ? anime.attributes.startDate.slice(0, 4)
+                    : anime?.attributes?.startDate
+                    ? anime?.attributes?.startDate.slice(0, 4)
                     : "N/A"}
                 </Button>
                 <Button
@@ -348,10 +348,12 @@ function Anime({
                   <span>
                     {episodeCount === 9001
                       ? "N/A"
-                      : episodeCount || anime.attributes.episodeCount || "N/A"}
+                      : episodeCount ||
+                        anime?.attributes?.episodeCount ||
+                        "N/A"}
                   </span>
                   <span style={{ marginLeft: "5px" }}>
-                    {t("anime.episode")}
+                    {t("anime?.episode")}
                   </span>
                 </Button>
                 {hasYoutubeVideoId ? (
@@ -362,7 +364,7 @@ function Anime({
                   >
                     <a
                       href={`https://www.youtube.com/watch?v=${
-                        youtubeVideoId || anime.attributes.youtubeVideoId
+                        youtubeVideoId || anime?.attributes?.youtubeVideoId
                       }`}
                       target={"_blank"}
                       rel="noreferrer"
@@ -453,19 +455,19 @@ function Anime({
             <Typography variant="h5" gutterBottom>
               {siteLanguage === "en"
                 ? title ||
-                  anime.attributes.titles.en ||
-                  anime.attributes.titles.en_jp ||
+                  anime?.attributes?.titles?.en ||
+                  anime?.attributes?.titles?.en_jp ||
                   "Title N/A"
                 : japanese_title ||
-                  anime.attributes.titles.ja_jp ||
-                  anime.attributes.titles.en ||
+                  anime?.attributes?.titles?.ja_jp ||
+                  anime?.attributes?.titles?.en ||
                   "Title N/A"}
             </Typography>
             <Typography variant="body1">
               {synopsis
                 ? synopsis
-                : anime.attributes.synopsis
-                ? anime.attributes.synopsis.replace(/<[^>]*>?/gm, "")
+                : anime?.attributes?.synopsis
+                ? anime?.attributes?.synopsis.replace(/<[^>]*>?/gm, "")
                 : "No synopsis available"}
             </Typography>
           </ModalContent>

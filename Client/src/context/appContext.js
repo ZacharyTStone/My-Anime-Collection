@@ -304,7 +304,6 @@ const AppProvider = ({ children }) => {
   };
 
   const createAnime = async (anime, playlistID, playlistTitle) => {
-    console.log("wow2", anime);
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
 
     try {
@@ -594,9 +593,7 @@ const AppProvider = ({ children }) => {
     // clearAlert();
   };
 
-  useEffect(() => {
-    console.log("wow", state.isLoadingNonBlocking, state.loadingdata);
-  }, [state.isLoadingNonBlocking, state.loadingdata]);
+  useEffect(() => {}, [state.isLoadingNonBlocking, state.loadingdata]);
 
   return (
     <AppContext.Provider
