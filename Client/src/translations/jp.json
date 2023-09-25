@@ -1,122 +1,123 @@
 {
-	"translation": {
-		"anime": {
-			"episode": "エピソード",
-			"add": "プレーリストに追加",
-			"delete": "削除"
-		},
+  "translation": {
+    "anime": {
+      "episode": "エピソード",
+      "add": "プレーリストに追加",
+      "delete": "削除"
+    },
 
-		"profile": {
-			"title": "プロフィール",
-			"name": "名前",
-			"last_name": "姓",
-			"email": "メールアドレス",
-			"theme": "既定テーマ",
-			"save": "変更を保存",
-			"enjoy": "アプリを楽しんでいますか？",
-			"buy_me_a_coffee": "コーヒーを買いたいなら",
-			"crypto": "Cryptoを上げたいなら",
-			"delete": "アカウントを削除",
-			"confirm": "本当にアカウントを削除しましょうか？",
-			"wait": "しばらくお待ちください..."
-		},
+    "profile": {
+      "title": "プロフィール",
+      "name": "名前",
+      "last_name": "姓",
+      "email": "メールアドレス",
+      "theme": "既定テーマ",
+      "save": "変更を保存",
+      "enjoy": "アプリを楽しんでいますか？",
+      "buy_me_a_coffee": "コーヒーを買いたいなら",
+      "crypto": "Cryptoを上げたいなら",
+      "delete": "アカウントを削除",
+      "confirm": "本当にアカウントを削除しましょうか？",
+      "wait": "しばらくお待ちください..."
+    },
 
-		"top_animes": {
-			"title": "人気なアニメ"
-		},
-		"add_anime": {
-			"title": "アニメを追加する",
-			"search": "タイトル",
-			"sort": "ソート",
-			"add_to_default": "いつもデフォルト＆選択したプレイリストに追加"
-		},
+    "top_animes": {
+      "title": "人気なアニメ"
+    },
+    "add_anime": {
+      "title": "アニメを追加する",
+      "search": "タイトル",
+      "sort": "ソート",
+      "add_to_default": "いつもデフォルト＆選択したプレイリストに追加"
+    },
 
-		"search_container": {
-			"title": "プレーリストをフィルターしましょう",
-			"search": "検索",
-			"sort": "ソート",
-			"clear_filters": "フィルターをクリア",
-			"playlist": "アニメに入れるのプレーリスト",
-			"current_playlist": "選択したプレーリスト"
-		},
-		"my_animes_container": {
-			"no_anime_message1": "アニメが見つかりませんでした。",
-			"no_anime_message2": "ここをクリックしてアニメを追加してください。"
-		},
-		"navbar": {
-			"home": "マイアニメコレクション",
-			"add": "アニメを追加",
-			"top": "トップアニメ",
-			"profile": "プロフィール",
-			"logout": "ログアウト",
-			"edit_playlist": "プレイリストを編集"
-		},
+    "search_container": {
+      "title": "プレーリストをフィルターしましょう",
+      "search": "検索",
+      "sort": "ソート",
+      "clear_filters": "フィルターをクリア",
+      "playlist": "アニメに入れるのプレーリスト",
+      "current_playlist": "選択したプレーリスト"
+    },
+    "my_animes_container": {
+      "no_anime_message1": "アニメが見つかりませんでした。",
+      "no_anime_message2": "ここをクリックしてアニメを追加してください。"
+    },
+    "navbar": {
+      "home": "マイアニメコレクション",
+      "add": "アニメを追加",
+      "top": "トップアニメ",
+      "profile": "プロフィール",
+      "logout": "ログアウト",
+      "edit_playlist": "プレイリストを編集"
+    },
 
-		"edit_playlist": {
-			"title": "マイ・プレーリスト",
-			"new_playlist": "新しいプレイリストを作る",
-			"cta": "プレイリストの名前を編集するにはプレイリストにクリックしてください"
-		},
-		"login": {
-			"title": "ログイン",
-			"email": "メールアドレス",
-			"password": "パスワード",
-			"switch1": "登録していませんか？",
-			"switch2": "登録",
-			"submit": "送信",
-			"alert_text": "ログインできました！"
-		},
-		"twitter": {
-			"share": "Twitterでプレーリストをシェア"
-		},
-		"register": {
-			"title": "登録",
-			"name": "名前",
-			"email": "メールアドレス",
-			"password": "パスワード",
-			"submit": "送信",
-			"switch1": "もう登録しています？",
-			"switch2": "ログイン",
-			"alert_text": "登録に成功しました！"
-		},
-		"landing": {
-			"title": "マイ・アニメ・コレクション",
-			"title_description": "マイ・アニメ・コレクションでは好きなアニメを調べて、忘れないようにコレクションに入れられます",
-			"login_button": "ログイン/登録",
-			"demo_button": "デモ",
+    "edit_playlist": {
+      "title": "マイ・プレーリスト",
+      "new_playlist": "新しいプレイリストを作る",
+      "cta": "プレイリストの名前を編集するにはプレイリストにクリックしてください"
+    },
+    "login": {
+      "title": "ログイン",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "switch1": "登録していませんか？",
+      "switch2": "登録",
+      "submit": "送信",
+      "alert_text": "ログインできました！"
+    },
+    "twitter": {
+      "share": "Twitterでプレーリストをシェア"
+    },
+    "register": {
+      "title": "登録",
+      "name": "名前",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "submit": "送信",
+      "switch1": "もう登録しています？",
+      "switch2": "ログイン",
+      "alert_text": "登録に成功しました！"
+    },
+    "landing": {
+      "title": "マイ・アニメ・コレクション",
+      "title_description": "マイ・アニメ・コレクションでは好きなアニメを調べて、忘れないようにコレクションに入れられます",
+      "login_button": "ログイン/登録",
+      "demo_button": "デモ",
 
-			"testimonials": {
-				"title": "お客様の声",
-				"vegeta": {
-					"name": "ベジータ",
-					"description": "オイ地球人！邪魔になるな！カカロットと戦うぞ！"
-				},
-				"pikachu": {
-					"name": "ピカチュウ",
-					"description": "ピカチュウ！ ピカピカピカピカ。 ピカピカピカピカ。"
-				},
-				"shinji": {
-					"name": "シンジ",
-					"description": "アニメコレクションが好きだと思います。 もうEVAに乗らせないでください"
-				},
-				"pegasus": {
-					"name": "ペグサス",
-					"description": "ユーは史上最高のアプリを作成した~~~グッドジョブZachyボイ！"
-				}
-			},
-			"why": {
-				"title": "MACのメリットは？",
-				"point1": "無料です。広告は含まれていません。",
-				"point2": "簡単です。インタラクティブです。",
-				"point3": "セキュリティーに非常に注意しています。",
-				"point4": "マイ・アニメ・コレクションは広告のためにクッキーを使用しません。",
-				"point5": " 新しい機能や改善がされるたびにお客様にご連絡いたします。"
-			},
+      "testimonials": {
+        "title": "お客様の声",
+        "vegeta": {
+          "name": "ベジータ",
+          "description": "オイ地球人！邪魔になるな！カカロットと戦うぞ！"
+        },
+        "pikachu": {
+          "name": "ピカチュウ",
+          "description": "ピカチュウ！ ピカピカピカピカ。 ピカピカピカピカ。"
+        },
+        "shinji": {
+          "name": "シンジ",
+          "description": "アニメコレクションが好きだと思います。 もうEVAに乗らせないでください"
+        },
+        "pegasus": {
+          "name": "ペグサス",
+          "description": "ユーは史上最高のアプリを作成した~~~グッドジョブZachyボイ！"
+        }
+      },
+      "logged_in_redirect": "すでにログインしています！リダイレクトしています...",
+      "why": {
+        "title": "MACのメリットは？",
+        "point1": "無料です。広告は含まれていません。",
+        "point2": "簡単です。インタラクティブです。",
+        "point3": "セキュリティーに非常に注意しています。",
+        "point4": "マイ・アニメ・コレクションは広告のためにクッキーを使用しません。",
+        "point5": " 新しい機能や改善がされるたびにお客様にご連絡いたします。"
+      },
 
-			"call_to_action": {
-				"title": "マイ・アニメ・コレクションを使ってみよう！",
-				"contact_info": "ご質問はお気軽にお問い合わせください。"
-			}
-		}
-	}
+      "call_to_action": {
+        "title": "マイ・アニメ・コレクションを使ってみよう！",
+        "contact_info": "ご質問はお気軽にお問い合わせください。"
+      }
+    }
+  }
 }
