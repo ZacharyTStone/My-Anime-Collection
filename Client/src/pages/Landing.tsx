@@ -1,18 +1,17 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense, useState } from "react";
 import { Link } from "react-router-dom";
-
-import { useAppContext } from "../context/appContext";
-// Components
-import { Logo } from "../Components/UI";
-
-// library imports
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useAppContext } from "./../context/appContext";
 
-// images
+// Components
+import { Logo } from "../Components/UI";
+
+// Images
 import narutoRun from "../assets/images/narutoRun.gif";
 import goku from "../assets/images/goku.webp";
 import aot from "../assets/images/aot.webp";
@@ -26,27 +25,70 @@ import A6 from "../assets/images/sampleAnimes/A6.webp";
 import A7 from "../assets/images/sampleAnimes/A7.webp";
 import A8 from "../assets/images/sampleAnimes/A8.webp";
 
-// lazy loaded Components
 const Testimonials = React.lazy(() => import("../Components/Testimonials"));
-
 const MusicAndFlag = React.lazy(() => import("../Components/MusicAndFlag"));
-
 const RunningImg = React.lazy(() => import("../Components/UI/RunningImg"));
 
 const Landing = () => {
-  const { t } = useTranslation();
   const { theme } = useAppContext();
+  const { t } = useTranslation();
+  const controls1 = useAnimation();
+  const [ref1, inView1] = useInView({ threshold: 0.5 });
 
-  // if logged in, redirect to my animes page
+  const controls2 = useAnimation();
+  const [ref2, inView2] = useInView({ threshold: 0.5 });
+
+  const controls3 = useAnimation();
+  const [ref3, inView3] = useInView({ threshold: 0.5 });
+
+  const controls4 = useAnimation();
+  const [ref4, inView4] = useInView({ threshold: 0.5 });
+
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      // token will be validated on requests so no need to check if it's valid here
-      toast.success(t("landing.logged_in_redirect"));
-      setTimeout(() => {
-        window.location.href = "/my-animes";
-      }, 3000);
-    }
-  }, []);
+    if (inView1) controls1.start("visible");
+    if (inView2) controls2.start("visible");
+    if (inView3) controls3.start("visible");
+    if (inView4) controls4.start("visible");
+  }, [
+    controls1,
+    controls2,
+    controls3,
+    controls4,
+    inView1,
+    inView2,
+    inView3,
+    inView4,
+  ]);
+
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } },
+  };
+
+  useEffect(() => {
+    if (inView1) controls1.start("visible");
+    if (inView2) controls2.start("visible");
+    if (inView3) controls3.start("visible");
+    if (inView4) controls4.start("visible");
+  }, [
+    controls1,
+    controls2,
+    controls3,
+    controls4,
+    inView1,
+    inView2,
+    inView3,
+    inView4,
+  ]);
+
+  const parallax = {
+    hidden: { opacity: 0, y: 100 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, ease: "easeInOut" },
+    },
+  };
 
   return (
     <div data-theme={theme ? theme : "light"}>
@@ -72,7 +114,14 @@ const Landing = () => {
           <Suspense fallback={<div>Loading...</div>}>
             <RunningImg img={narutoRun} />
           </Suspense>
-          <div className="container page">
+          <motion.div
+            className="container page"
+            style={{ height: "80vh" }}
+            initial="hidden"
+            variants={fadeIn}
+            animate={controls1}
+            ref={ref1}
+          >
             <div>
               <h1>
                 <span>{t("landing.title")}</span>
@@ -87,18 +136,42 @@ const Landing = () => {
                 </Link>
               </div>
             </div>
-
-            <img src={goku} alt="anime character" className="img main-img" />
-          </div>
-          <Suspense fallback={<div>Loading...</div>}>
+            <div>
+              <motion.img
+                src={goku}
+                alt="anime character"
+                className="img main-img"
+                initial="hidden"
+                animate={controls1}
+                variants={parallax}
+              />
+            </div>
+          </motion.div>
+          <motion.div
+            style={{ height: "80vh" }}
+            initial="hidden"
+            animate={controls2}
+            variants={fadeIn}
+            ref={ref2}
+          >
             <Testimonials />
-          </Suspense>
-          <div className="container page">
-            <img
+          </motion.div>
+          <motion.div
+            className="container page"
+            style={{ height: "80vh" }}
+            initial="hidden"
+            animate={controls3}
+            ref={ref3}
+            variants={fadeIn}
+          >
+            <motion.img
               src={aot}
               alt="anime character"
               loading="lazy"
               className="img main-img"
+              initial="hidden"
+              animate={controls3}
+              variants={parallax}
             />
 
             <div>
@@ -138,13 +211,15 @@ const Landing = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </motion.div>
 
-          <div
+          <motion.div
             className="container page"
-            style={{
-              height: "fit-content",
-            }}
+            style={{ height: "80vh" }}
+            initial="hidden"
+            animate={controls4}
+            ref={ref4}
+            variants={fadeIn}
           >
             <div>
               <div>
@@ -169,7 +244,7 @@ const Landing = () => {
                   <span>
                     <a
                       href="https://zstone.dev"
-                      target={"_blank"}
+                      target="_blank"
                       rel="noreferrer"
                       style={{
                         textDecoration: "underline",
@@ -183,13 +258,16 @@ const Landing = () => {
               </div>
             </div>
 
-            <img
+            <motion.img
               src={lucy}
               alt="anime character"
               loading="lazy"
               className="img main-img"
+              initial="hidden"
+              animate={controls4}
+              variants={parallax}
             />
-          </div>
+          </motion.div>
 
           <div className="animesLeft">
             <img
@@ -250,6 +328,7 @@ const Landing = () => {
     </div>
   );
 };
+
 export default Landing;
 
 const Wrapper = styled.main`
