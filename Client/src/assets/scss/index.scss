@@ -12,12 +12,14 @@ Many browsers already use box-sizing: border-box; for many form elements (but no
 ::after,
 ::before {
   box-sizing: border-box;
+  cursor: url("../images/pokeball.png"), auto !important;
 }
 
 html {
   font-size: 100%;
   scroll-behavior: smooth;
   background-color: black;
+  cursor: url("../images/pokeball.png"), auto;
 }
 
 body {
@@ -26,6 +28,7 @@ body {
   font-weight: 400;
   line-height: 1.75;
   color: var(--textColor);
+  cursor: url("../images/pokeball.png") 0 0, auto !important;
 }
 
 a,

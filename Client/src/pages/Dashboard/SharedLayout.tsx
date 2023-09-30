@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { MUINavbar } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const SharedLayout = () => {
   const { theme } = useAppContext();
   return (
@@ -22,7 +24,7 @@ const SharedLayout = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />{" "}
+      />
       <Wrapper>
         <main className="dashboard" data-theme={theme}>
           <MUINavbar />

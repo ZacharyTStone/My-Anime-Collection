@@ -6,6 +6,7 @@ import { FaCheck } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import "react-toastify/dist/ReactToastify.css";
 import { useAppContext } from "./../context/appContext";
 
 // Components
