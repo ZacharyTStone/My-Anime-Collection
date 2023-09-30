@@ -216,7 +216,6 @@ const Landing = () => {
 
           <motion.div
             className="container page"
-            style={{ height: "80vh" }}
             initial="hidden"
             animate={controls4}
             ref={ref4}
@@ -333,6 +332,18 @@ const Landing = () => {
 export default Landing;
 
 const Wrapper = styled.main`
+  @keyframes shimmerBorder {
+    0% {
+      border: 1px solid var(--primary-200);
+    }
+    50% {
+      border: 1px solid var(--primary-500);
+    }
+    100% {
+      border: 1px solid var(--primary-200);
+    }
+  }
+
   overflow: hidden;
   background-color: var(--white);
   // special css for anime cards
@@ -374,6 +385,8 @@ const Wrapper = styled.main`
   .animeCard {
     transform: scale(0.4);
     border: 1px solid var(--primary-200);
+    // shimer and bob animation
+    animation: shimmerBorder 1.5s infinite linear;
   }
 
   .animeCard.left {
@@ -447,7 +460,6 @@ const Wrapper = styled.main`
     display: grid;
     align-items: center;
     margin-top: -3rem;
-    height: 80vh;
   }
 
   p {

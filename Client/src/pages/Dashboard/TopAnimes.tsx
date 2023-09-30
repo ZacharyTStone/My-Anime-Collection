@@ -54,6 +54,7 @@ const MyAnimes = () => {
             <select
               name="playlist"
               value={currentPlaylist.id}
+              disabled={isLoading}
               onChange={handleLocalPlaylistChange}
               className="form-select"
             >

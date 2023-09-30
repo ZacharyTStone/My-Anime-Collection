@@ -117,7 +117,11 @@ const Profile: React.FC = () => {
             ))}
           </ul>
 
-          <button className="btn" onClick={handleNewPlaylistSubmit}>
+          <button
+            className="btn"
+            onClick={handleNewPlaylistSubmit}
+            disabled={isLoading}
+          >
             {t("edit_playlist.new_playlist")}
           </button>
         </div>
@@ -129,7 +133,7 @@ const Profile: React.FC = () => {
           margin: "1rem 0",
         }}
       ></hr>
-      {currentPlaylist.id !== "0" && (
+      {id && currentPlaylist.id !== "0" && (
         <form className="form" onSubmit={handlePlaylistEdit}>
           <div className="form-center">
             <FormRow

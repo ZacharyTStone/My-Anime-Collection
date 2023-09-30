@@ -415,6 +415,7 @@ function Anime({
               <Button
                 size="small"
                 className="card-btn add"
+                disabled={isLoading || isLoadingNonBlocking}
                 onClick={handleSubmit}
               >
                 {t("anime.add")}

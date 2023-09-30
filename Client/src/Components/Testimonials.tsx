@@ -37,35 +37,41 @@ function Testimonials() {
           }}
           onRequestChange={setActiveSlide}
           forwardBtnProps={{
-            children: "\u2192", // Unicode right arrow
+            children: ">", // Unicode right arrow
             style: {
               // large font size
-              fontSize: "2em",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "3em",
               width: 40,
               height: 40,
               alignSelf: "center",
+              paddingBottom: "10px",
               borderRadius: "none", // Remove border-radius
               color: "var(--primary-500)",
               backgroundColor: "transparent", // Remove background color
-              border: "2px solid var(--primary-500)", // Add border to make it thicker
+              border: "none", // Add border to make it thicker
               marginLeft: "20px",
-              cursor: "pointer",
             },
           }}
           backwardBtnProps={{
-            children: "\u2190", // Unicode left arrow
+            children: "<", // Unicode left arrow
             style: {
               // large font size
-              fontSize: "2em",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "3em",
               width: 40,
               height: 40,
               alignSelf: "center",
+              paddingBottom: "10px",
               borderRadius: "none", // Remove border-radius
               color: "var(--primary-500)",
               backgroundColor: "transparent", // Remove background color
-              border: "2px solid var(--primary-500)", // Add border to make it thicker
+              border: "none", // Add border to make it thicker
               marginRight: "20px",
-              cursor: "pointer",
             },
           }}
           itemsToShow={3}
