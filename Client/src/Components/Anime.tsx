@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 
+import pokeball from "../assets/images/pokeball.png";
 import { useMobile } from "../utils/viewportHooks";
 
 interface anime {
@@ -513,6 +514,7 @@ const Wrapper = styled.article`
   .anime-cover-image {
     /* height: 300px; */
     width: "100%";
+    cursor: url(${pokeball}) 4 4, pointer !important;
   }
 
   @media (max-width: 1000px) {
