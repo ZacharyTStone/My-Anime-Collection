@@ -50,8 +50,6 @@ import {
   CHANGE_SITE_LANGUAGE,
   CHANGE_THEME,
 } from "./actions";
-import i18n from "../translations/i18n";
-import i18n from "../translations/i18n";
 
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
