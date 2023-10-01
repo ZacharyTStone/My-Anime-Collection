@@ -1,5 +1,7 @@
 /* form */
 
+@import "./viewports.scss";
+
 .form {
   color: var(--textColor);
   width: 90vw;
@@ -57,7 +59,7 @@
 }
 
 /* mobile only */
-@media (max-width: 725px) {
+@media (max-width: $tablet) {
   .form-input,
   .form-select,
   .btn-block {

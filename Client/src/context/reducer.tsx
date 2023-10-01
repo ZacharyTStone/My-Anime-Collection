@@ -220,7 +220,7 @@ const reducer = (
     console.log("wow3", action.payload.id);
     return {
       ...state,
-      isLoadingNonBlocking: true,
+      isLoading: true,
       loadingData: {
         ...state.loadingData,
         anime_id: action.payload?.id,
@@ -240,7 +240,6 @@ const reducer = (
     return {
       ...state,
       isLoading: false,
-      isLoadingNonBlocking: false,
     };
   }
   if (action.type === CREATE_ANIME_ERROR) {
@@ -254,7 +253,6 @@ const reducer = (
     return {
       ...state,
       isLoading: false,
-      isLoadingNonBlocking: false,
     };
   }
   if (action.type === GET_ANIMES_BEGIN) {
@@ -423,13 +421,14 @@ const reducer = (
   }
 
   if (action.type === FETCH_ANIMES_BEGIN) {
-    return { ...state, isLoading: true };
+    return { ...state, isLoading: true, loadingFetchAnimes: true };
   }
 
   if (action.type === FETCH_ANIMES_SUCCESS) {
     return {
       ...state,
       isLoading: false,
+      loadingFetchAnimes: false,
       fetchedAnimes: action.payload.animes,
       totalFetchedAnimes: action.payload.totalFetchedAnimes,
       numOfFetchedAnimesPages: action.payload.numOfFetchedAnimesPages,
@@ -455,6 +454,7 @@ const reducer = (
     return {
       ...state,
       isLoading: false,
+      loadingFetchAnimes: false,
     };
   }
 

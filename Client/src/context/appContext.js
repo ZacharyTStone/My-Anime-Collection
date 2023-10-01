@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import reducer from "./reducer";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { t, i18n } from "i18next";
 import {
   DISPLAY_ALERT,
   CLEAR_ALERT,
@@ -49,13 +50,15 @@ import {
   CHANGE_SITE_LANGUAGE,
   CHANGE_THEME,
 } from "./actions";
+import i18n from "../translations/i18n";
+import i18n from "../translations/i18n";
 
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
 
 const initialState = {
   isLoading: false,
-  isLoadingNonBlocking: false,
+
   loadingdata: {
     anime_id: "",
   },
@@ -81,11 +84,11 @@ const initialState = {
   userPlaylists: [],
   sortOptions: [
     {
-      title: "Latest",
+      title: i18n.language === "en" ? "Latest" : "最新",
       value: "latest",
     },
     {
-      title: "Oldest",
+      title: i18n.language === "en" ? "Oldest" : "最古",
       value: "oldest",
     },
     {
@@ -97,15 +100,15 @@ const initialState = {
       value: "z-a",
     },
     {
-      title: "Rating",
+      title: i18n.language === "en" ? "Rating" : "評価",
       value: "rating",
     },
     {
-      title: "Format",
+      title: i18n.language === "en" ? "Format" : "フォーマット",
       value: "format",
     },
     {
-      title: "Date Added",
+      title: i18n.language === "en" ? "Date added" : "追加日",
       value: "date added",
     },
   ],
@@ -115,6 +118,9 @@ const initialState = {
   fetchedAnimes: [],
   totalFetchedAnimes: 0,
   numOfFetchedAnimesPages: 0,
+
+  // specific loading queries
+  loadingFetchAnimes: false,
 };
 
 const AppContext = React.createContext();
@@ -592,8 +598,6 @@ const AppProvider = ({ children }) => {
     }
     // clearAlert();
   };
-
-  useEffect(() => {}, [state.isLoadingNonBlocking, state.loadingdata]);
 
   return (
     <AppContext.Provider

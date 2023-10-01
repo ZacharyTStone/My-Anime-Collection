@@ -72,6 +72,7 @@ const AnimeContainer = ({
     totalFetchedAnimes,
     numOfFetchedAnimesPages,
     resetFetchedAnimes,
+    loadingFetchAnimes,
   } = useAppContext();
 
   useEffect(() => {
@@ -97,7 +98,7 @@ const AnimeContainer = ({
 
   const onMobile = useMobile();
 
-  if (isLoading) {
+  if (loadingFetchAnimes) {
     return (
       <Wrapper>
         <div className="buttons">

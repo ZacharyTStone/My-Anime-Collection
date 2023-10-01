@@ -9,11 +9,12 @@ import {
   shinji,
   vegeta,
 } from "../assets/images/testimonials/index";
+import { useMobile } from "../utils/viewportHooks";
 
 function Testimonials() {
   const { t } = useTranslation();
   const [activeSlide, setActiveSlide] = useState(0);
-
+  const onMobile = useMobile();
   return (
     <Wrapper>
       <div className="testimonials">
@@ -74,7 +75,7 @@ function Testimonials() {
               marginRight: "20px",
             },
           }}
-          itemsToShow={3}
+          itemsToShow={onMobile ? 2 : 3}
           speed={400}
         >
           <Testimonial

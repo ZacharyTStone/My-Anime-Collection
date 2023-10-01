@@ -2,12 +2,7 @@ import styled from "styled-components";
 const RunningImg = ({ img }: { img: string }) => {
   return (
     <Wrapper>
-      <img
-        src={img}
-        loading="lazy"
-        alt="anime character"
-        className="img naruto"
-      />
+      <img src={img} alt="anime character" className="img naruto" />
     </Wrapper>
   );
 };

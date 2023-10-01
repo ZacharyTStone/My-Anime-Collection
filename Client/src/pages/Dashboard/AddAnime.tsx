@@ -21,7 +21,6 @@ const AddAnime: React.FC = () => {
     userPlaylists,
     isLoading,
     handlePlaylistChange,
-    changeDefaultPlaylistPolicy,
   } = useAppContext();
 
   const request = debounce((value: string) => {
@@ -44,11 +43,6 @@ const AddAnime: React.FC = () => {
   ) => {
     if (isLoading) return;
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
-  };
-
-  const handleChangeForDefault = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isLoading) return;
-    changeDefaultPlaylistPolicy();
   };
 
   useEffect(() => {
@@ -119,7 +113,7 @@ const AddAnime: React.FC = () => {
                 onChange={handleLocalPlaylistChange}
                 className="form-select"
               >
-                {userPlaylists.map(
+                {userPlaylists?.map(
                   (
                     playlist: {
                       id: string;

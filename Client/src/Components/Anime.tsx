@@ -113,12 +113,12 @@ function Anime({
     currentPlaylist,
     addToDefault,
     isLoading,
-    isLoadingNonBlocking,
+
     loadingData,
   } = useAppContext();
 
   const handleSubmit = () => {
-    if (isLoading || isLoadingNonBlocking) return;
+    if (isLoading) return;
     createAnime(anime, currentPlaylist.id, currentPlaylist.title);
     if (addToDefault) {
       if (currentPlaylist.id !== "0" || currentPlaylist.title !== "default") {
@@ -144,7 +144,7 @@ function Anime({
   }, [onMobile]);
 
   if (
-    isLoadingNonBlocking &&
+    isLoading &&
     (loadingData?.anime_id === _id || loadingData?.anime_id === anime?.id)
   ) {
     return (
@@ -415,7 +415,7 @@ function Anime({
               <Button
                 size="small"
                 className="card-btn add"
-                disabled={isLoading || isLoadingNonBlocking}
+                disabled={isLoading}
                 onClick={handleSubmit}
               >
                 {t("anime.add")}
