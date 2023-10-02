@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import reducer from "./reducer";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { t, i18n } from "i18next";
+
 import {
   DISPLAY_ALERT,
   CLEAR_ALERT,
@@ -82,11 +82,11 @@ const initialState = {
   userPlaylists: [],
   sortOptions: [
     {
-      title: i18n.language === "en" ? "Latest" : "最新",
+      title: "Latest",
       value: "latest",
     },
     {
-      title: i18n.language === "en" ? "Oldest" : "最古",
+      title: "Oldest",
       value: "oldest",
     },
     {
@@ -98,15 +98,15 @@ const initialState = {
       value: "z-a",
     },
     {
-      title: i18n.language === "en" ? "Rating" : "評価",
+      title: "Rating",
       value: "rating",
     },
     {
-      title: i18n.language === "en" ? "Format" : "フォーマット",
+      title: "Format",
       value: "format",
     },
     {
-      title: i18n.language === "en" ? "Date added" : "追加日",
+      title: "Date added",
       value: "date added",
     },
   ],
