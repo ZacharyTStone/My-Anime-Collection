@@ -3,7 +3,7 @@ import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import { AiFillDelete } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
-import { Loading, FormRow } from "../../Components/UI";
+import { FormRow } from "../../Components/UI";
 import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
 
 const Profile: React.FC = () => {

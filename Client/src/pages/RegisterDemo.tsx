@@ -59,7 +59,7 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate("/my-animes");
+        navigate("/top-animes");
       }, 3000);
     }
   }, [user, navigate]);

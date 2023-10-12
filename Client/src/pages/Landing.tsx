@@ -1,13 +1,13 @@
 import React, { useEffect, Suspense, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import "react-toastify/dist/ReactToastify.css";
 import { useAppContext } from "./../context/appContext";
+import { useInViewAnimation } from "../utils/hooks";
 
 // Components
 import { Logo } from "../Components/UI";
@@ -33,54 +33,16 @@ const RunningImg = React.lazy(() => import("../Components/UI/RunningImg"));
 const Landing = () => {
   const { theme } = useAppContext();
   const { t } = useTranslation();
-  const controls1 = useAnimation();
-  const [ref1, inView1] = useInView({ threshold: 0.5 });
 
-  const controls2 = useAnimation();
-  const [ref2, inView2] = useInView({ threshold: 0.5 });
-
-  const controls3 = useAnimation();
-  const [ref3, inView3] = useInView({ threshold: 0.5 });
-
-  const controls4 = useAnimation();
-  const [ref4, inView4] = useInView({ threshold: 0.5 });
-
-  useEffect(() => {
-    if (inView1) controls1.start("visible");
-    if (inView2) controls2.start("visible");
-    if (inView3) controls3.start("visible");
-    if (inView4) controls4.start("visible");
-  }, [
-    controls1,
-    controls2,
-    controls3,
-    controls4,
-    inView1,
-    inView2,
-    inView3,
-    inView4,
-  ]);
+  const { controls: controls1, ref: ref1 } = useInViewAnimation();
+  const { controls: controls2, ref: ref2 } = useInViewAnimation();
+  const { controls: controls3, ref: ref3 } = useInViewAnimation();
+  const { controls: controls4, ref: ref4 } = useInViewAnimation();
 
   const fadeIn = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } },
   };
-
-  useEffect(() => {
-    if (inView1) controls1.start("visible");
-    if (inView2) controls2.start("visible");
-    if (inView3) controls3.start("visible");
-    if (inView4) controls4.start("visible");
-  }, [
-    controls1,
-    controls2,
-    controls3,
-    controls4,
-    inView1,
-    inView2,
-    inView3,
-    inView4,
-  ]);
 
   const parallax = {
     hidden: { opacity: 0, y: 100 },
@@ -268,21 +230,20 @@ const Landing = () => {
               variants={parallax}
             />
           </motion.div>
-
           <div className="animesLeft">
-            <img
+            <AnimeCard
               src={A1}
               alt="anime character"
               className="animeCard left"
               loading="lazy"
             />
-            <img
+            <AnimeCard
               src={A2}
               alt="anime character"
               className="animeCard left"
               loading="lazy"
             />
-            <img
+            <AnimeCard
               src={A3}
               alt="anime character"
               className="animeCard left"
@@ -291,32 +252,31 @@ const Landing = () => {
           </div>
 
           <div className="animesRight">
-            <img
+            <AnimeCard
               src={A4}
               alt="anime character"
               className="animeCard left"
               loading="lazy"
             />
-            <img
+            <AnimeCard
               src={A5}
               alt="anime character"
               className="animeCard right"
               loading="lazy"
             />
-            <img
+            <AnimeCard
               src={A6}
               alt="anime character"
               className="animeCard right"
               loading="lazy"
             />
-
-            <img
+            <AnimeCard
               src={A7}
               alt="anime character"
               className="animeCard right"
               loading="lazy"
             />
-            <img
+            <AnimeCard
               src={A8}
               alt="anime character"
               className="animeCard right"
@@ -457,9 +417,10 @@ const Wrapper = styled.main`
     margin-top: 2rem;
   }
   .page {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-top: -3rem;
   }
 
   p {
@@ -524,6 +485,7 @@ const Wrapper = styled.main`
   }
   @media (min-width: 992px) {
     .page {
+      display: grid;
       grid-template-columns: 1fr 1fr;
       column-gap: 3rem;
       min-height: 90fvh;
@@ -534,6 +496,45 @@ const Wrapper = styled.main`
       width: 100%;
       overflow: visible;
       overflow-x: hidden;
+    }
+  }
+`;
+
+const shimmerBorder = keyframes`
+  0% {
+    border: 1px solid var(--primary-200);
+  }
+  50% {
+    border: 1px solid var(--primary-500);
+  }
+  100% {
+    border: 1px solid var(--primary-200);
+  }
+`;
+const AnimeCard = styled.img`
+  transform: scale(0.4);
+  border: 1px solid var(--primary-200);
+  animation: ${shimmerBorder} 1.5s infinite linear;
+
+  &.left {
+    transform: rotate(-5deg) scale(0.4);
+    transition: 1s ease-out;
+
+    &:hover {
+      transform-origin: center;
+      transform: scale(0.7) rotate(0deg) translateX(70px);
+      transition: 1s ease-out;
+    }
+  }
+
+  &.right {
+    transform: rotate(5deg) scale(0.4);
+    transition: 1s ease-out;
+
+    &:hover {
+      transform-origin: center;
+      transition: 1s ease-out;
+      transform: scale(0.7) rotate(0deg) translateX(-70px);
     }
   }
 `;
