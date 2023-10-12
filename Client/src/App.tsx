@@ -15,24 +15,24 @@ const Register = lazy(() => import("./pages/Register"));
 
 function App() {
   return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            width: "100vw",
-            backgroundColor: "black",
-            padding: "16px",
-          }}
-        >
-          <SkeletonLoadingBlock height="100%" width="100%" borderRadius={8} />
-        </div>
-      }
-    >
-      <BrowserRouter>
+    <BrowserRouter>
+      <Suspense
+        fallback={
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+              width: "100vw",
+              backgroundColor: "black",
+              padding: "16px",
+            }}
+          >
+            <SkeletonLoadingBlock height="100%" width="100%" borderRadius={8} />
+          </div>
+        }
+      >
         <ErrorBoundary>
           <Routes>
             <Route
@@ -55,8 +55,8 @@ function App() {
             <Route path="*" element={<Error />} />
           </Routes>
         </ErrorBoundary>
-      </BrowserRouter>
-    </Suspense>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 

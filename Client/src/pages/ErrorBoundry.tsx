@@ -1,71 +1,23 @@
-import React, { ReactNode } from "react";
-import { Loading } from "../Components/UI";
+import React, { Component } from "react";
 
-interface ErrorBoundaryProps {
-  children: ReactNode;
-}
-
-interface ErrorBoundaryState {
-  hasError: boolean;
-}
-
-class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
-  constructor(props: ErrorBoundaryProps) {
+class ErrorBoundary extends Component {
+  constructor(props) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: Error) {
-    // Update state so the next render will show the fallback UI.
-    console.error(error); // Log the error
+  static getDerivedStateFromError(error) {
     return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // You can log the error to an error reporting service
+    console.error(error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            width: "100vw",
-            backgroundColor: "black",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <h3
-              style={{
-                color: "var(--primary-500)",
-              }}
-            >
-              {" "}
-              Something Went Wrong...Please Try Again Later!{" "}
-            </h3>
-            <p
-              style={{
-                color: "var(--primary-500)",
-              }}
-            >
-              Please send an email to zach.stone.developer@gmail.com with a
-              description of what happened.
-            </p>
-            <Loading />
-          </div>
-        </div>
-      );
+      return <div>Something went wrong!</div>;
     }
 
     return this.props.children;
