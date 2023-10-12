@@ -13,35 +13,35 @@
 
 ## Description
 
-My Anime Collection is a robust and free-to-use anime tracker. Users can explore anime and add them to their collection
+My Anime Collection is a free anime tracker where users can explore and create custom playlists to keep track of their favorite anime.
 
 It uses Express and Node.js with a series of routers to send, change, and delete data on the database. The front end uses the Kitsu.io API to get data about anime.
 
-Backend: JS , Express and MongoDB
+Backend: JS, Express, and MongoDB
 
 Front-end: React and Styled Components.
 
-NOTE: This app uses the package Concurently to run the BE and FE from the same repo (see package.json)
+NOTE: This app uses the Concurrently package to run the BE and FE from the same repo (see package.json).
 
-I don't recommend using this structure as it can be quite complicated and prefer a standard BE / FE repo structure.
+I don't recommend using this structure as it can be complicated to deploy, and I prefer a standard BE / FE repo structure.
 
-I hope you enjoy this project and if you have any questions or comments feel free to contact me.
+I hope you enjoy this project, and if you have any questions or comments, feel free to contact me.
 
 ## 説明
 
-"My Anime Collection" は無料のアニメトラッカーです。ユーザーはアニメを探索し、それらを自分のコレクションに追加することができます。
+「My Anime Collection（私のアニメコレクション）」は、ユーザーがお気に入りのアニメを追跡するためのカスタムプレイリストを探索および作成できる無料のアニメトラッカーです。
 
-このアプリケーションは、Express と Node.js を使用し、データベース上のデータを送信、変更、削除するための一連のルーターを備えています。フロントエンドは Kitsu.io API を使用してアニメに関するデータを取得します。
+ExpressとNode.jsを使用し、データベース上でデータを送信、変更、削除するための一連のルーターが組み込まれています。フロントエンドでは、Kitsu.io APIを使用してアニメに関するデータを取得しています。
 
-バックエンド: JavaScript、Express、および MongoDB
+バックエンド：JS、Express、MongoDB
 
-フロントエンド: React と Styled Components
+フロントエンド：React、Styled Components
 
-注意: このアプリケーションは、BE と FE を同じリポジトリから実行するために *Concurently*というパッケージを使用しています。
+注意：このアプリはConcurrentlyパッケージを使用して、同じリポジトリからBEとFEを実行します（package.jsonを参照）。
 
-この構造をお勧めしませんが、それなりに複雑になる可能性があり、標準的な BE / FE リポジトリ構造を好むかもしれません。
+この構造を使用することはお勧めしません。デプロイが複雑になる可能性があり、標準的なBE/FEリポジトリ構造をお好みいただきます。
 
-このプロジェクトを楽しんでいただければ幸いです。質問やコメントがある場合は、お気軽にお問い合わせください。
+このプロジェクトをお楽しみいただければ幸いです。質問やコメントがありましたら、お気軽にご連絡ください。
 
 ## Demo
 
@@ -59,7 +59,7 @@ https://youtu.be/YVlIq4clxxk
 ## Links
 
 - Live Site: (https://my-anime-collection.herokuapp.com)
-- Github Repository URL: (https://github.com/zachinjapan/My-Anime-Collection)
+- GitHub Repository URL: (https://github.com/zachinjapan/My-Anime-Collection)
 
 ## License
 
