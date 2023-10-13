@@ -24,19 +24,6 @@ const Wrapper = styled.nav`
   justify-content: center;
   min-width: 100% !important;
 
-  .full-flag-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-  }
-
-  .flag {
-    width: 2.2rem;
-    height: 1.5rem;
-    cursor: pointer;
-  }
-
   .logo {
     display: flex;
     align-items: center;
