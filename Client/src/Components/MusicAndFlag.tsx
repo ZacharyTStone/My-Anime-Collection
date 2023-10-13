@@ -70,6 +70,13 @@ const Wrapper = styled.div`
     margin-top: 0.5rem;
     border: 1px solid var(--primary-800);
   }
+
+  .full-flag-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
 `;
 
 export default MusicAndFlag;

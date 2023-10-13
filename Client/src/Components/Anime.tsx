@@ -81,11 +81,9 @@ function Anime({
   key,
 }: animeProps) {
   const { t } = useTranslation();
-  const [expanded, setExpanded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [failedToLoadYoutube, setFailedToLoadYoutube] = useState(false);
-  const [ableToLoadYoutube, setAbleToLoadYoutube] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -93,10 +91,6 @@ function Anime({
 
   const handleMouseLeave = () => {
     setIsHovering(false);
-  };
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
   };
 
   const handleModalOpen = () => {
@@ -129,10 +123,6 @@ function Anime({
 
   const onVideoError = () => {
     setFailedToLoadYoutube(true);
-  };
-
-  const onVideoReady = () => {
-    setAbleToLoadYoutube(true);
   };
 
   const hasYoutubeVideoId = youtubeVideoId || anime?.attributes?.youtubeVideoId;
@@ -266,7 +256,6 @@ function Anime({
                           />
                         }
                         onError={onVideoError}
-                        onReady={onVideoReady}
                       />
                     ) : (
                       <CardMedia
@@ -422,7 +411,7 @@ function Anime({
               </Button>
             )}
           </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Collapse in={false} timeout="auto" unmountOnExit>
             <CardContent
               sx={{
                 backgroundColor: "var(--backgroundColor)",
@@ -513,7 +502,6 @@ const Wrapper = styled.article`
   }
 
   .anime-cover-image {
-    /* height: 300px; */
     width: "100%";
     cursor: url(${pokeball}) 4 4, pointer !important;
   }

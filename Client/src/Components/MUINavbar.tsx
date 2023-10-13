@@ -1,4 +1,5 @@
 import * as React from "react";
+import styled from "styled-components";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,8 +15,70 @@ import NavLinks from "./UI/NavLinks";
 import { useTranslation } from "react-i18next";
 import Logo from "./UI/Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
-import styled from "styled-components";
 import MusicAndFlag from "./MusicAndFlag";
+
+const Wrapper = styled.nav`
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100% !important;
+
+  .full-flag-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+
+  .flag {
+    width: 2.2rem;
+    height: 1.5rem;
+    cursor: pointer;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    width: 100px;
+  }
+
+  .toggle-btn {
+    background: transparent;
+    border-color: transparent;
+    font-size: 1.75rem;
+    color: var(--primary-500);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  background: var(--white);
+
+  .btn-container {
+    position: relative;
+    button {
+      margin-top: 0px;
+      margin-right: 0px;
+    }
+  }
+
+  .btn button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 0.5rem;
+    position: relative;
+  }
+
+  .active {
+    color: var(--primary-500);
+  }
+
+  .active .icon {
+    color: var(--primary-500);
+  }
+`;
 
 const MUINavbar = () => {
   const { t } = useTranslation();
@@ -27,6 +90,7 @@ const MUINavbar = () => {
   const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event: any) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -153,70 +217,4 @@ const MUINavbar = () => {
   );
 };
 
-const Wrapper = styled.nav`
-  height: var(--nav-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 100% !important;
-
-  // override styles to prevent the links from wrapping when switching to Japanese
-  .css-1oqqzyl-MuiContainer-root {
-    max-width: 1300px;
-  }
-
-  // override styles to prevent the links from wrapping when switching to Japanese
-  .css-1oqqzyl-MuiContainer-root {
-    max-width: 1300px;
-  }
-
-  .full-flag-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-  }
-  .flag {
-    width: 2.2rem;
-    height: 1.5rem;
-    cursor: pointer;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    width: 100px;
-  }
-
-  .toggle-btn {
-    background: transparent;
-    border-color: transparent;
-    font-size: 1.75rem;
-    color: var(--primary-500);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
-  background: var(--white);
-  .btn-container {
-    position: relative;
-    button {
-      margin-top: 0px;
-      margin-right: 0px;
-    }
-  }
-  .btn button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0 0.5rem;
-    position: relative;
-  }
-
-  .active {
-    color: var(--primary-500);
-  }
-  .active .icon {
-    color: var(--primary-500);
-  }
-`;
 export default MUINavbar;

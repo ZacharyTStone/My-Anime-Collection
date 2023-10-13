@@ -33,23 +33,6 @@ interface anime {
   type: string;
 }
 
-interface animeProps {
-  anime: anime;
-  _id: string;
-  title: string;
-  rating: number;
-  episodeCount: number;
-  format: string;
-  creationDate: string;
-  synopsis: string;
-  coverImage: string;
-  description: string;
-  youtube: string;
-  type: string;
-  japanese_title: string;
-  youtubeVideoId: string;
-}
-
 const AnimeContainer = ({
   searchText,
   baseURL,
