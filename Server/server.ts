@@ -59,7 +59,7 @@ app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
 app.use(errorHandlerMiddleware);
 
 if (process.env.NODE_ENV !== "production") {
-  app.use(morgan("dev"));
+  // app.use(morgan("dev"));
 }
 
 // HEROKU DEPLOYMENT
