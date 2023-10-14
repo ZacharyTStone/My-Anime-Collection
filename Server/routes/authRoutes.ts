@@ -23,7 +23,7 @@ import authenticateUser from "../middleware/auth.js"; // Add .js extension
 // Define the routes
 router.route("/register").post(apiLimiter, register); // POST /api/v1/auth/register
 router.route("/login").post(apiLimiter, login); // POST /api/v1/auth/login
-router.route("/updateUser").patch(apiLimiter, authenticateUser, updateUser); // PATCH /api/v1/auth/updateUser
-router.route("/deleteUser").delete(apiLimiter, authenticateUser, deleteUser); // DELETE /api/v1/auth/deleteUser
+router.route("/updateUser").patch(authenticateUser, updateUser); // PATCH /api/v1/auth/updateUser
+router.route("/deleteUser").delete(authenticateUser, deleteUser); // DELETE /api/v1/auth/deleteUser
 
 export default router;
