@@ -19,50 +19,10 @@ import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 
 import pokeball from "../assets/images/pokeball.png";
 import { useMobile } from "../utils/viewportHooks";
+import { ExpectedFetchedAnimeResponse, SavedAnime } from "../utils/types";
 
-interface anime {
-  attributes: {
-    titles: {
-      en: string;
-      en_jp: string;
-      ja_jp: string;
-    };
-    posterImage: {
-      medium: string;
-      small: string;
-    };
-    synopsis: string;
-    coverImage: string;
-    averageRating: number;
-    subtype: string;
-    startDate: string;
-    youtubeVideoId: string;
-    episodeCount: number;
-    format: string;
-    rating: number;
-    creationDate: string;
-    type: string;
-  };
-  id: string;
-  type: string;
-}
-
-interface animeProps {
-  anime: anime;
-  _id: string;
-  title: string;
-  rating: number;
-  episodeCount: number;
-  format: string;
-  creationDate: string;
-  synopsis: string;
-  coverImage: string;
-  description: string;
-  youtube: string;
-  type: string;
-  japanese_title: string;
-  youtubeVideoId: string;
-  key: string;
+interface animeCardProps extends SavedAnime {
+  fetchedAnime: ExpectedFetchedAnimeResponse;
 }
 
 function Anime({
@@ -74,12 +34,11 @@ function Anime({
   creationDate,
   synopsis,
   coverImage,
-  anime,
+  fetchedAnime,
   type,
   japanese_title,
   youtubeVideoId,
-  key,
-}: animeProps) {
+}: animeCardProps) {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -113,10 +72,10 @@ function Anime({
 
   const handleSubmit = () => {
     if (isLoading) return;
-    createAnime(anime, currentPlaylist.id, currentPlaylist.title);
+    createAnime(fetchedAnime, currentPlaylist.id, currentPlaylist.title);
     if (addToDefault) {
       if (currentPlaylist.id !== "0" || currentPlaylist.title !== "default") {
-        createAnime(anime, "0", "default");
+        createAnime(fetchedAnime, "0", "default");
       }
     }
   };
@@ -125,7 +84,8 @@ function Anime({
     setFailedToLoadYoutube(true);
   };
 
-  const hasYoutubeVideoId = youtubeVideoId || anime?.attributes?.youtubeVideoId;
+  const hasYoutubeVideoId =
+    youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId;
 
   const onMobile = useMobile();
 
@@ -135,7 +95,8 @@ function Anime({
 
   if (
     isLoading &&
-    (loadingData?.anime_id === _id || loadingData?.anime_id === anime?.id)
+    (loadingData?.anime_id === _id ||
+      loadingData?.anime_id === fetchedAnime?.id)
   ) {
     return (
       <Wrapper>
@@ -150,7 +111,7 @@ function Anime({
 
   return (
     <Wrapper
-      key={key + _id}
+      key={_id || fetchedAnime?.id}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -195,12 +156,12 @@ function Anime({
             >
               {siteLanguage === "en"
                 ? title ||
-                  anime?.attributes?.titles?.en ||
-                  anime?.attributes?.titles?.en_jp ||
+                  fetchedAnime?.attributes?.titles?.en ||
+                  fetchedAnime?.attributes?.titles?.en_jp ||
                   "Title N/A"
                 : japanese_title ||
-                  anime?.attributes?.titles?.ja_jp ||
-                  anime?.attributes?.titles?.en ||
+                  fetchedAnime?.attributes?.titles?.ja_jp ||
+                  fetchedAnime?.attributes?.titles?.en ||
                   "Title N/A"}
             </Typography>
             <div className="info-container">
@@ -211,8 +172,8 @@ function Anime({
                     className="anime-cover-image"
                     image={
                       coverImage ||
-                      anime?.attributes?.posterImage?.medium ||
-                      anime?.attributes?.posterImage?.small
+                      fetchedAnime?.attributes?.posterImage?.medium ||
+                      fetchedAnime?.attributes?.posterImage?.small
                     }
                     title={title}
                     sx={{
@@ -227,7 +188,8 @@ function Anime({
                     {hasYoutubeVideoId && !failedToLoadYoutube ? (
                       <ReactPlayer
                         url={`https://www.youtube.com/watch?v=${
-                          youtubeVideoId || anime?.attributes?.youtubeVideoId
+                          youtubeVideoId ||
+                          fetchedAnime?.attributes?.youtubeVideoId
                         }`}
                         width={"100%"}
                         controls={true}
@@ -243,8 +205,8 @@ function Anime({
                             className="anime-cover-image"
                             image={
                               coverImage ||
-                              anime?.attributes?.posterImage?.medium ||
-                              anime?.attributes?.posterImage?.small
+                              fetchedAnime?.attributes?.posterImage?.medium ||
+                              fetchedAnime?.attributes?.posterImage?.small
                             }
                             title={title}
                             sx={{
@@ -263,8 +225,8 @@ function Anime({
                         className="anime-cover-image"
                         image={
                           coverImage ||
-                          anime?.attributes?.posterImage?.medium ||
-                          anime?.attributes?.posterImage?.small
+                          fetchedAnime?.attributes?.posterImage?.medium ||
+                          fetchedAnime?.attributes?.posterImage?.small
                         }
                         title={title}
                         sx={{
@@ -282,8 +244,8 @@ function Anime({
                     className="anime-cover-image"
                     image={
                       coverImage ||
-                      anime?.attributes?.posterImage?.medium ||
-                      anime?.attributes?.posterImage?.small
+                      fetchedAnime?.attributes?.posterImage?.medium ||
+                      fetchedAnime?.attributes?.posterImage?.small
                     }
                     title={title}
                     sx={{
@@ -303,7 +265,9 @@ function Anime({
                 >
                   {rating === 9001
                     ? "N/A"
-                    : rating || anime?.attributes?.averageRating || "N/A"}
+                    : rating ||
+                      fetchedAnime?.attributes?.averageRating ||
+                      "N/A"}
                   <span
                     style={{
                       color: "var(--grey-500)",
@@ -317,7 +281,7 @@ function Anime({
                     color: "var(--textColor)",
                   }}
                 >
-                  {format ? format : anime?.attributes?.subtype || "N/A"}
+                  {format ? format : fetchedAnime?.attributes?.subtype || "N/A"}
                 </Button>
                 <Button
                   sx={{
@@ -326,8 +290,8 @@ function Anime({
                 >
                   {creationDate
                     ? creationDate.slice(0, 4)
-                    : anime?.attributes?.startDate
-                    ? anime?.attributes?.startDate.slice(0, 4)
+                    : fetchedAnime?.attributes?.startDate
+                    ? fetchedAnime?.attributes?.startDate.slice(0, 4)
                     : "N/A"}
                 </Button>
                 <Button
@@ -339,7 +303,7 @@ function Anime({
                     {episodeCount === 9001
                       ? "N/A"
                       : episodeCount ||
-                        anime?.attributes?.episodeCount ||
+                        fetchedAnime?.attributes?.episodeCount ||
                         "N/A"}
                   </span>
                   <span style={{ marginLeft: "5px" }}>
@@ -354,7 +318,8 @@ function Anime({
                   >
                     <a
                       href={`https://www.youtube.com/watch?v=${
-                        youtubeVideoId || anime?.attributes?.youtubeVideoId
+                        youtubeVideoId ||
+                        fetchedAnime?.attributes?.youtubeVideoId
                       }`}
                       target={"_blank"}
                       rel="noreferrer"
@@ -446,19 +411,19 @@ function Anime({
             <Typography variant="h5" gutterBottom>
               {siteLanguage === "en"
                 ? title ||
-                  anime?.attributes?.titles?.en ||
-                  anime?.attributes?.titles?.en_jp ||
+                  fetchedAnime?.attributes?.titles?.en ||
+                  fetchedAnime?.attributes?.titles?.en_jp ||
                   "Title N/A"
                 : japanese_title ||
-                  anime?.attributes?.titles?.ja_jp ||
-                  anime?.attributes?.titles?.en ||
+                  fetchedAnime?.attributes?.titles?.ja_jp ||
+                  fetchedAnime?.attributes?.titles?.en ||
                   "Title N/A"}
             </Typography>
             <Typography variant="body1">
               {synopsis
                 ? synopsis
-                : anime?.attributes?.synopsis
-                ? anime?.attributes?.synopsis.replace(/<[^>]*>?/gm, "")
+                : fetchedAnime?.attributes?.synopsis
+                ? fetchedAnime?.attributes?.synopsis.replace(/<[^>]*>?/gm, "")
                 : "No synopsis available"}
             </Typography>
           </ModalContent>

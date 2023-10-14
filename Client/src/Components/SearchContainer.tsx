@@ -124,24 +124,6 @@ const Wrapper = styled.section`
     width: 100%;
     max-width: 100%;
   }
-  /* .form-input,
-  .form-select,
-  .btn-block {
-    min-height: 35px;
-    background-color: rgba(255, 255, 255, 0.5);
-    border: none;
-    border-radius: 8px;
-    padding: 8px;
-    font-size: 16px;
-    color: #333;
-  } */
-
-  /* .form-input:focus,
-  .form-select:focus,
-  .btn-block:focus {
-    outline: none;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  } */
   .form-row {
     margin-bottom: 0;
   }

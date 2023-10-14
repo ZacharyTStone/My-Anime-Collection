@@ -1,31 +1,23 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const Loading = ({ center }: { center?: boolean }) => {
-  return (
-    <Wrapper>
-      <div className={center ? "loading loading-center" : "loading"}></div>
-    </Wrapper>
-  );
-};
-
-const Wrapper = styled.div`
-  @keyframes spinner {
-    to {
-      transform: rotate(360deg);
-    }
+const spin = keyframes`
+  to {
+    transform: rotate(360deg);
   }
+`;
 
-  .loading {
+const Loading = ({ center = true }: { center?: boolean }) => {
+  const LoadingDiv = styled.div<{ center: boolean }>`
     width: 6rem;
     height: 6rem;
     border: 5px solid var(--grey-400);
     border-radius: 50%;
     border-top-color: var(--primary-500);
-    animation: spinner 2s linear infinite;
-  }
-  .loading-center {
-    margin: 0 auto;
-  }
-`;
+    animation: ${spin} 2s linear infinite;
+    ${(props) => props.center && "margin: 0 auto;"}
+  `;
+
+  return <LoadingDiv center={center}></LoadingDiv>;
+};
 
 export default Loading;

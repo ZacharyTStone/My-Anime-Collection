@@ -203,16 +203,7 @@ const Wrapper = styled.section`
     height: 35px;
     margin-top: 1rem;
   }
-  .btn-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1rem;
-    align-self: flex-end;
-    margin-top: 0.5rem;
-    button {
-      height: 35px;
-    }
-  }
+
   .clear-btn {
     background: var(--grey-500);
   }
@@ -231,9 +222,7 @@ const Wrapper = styled.section`
       align-items: center;
       column-gap: 1rem;
     }
-    .btn-container {
-      margin-top: 0;
-    }
+
     .pokemon {
       display: block;
       position: relative;

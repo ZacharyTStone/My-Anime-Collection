@@ -5,33 +5,7 @@ import { Anime } from "../Components";
 import { useAppContext } from "../context/appContext";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 import { useMobile } from "../utils/viewportHooks";
-
-interface anime {
-  attributes: {
-    titles: {
-      en: string;
-      en_jp: string;
-      ja_jp: string;
-    };
-    posterImage: {
-      medium: string;
-      small: string;
-    };
-    synopsis: string;
-    coverImage: string;
-    averageRating: number;
-    subtype: string;
-    startDate: string;
-    youtubeVideoId: string;
-    episodeCount: number;
-    format: string;
-    rating: number;
-    creationDate: string;
-    type: string;
-  };
-  id: string;
-  type: string;
-}
+import { ExpectedFetchedAnimeResponse } from "../utils/types";
 
 const AnimeContainer = ({
   searchText,
@@ -46,6 +20,7 @@ const AnimeContainer = ({
   pagination: string;
   sort: string;
 }) => {
+  const onTrendingPage = baseURL.includes("trending");
   const page = useRef(1);
 
   const {
@@ -61,7 +36,7 @@ const AnimeContainer = ({
   useEffect(() => {
     page.current = 1;
 
-    if (!!searchText || baseURL.includes("trending")) {
+    if (!!searchText || onTrendingPage) {
       fetchAnimes({
         page,
         baseURL,
@@ -79,9 +54,35 @@ const AnimeContainer = ({
     };
   }, []);
 
+  const handlePrevousPageClick = (page: React.MutableRefObject<number>) => {
+    page.current = page.current - 1;
+
+    fetchAnimes({
+      baseURL,
+      searchText,
+      filter,
+      pagination,
+      sort,
+      page: page.current,
+    });
+  };
+
+  const handleNextPageClick = (page: React.MutableRefObject<number>) => {
+    page.current = page.current + 1;
+
+    fetchAnimes({
+      baseURL,
+      searchText,
+      filter,
+      pagination,
+      sort,
+      page: page.current,
+    });
+  };
+
   const onMobile = useMobile();
 
-  if (loadingFetchAnimes) {
+  const LoadingUI = () => {
     return (
       <Wrapper>
         <div className="buttons">
@@ -121,6 +122,10 @@ const AnimeContainer = ({
         </div>
       </Wrapper>
     );
+  };
+
+  if (loadingFetchAnimes) {
+    return <LoadingUI />;
   }
 
   return (
@@ -133,17 +138,7 @@ const AnimeContainer = ({
                 <div className="buttons">
                   <Button
                     onClick={() => {
-                      page.current = page.current - 1;
-                      console.log(page.current);
-
-                      fetchAnimes({
-                        baseURL,
-                        searchText,
-                        filter,
-                        pagination,
-                        sort,
-                        page: page.current,
-                      });
+                      handlePrevousPageClick(page);
                     }}
                     color="primary"
                     variant="contained"
@@ -160,16 +155,7 @@ const AnimeContainer = ({
                   </div>
                   <Button
                     onClick={() => {
-                      page.current = page.current + 1;
-
-                      fetchAnimes({
-                        baseURL,
-                        searchText,
-                        filter,
-                        pagination,
-                        sort,
-                        page: page.current,
-                      });
+                      handleNextPageClick(page);
                     }}
                     color="primary"
                     disabled={page.current === numOfFetchedAnimesPages}
@@ -184,11 +170,11 @@ const AnimeContainer = ({
                 </div>
               )}
               <div className="animes">
-                {fetchedAnimes.map((anime: anime) => {
+                {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => {
                   return (
                     <Anime
                       key={anime.id}
-                      anime={anime}
+                      fetchedAnime={anime}
                       type="add"
                       _id={""}
                       title={""}
@@ -205,18 +191,6 @@ const AnimeContainer = ({
                     />
                   );
                 })}
-                <div
-                  style={{
-                    marginTop: "16px",
-                    marginBottom: "16px",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <h5>
-                    page {page.current} of {numOfFetchedAnimesPages}
-                  </h5>
-                </div>
 
                 {pagination === "true" && fetchedAnimes?.length === 0 && (
                   <Button
@@ -237,12 +211,25 @@ const AnimeContainer = ({
                   </Button>
                 )}
               </div>
+              {!onTrendingPage && (
+                <div
+                  style={{
+                    marginTop: "32px",
+                    marginBottom: "16px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h5>
+                    page {page.current} of {numOfFetchedAnimesPages}
+                  </h5>
+                </div>
+              )}
             </div>
           </>
         ) : (
-          <div className="no-animes">
-            {searchText && !isLoading && <h2>No animes found.</h2>}
-          </div>
+          <div>{searchText && !isLoading && <h2>No animes found.</h2>}</div>
         )}
       </Wrapper>
     </>

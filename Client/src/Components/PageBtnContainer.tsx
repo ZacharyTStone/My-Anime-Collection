@@ -28,7 +28,7 @@ const PageBtnContainer = () => {
         <HiChevronDoubleLeft />
         prev
       </button>
-      <div className="btn-container">
+      <ButtonContainer>
         {pages.map((pageNumber) => {
           return (
             <button
@@ -41,7 +41,7 @@ const PageBtnContainer = () => {
             </button>
           );
         })}
-      </div>
+      </ButtonContainer>
       <button className="next-btn" onClick={nextPage}>
         next
         <HiChevronDoubleRight />
@@ -49,6 +49,11 @@ const PageBtnContainer = () => {
     </Wrapper>
   );
 };
+
+const ButtonContainer = styled.div`
+  background: var(--primary-100);
+  border-radius: var(--borderRadius);
+`;
 
 const Wrapper = styled.section`
   height: 6rem;
@@ -59,10 +64,7 @@ const Wrapper = styled.section`
   justify-content: end;
   flex-wrap: wrap;
   gap: 1rem;
-  .btn-container {
-    background: var(--primary-100);
-    border-radius: var(--borderRadius);
-  }
+
   .pageBtn {
     background: transparent;
     border-color: transparent;

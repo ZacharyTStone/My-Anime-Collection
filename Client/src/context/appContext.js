@@ -124,38 +124,42 @@ const initialState = {
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
+  const createAxiosInstance = (token) => {
+    const instance = axios.create({
+      baseURL: "/api/v1",
+    });
+
+    instance.interceptors.request.use(
+      (config) => {
+        config.headers.common["Authorization"] = `Bearer ${token}`;
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    instance.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        if (error.response.status === 401) {
+          logoutUser();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return instance;
+  };
+
   const { i18n } = useTranslation();
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // axios
-  const authFetch = axios.create({
-    baseURL: "/api/v1",
-  });
-  // request
-
-  authFetch.interceptors.request.use(
-    (config) => {
-      config.headers.common["Authorization"] = `Bearer ${state.token}`;
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-  // response
-
-  authFetch.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      if (error.response.status === 401) {
-        logoutUser();
-      }
-      return Promise.reject(error);
-    }
-  );
+  // axios instance with token
+  const authFetch = createAxiosInstance(state.token);
 
   const changeTheme = (theme) => {
     dispatch({
@@ -244,6 +248,14 @@ const AppProvider = ({ children }) => {
     try {
       const oldUser = JSON.parse(localStorage.getItem("user"));
 
+      if (!oldUser) {
+        dispatch({
+          type: UPDATE_USER_ERROR,
+          payload: { msg: "User not found" },
+        });
+        return;
+      }
+
       const { data } = await authFetch.patch("/auth/updateUser", currentUser);
 
       const { user, token } = data;
@@ -284,7 +296,7 @@ const AppProvider = ({ children }) => {
         });
       }
     }
-    // clearAlert();
+
     removeUserFromLocalStorage();
   };
 
@@ -329,6 +341,7 @@ const AppProvider = ({ children }) => {
         anime.attributes.titles.en_jp ||
         anime.attributes.canonicalTitle ||
         "Title N/A";
+
       const isDemoAnime = state.user.isDemo ? true : false;
 
       await authFetch.post("/animes", {
@@ -358,7 +371,6 @@ const AppProvider = ({ children }) => {
         payload: { msg: error.response.data.msg },
       });
     }
-    // clearAlert();
   };
 
   const getAnimes = async () => {
@@ -427,7 +439,6 @@ const AppProvider = ({ children }) => {
         payload: { msg: error.response.data.msg },
       });
     }
-    // clearAlert();
   };
 
   const createPlaylist = async (playlistTitle) => {
@@ -484,11 +495,7 @@ const AppProvider = ({ children }) => {
     playlist.title = playlistTitle;
 
     try {
-      const { data } = await authFetch.put(
-        `/playlists/${playlist.id}`,
-        playlist
-      );
-      // const { playlist: updatedPlaylist } = data;
+      await authFetch.put(`/playlists/${playlist.id}`, playlist);
 
       dispatch({
         type: UPDATE_PLAYLIST_SUCCESS,
@@ -521,7 +528,6 @@ const AppProvider = ({ children }) => {
   };
 
   const resetFetchedAnimes = () => {
-    console.log("reset animes");
     dispatch({ type: RESET_FETCHED_ANIMES });
   };
 

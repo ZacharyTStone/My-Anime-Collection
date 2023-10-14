@@ -24,12 +24,6 @@ const Wrapper = styled.nav`
   justify-content: center;
   min-width: 100% !important;
 
-  .logo {
-    display: flex;
-    align-items: center;
-    width: 100px;
-  }
-
   .toggle-btn {
     background: transparent;
     border-color: transparent;
@@ -41,14 +35,6 @@ const Wrapper = styled.nav`
   }
 
   background: var(--white);
-
-  .btn-container {
-    position: relative;
-    button {
-      margin-top: 0px;
-      margin-right: 0px;
-    }
-  }
 
   .btn button {
     display: flex;

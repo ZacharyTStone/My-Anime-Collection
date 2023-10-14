@@ -9,67 +9,62 @@ interface testimonailProps {
 const Testimonial = ({ name, img, text }: testimonailProps) => {
   return (
     <Wrapper>
-      <div className="testimonial">
-        <img src={img} alt="testimonial" loading="lazy" />
-        <div className="testimonial-text">
-          <p
-            style={{
-              minHeight: "175px",
-            }}
-          >
-            {text}
-          </p>
-          <h3>{name}</h3>
-        </div>
-      </div>
+      <TestimonialDiv>
+        <TestimonialImg src={img} alt="testimonial" loading="lazy" />
+        <TestimonialText>
+          <Review>{text}</Review>
+          <Name>{name}</Name>
+        </TestimonialText>
+      </TestimonialDiv>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.section`
-  margin-top: 50px;
-  .testimonial {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center;
-    margin: 20px 0 20px 20px;
-    border: 2px solid var(--primary-500);
-    min-width: 140px;
-    width: 10vw;
-    height: fit-content;
+const TestimonialImg = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 10px solid var(--mainColor);
+  transform: translateY(-80%);
+  z-index: 1;
+  position: absolute;
+`;
 
-    padding: 10px;
-  }
-
-  .testimonial-text {
-    min-height: 300px;
-  }
-  img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 10px solid var(--mainColor);
-    transform: translateY(-80%);
-    z-index: 1;
-    position: absolute;
-  }
-
-  p {
-    font-size: 1rem;
-    min-height: 100px;
-  }
+const TestimonialDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  margin: 20px 0 20px 20px;
+  border: 2px solid var(--primary-500);
+  min-width: 140px;
+  width: 10vw;
+  height: fit-content;
+  padding: 10px;
 
   @media (min-width: 1040px) {
-    .testimonial {
-      width: 15vw;
-    }
-
-    p {
-      font-size: 1.2rem;
-    }
+    width: 15vw;
   }
 `;
 
+const TestimonialText = styled.div`
+  min-height: 300px;
+`;
+
+const Wrapper = styled.section`
+  margin-top: 50px;
+`;
+
+const Review = styled.p`
+  font-size: 1rem;
+  min-height: 100px;
+  min-height: 175px;
+
+  @media (min-width: 1040px) {
+    font-size: 1.2rem;
+  }
+`;
+
+const Name = styled.h3``;
 export default Testimonial;
