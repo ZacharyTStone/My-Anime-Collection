@@ -1,10 +1,11 @@
 import { StatusCodes } from "http-status-codes";
-import { Request, Response } from "express"; // Assuming you're using Express
+import { Request, Response, NextFunction } from "express"; // Assuming you're using Express
 
 const errorHandlerMiddleware = (
   err: any,
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): void => {
   const defaultError = {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,

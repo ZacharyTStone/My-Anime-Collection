@@ -5,19 +5,19 @@ import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 
 // REST routes are defined in authRoutes.js
 
-const DEMO_USER = {
-  name: "Demo",
-  isDemo: true,
-  theme: "dark",
-  email: `DemoUser${Math.floor(Math.random() * 100000)}${Math.floor(
-    Math.random() * 100000
-  )}${Math.floor(Math.random() * 100000)}@demo.com`,
-  password: `${Math.floor(Math.random() * 100000)}${Math.floor(
-    Math.random() * 100000
-  )}${Math.floor(Math.random() * 100000)}`,
-};
-
 const register = async (req, res) => {
+  const DEMO_USER = {
+    name: "Demo",
+    isDemo: true,
+    theme: "dark",
+    email: `DemoUser${Math.floor(Math.random() * 100000)}${Math.floor(
+      Math.random() * 100000
+    )}${Math.floor(Math.random() * 100000)}@demo.com`,
+    password: `${Math.floor(Math.random() * 100000)}${Math.floor(
+      Math.random() * 100000
+    )}${Math.floor(Math.random() * 100000)}`,
+  };
+
   let { name, email, password, isDemo, theme } = req.body.isDemo
     ? DEMO_USER
     : req.body;
