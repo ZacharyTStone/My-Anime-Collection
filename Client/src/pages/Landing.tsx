@@ -10,7 +10,6 @@ import { useAppContext } from "./../context/appContext";
 import { useInViewAnimation } from "../utils/hooks";
 
 // Components
-import { Logo } from "../Components/UI";
 
 // Images
 import narutoRun from "../assets/images/narutoRun.gif";
@@ -68,7 +67,6 @@ const Landing = () => {
       />
       <Wrapper>
         <nav>
-          <Logo />
           <Suspense fallback={<div>Loading...</div>}>
             <MusicAndFlag />
           </Suspense>
