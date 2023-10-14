@@ -1,52 +1,50 @@
 .btn {
-	margin-right: 20px;
-	margin-top: 20px;
-	cursor: pointer;
-	color: var(--white);
-	background: var(--primary-500);
-	background-color: var(--primary-500);
-	border: transparent;
-	border-radius: var(--borderRadius);
-	letter-spacing: var(--letterSpacing);
-	padding: 0.375rem 0.75rem;
-	box-shadow: var(--shadow-2);
-	transition: var(--transition);
-	text-transform: capitalize;
+  margin-right: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  color: var(--white);
+  background: var(--primary-500);
+  background-color: var(--primary-500);
+  border: transparent;
+  border-radius: var(--borderRadius);
+  letter-spacing: var(--letterSpacing);
+  padding: 0.375rem 0.75rem;
+  box-shadow: var(--shadow-2);
+  transition: var(--transition);
+  text-transform: capitalize;
 }
 
-
-.btn-hipster {
-	color: var(--primary-500) !important;
-	background: var(--hipster-background) !important;
-	background-color: var(--hipster-background) !important;
-
+.btn-outline {
+  color: var(--primary-500) !important;
+  background: var(--hipster-background) !important;
+  background-color: var(--hipster-background) !important;
 }
 
-.btn-hipster .span {
-	color: var(--primary-500) !important;
+.btn-outline .span {
+  color: var(--primary-500) !important;
 }
 
-.btn-hero + .btn-hipster {
-	font-size: 1.25rem;
-	padding: 0.5rem 1.25rem;
+.btn-hero + .btn-outline {
+  font-size: 1.25rem;
+  padding: 0.5rem 1.25rem;
 }
 .btn-hero {
-	font-size: 1.25rem;
-	padding: 0.5rem 1.25rem;
+  font-size: 1.25rem;
+  padding: 0.5rem 1.25rem;
 }
 .btn-block {
-	width: 100%;
+  width: 100%;
 }
 
 .btn-submit {
-	color: var(--white);
+  color: var(--white);
 }
 .btn-danger {
-	background: var(--grey-400);
-	background-color:var(--grey-400);
-	color: var(--white);
+  background: var(--grey-400);
+  background-color: var(--grey-400);
+  color: var(--white);
 }
 .btn-danger:hover {
-	background: var(--red-dark);
-	color: var(--white);
+  background: var(--red-dark);
+  color: var(--white);
 }

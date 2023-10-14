@@ -32,10 +32,10 @@
 .form-select {
   color: var(--textColor);
   width: 100%;
-  padding: 1rem; /* Adjusted padding for a softer look */
+  padding: 0.5rem;
   border-radius: var(--borderRadius);
-  background-color: var(--backgroundColor);
-  border: 1px solid var(--grey-200);
+  background-color: var(--primary-1000);
+  border: 1px solid var(--primary-300);
   -webkit-appearance: none;
   appearance: none;
   transition: var(--transition);
@@ -78,11 +78,6 @@
 
 /* mobile only */
 @media (max-width: $tablet) {
-  .form-input,
-  .form-select,
-  .btn-block {
-    padding: 0.75rem; /* Adjusted padding for mobile */
-  }
   .form-textarea {
     height: 5rem;
   }

@@ -94,7 +94,7 @@ const Landing = () => {
                 <Link to="/register" className="btn btn-hero">
                   {t("landing.login_button")}
                 </Link>
-                <Link to="/register-demo" className="btn btn-hipster">
+                <Link to="/register-demo" className="btn btn-outline">
                   {t("landing.demo_button")}
                 </Link>
               </div>
@@ -192,7 +192,7 @@ const Landing = () => {
                   </Link>
                   <Link
                     to="/register-demo"
-                    className="btn btn-hero btn-hipster"
+                    className="btn btn-hero btn-outline"
                   >
                     {t("landing.demo_button")}
                   </Link>

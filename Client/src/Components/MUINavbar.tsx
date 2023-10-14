@@ -81,15 +81,14 @@ const MUINavbar = () => {
       <AppBar position="static" color="transparent">
         <Container>
           <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 2, display: { xs: "none", lg: "flex" } }}
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", sm: "none", md: "block" },
+              }}
             >
               <Logo />
-            </Typography>
-
+            </Box>
             <Box sx={{ flexGrow: 1, display: { md: "none" } }}>
               <IconButton
                 size="large"
@@ -130,17 +129,7 @@ const MUINavbar = () => {
                 <NavLinks />
               </Menu>
             </Box>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{
-                flexGrow: 1,
-                display: { xs: "flex", sm: "none", md: "none" },
-              }}
-            >
-              <Logo />
-            </Typography>
+
             <Box sx={{ flexGrow: 6, display: { xs: "none", md: "flex" } }}>
               <NavLinks />
             </Box>

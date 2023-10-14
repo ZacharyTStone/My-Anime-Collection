@@ -64,6 +64,9 @@ const Wrapper = styled.section`
   justify-content: end;
   flex-wrap: wrap;
   gap: 1rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 
   .pageBtn {
     background: transparent;

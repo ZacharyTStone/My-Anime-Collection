@@ -98,7 +98,7 @@ const Profile = () => {
             </span>
             <div className="btn-group">
               <div>
-                <button className="btn btn-hipster" type="button">
+                <button className="btn btn-outline" type="button">
                   <a
                     href="https://www.buymeacoffee.com/zachinjapan"
                     target={"_blank"}
@@ -116,7 +116,7 @@ const Profile = () => {
                     </div>
                   </a>
                 </button>
-                <button className="btn btn-hipster" type="button">
+                <button className="btn btn-outline" type="button">
                   <a
                     href="https://commerce.coinbase.com/checkout/ae3c63d4-ddd8-485e-a6d9-8b1dce89ee42"
                     target={"_blank"}
@@ -163,7 +163,7 @@ const Wrapper = styled.section`
     justify-content: space-between;
   }
 
-  .btn-hipster:hover {
+  .btn-outline:hover {
     background-color: var(--primary-50);
     color: var(--primary-100);
     border-color: var(--primary-500);

@@ -25,29 +25,10 @@ const Register = () => {
 
   const localTheme = theme ? theme : "light";
   const onSubmit = () => {
-    // this should be moved to server side
-    const { name, email, password, isDemo, theme } = {
-      name: "DEMO",
-      email:
-        "DEMO" +
-        Math.floor(Math.random() * 100) +
-        Math.floor(Math.random() * 101) +
-        Math.floor(Math.random() * 102) +
-        "@demo.com",
-      password: "DEMO" + Math.floor(Math.random() * 100) + "DEMO",
+    const currentUser = {
       isDemo: true,
       theme: localTheme,
     };
-
-    const currentUser = {
-      name,
-      email,
-      password,
-      theme,
-      isDemo,
-    };
-
-    console.log("curentuser", currentUser);
 
     setupUser({
       currentUser,
@@ -83,6 +64,7 @@ const Register = () => {
               labelText={t("register.name")}
               value={values.name}
               handleChange={handleChange}
+              disabled={true}
             />
           )}
 
@@ -93,6 +75,7 @@ const Register = () => {
             labelText={t("register.email")}
             value={values.email}
             handleChange={handleChange}
+            disabled={true}
           />
           {/* password input */}
           <FormRow
@@ -101,6 +84,7 @@ const Register = () => {
             labelText={t("register.password")}
             value={values.password}
             handleChange={handleChange}
+            disabled={true}
           />
           <button type="submit" className="btn btn-block" disabled={true}>
             {t("register.submit")}

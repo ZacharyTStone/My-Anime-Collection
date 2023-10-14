@@ -64,7 +64,7 @@ const MyAnimesContainer = () => {
       <Wrapper>
         <h5>
           {t("my_animes_container.no_anime_message1")}
-          <NavLink to="/add-anime" className="btn btn-block btn-hipster">
+          <NavLink to="/add-anime" className="btn btn-block btn-outline">
             {t("my_animes_container.no_anime_message2")}
           </NavLink>
         </h5>
@@ -77,9 +77,7 @@ const MyAnimesContainer = () => {
       <h5>
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
-      <div className="pageBtnContainer">
-        {numOfPages > 1 && <PageBtnContainer />}
-      </div>
+      {numOfPages > 1 && <PageBtnContainer />}
       <div className="animes">
         {animes?.map((anime: any) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
@@ -105,11 +103,6 @@ const Wrapper = styled.section`
     color: var(--textColor);
   }
 
-  .pageBtnContainer {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-  }
   @media (min-width: 992px) {
     .animes {
       display: flex;

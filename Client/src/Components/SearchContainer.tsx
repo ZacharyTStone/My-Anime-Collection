@@ -105,7 +105,7 @@ const SearchContainer = () => {
           </form>
 
           <button
-            className="btn btn-block btn-hipster"
+            className="btn btn-block btn-outline"
             disabled={isLoading}
             onClick={handleSubmit}
           >

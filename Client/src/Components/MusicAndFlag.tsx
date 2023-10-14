@@ -15,68 +15,70 @@ const MusicAndFlag = () => {
   const { i18n } = useTranslation();
 
   return (
-    <Wrapper>
-      <Box className="full-flag-div flag-div-holder">
-        {theme === "light" ? (
-          <IconButton onClick={() => changeTheme("dark")}>
-            <ModeNightIcon
-              htmlColor="var(--primary-800)"
-              sx={{
-                transform: "scale(2)",
-                paddingRight: "0.5rem",
-              }}
-            />
-          </IconButton>
-        ) : (
-          <IconButton onClick={() => changeTheme("light")}>
-            <WbSunnyIcon
-              sx={{
-                transform: "scale(2)",
-                paddingRight: "0.5rem",
-              }}
-              htmlColor="var(--primary-800)"
-            />
-          </IconButton>
-        )}
-        {i18n.language === "en" ? (
-          <div className="flag-div nav-button">
-            <img
-              className="flag"
-              src={japan}
-              alt="Japan Flag"
-              onClick={() => changeSiteLanguage("jp")}
-            />
-          </div>
-        ) : (
-          <div className="flag-div nav-button">
-            <img
-              className="flag"
-              src={america}
-              alt="America Flag"
-              onClick={() => changeSiteLanguage("en")}
-            />
-          </div>
-        )}
-      </Box>
-    </Wrapper>
+    <FlagContainer className="flag-div-holder">
+      {theme === "light" ? (
+        <IconButton onClick={() => changeTheme("dark")}>
+          <ModeNightIcon
+            htmlColor="var(--primary-800)"
+            sx={{
+              transform: "scale(2)",
+              paddingRight: "0.5rem",
+            }}
+          />
+        </IconButton>
+      ) : (
+        <IconButton onClick={() => changeTheme("light")}>
+          <WbSunnyIcon
+            sx={{
+              transform: "scale(2)",
+              paddingRight: "0.5rem",
+            }}
+            htmlColor="var(--primary-800)"
+          />
+        </IconButton>
+      )}
+      {i18n.language === "en" ? (
+        <FlagDiv className="nav-button">
+          <FlagImg
+            className="flag"
+            src={japan}
+            alt="Japan Flag"
+            onClick={() => changeSiteLanguage("jp")}
+          />
+        </FlagDiv>
+      ) : (
+        <FlagDiv className="nav-button">
+          <FlagImg
+            className="flag"
+            src={america}
+            alt="America Flag"
+            onClick={() => changeSiteLanguage("en")}
+          />
+        </FlagDiv>
+      )}
+    </FlagContainer>
   );
 };
 
-const Wrapper = styled.div`
-  .flag {
-    width: 3rem;
-    height: 2rem;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    border: 1px solid var(--primary-800);
-  }
+const FlagContainer = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-  .full-flag-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-  }
+const FlagImg = styled.img`
+  width: 3rem;
+  height: 2rem;
+  cursor: pointer;
+  border: 1px solid var(--primary-800);
+`;
+
+const FlagDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  height: 100%;
 `;
 
 export default MusicAndFlag;

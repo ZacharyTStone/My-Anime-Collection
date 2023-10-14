@@ -30,8 +30,7 @@ const FormRowSelect = ({
         onChange={handleChange}
         className="form-select"
       >
-        {list.map((itemValue: any, index: number) => {
-          console.log(itemValue);
+        {list?.map((itemValue: any, index: number) => {
           return (
             <option key={index} value={itemValue.value}>
               {itemValue.title}

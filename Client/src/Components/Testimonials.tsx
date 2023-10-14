@@ -16,11 +16,9 @@ function Testimonials() {
   const [activeSlide, setActiveSlide] = useState(0);
   const onMobile = useMobile();
   return (
-    <Wrapper>
-      <div className="testimonials">
-        <h1 className="testimonials-title">
-          {t("landing.testimonials.title")}
-        </h1>
+    <>
+      <TestimonialsContainer>
+        <TestimonialsTitle>{t("landing.testimonials.title")}</TestimonialsTitle>
         <Carousel
           updateOnItemClick
           containerProps={{
@@ -40,7 +38,6 @@ function Testimonials() {
           forwardBtnProps={{
             children: ">", // Unicode right arrow
             style: {
-              // large font size
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -59,7 +56,6 @@ function Testimonials() {
           backwardBtnProps={{
             children: "<", // Unicode left arrow
             style: {
-              // large font size
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -75,7 +71,7 @@ function Testimonials() {
               marginRight: "20px",
             },
           }}
-          itemsToShow={onMobile ? 2 : 3}
+          itemsToShow={onMobile ? 1 : 3}
           speed={400}
         >
           <Testimonial
@@ -99,31 +95,24 @@ function Testimonials() {
             text={t("landing.testimonials.pegasus.description")}
           />
         </Carousel>
-      </div>
-    </Wrapper>
+      </TestimonialsContainer>
+    </>
   );
 }
 
-const Wrapper = styled.section`
-  .testimonials {
-    width: 100vw;
-    max-width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0px 0px 100px 0px;
-    /* border: 5px solid var(--primary-500); */
-    min-width: 250px;
-  }
-  h1 {
-    color: var(--primary-500);
-  }
+const TestimonialsContainer = styled.div`
+  width: 100vw;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 0px 100px 0px;
+  min-width: 250px;
+`;
 
-  .Carousel {
-    width: 100%;
-    max-width: 100vw;
-  }
+const TestimonialsTitle = styled.h1`
+  color: var(--primary-500);
 `;
 
 export default Testimonials;

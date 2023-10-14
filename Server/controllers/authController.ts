@@ -5,16 +5,35 @@ import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 
 // REST routes are defined in authRoutes.js
 
-const register = async (req, res) => {
-  const { name, email, password, isDemo, theme } = req.body;
+const DEMO_USER = {
+  name: "Demo",
+  isDemo: true,
+  theme: "dark",
+  email: `DemoUser${Math.floor(Math.random() * 100000)}${Math.floor(
+    Math.random() * 100000
+  )}${Math.floor(Math.random() * 100000)}@demo.com`,
+  password: `${Math.floor(Math.random() * 100000)}${Math.floor(
+    Math.random() * 100000
+  )}${Math.floor(Math.random() * 100000)}`,
+};
 
-  if (!name || !email || !password) {
+const register = async (req, res) => {
+  let { name, email, password, isDemo, theme } = req.body.isDemo
+    ? DEMO_USER
+    : req.body;
+
+  if (!isDemo && (!name || !email || !password)) {
     throw new BadRequestError("Please provide all values");
   }
 
   const userAlreadyExists = await User.findOne({ email });
+
   if (userAlreadyExists) {
-    throw new BadRequestError("Email already in use");
+    if (isDemo) {
+      email = email + Math.floor(Math.random() * 100000);
+    } else {
+      throw new BadRequestError("Email already in use");
+    }
   }
 
   const user = await User.create({ name, email, password, isDemo, theme });

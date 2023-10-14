@@ -23,7 +23,7 @@ const auth = async (
   }
   const token = authHeader.split(" ")[1];
   try {
-    // the JWT secret is stored in the .env file and ensures that the token was made by us
+    // the JWT secret is stored in the .env file and ensures that the token was made by the user
     const payload = jwt.verify(token, process.env.JWT_SECRET) as {
       userId: string;
     };

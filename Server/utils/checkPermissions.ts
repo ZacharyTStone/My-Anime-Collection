@@ -1,6 +1,5 @@
 import { UnAuthenticatedError } from "../errors/index.js";
 
-// Function to compare the userIDs and throw an error if wrong
 const checkPermissions = (
   requestUser: { userId: string },
   resourceUserId: string
