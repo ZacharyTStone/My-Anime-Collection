@@ -18,6 +18,7 @@ const SearchContainer = () => {
     getPlaylists,
     currentPlaylist,
     userPlaylists,
+    loadingFetchPlaylists,
   } = useAppContext();
 
   useEffect(() => {
@@ -86,31 +87,37 @@ const SearchContainer = () => {
               onChange={handleLocalPlaylistChange}
               className="form-select"
             >
-              {userPlaylists.map(
-                (
-                  playlist: {
-                    id: string;
-                    title: string;
-                  },
-                  index: number
-                ) => {
-                  return (
-                    <option key={index} value={playlist.id}>
-                      {playlist.title}
-                    </option>
-                  );
-                }
+              {loadingFetchPlaylists ? (
+                <option disabled={true} value="">
+                  Loading...
+                </option>
+              ) : (
+                userPlaylists.map(
+                  (
+                    playlist: {
+                      id: string;
+                      title: string;
+                    },
+                    index: number
+                  ) => {
+                    return (
+                      <option key={index} value={playlist.id}>
+                        {playlist.title}
+                      </option>
+                    );
+                  }
+                )
               )}
             </select>
           </form>
 
-          <button
+          <ClearFiltersButton
             className="btn btn-block btn-outline"
             disabled={isLoading}
             onClick={handleSubmit}
           >
             {t("search_container.clear_filters")}
-          </button>
+          </ClearFiltersButton>
 
           <TwitterShare />
         </div>
@@ -118,6 +125,24 @@ const SearchContainer = () => {
     </Wrapper>
   );
 };
+
+const ClearFiltersButton = styled.button`
+  align-self: end;
+  margin-top: 1rem;
+  background-color: var(--primary-400);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  :hover {
+    background-color: var(--primary-500);
+  }
+
+  @media (min-width: 992px) {
+    margin-top: 0;
+  }
+`;
 
 const Wrapper = styled.section`
   .form {
@@ -136,18 +161,7 @@ const Wrapper = styled.section`
   h5 {
     font-weight: 700;
   }
-  .btn-block {
-    align-self: end;
-    margin-top: 1rem;
-    background-color: var(--primary-400);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  .btn-block:hover {
-    background-color: var(--primary-500);
-  }
+
   @media (min-width: 768px) {
     .form-center {
       grid-template-columns: 1fr 1fr;
@@ -156,9 +170,6 @@ const Wrapper = styled.section`
   @media (min-width: 992px) {
     .form-center {
       grid-template-columns: 1fr 1fr 1fr;
-    }
-    .btn-block {
-      margin-top: 0;
     }
   }
 `;

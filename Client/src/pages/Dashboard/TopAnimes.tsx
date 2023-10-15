@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { FetchedAnimesContainer } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import { useEffect } from "react";
+import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
 
 const MyAnimes = () => {
   const { t } = useTranslation();
@@ -12,6 +13,7 @@ const MyAnimes = () => {
     userPlaylists,
     isLoading,
     handlePlaylistChange,
+    loadingFetchPlaylists,
   } = useAppContext();
 
   useEffect(() => {
@@ -47,6 +49,7 @@ const MyAnimes = () => {
           }}
         >
           {/* playlist */}
+
           <form className="form-row">
             <label htmlFor="playlist" className="form-label">
               {t("search_container.playlist")}
@@ -58,13 +61,19 @@ const MyAnimes = () => {
               onChange={handleLocalPlaylistChange}
               className="form-select"
             >
-              {userPlaylists.map((playlist: any, index: number) => {
-                return (
-                  <option key={index} value={playlist.id}>
-                    {playlist.title}
-                  </option>
-                );
-              })}
+              {loadingFetchPlaylists ? (
+                <option disabled={true} value="">
+                  Loading...
+                </option>
+              ) : (
+                userPlaylists.map((playlist: any, index: number) => {
+                  return (
+                    <option key={index} value={playlist.id}>
+                      {playlist.title}
+                    </option>
+                  );
+                })
+              )}
             </select>
           </form>
         </div>

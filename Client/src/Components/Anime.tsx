@@ -84,8 +84,7 @@ function Anime({
     setFailedToLoadYoutube(true);
   };
 
-  const hasYoutubeVideoId =
-    youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId;
+  const hasYoutubeVideoId = youtubeVideoId;
 
   const onMobile = useMobile();
 
@@ -154,15 +153,7 @@ function Anime({
               color="var(--textColor)"
               gutterBottom
             >
-              {siteLanguage === "en"
-                ? title ||
-                  fetchedAnime?.attributes?.titles?.en ||
-                  fetchedAnime?.attributes?.titles?.en_jp ||
-                  "Title N/A"
-                : japanese_title ||
-                  fetchedAnime?.attributes?.titles?.ja_jp ||
-                  fetchedAnime?.attributes?.titles?.en ||
-                  "Title N/A"}
+              {siteLanguage === "en" ? title : japanese_title}
             </Typography>
             <div className="info-container">
               <div className="anime-img">
@@ -170,11 +161,7 @@ function Anime({
                   <CardMedia
                     component="img"
                     className="anime-cover-image"
-                    image={
-                      coverImage ||
-                      fetchedAnime?.attributes?.posterImage?.medium ||
-                      fetchedAnime?.attributes?.posterImage?.small
-                    }
+                    image={coverImage}
                     title={title}
                     sx={{
                       transition: "all 0.3s ease",
@@ -263,11 +250,7 @@ function Anime({
                     color: "var(--textColor)",
                   }}
                 >
-                  {rating === 9001
-                    ? "N/A"
-                    : rating ||
-                      fetchedAnime?.attributes?.averageRating ||
-                      "N/A"}
+                  {rating}
                   <span
                     style={{
                       color: "var(--grey-500)",
@@ -281,31 +264,21 @@ function Anime({
                     color: "var(--textColor)",
                   }}
                 >
-                  {format ? format : fetchedAnime?.attributes?.subtype || "N/A"}
+                  {format}
                 </Button>
                 <Button
                   sx={{
                     color: "var(--textColor)",
                   }}
                 >
-                  {creationDate
-                    ? creationDate.slice(0, 4)
-                    : fetchedAnime?.attributes?.startDate
-                    ? fetchedAnime?.attributes?.startDate.slice(0, 4)
-                    : "N/A"}
+                  {creationDate?.slice(0, 4)}
                 </Button>
                 <Button
                   sx={{
                     color: "var(--textColor)",
                   }}
                 >
-                  <span>
-                    {episodeCount === 9001
-                      ? "N/A"
-                      : episodeCount ||
-                        fetchedAnime?.attributes?.episodeCount ||
-                        "N/A"}
-                  </span>
+                  <span>{episodeCount === 9001 ? "N/A" : episodeCount}</span>
                   <span style={{ marginLeft: "5px" }}>
                     {t("anime.episode")}
                   </span>
@@ -409,23 +382,9 @@ function Anime({
         <Modal onClose={handleModalClose} onClick={handleModalClose}>
           <ModalContent>
             <Typography variant="h5" gutterBottom>
-              {siteLanguage === "en"
-                ? title ||
-                  fetchedAnime?.attributes?.titles?.en ||
-                  fetchedAnime?.attributes?.titles?.en_jp ||
-                  "Title N/A"
-                : japanese_title ||
-                  fetchedAnime?.attributes?.titles?.ja_jp ||
-                  fetchedAnime?.attributes?.titles?.en ||
-                  "Title N/A"}
+              {siteLanguage === "en" ? title : japanese_title}
             </Typography>
-            <Typography variant="body1">
-              {synopsis
-                ? synopsis
-                : fetchedAnime?.attributes?.synopsis
-                ? fetchedAnime?.attributes?.synopsis.replace(/<[^>]*>?/gm, "")
-                : "No synopsis available"}
-            </Typography>
+            <Typography variant="body1">{synopsis}</Typography>
           </ModalContent>
         </Modal>
       )}

@@ -30,9 +30,9 @@ export interface SavedAnime {
   title?: string;
   image?: string;
   synopsis?: string;
-  rating?: number;
+  rating?: number | string;
   startDate?: string;
-  episodeCount?: number;
+  episodeCount?: number | string;
   format?: string;
   subtype?: string;
   youtubeVideoId?: string;
@@ -40,6 +40,4 @@ export interface SavedAnime {
   type?: string;
   coverImage?: string;
   japanese_title?: string;
-  description?: string;
-  youtube?: string;
 }

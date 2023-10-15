@@ -283,12 +283,15 @@ const reducer = (
   }
 
   if (action.type === GET_PLAYLIST_BEGIN) {
-    return { ...state, isLoading: true };
+    return {
+      ...state,
+      loadingFetchPlaylists: true,
+    };
   }
   if (action.type === GET_PLAYLIST_SUCCESS) {
     return {
       ...state,
-      isLoading: false,
+      loadingFetchPlaylists: false,
       userPlaylists: action.payload.playlists,
     };
   }
@@ -303,7 +306,7 @@ const reducer = (
         });
     return {
       ...state,
-      isLoading: false,
+      loadingFetchPlaylists: false,
     };
   }
 

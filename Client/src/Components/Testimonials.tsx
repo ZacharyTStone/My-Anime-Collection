@@ -11,92 +11,68 @@ import {
 } from "../assets/images/testimonials/index";
 import { useMobile } from "../utils/viewportHooks";
 
+const testimonialsData = [
+  {
+    nameKey: "vegeta",
+    img: vegeta,
+    textKey: "landing.testimonials.vegeta.description",
+  },
+  {
+    nameKey: "pikachu",
+    img: pikachu,
+    textKey: "landing.testimonials.pikachu.description",
+  },
+  {
+    nameKey: "shinji",
+    img: shinji,
+    textKey: "landing.testimonials.shinji.description",
+  },
+  {
+    nameKey: "pegasus",
+    img: pegasus,
+    textKey: "landing.testimonials.pegasus.description",
+  },
+];
+
 function Testimonials() {
   const { t } = useTranslation();
   const [activeSlide, setActiveSlide] = useState(0);
   const onMobile = useMobile();
+
   return (
-    <>
-      <TestimonialsContainer>
-        <TestimonialsTitle>{t("landing.testimonials.title")}</TestimonialsTitle>
-        <Carousel
-          updateOnItemClick
-          containerProps={{
-            style: {
-              width: "100vw",
-              justifyContent: "center",
-              marginTop: "50px",
-            },
-          }}
-          activeSlideIndex={activeSlide}
-          activeSlideProps={{
-            style: {
-              background: "var(--primary-500)",
-            },
-          }}
-          onRequestChange={setActiveSlide}
-          forwardBtnProps={{
-            children: ">", // Unicode right arrow
-            style: {
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "3em",
-              width: 40,
-              height: 40,
-              alignSelf: "center",
-              paddingBottom: "10px",
-              borderRadius: "none", // Remove border-radius
-              color: "var(--primary-500)",
-              backgroundColor: "transparent", // Remove background color
-              border: "none", // Add border to make it thicker
-              marginLeft: "20px",
-            },
-          }}
-          backwardBtnProps={{
-            children: "<", // Unicode left arrow
-            style: {
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "3em",
-              width: 40,
-              height: 40,
-              alignSelf: "center",
-              paddingBottom: "10px",
-              borderRadius: "none", // Remove border-radius
-              color: "var(--primary-500)",
-              backgroundColor: "transparent", // Remove background color
-              border: "none", // Add border to make it thicker
-              marginRight: "20px",
-            },
-          }}
-          itemsToShow={onMobile ? 1 : 3}
-          speed={400}
-        >
+    <TestimonialsContainer>
+      <TestimonialsTitle>{t("landing.testimonials.title")}</TestimonialsTitle>
+      <Carousel
+        updateOnItemClick
+        containerProps={{
+          style: {
+            width: "100vw",
+            justifyContent: "center",
+            marginTop: "50px",
+          },
+        }}
+        activeSlideIndex={activeSlide}
+        activeSlideProps={{
+          style: {
+            background: "var(--primary-500)",
+          },
+        }}
+        onRequestChange={setActiveSlide}
+        forwardBtnProps={arrowButtonProps("right")}
+        backwardBtnProps={arrowButtonProps("left")}
+        itemsToShow={onMobile ? 1 : 3}
+        speed={400}
+      >
+        {testimonialsData.map((testimonial, index) => (
           <Testimonial
-            name={t("landing.testimonials.vegeta.name")}
-            img={vegeta}
-            text={t("landing.testimonials.vegeta.description")}
+            key={index}
+            name={t(`landing.testimonials.${testimonial.nameKey}.name`)}
+            img={testimonial.img}
+            text={t(testimonial.textKey)}
           />
-          <Testimonial
-            name={t("landing.testimonials.pikachu.name")}
-            img={pikachu}
-            text={t("landing.testimonials.pikachu.description")}
-          />
-          <Testimonial
-            name={t("landing.testimonials.shinji.name")}
-            img={shinji}
-            text={t("landing.testimonials.shinji.description")}
-          />
-          <Testimonial
-            name={t("landing.testimonials.pegasus.name")}
-            img={pegasus}
-            text={t("landing.testimonials.pegasus.description")}
-          />
-        </Carousel>
-      </TestimonialsContainer>
-    </>
+        ))}
+      </Carousel>
+    </TestimonialsContainer>
   );
 }
 
@@ -114,5 +90,25 @@ const TestimonialsContainer = styled.div`
 const TestimonialsTitle = styled.h1`
   color: var(--primary-500);
 `;
+
+const arrowButtonProps = (direction: "right" | "left") => ({
+  children: direction === "right" ? ">" : "<",
+  style: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "3em",
+    width: 40,
+    height: 40,
+    alignSelf: "center",
+    paddingBottom: "10px",
+    borderRadius: "none",
+    color: "var(--primary-500)",
+    backgroundColor: "transparent",
+    border: "none",
+    marginLeft: direction === "right" ? "20px" : "0",
+    marginRight: direction === "left" ? "20px" : "0",
+  },
+});
 
 export default Testimonials;

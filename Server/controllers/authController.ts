@@ -9,7 +9,6 @@ const register = async (req, res) => {
   const DEMO_USER = {
     name: "Demo",
     isDemo: true,
-    theme: "dark",
     email: `DemoUser${Math.floor(Math.random() * 100000)}${Math.floor(
       Math.random() * 100000
     )}${Math.floor(Math.random() * 100000)}@demo.com`,
@@ -18,9 +17,11 @@ const register = async (req, res) => {
     )}${Math.floor(Math.random() * 100000)}`,
   };
 
-  let { name, email, password, isDemo, theme } = req.body.isDemo
+  let { name, email, password, isDemo } = req.body.isDemo
     ? DEMO_USER
     : req.body;
+
+  const { theme } = req.body;
 
   if (!isDemo && (!name || !email || !password)) {
     throw new BadRequestError("Please provide all values");

@@ -17,6 +17,7 @@ const Profile: React.FC = () => {
     userPlaylists,
     currentPlaylist,
     handlePlaylistChange,
+    loadingFetchPlaylists,
   } = useAppContext();
 
   const [newTitle, setNewTitle] = useState("");
@@ -60,7 +61,7 @@ const Profile: React.FC = () => {
     await getPlaylists();
   };
 
-  if (isLoading) {
+  if (isLoading || loadingFetchPlaylists) {
     return (
       <SkeletonLoadingBlock height={500} width={"100%"} borderRadius={8} />
     );

@@ -21,6 +21,7 @@ const AddAnime: React.FC = () => {
     userPlaylists,
     isLoading,
     handlePlaylistChange,
+    loadingFetchPlaylists,
   } = useAppContext();
 
   const request = debounce((value: string) => {
@@ -81,7 +82,6 @@ const AddAnime: React.FC = () => {
               list={[
                 {
                   title: "popularity",
-                  // value: "popularityRank",
                   value: "",
                 },
                 {
@@ -113,20 +113,29 @@ const AddAnime: React.FC = () => {
                 onChange={handleLocalPlaylistChange}
                 className="form-select"
               >
-                {userPlaylists?.map(
-                  (
-                    playlist: {
-                      id: string;
-                      title: string;
-                    },
-                    index: number
-                  ) => {
-                    return (
-                      <option key={playlist?.title + index} value={playlist.id}>
-                        {playlist.title}
-                      </option>
-                    );
-                  }
+                {loadingFetchPlaylists ? (
+                  <option disabled={true} value="">
+                    Loading...
+                  </option>
+                ) : (
+                  userPlaylists?.map(
+                    (
+                      playlist: {
+                        id: string;
+                        title: string;
+                      },
+                      index: number
+                    ) => {
+                      return (
+                        <option
+                          key={playlist?.title + index}
+                          value={playlist.id}
+                        >
+                          {playlist.title}
+                        </option>
+                      );
+                    }
+                  )
                 )}
               </select>
             </form>

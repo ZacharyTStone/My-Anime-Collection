@@ -119,6 +119,7 @@ const initialState = {
 
   // specific loading queries
   loadingFetchAnimes: false,
+  loadingFetchPlaylists: false,
 };
 
 const AppContext = React.createContext();
@@ -329,10 +330,10 @@ const AppProvider = ({ children }) => {
         anime.attributes.titles.en_jp ||
         anime.attributes.canonicalTitle ||
         "Title N/A";
-      const id = anime.id || 0;
-      const rating = anime.attributes.averageRating || 9001;
+      const id = anime.id || Math.random() * 100000;
+      const rating = anime.attributes.averageRating || "N/A";
       const format = anime.attributes.subtype || "N/A";
-      const episodeCount = anime.attributes.episodeCount || 9001;
+      const episodeCount = anime.attributes.episodeCount || "N/A";
       const synopsis = anime.attributes.synopsis || "N/A";
       const coverImage = anime.attributes.posterImage.small || "N/A";
       const youtubeVideoId = anime.attributes.youtubeVideoId || "N/A";

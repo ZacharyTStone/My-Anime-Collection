@@ -176,18 +176,38 @@ const AnimeContainer = ({
                       key={anime.id}
                       fetchedAnime={anime}
                       type="add"
-                      _id={""}
-                      title={""}
-                      rating={0}
-                      episodeCount={0}
-                      format={""}
-                      creationDate={""}
-                      synopsis={""}
-                      coverImage={""}
-                      description={""}
-                      youtube={""}
-                      japanese_title={""}
-                      youtubeVideoId={""}
+                      _id={anime.id}
+                      title={
+                        anime?.attributes?.titles?.en ||
+                        anime?.attributes?.titles?.en_jp ||
+                        "Title N/A"
+                      }
+                      rating={anime?.attributes?.averageRating || "N/A"}
+                      episodeCount={anime?.attributes?.episodeCount || "N/A"}
+                      format={anime?.attributes?.subtype || "N/A"}
+                      creationDate={
+                        anime?.attributes?.startDate
+                          ? anime?.attributes?.startDate
+                          : "N/A"
+                      }
+                      synopsis={
+                        anime?.attributes?.synopsis
+                          ? anime?.attributes?.synopsis.replace(
+                              /<[^>]*>?/gm,
+                              ""
+                            )
+                          : "No synopsis available"
+                      }
+                      coverImage={
+                        anime?.attributes?.posterImage?.medium ||
+                        anime?.attributes?.posterImage?.small
+                      }
+                      japanese_title={
+                        anime?.attributes?.titles?.ja_jp ||
+                        anime?.attributes?.titles?.en ||
+                        "Title N/A"
+                      }
+                      youtubeVideoId={anime?.attributes?.youtubeVideoId}
                     />
                   );
                 })}
