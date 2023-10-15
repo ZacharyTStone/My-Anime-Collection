@@ -50,22 +50,21 @@
     <meta name="twitter:image" content="%PUBLIC_URL%/thumb1.png" />
 
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-
-    <!-- Add the Content Security Policy (CSP) meta tag -->
     <meta
       http-equiv="Content-Security-Policy"
       content="
-
-    font-src 'self' https://fonts.gstatic.com;
-		img-src 'self' media.kitsu.io data:;
-    media-src 'self' https://media.kitsu.io;
-    object-src 'none';
-    frame-ancestors 'none';
-    upgrade-insecure-requests;
-    block-all-mixed-content;
-    x-content-type-options 'nosniff';
-    referrer-policy 'no-referrer';
-"
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' media.kitsu.io data:;
+      media-src 'self' https://media.kitsu.io;
+      object-src 'none';
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+      block-all-mixed-content;
+      script-src 'self' https://www.youtube.com;  # Replace with your trusted script domain
+      style-src 'self' https://www.youtube.com;   # Replace with your trusted styles domain
+      x-content-type-options 'nosniff';
+      referrer-policy 'no-referrer';
+    "
     />
 
     <!--
