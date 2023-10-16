@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Anime } from "../Components";
 import { useAppContext } from "../context/appContext";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
-import { useMobile } from "../utils/viewportHooks";
+import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 
 const AnimeContainer = ({

@@ -9,7 +9,7 @@ import {
   shinji,
   vegeta,
 } from "../assets/images/testimonials/index";
-import { useMobile } from "../utils/viewportHooks";
+import { useMobile } from "../utils/hooks";
 
 const testimonialsData = [
   {

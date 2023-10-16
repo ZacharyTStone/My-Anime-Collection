@@ -1,5 +1,5 @@
 import { FormRow, Alert, FormRowSelect } from "../../Components/UI";
-import { FetchedAnimesContainer } from "../../Components/";
+import { FetchedAnimesContainer } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";

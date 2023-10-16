@@ -2,14 +2,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Landing, Error, ProtectedRoute } from "./pages";
 import { Suspense, lazy } from "react";
 import ErrorBoundary from "./pages/ErrorBoundry";
-import SharedLayout from "./pages/Dashboard/SharedLayout";
-import AddAnime from "./pages/Dashboard/AddAnime";
-import MyAnimes from "./pages/Dashboard/MyAnimes";
-import EditPlaylist from "./pages/Dashboard/EditPlaylist";
-import TopAnimes from "./pages/Dashboard/TopAnimes";
+import AddAnime from "./pages/DashboardTabs/AddAnime";
+import MyAnimes from "./pages/DashboardTabs/MyAnimes";
+import EditPlaylist from "./pages/DashboardTabs/EditPlaylist";
+import TopAnimes from "./pages/DashboardTabs/TopAnimes";
 import { SkeletonLoadingBlock } from "./Components/UI/SkeletonLoadingBlock";
+import Dashboard from "./pages/Dashboard";
 
-const Profile = lazy(() => import("./pages/Dashboard/Profile"));
+const Profile = lazy(() => import("./pages/DashboardTabs/Profile"));
 const RegisterDemo = lazy(() => import("./pages/RegisterDemo"));
 const Register = lazy(() => import("./pages/Register"));
 
@@ -39,7 +39,7 @@ function App() {
               path="/"
               element={
                 <ProtectedRoute>
-                  <SharedLayout />
+                  <Dashboard />
                 </ProtectedRoute>
               }
             >

@@ -141,8 +141,7 @@ const Profile = () => {
                   className="btn btn-danger"
                   onClick={() => handleDelete()}
                 >
-                  {" "}
-                  {t("profile.delete")}{" "}
+                  {t("profile.delete")}
                 </button>
               </div>
             </div>

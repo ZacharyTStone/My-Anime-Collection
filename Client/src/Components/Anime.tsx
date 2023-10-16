@@ -18,7 +18,7 @@ import ReactPlayer from "react-player";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 
 import pokeball from "../assets/images/pokeball.png";
-import { useMobile } from "../utils/viewportHooks";
+import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse, SavedAnime } from "../utils/types";
 
 interface animeCardProps extends SavedAnime {

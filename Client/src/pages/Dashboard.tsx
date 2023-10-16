@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { MUINavbar } from "../../Components";
-import { useAppContext } from "../../context/appContext";
+import { MUINavbar } from "../Components";
+import { useAppContext } from "../context/appContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const SharedLayout = () => {
+const Dashboard = () => {
   const { theme } = useAppContext();
   return (
     <div
@@ -57,4 +57,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default SharedLayout;
+export default Dashboard;
