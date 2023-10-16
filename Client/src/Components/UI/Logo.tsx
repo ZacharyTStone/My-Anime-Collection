@@ -8,10 +8,6 @@ const MacLogo = styled.img`
   width: 100px;
   margin: 0 auto;
   display: block;
-
-  @media (max-width: 768px) {
-    width: 50px;
-  }
 `;
 
 export default Logo;

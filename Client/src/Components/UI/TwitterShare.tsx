@@ -28,7 +28,7 @@ const TwitterShare: React.FC = () => {
     <TwitterDiv>
       <a href={generateTwitterUrl} target="_blank" rel="noopener noreferrer">
         <button className="btn btn-outline" onClick={openTwitterUrl}>
-          <span style={{ marginRight: "10px" }}>{t("twitter.share")}</span>
+          <span style={{ marginRight: "12px" }}>{t("twitter.share")}</span>
           <FaTwitter />
         </button>
       </a>

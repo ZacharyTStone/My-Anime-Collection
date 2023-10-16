@@ -9,7 +9,6 @@ const ProtectedRoute = ({ children }: any) => {
 
   useEffect(() => {
     if (user && window.location.pathname === "/") {
-      console.log("navigating to my animes");
       navigate("/top-animes");
     }
   }, [user]);

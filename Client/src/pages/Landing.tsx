@@ -9,8 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAppContext } from "./../context/appContext";
 import { useInViewAnimation } from "../utils/hooks";
 
-// Components
-
 // Images
 import narutoRun from "../assets/images/narutoRun.gif";
 import goku from "../assets/images/goku.webp";

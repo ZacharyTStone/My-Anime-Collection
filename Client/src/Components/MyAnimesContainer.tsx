@@ -40,7 +40,7 @@ const MyAnimesContainer = () => {
     currentPlaylist,
   ]);
 
-  if (isLoading && isFirstLoad) {
+  if (isLoading) {
     return (
       <Wrapper>
         <div

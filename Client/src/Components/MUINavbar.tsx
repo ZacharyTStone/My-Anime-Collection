@@ -17,42 +17,6 @@ import Logo from "./UI/Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import MusicAndFlag from "./MusicAndFlag";
 
-const Wrapper = styled.nav`
-  height: var(--nav-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 100% !important;
-
-  .toggle-btn {
-    background: transparent;
-    border-color: transparent;
-    font-size: 1.75rem;
-    color: var(--primary-500);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
-
-  background: var(--white);
-
-  .btn button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0 0.5rem;
-    position: relative;
-  }
-
-  .active {
-    color: var(--primary-500);
-  }
-
-  .active .icon {
-    color: var(--primary-500);
-  }
-`;
-
 const MUINavbar = () => {
   const { t } = useTranslation();
   const { logoutUser, user } = useAppContext();
@@ -77,7 +41,7 @@ const MUINavbar = () => {
   };
 
   return (
-    <Wrapper>
+    <Navbar>
       <AppBar position="static" color="transparent">
         <Container>
           <Toolbar disableGutters>
@@ -175,8 +139,44 @@ const MUINavbar = () => {
           </Toolbar>
         </Container>
       </AppBar>
-    </Wrapper>
+    </Navbar>
   );
 };
+
+const Navbar = styled.nav`
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100% !important;
+
+  .toggle-btn {
+    background: transparent;
+    border-color: transparent;
+    font-size: 1.75rem;
+    color: var(--primary-500);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  background: var(--white);
+
+  .btn button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 0.5rem;
+    position: relative;
+  }
+
+  .active {
+    color: var(--primary-500);
+  }
+
+  .active .icon {
+    color: var(--primary-500);
+  }
+`;
 
 export default MUINavbar;

@@ -2,21 +2,11 @@ import User from "../models/User.js";
 import Anime from "../models/Anime.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
+import { DEMO_USER } from "../utils/misc.js";
 
 // REST routes are defined in authRoutes.js
 
 const register = async (req, res) => {
-  const DEMO_USER = {
-    name: "Demo",
-    isDemo: true,
-    email: `DemoUser${Math.floor(Math.random() * 100000)}${Math.floor(
-      Math.random() * 100000
-    )}${Math.floor(Math.random() * 100000)}@demo.com`,
-    password: `${Math.floor(Math.random() * 100000)}${Math.floor(
-      Math.random() * 100000
-    )}${Math.floor(Math.random() * 100000)}`,
-  };
-
   let { name, email, password, isDemo } = req.body.isDemo
     ? DEMO_USER
     : req.body;
