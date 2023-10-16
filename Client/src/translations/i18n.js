@@ -16,8 +16,6 @@ const browserLanguageSettings =
 
 const language = browserLanguageSettings.split(/[-_]/)[0].toLowerCase(); // language without region code
 
-console.log("language:", language);
-
 const checkLanguage = (language) => {
   switch (language) {
     case "en":

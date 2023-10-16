@@ -8,7 +8,7 @@ import EditPlaylist from "./pages/DashboardTabs/EditPlaylist";
 import TopAnimes from "./pages/DashboardTabs/TopAnimes";
 import { SkeletonLoadingBlock } from "./Components/UI/SkeletonLoadingBlock";
 import Dashboard from "./pages/Dashboard";
-
+import styled from "styled-components";
 const Profile = lazy(() => import("./pages/DashboardTabs/Profile"));
 const RegisterDemo = lazy(() => import("./pages/RegisterDemo"));
 const Register = lazy(() => import("./pages/Register"));
@@ -18,19 +18,9 @@ function App() {
     <BrowserRouter>
       <Suspense
         fallback={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
-              width: "100vw",
-              backgroundColor: "black",
-              padding: "16px",
-            }}
-          >
+          <FallBackDiv>
             <SkeletonLoadingBlock height="100%" width="100%" borderRadius={8} />
-          </div>
+          </FallBackDiv>
         }
       >
         <ErrorBoundary>
@@ -59,5 +49,15 @@ function App() {
     </BrowserRouter>
   );
 }
+
+const FallBackDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--black);
+  padding: 16px;
+`;
 
 export default App;
