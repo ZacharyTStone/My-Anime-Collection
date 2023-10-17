@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import "express-async-errors";
-import morgan from "morgan";
+// import morgan from "morgan";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
@@ -59,7 +59,7 @@ app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
 app.use(errorHandlerMiddleware);
 
 if (process.env.NODE_ENV === "dev") {
-  app.use(morgan("dev"));
+  // app.use(morgan("dev"));
 }
 
 // HEROKU DEPLOYMENT
