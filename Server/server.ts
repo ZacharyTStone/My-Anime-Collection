@@ -58,8 +58,8 @@ app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
 // Middleware
 app.use(errorHandlerMiddleware);
 
-if (process.env.NODE_ENV !== "production") {
-  // app.use(morgan("dev"));
+if (process.env.NODE_ENV === "dev") {
+  app.use(morgan("dev"));
 }
 
 // HEROKU DEPLOYMENT
@@ -88,7 +88,5 @@ const start = async () => {
     console.log(error);
   }
 };
-
-// test
 
 start();

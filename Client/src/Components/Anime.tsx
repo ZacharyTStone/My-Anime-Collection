@@ -156,7 +156,7 @@ function Anime({
               {siteLanguage === "en" ? title : japanese_title}
             </Typography>
             <div className="info-container">
-              <div className="anime-img">
+              <ImageDiv onMobile={onMobile}>
                 {!!onMobile ? (
                   <CardMedia
                     component="img"
@@ -243,7 +243,7 @@ function Anime({
                     }}
                   />
                 )}
-              </div>
+              </ImageDiv>
               <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
                 <Button
                   sx={{
@@ -441,6 +441,10 @@ const Wrapper = styled.article`
       flex-direction: row;
     }
   }
+`;
+
+const ImageDiv = styled.div<{ onMobile?: boolean }>`
+  min-height: ${(props) => (props.onMobile ? "168px" : "378px")};
 `;
 
 // Modal styles

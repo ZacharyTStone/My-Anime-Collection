@@ -4,6 +4,8 @@ import { useAppContext } from "../context/appContext";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import TwitterShare from "./UI/TwitterShare";
+// @ts-ignore
+import { debounce } from "lodash";
 
 const SearchContainer = () => {
   const { t } = useTranslation();
@@ -49,6 +51,9 @@ const SearchContainer = () => {
     clearFilters();
   };
 
+  // Use debounce on handleSearch function
+  const debouncedHandleSearch = debounce(handleSearch, 300); // 300ms debounce delay
+
   return (
     <Wrapper>
       <form
@@ -64,7 +69,7 @@ const SearchContainer = () => {
             name="search"
             value={search}
             labelText={t("search_container.search")}
-            handleChange={handleSearch}
+            handleChange={debouncedHandleSearch} // Use debounced function here
           />
           {/* sort */}
           <FormRowSelect

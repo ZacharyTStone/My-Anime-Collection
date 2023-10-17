@@ -33,7 +33,7 @@ router
 // :id is a dynamic parameter
 router
   .route("/:id")
-  .delete(deletePlaylist) // DELETE /api/v1/playlists/:id
+  .delete(apiLimiterLarge, deletePlaylist) // DELETE /api/v1/playlists/:id
   .put(apiLimiterLarge, updatePlaylist); // PUT /api/v1/playlists/:id
 
 export default router;

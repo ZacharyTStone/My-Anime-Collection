@@ -103,6 +103,7 @@ const Wrapper = styled.section`
     row-gap: 2rem;
     color: var(--textColor);
   }
+  height: 100%;
 
   @media (min-width: 992px) {
     .animes {
