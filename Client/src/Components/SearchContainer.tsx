@@ -51,6 +51,7 @@ const SearchContainer = () => {
     clearFilters();
   };
 
+  const [localSearch, setLocalSearch] = useState(search ?? "");
   // Use debounce on handleSearch function
   const debouncedHandleSearch = debounce(handleSearch, 300); // 300ms debounce delay
 
@@ -67,9 +68,12 @@ const SearchContainer = () => {
           <FormRow
             type="text"
             name="search"
-            value={search}
+            value={localSearch}
             labelText={t("search_container.search")}
-            handleChange={debouncedHandleSearch} // Use debounced function here
+            handleChange={(e) => {
+              setLocalSearch(e.target.value);
+              debouncedHandleSearch(e);
+            }}
           />
           {/* sort */}
           <FormRowSelect
