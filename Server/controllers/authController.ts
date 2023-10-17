@@ -31,43 +31,43 @@ const register = async (req, res) => {
   const user = await User.create({ name, email, password, isDemo, theme });
 
   // if demo user seed the user with example user data
-  const example_user = await User.findOne({
-    email: process.env.SEED_USER_EMAIL,
-  });
+  // const example_user = await User.findOne({
+  //   email: process.env.SEED_USER_EMAIL,
+  // });
 
-  if (example_user) {
-    const example_user_playlists = example_user.playlists;
+  // if (example_user) {
+  //   const example_user_playlists = example_user.playlists;
 
-    // update the demo user with the example user's playlists
-    user.playlists = [];
+  //   // update the demo user with the example user's playlists
+  //   user.playlists = [];
 
-    example_user_playlists.forEach(async (playlist) => {
-      user.playlists.push(playlist);
-    });
+  //   example_user_playlists.forEach(async (playlist) => {
+  //     user.playlists.push(playlist);
+  //   });
 
-    // find all animes associated with example user
-    const example_user_animes = await Anime.find({
-      createdBy: example_user._id,
-    });
+  //   // find all animes associated with example user
+  //   const example_user_animes = await Anime.find({
+  //     createdBy: example_user._id,
+  //   });
 
-    example_user_animes.forEach(async (anime) => {
-      await Anime.create({
-        createdBy: user._id,
-        creationDate: anime.creationDate,
-        id: anime.id,
-        title: anime.title,
-        japanese_title: anime.japanese_title,
-        rating: anime.rating,
-        format: anime.format,
-        episodeCount: anime.episodeCount,
-        synopsis: anime.synopsis,
-        coverImage: anime.coverImage,
-        youtubeVideoId: anime.youtubeVideoId,
-        playlistID: anime.playlistID,
-        isDemoAnime: true,
-      });
-    });
-  }
+  //   example_user_animes.forEach(async (anime) => {
+  //     await Anime.create({
+  //       createdBy: user._id,
+  //       creationDate: anime.creationDate,
+  //       id: anime.id,
+  //       title: anime.title,
+  //       japanese_title: anime.japanese_title,
+  //       rating: anime.rating,
+  //       format: anime.format,
+  //       episodeCount: anime.episodeCount,
+  //       synopsis: anime.synopsis,
+  //       coverImage: anime.coverImage,
+  //       youtubeVideoId: anime.youtubeVideoId,
+  //       playlistID: anime.playlistID,
+  //       isDemoAnime: true,
+  //     });
+  //   });
+  // }
 
   const token = user.createJWT();
   res.status(StatusCodes.CREATED).json({
