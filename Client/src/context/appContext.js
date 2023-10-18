@@ -333,7 +333,7 @@ const AppProvider = ({ children }) => {
       const id = anime.id || Math.random() * 100000;
       const rating = anime.attributes.averageRating || "N/A";
       const format = anime.attributes.subtype || "N/A";
-      const episodeCount = anime.attributes.episodeCount || "N/A";
+      const episodeCount = anime.attributes.episodeCount || undefined;
       const synopsis = anime.attributes.synopsis || "N/A";
       const coverImage = anime.attributes.posterImage.small || "N/A";
       const youtubeVideoId = anime.attributes.youtubeVideoId || "N/A";
@@ -345,6 +345,52 @@ const AppProvider = ({ children }) => {
 
       const isDemoAnime = state.user.isDemo ? true : false;
 
+      await authFetch.post("/animes", {
+        title,
+        id,
+        rating,
+        format,
+        episodeCount,
+        synopsis,
+        coverImage,
+        creationDate,
+        youtubeVideoId,
+        japanese_title,
+        playlistID,
+        isDemoAnime,
+      });
+
+      dispatch({
+        type: CREATE_ANIME_SUCCESS,
+        payload: { title, playlistTitle },
+      });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: CREATE_ANIME_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+  const createAnimeV2 = async ({
+    creationDate,
+    title,
+    id,
+    rating,
+    format,
+    episodeCount,
+    synopsis,
+    coverImage,
+    youtubeVideoId,
+    japanese_title,
+    playlistID,
+    isDemoAnime,
+  }) => {
+    dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
+
+    try {
       await authFetch.post("/animes", {
         title,
         id,

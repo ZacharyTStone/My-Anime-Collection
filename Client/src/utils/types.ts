@@ -32,7 +32,7 @@ export interface SavedAnime {
   synopsis?: string;
   rating?: number | string;
   startDate?: string;
-  episodeCount?: number | string;
+  episodeCount?: number;
   format?: string;
   subtype?: string;
   youtubeVideoId?: string;

@@ -183,7 +183,9 @@ const AnimeContainer = ({
                         "Title N/A"
                       }
                       rating={anime?.attributes?.averageRating || "N/A"}
-                      episodeCount={anime?.attributes?.episodeCount || "N/A"}
+                      episodeCount={
+                        anime?.attributes?.episodeCount ?? undefined
+                      }
                       format={anime?.attributes?.subtype || "N/A"}
                       creationDate={
                         anime?.attributes?.startDate

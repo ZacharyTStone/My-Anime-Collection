@@ -278,7 +278,7 @@ function Anime({
                     color: "var(--textColor)",
                   }}
                 >
-                  <span>{episodeCount === 9001 ? "N/A" : episodeCount}</span>
+                  <span>{episodeCount ?? "N/A"}</span>
                   <span style={{ marginLeft: "5px" }}>
                     {t("anime.episode")}
                   </span>
