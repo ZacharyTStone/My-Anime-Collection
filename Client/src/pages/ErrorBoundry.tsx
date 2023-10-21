@@ -1,4 +1,5 @@
 import React, { ReactNode, ErrorInfo } from "react";
+import styled from "styled-components";
 import Loading from "../Components/UI/Loading";
 
 interface ErrorBoundaryProps {
@@ -19,7 +20,6 @@ class ErrorBoundary extends React.Component<
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    // Update state so the next render will show the fallback UI.
     console.error(error); // Log the error
     return { hasError: true };
   }
@@ -28,53 +28,50 @@ class ErrorBoundary extends React.Component<
     console.error(error, errorInfo);
   }
 
-  render(): any {
+  render(): React.ReactElement | null {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
       return (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            width: "100vw",
-            backgroundColor: "black",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <h3
-              style={{
-                color: "var(--primary-500)",
-              }}
-            >
-              {" "}
-              Something Went Wrong...Please Try Again Later!{" "}
-            </h3>
-            <p
-              style={{
-                color: "var(--primary-500)",
-              }}
-            >
+        <StyledErrorWrapper>
+          <StyledErrorContent>
+            <StyledErrorMessage>
+              Something Went Wrong...Please Try Again Later!
+            </StyledErrorMessage>
+            <StyledErrorDescription>
               Please send an email to zach.stone.developer@gmail.com with a
               description of what happened.
-            </p>
-            {/* Assuming Loading component is implemented correctly */}
+            </StyledErrorDescription>
             <Loading />
-          </div>
-        </div>
+          </StyledErrorContent>
+        </StyledErrorWrapper>
       );
     }
 
     return this.props.children as React.ReactElement;
   }
 }
+
+const StyledErrorWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+`;
+
+const StyledErrorContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const StyledErrorMessage = styled.h3`
+  color: var(--primary-500);
+`;
+
+const StyledErrorDescription = styled.p`
+  color: var(--primary-500);
+`;
 
 export default ErrorBoundary;
