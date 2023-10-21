@@ -67,11 +67,11 @@ const UserSchema = new Schema<UserDocument>(
           id: "0",
         },
         {
-          title: "Watch List",
+          title: "Want to Watch",
           id: "1",
         },
         {
-          title: "All Time Favorites",
+          title: "My All Time Favorites ❤️",
           id: "2",
         },
       ] as PlaylistDocument[],

@@ -14,12 +14,16 @@ const getPlaylists = async (req, res) => {
 const createPlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
-  const randomPlaylistID = Math.floor(Math.random() * 1000000);
+  const newPlaylistID = user.playlists.length
+    ? user.playlists[user.playlists.length - 1].id + 1
+    : Math.floor(Math.random() * 1000000);
+
+  Math.floor(Math.random() * 1000000);
   const randomTitle = Math.floor(Math.random() * 1000);
 
   const playlist = {
     title: `Playlist ${randomTitle}`,
-    id: `${randomPlaylistID}`,
+    id: `${newPlaylistID}`,
   };
 
   user.playlists.push(playlist);

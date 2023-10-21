@@ -63,7 +63,8 @@ const AnimeSchema = new Schema<AnimeDocument>(
 // Define the Anime document interface
 export interface AnimeDocument extends Document {
   createdBy: any;
-  creationDate?: Date;
+  // to do switch back to just Date
+  creationDate?: Date | string;
   id: number;
   title: string;
   japanese_title?: string;

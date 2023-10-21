@@ -1,4 +1,4 @@
-[
+export const SEED_ANIMES: any[] = [
   {
     creationDate: "1989-04-26T00:00:00.000Z",
     id: 720,
@@ -13,7 +13,7 @@
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/720/small.jpg",
     youtubeVideoId: "b5mKTXse_gQ",
-    playlistID: "0",
+    playlistID: "2",
     isDemoAnime: true,
   },
   {
@@ -45,7 +45,7 @@
     coverImage:
       "https://media.kitsu.io/anime/46873/poster_image/small-4014254a3fdbd98ac825c53a94fbd2a3.jpeg",
     youtubeVideoId: "W2tMsaAVjD0",
-    playlistID: "0",
+    playlistID: "1",
     isDemoAnime: true,
   },
   {
@@ -66,7 +66,7 @@
     coverImage:
       "https://media.kitsu.io/anime/21/poster_image/small-6662f66b53b64098d873e037b3f59bd2.jpeg",
     youtubeVideoId: "qW5DCdRp3rk",
-    playlistID: "0",
+    playlistID: "2",
     isDemoAnime: true,
   },
   {
@@ -83,7 +83,7 @@
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/4604/small.jpg",
     youtubeVideoId: "zkY-sG6crKI",
-    playlistID: "0",
+    playlistID: "2",
     isDemoAnime: true,
   },
   {
@@ -104,7 +104,7 @@
       "(Source: MAL Rewrite)",
     coverImage: "https://media.kitsu.io/anime/poster_images/1376/small.jpg",
     youtubeVideoId: "NlJZ-YgAt-c",
-    playlistID: "0",
+    playlistID: "2",
     isDemoAnime: true,
   },
   {
@@ -123,7 +123,7 @@
       "(Source: MAL Rewrite)",
     coverImage: "https://media.kitsu.io/anime/poster_images/7442/small.jpg",
     youtubeVideoId: "LHtdKWJdif4",
-    playlistID: "0",
+    playlistID: "2",
     isDemoAnime: true,
   },
   {
@@ -140,26 +140,7 @@
       "(Source: Crunchyroll)",
     coverImage: "https://media.kitsu.io/anime/poster_images/41024/small.jpg",
     youtubeVideoId: "bXCCKubabe0",
-    playlistID: "0",
-    isDemoAnime: true,
-  },
-  {
-    creationDate: "2011-10-02T00:00:00.000Z",
-    id: 6448,
-    title: "Hunter x Hunter (2011)",
-    japanese_title: "HUNTER×HUNTER ハンターハンター",
-    rating: 84.21,
-    format: "TV",
-    episodeCount: 148,
-    synopsis:
-      "Hunter x Hunter is set in a world where Hunters exist to perform all manner of dangerous tasks like capturing criminals and bravely searching for lost treasures in uncharted territories. Twelve-year-old Gon Freecss is determined to become the best Hunter possible in hopes of finding his father, who was a Hunter himself and had long ago abandoned his young son. However, Gon soon realizes the path to achieving his goals is far more challenging than he could have ever imagined.\n" +
-      "\n" +
-      "Along the way to becoming an official Hunter, Gon befriends the lively doctor-in-training Leorio, vengeful Kurapika, and rebellious ex-assassin Killua. To attain their own goals and desires, together the four of them take the Hunter Exam, notorious for its low success rate and high probability of death. Throughout their journey, Gon and his friends embark on an adventure that puts them through many hardships and struggles. They will meet a plethora of monsters, creatures, and characters—all while learning what being a Hunter truly means.\n" +
-      "\n" +
-      "(Source: MAL Rewrite)",
-    coverImage: "https://media.kitsu.io/anime/poster_images/6448/small.jpg",
-    youtubeVideoId: "fda6QzBA2mI",
-    playlistID: "0",
+    playlistID: "1",
     isDemoAnime: true,
   },
   {
@@ -176,7 +157,7 @@
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/7000/small.jpg",
     youtubeVideoId: "70zW21l5ZUU",
-    playlistID: "0",
+    playlistID: "1",
     isDemoAnime: true,
   },
   {
@@ -194,7 +175,7 @@
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/220/small.jpg",
     youtubeVideoId: "N/A",
-    playlistID: "0",
+    playlistID: "3",
     isDemoAnime: true,
   },
 ];

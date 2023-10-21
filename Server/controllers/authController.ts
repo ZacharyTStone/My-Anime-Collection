@@ -4,6 +4,7 @@ import Playlist from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/misc.js";
+import { SEED_ANIMES } from "../utils/seed_animes.js";
 
 // REST routes are defined in authRoutes.js
 
@@ -30,6 +31,25 @@ const register = async (req, res) => {
 
   const user = await User.create({ name, email, password, isDemo, theme });
 
+  if (isDemo) {
+    SEED_ANIMES.forEach(async (animeData) => {
+      await Anime.create({
+        createdBy: user._id,
+        creationDate: animeData.creationDate,
+        id: animeData.id,
+        title: animeData.title,
+        japanese_title: animeData.japanese_title,
+        rating: animeData.rating,
+        format: animeData.format,
+        episodeCount: animeData.episodeCount,
+        synopsis: animeData.synopsis,
+        coverImage: animeData.coverImage,
+        youtubeVideoId: animeData.youtubeVideoId,
+        playlistID: animeData.playlistID,
+        isDemoAnime: animeData.isDemoAnime,
+      });
+    });
+  }
   const token = user.createJWT();
   res.status(StatusCodes.CREATED).json({
     user: {
