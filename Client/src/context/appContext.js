@@ -313,8 +313,9 @@ const AppProvider = ({ children }) => {
 
     if (!playlist) {
       alert("Playlist not found");
+    } else {
+      dispatch({ type: HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
     }
-    dispatch({ type: HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
   };
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
