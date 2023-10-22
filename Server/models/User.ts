@@ -63,7 +63,7 @@ const UserSchema = new Schema<UserDocument>(
       type: [playlistSchema] as any,
       default: [
         {
-          title: "Default",
+          title: "Currently Watching",
           id: "0",
         },
         {

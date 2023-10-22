@@ -84,36 +84,38 @@ const Profile: React.FC = () => {
                 >
                   {playlist.title}
                 </span>
-                {playlist.id !== "0" && (
-                  <span
-                    style={{
-                      padding: "0px 10px",
-                    }}
-                    onClick={async () => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to delete this playlist?"
-                        )
-                      ) {
-                        await deletePlaylist(playlist.id);
-                        setNewTitle("");
-                        setId("");
-                      }
-                    }}
-                  >
-                    <AiFillDelete
+                {playlist.id !== "0" &&
+                  playlist.id !== "1" &&
+                  playlist.id !== "2" && (
+                    <span
                       style={{
-                        display: "-ms-flexbox",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color: "red",
-                        fontSize: "1.5rem",
-                        marginLeft: "1rem",
-                        backgroundColor: "transparent",
+                        padding: "0px 10px",
                       }}
-                    />
-                  </span>
-                )}
+                      onClick={async () => {
+                        if (
+                          window.confirm(
+                            "Are you sure you want to delete this playlist?"
+                          )
+                        ) {
+                          await deletePlaylist(playlist.id);
+                          setNewTitle("");
+                          setId("");
+                        }
+                      }}
+                    >
+                      <AiFillDelete
+                        style={{
+                          display: "-ms-flexbox",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "red",
+                          fontSize: "1.5rem",
+                          marginLeft: "1rem",
+                          backgroundColor: "transparent",
+                        }}
+                      />
+                    </span>
+                  )}
               </li>
             ))}
           </ul>

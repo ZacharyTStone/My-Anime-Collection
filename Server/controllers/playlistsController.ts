@@ -15,8 +15,8 @@ const createPlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
   const newPlaylistID = user.playlists.length
-    ? user.playlists[user.playlists.length - 1].id + 1
-    : Math.floor(Math.random() * 1000000);
+    ? (user.playlists[user.playlists.length - 1].id + 1).toString()
+    : Math.floor(Math.random() * 1000000).toString();
 
   Math.floor(Math.random() * 1000000);
   const randomTitle = Math.floor(Math.random() * 1000);
@@ -50,10 +50,6 @@ const updatePlaylist = async (req, res) => {
 const deletePlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
-  if (user.playlists.length === 1) {
-    throw new BadRequestError("You cannot delete the default playlist");
-  }
-
   const playlist = user.playlists.find(
     (playlist) => playlist.id === req.params.id
   );
@@ -62,8 +58,8 @@ const deletePlaylist = async (req, res) => {
     throw new BadRequestError("Playlist not found");
   }
 
-  if (playlist.id === "0") {
-    throw new BadRequestError("You cannot delete the default playlist");
+  if (playlist.id === "0" || playlist.id === "1" || playlist.id === "2") {
+    throw new BadRequestError("You cannot delete " + playlist.title);
   }
 
   // Delete all user's animes in the playlist

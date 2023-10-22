@@ -76,8 +76,8 @@ const initialState = {
   searchType: "all",
   sort: "latest",
   currentPlaylist: {
-    title: "default",
-    id: "0",
+    title: "My All Time Favorites ❤️",
+    id: "2",
   },
   userPlaylists: [],
   sortOptions: [
