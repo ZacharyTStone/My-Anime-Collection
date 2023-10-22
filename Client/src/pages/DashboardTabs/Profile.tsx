@@ -47,6 +47,7 @@ const Profile = () => {
         {showAlert && <Alert />}
         <div className="form-center">
           <FormRow
+            disabled={isLoading || user?.isDemo}
             type="text"
             name="name"
             labelText={t("profile.name")}
@@ -54,6 +55,7 @@ const Profile = () => {
             handleChange={(e) => setName(e.target.value)}
           />
           <FormRow
+            disabled={isLoading || user?.isDemo}
             type="email"
             name="email"
             labelText={t("profile.email")}
