@@ -5,7 +5,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/misc.js";
 import { SEED_ANIMES } from "../utils/seed_animes.js";
-
+import { generateRandomNumber } from "../utils/misc.js";
 // REST routes are defined in authRoutes.js
 
 const register = async (req, res) => {
@@ -23,7 +23,7 @@ const register = async (req, res) => {
 
   if (userAlreadyExists) {
     if (isDemo) {
-      email = email + Math.floor(Math.random() * 100000);
+      email = `DemoUser${generateRandomNumber()}${generateRandomNumber()}${generateRandomNumber()}@demo.com`;
     } else {
       throw new BadRequestError("Email already in use");
     }

@@ -1,4 +1,4 @@
-const generateRandomNumber = () => Math.floor(Math.random() * 100000);
+export const generateRandomNumber = () => Math.floor(Math.random() * 100000);
 
 export const DEMO_USER = {
   name: "Demo",
