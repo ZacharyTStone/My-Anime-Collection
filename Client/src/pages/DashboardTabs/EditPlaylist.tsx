@@ -20,6 +20,8 @@ const Profile: React.FC = () => {
     loadingFetchPlaylists,
   } = useAppContext();
 
+  const DEFAULT_PLAYLIST_IDS = ["0", "1", "2"];
+
   const [newTitle, setNewTitle] = useState("");
   const [id, setId] = useState("");
 
@@ -84,38 +86,36 @@ const Profile: React.FC = () => {
                 >
                   {playlist.title}
                 </span>
-                {playlist.id !== "0" &&
-                  playlist.id !== "1" &&
-                  playlist.id !== "2" && (
-                    <span
+                {!DEFAULT_PLAYLIST_IDS.includes(playlist.id) && (
+                  <span
+                    style={{
+                      padding: "0px 10px",
+                    }}
+                    onClick={async () => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this playlist?"
+                        )
+                      ) {
+                        await deletePlaylist(playlist.id);
+                        setNewTitle("");
+                        setId("");
+                      }
+                    }}
+                  >
+                    <AiFillDelete
                       style={{
-                        padding: "0px 10px",
+                        display: "-ms-flexbox",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "red",
+                        fontSize: "1.5rem",
+                        marginLeft: "1rem",
+                        backgroundColor: "transparent",
                       }}
-                      onClick={async () => {
-                        if (
-                          window.confirm(
-                            "Are you sure you want to delete this playlist?"
-                          )
-                        ) {
-                          await deletePlaylist(playlist.id);
-                          setNewTitle("");
-                          setId("");
-                        }
-                      }}
-                    >
-                      <AiFillDelete
-                        style={{
-                          display: "-ms-flexbox",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          color: "red",
-                          fontSize: "1.5rem",
-                          marginLeft: "1rem",
-                          backgroundColor: "transparent",
-                        }}
-                      />
-                    </span>
-                  )}
+                    />
+                  </span>
+                )}
               </li>
             ))}
           </ul>
@@ -136,7 +136,7 @@ const Profile: React.FC = () => {
           margin: "1rem 0",
         }}
       ></hr>
-      {id && currentPlaylist.id !== "0" && (
+      {id && !DEFAULT_PLAYLIST_IDS.includes(id) && (
         <form className="form" onSubmit={handlePlaylistEdit}>
           <div className="form-center">
             <FormRow
