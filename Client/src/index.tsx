@@ -5,7 +5,6 @@ import "./assets/css/index.css";
 import App from "./App";
 import "./translations/i18n.js";
 import { AppProvider } from "./context/appContext";
-import createRoot from "react-dom/client";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

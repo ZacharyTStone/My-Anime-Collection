@@ -23,7 +23,7 @@ const FormRow = ({
         value={value}
         name={name}
         onChange={handleChange}
-        className="form-input"
+        className={`form-input ${disabled ? "disabled" : ""}`}
         disabled={disabled}
       />
     </div>

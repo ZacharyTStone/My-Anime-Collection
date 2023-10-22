@@ -78,6 +78,11 @@ ul {
   min-height: 100vh;
 }
 
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 * {
   transition: "all 0.3s ease-in-out";
 }
