@@ -57,16 +57,11 @@
       img-src 'self' media.kitsu.io data:;
       media-src 'self' https://media.kitsu.io;
       object-src 'none';
-      frame-ancestors 'none';
       upgrade-insecure-requests;
       block-all-mixed-content;
-      script-src 'self' https://www.youtube.com;  # Replace with your trusted script domain
-      style-src 'self' https://www.youtube.com;   # Replace with your trusted styles domain
-      x-content-type-options 'nosniff';
-      referrer-policy 'no-referrer';
+      script-src 'self' https://www.youtube.com; 
     "
     />
-
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
