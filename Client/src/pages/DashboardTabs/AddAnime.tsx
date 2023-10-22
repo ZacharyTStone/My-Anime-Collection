@@ -8,6 +8,29 @@ import React, { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import { useTranslation } from "react-i18next";
 
+const SORT_OPTIONS = [
+  {
+    title: "popularity",
+    value: "",
+  },
+  {
+    title: "average rating",
+    value: "-averageRating",
+  },
+  {
+    title: "release date (newest first)",
+    value: "-startDate",
+  },
+  {
+    title: "release date (oldest first)",
+    value: "startDate",
+  },
+  {
+    title: "media type",
+    value: "subtype",
+  },
+];
+
 const AddAnime: React.FC = () => {
   const { t } = useTranslation();
   const [textInput, setTextInput] = useState<string>("");
@@ -79,28 +102,7 @@ const AddAnime: React.FC = () => {
               value={sort}
               labelText={t("add_anime.sort")}
               handleChange={handleSort}
-              list={[
-                {
-                  title: "popularity",
-                  value: "",
-                },
-                {
-                  title: "average rating",
-                  value: "-averageRating",
-                },
-                {
-                  title: "release date (newest first)",
-                  value: "-startDate",
-                },
-                {
-                  title: "release date (oldest first)",
-                  value: "startDate",
-                },
-                {
-                  title: "media type",
-                  value: "subtype",
-                },
-              ]}
+              list={SORT_OPTIONS}
             />
             {/* playlist */}
             <form className="form-row">
