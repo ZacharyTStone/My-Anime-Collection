@@ -375,52 +375,6 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  // const createAnimeV2 = async ({
-  //   creationDate,
-  //   title,
-  //   id,
-  //   rating,
-  //   format,
-  //   episodeCount,
-  //   synopsis,
-  //   coverImage,
-  //   youtubeVideoId,
-  //   japanese_title,
-  //   playlistID,
-  //   isDemoAnime,
-  // }) => {
-  //   dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
-
-  //   try {
-  //     await authFetch.post("/animes", {
-  //       title,
-  //       id,
-  //       rating,
-  //       format,
-  //       episodeCount,
-  //       synopsis,
-  //       coverImage,
-  //       creationDate,
-  //       youtubeVideoId,
-  //       japanese_title,
-  //       playlistID,
-  //       isDemoAnime,
-  //     });
-
-  //     dispatch({
-  //       type: CREATE_ANIME_SUCCESS,
-  //       payload: { title, playlistTitle },
-  //     });
-  //     dispatch({ type: CLEAR_VALUES });
-  //   } catch (error) {
-  //     if (error.response.status === 401) return;
-  //     dispatch({
-  //       type: CREATE_ANIME_ERROR,
-  //       payload: { msg: error.response.data.msg },
-  //     });
-  //   }
-  // };
-
   const getAnimes = async () => {
     const { page, search, searchStatus, searchType, sort, currentPlaylist } =
       state;

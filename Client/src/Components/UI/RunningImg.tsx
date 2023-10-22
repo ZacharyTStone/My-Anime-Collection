@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import narutoImage from "./naruto.png"; // Replace with the actual path to your Naruto image
 
 const RunningImg = ({ img }: { img: string }) => {
   return (
@@ -31,7 +30,6 @@ const NarutoImg = styled.img`
       }
     }
 
-    // special styles for Naruto
     @media (min-height: 1200px) {
       top: 73%;
     }

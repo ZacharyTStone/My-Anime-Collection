@@ -1,5 +1,5 @@
 import Anime from "./Anime";
-import MusicAndFlag from "./MusicAndFlag";
+import FlagContainer from "./FlagContainer";
 import PageBtnContainer from "./PageBtnContainer";
 import SearchContainer from "./SearchContainer";
 import Testimonials from "./Testimonials";
@@ -12,7 +12,7 @@ export {
   MUINavbar,
   MyAnimesContainer,
   Anime,
-  MusicAndFlag,
+  FlagContainer,
   PageBtnContainer,
   SearchContainer,
   Testimonials,

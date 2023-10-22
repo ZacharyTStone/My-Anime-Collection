@@ -86,7 +86,7 @@ const Profile = () => {
             {isLoading ? t("profile.wait") : t("profile.save")}
           </button>
         </div>
-        <img src={pokemon} alt="pokemon" className="pokemon" />
+        <Pokemon src={pokemon} alt="pokemon" />
         <div className="bottom-half ">
           <div>
             <span
@@ -96,7 +96,7 @@ const Profile = () => {
             >
               {t("profile.enjoy")}
             </span>
-            <div className="btn-group">
+            <ButtonDiv>
               <div>
                 <button className="btn btn-outline" type="button">
                   <a
@@ -144,7 +144,7 @@ const Profile = () => {
                   {t("profile.delete")}
                 </button>
               </div>
-            </div>
+            </ButtonDiv>
           </div>
         </div>
       </form>
@@ -152,14 +152,27 @@ const Profile = () => {
   );
 };
 
+const Pokemon = styled.img`
+  display: none;
+  width: 200px;
+  height: auto;
+
+  @media (min-width: 992px) {
+    display: block;
+    position: relative;
+    left: 75%;
+    top: -2rem;
+  }
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const Wrapper = styled.section`
   .btn-submit {
     margin-top: 50px !important;
-  }
-
-  .btn-group {
-    display: flex;
-    justify-content: space-between;
   }
 
   .btn-outline:hover {
@@ -210,23 +223,11 @@ const Wrapper = styled.section`
     background: var(--black);
   }
 
-  .pokemon {
-    display: none;
-    width: 200px;
-    height: auto;
-  }
   @media (min-width: 992px) {
     .form-center {
       grid-template-columns: 1fr 1fr;
       align-items: center;
       column-gap: 1rem;
-    }
-
-    .pokemon {
-      display: block;
-      position: relative;
-      left: 75%;
-      top: -2rem;
     }
   }
   @media (min-width: 1120px) {

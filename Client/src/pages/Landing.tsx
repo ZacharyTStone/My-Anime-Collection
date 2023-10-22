@@ -24,7 +24,7 @@ import A7 from "../assets/images/sampleAnimes/A7.webp";
 import A8 from "../assets/images/sampleAnimes/A8.webp";
 
 const Testimonials = React.lazy(() => import("../Components/Testimonials"));
-const MusicAndFlag = React.lazy(() => import("../Components/MusicAndFlag"));
+const FlagContainer = React.lazy(() => import("../Components/FlagContainer"));
 const RunningImg = React.lazy(() => import("../Components/UI/RunningImg"));
 
 const Landing = () => {
@@ -66,7 +66,7 @@ const Landing = () => {
       <Wrapper>
         <nav>
           <Suspense fallback={<div>Loading...</div>}>
-            <MusicAndFlag />
+            <FlagContainer />
           </Suspense>
         </nav>
         <main>

@@ -15,7 +15,7 @@ import NavLinks from "./UI/NavLinks";
 import { useTranslation } from "react-i18next";
 import Logo from "./UI/Logo";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
-import MusicAndFlag from "./MusicAndFlag";
+import FlagContainer from "./FlagContainer";
 
 const MUINavbar = () => {
   const { t } = useTranslation();
@@ -97,7 +97,7 @@ const MUINavbar = () => {
             <Box sx={{ flexGrow: 6, display: { xs: "none", md: "flex" } }}>
               <NavLinks />
             </Box>
-            <MusicAndFlag />
+            <FlagContainer />
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Other Settings" className="nav-link">

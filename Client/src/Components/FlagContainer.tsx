@@ -2,7 +2,7 @@ import america from "./../assets/images/america-big.png";
 import IconButton from "@mui/material/IconButton";
 import japan from "./../assets/images/japan-big.png";
 import Box from "@mui/material/Box";
-import { useAppContext } from "./../context/appContext";
+import { useAppContext } from "../context/appContext";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
@@ -10,12 +10,12 @@ import styled from "styled-components";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 
-const MusicAndFlag = () => {
+const FlagContainer = () => {
   const { changeSiteLanguage, theme, changeTheme } = useAppContext();
   const { i18n } = useTranslation();
 
   return (
-    <FlagContainer className="flag-div-holder">
+    <FlagContainerDiv className="flag-div-holder">
       {theme === "light" ? (
         <IconButton onClick={() => changeTheme("dark")}>
           <ModeNightIcon
@@ -56,11 +56,11 @@ const MusicAndFlag = () => {
           />
         </FlagDiv>
       )}
-    </FlagContainer>
+    </FlagContainerDiv>
   );
 };
 
-const FlagContainer = styled(Box)`
+const FlagContainerDiv = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,4 +81,4 @@ const FlagDiv = styled.div`
   height: 100%;
 `;
 
-export default MusicAndFlag;
+export default FlagContainer;
