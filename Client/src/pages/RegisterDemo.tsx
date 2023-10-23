@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useRedirectOnAuth } from "../utils/hooks";
+
 const initialState = {
   name: "",
   email: "",
@@ -36,9 +36,14 @@ const Register = () => {
       alertText: t("register.alert_text"),
     });
   };
-  const successRoute = "/top-animes";
-  const failureRoute = "/landing";
-  useRedirectOnAuth(user, successRoute, failureRoute);
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/top-animes");
+      }, 3000);
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     onSubmit();

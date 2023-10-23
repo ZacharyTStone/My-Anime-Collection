@@ -25,7 +25,6 @@ const StyledMain = styled.main`
   background-size: cover;
   background-position: center;
   height: 100vh;
-  // darken image
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
