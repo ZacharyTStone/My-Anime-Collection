@@ -1,20 +1,20 @@
+// In ProtectedRoute.js
 import { useAppContext } from "../context/appContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import React, { useEffect } from "react";
+import { useRedirectOnAuth } from "../utils/hooks";
 
-// not sure what the type for any React component is
-const ProtectedRoute = ({ children }: any) => {
-  const navigate = useNavigate();
+const ProtectedRoute = ({ children }: { children: any }) => {
   const { user } = useAppContext();
 
-  useEffect(() => {
-    if (user && window.location.pathname === "/") {
-      navigate("/top-animes");
-    }
-  }, [user]);
+  const successRoute = "/top-animes";
+  const failureRoute = "/landing";
+
+  // Redirect to "/top-animes" if authenticated, otherwise to "/landing"
+  useRedirectOnAuth(user, successRoute, failureRoute);
 
   if (!user) {
-    return <Navigate to="/landing" />;
+    return <Navigate to={failureRoute} />;
   }
   return children;
 };
