@@ -44,7 +44,7 @@ const getAnimes = async (req, res) => {
   let result = Anime.find(queryObject);
 
   // Apply sorting based on the provided option
-  const sortOptions = {
+  const SORT_OPTIONS = {
     latest: { creationDate: -1 },
     oldest: { creationDate: 1 },
     rating: { rating: -1, popularity: -1 },
@@ -55,8 +55,8 @@ const getAnimes = async (req, res) => {
     "date added": { createdAt: -1 },
   };
 
-  if (sortOptions.hasOwnProperty(sort)) {
-    result = result.sort(sortOptions[sort]);
+  if (SORT_OPTIONS.hasOwnProperty(sort)) {
+    result = result.sort(SORT_OPTIONS[sort]);
   }
 
   // Setup pagination

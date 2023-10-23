@@ -12,7 +12,14 @@ import { IconContext } from "react-icons";
 const NavLinks = () => {
   const { t } = useTranslation();
 
-  const links = [
+  interface Link {
+    id: number;
+    text: string;
+    path: string;
+    icon: JSX.Element;
+  }
+
+  const LINKS: Link[] = [
     {
       id: 1,
       text: t("navbar.home"),
@@ -47,16 +54,11 @@ const NavLinks = () => {
   return (
     <Wrapper>
       <div className="nav-links">
-        {links.map((link) => {
+        {LINKS.map((link: Link) => {
           const { text, path, id, icon } = link;
-
           return (
-              <NavLink
-                to={path}
-              >
-                 <Button key={id} 
-                   className="nav-link"
-                  >
+            <NavLink to={path} key={id}>
+              <Button className="nav-link">
                 <IconContext.Provider
                   value={{
                     size: "1.5rem",
@@ -65,12 +67,15 @@ const NavLinks = () => {
                 >
                   <span className="icon">{icon}</span>
                 </IconContext.Provider>
-                <span   className={
-                    window.location.pathname === path 
-                    ? "active icon" : "icon"
-                 }>{text}</span>
-                </Button>
-              </NavLink>
+                <span
+                  className={
+                    window.location.pathname === path ? "active icon" : "icon"
+                  }
+                >
+                  {text}
+                </span>
+              </Button>
+            </NavLink>
           );
         })}
       </div>
@@ -98,7 +103,7 @@ const Wrapper = styled.section`
 
   .nav-link {
     display: flex;
-    gap: 8px!important;
+    gap: 8px !important;
     width: max-content;
   }
 
