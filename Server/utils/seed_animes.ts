@@ -13,7 +13,7 @@ export const SEED_ANIMES: any[] = [
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/720/small.jpg",
     youtubeVideoId: "b5mKTXse_gQ",
-    playlistID: "2",
+    playlistID: 2,
     isDemoAnime: true,
   },
   {
@@ -30,7 +30,7 @@ export const SEED_ANIMES: any[] = [
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/8271/small.jpg",
     youtubeVideoId: "vGuQeQsoRgU",
-    playlistID: "0",
+    playlistID: 0,
     isDemoAnime: true,
   },
   {
@@ -45,7 +45,7 @@ export const SEED_ANIMES: any[] = [
     coverImage:
       "https://media.kitsu.io/anime/46873/poster_image/small-4014254a3fdbd98ac825c53a94fbd2a3.jpeg",
     youtubeVideoId: "W2tMsaAVjD0",
-    playlistID: "1",
+    playlistID: 1,
     isDemoAnime: true,
   },
   {
@@ -66,7 +66,7 @@ export const SEED_ANIMES: any[] = [
     coverImage:
       "https://media.kitsu.io/anime/21/poster_image/small-6662f66b53b64098d873e037b3f59bd2.jpeg",
     youtubeVideoId: "qW5DCdRp3rk",
-    playlistID: "2",
+    playlistID: 2,
     isDemoAnime: true,
   },
   {
@@ -83,7 +83,7 @@ export const SEED_ANIMES: any[] = [
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/4604/small.jpg",
     youtubeVideoId: "zkY-sG6crKI",
-    playlistID: "2",
+    playlistID: 2,
     isDemoAnime: true,
   },
   {
@@ -104,7 +104,7 @@ export const SEED_ANIMES: any[] = [
       "(Source: MAL Rewrite)",
     coverImage: "https://media.kitsu.io/anime/poster_images/1376/small.jpg",
     youtubeVideoId: "NlJZ-YgAt-c",
-    playlistID: "2",
+    playlistID: 2,
     isDemoAnime: true,
   },
   {
@@ -123,7 +123,7 @@ export const SEED_ANIMES: any[] = [
       "(Source: MAL Rewrite)",
     coverImage: "https://media.kitsu.io/anime/poster_images/7442/small.jpg",
     youtubeVideoId: "LHtdKWJdif4",
-    playlistID: "2",
+    playlistID: 2,
     isDemoAnime: true,
   },
   {
@@ -140,7 +140,7 @@ export const SEED_ANIMES: any[] = [
       "(Source: Crunchyroll)",
     coverImage: "https://media.kitsu.io/anime/poster_images/41024/small.jpg",
     youtubeVideoId: "bXCCKubabe0",
-    playlistID: "1",
+    playlistID: 1,
     isDemoAnime: true,
   },
   {
@@ -157,7 +157,7 @@ export const SEED_ANIMES: any[] = [
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/7000/small.jpg",
     youtubeVideoId: "70zW21l5ZUU",
-    playlistID: "1",
+    playlistID: 1,
     isDemoAnime: true,
   },
   {
@@ -175,7 +175,7 @@ export const SEED_ANIMES: any[] = [
       "[Written by MAL Rewrite]",
     coverImage: "https://media.kitsu.io/anime/poster_images/220/small.jpg",
     youtubeVideoId: "N/A",
-    playlistID: "3",
+    playlistID: 3,
     isDemoAnime: true,
   },
 ];

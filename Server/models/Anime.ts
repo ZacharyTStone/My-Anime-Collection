@@ -49,7 +49,7 @@ const AnimeSchema = new Schema<AnimeDocument>(
       required: false,
     },
     playlistID: {
-      type: String,
+      type: Number,
       required: true,
     },
     isDemoAnime: {
@@ -74,7 +74,7 @@ export interface AnimeDocument extends Document {
   synopsis?: string;
   coverImage?: string;
   youtubeVideoId?: string;
-  playlistID: string;
+  playlistID: number;
   isDemoAnime: boolean;
 }
 

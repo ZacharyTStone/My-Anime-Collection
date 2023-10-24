@@ -6,6 +6,8 @@ export const DESKTOP = 1024;
 export const LARGE_DESKTOP = 1440;
 export const EXTRA_LARGE_DESKTOP = 2560;
 
+export const DEFAULT_PLAYLIST_IDS = [0, 1, 2];
+
 export const VIEWPORTS = {
   SMALL_MOBILE,
   MEDIUM_MOBILE,

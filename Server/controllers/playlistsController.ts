@@ -14,16 +14,13 @@ const getPlaylists = async (req, res) => {
 const createPlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
-  const newPlaylistID = user.playlists.length
-    ? (user.playlists[user.playlists.length - 1].id + 1).toString()
-    : Math.floor(Math.random() * 1000000).toString();
+  const newPlaylistID = user.playlists[user.playlists.length - 1].id + 1;
 
-  Math.floor(Math.random() * 1000000);
   const randomTitle = Math.floor(Math.random() * 1000);
 
   const playlist = {
     title: `Playlist ${randomTitle}`,
-    id: `${newPlaylistID}`,
+    id: newPlaylistID,
   };
 
   user.playlists.push(playlist);
@@ -58,7 +55,7 @@ const deletePlaylist = async (req, res) => {
     throw new BadRequestError("Playlist not found");
   }
 
-  if (playlist.id === "0" || playlist.id === "1" || playlist.id === "2") {
+  if (playlist.id === 0 || playlist.id === 1 || playlist.id === 2) {
     throw new BadRequestError("You cannot delete " + playlist.title);
   }
 
@@ -69,7 +66,7 @@ const deletePlaylist = async (req, res) => {
   });
 
   animes.forEach((anime) => {
-    if (anime.playlistID.includes(playlist.id)) {
+    if (anime.playlistID === playlist.id) {
       anime.remove();
     }
   });
