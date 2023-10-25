@@ -3,22 +3,20 @@ import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
-// REST routes are defined in AnimeRoutes.js
-
 const createAnime = async (req, res) => {
+  const { title, playlistID } = req.body;
+
   const existingAnime = await Anime.findOne({
-    title: req.body.title,
+    title,
     createdBy: req.user.userId,
-    playlistID: req.body.playlistID,
+    playlistID,
   });
 
   if (existingAnime) {
     throw new NotFoundError(`You have already added that anime to your list`);
   }
 
-  req.body.createdBy = req.user.userId;
-
-  const anime = await Anime.create(req.body);
+  const anime = await Anime.create({ ...req.body, createdBy: req.user.userId });
   res.status(StatusCodes.CREATED).json({ anime });
 };
 
@@ -29,21 +27,19 @@ interface QueryObject {
 }
 
 const getAnimes = async (req, res) => {
-  const { sort, search, currentPlaylistID } = req.query;
+  const { sort, search, currentPlaylistID, page, limit } = req.query;
 
-  let queryObject: QueryObject = {
+  const queryObject: QueryObject = {
     createdBy: req.user.userId,
     playlistID: currentPlaylistID,
   };
 
   if (search) {
-    // Add case-insensitive search for title
     queryObject.title = { $regex: search, $options: "i" };
   }
 
   let result = Anime.find(queryObject);
 
-  // Apply sorting based on the provided option
   const SORT_OPTIONS = {
     latest: { creationDate: -1 },
     oldest: { creationDate: 1 },
@@ -59,16 +55,12 @@ const getAnimes = async (req, res) => {
     result = result.sort(SORT_OPTIONS[sort]);
   }
 
-  // Setup pagination
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
-
-  result = result.skip(skip).limit(limit);
+  const skip = (Number(page) || 1 - 1) * (Number(limit) || 10);
+  result = result.skip(skip).limit(Number(limit) || 10);
 
   const animes = await result;
   const totalAnimes = await Anime.countDocuments(queryObject);
-  const numOfPages = Math.ceil(totalAnimes / limit);
+  const numOfPages = Math.ceil(totalAnimes / (Number(limit) || 10));
 
   res.status(StatusCodes.OK).json({ animes, totalAnimes, numOfPages });
 };
@@ -82,7 +74,7 @@ const deleteAnime = async (req, res) => {
     throw new NotFoundError(`No Anime with id :${animeId}`);
   }
 
-  checkPermissions(req.user, anime?.createdBy.toString()); // Convert createdBy to string
+  checkPermissions(req.user, anime?.createdBy.toString());
 
   await anime.remove();
 
