@@ -25,10 +25,15 @@ const createPlaylist = async (req, res) => {
   try {
     let newPlaylistID = uuidv4(); // Use uuid library for unique ID generation
 
-    const playlistExists = await Playlist.findOne({ id: newPlaylistID });
+    let playlistExists = await Playlist.findOne({ id: newPlaylistID });
 
+    // If the ID already exists, generate a new one
     while (playlistExists) {
       newPlaylistID = uuidv4();
+      playlistExists = await Playlist.findOne({ id: newPlaylistID });
+      if (!playlistExists) {
+        break;
+      }
     }
 
     const randomTitle = `Playlist ${Math.floor(Math.random() * 1000)}`;
