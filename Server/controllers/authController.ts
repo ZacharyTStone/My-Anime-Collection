@@ -5,6 +5,7 @@ import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/misc.js";
 import { SEED_ANIMES } from "../utils/seed_animes.js";
 import { generateRandomNumber } from "../utils/misc.js";
+import Playlist from "../models/Playlist.js";
 // REST routes are defined in authRoutes.js
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -84,6 +85,36 @@ const register = async (req, res) => {
     isDemo,
     theme,
   });
+
+  const DEFAULT_PLAYLISTS = [
+    {
+      title: "Currently Watching",
+      id: "0",
+    },
+    {
+      title: "Want to Watch",
+      id: "1",
+    },
+    {
+      title: "My All Time Favorites ❤️",
+      id: "2",
+    },
+  ];
+  // create 3 playlists for the user
+
+  const playlistPromises = DEFAULT_PLAYLISTS.map(async (playlist) => {
+    try {
+      await Playlist.create({
+        title: playlist.title,
+        id: playlist.id,
+        createdBy: user._id,
+      });
+    } catch (error) {
+      console.error(`Error creating playlist: ${error.message}`);
+    }
+  });
+
+  await Promise.all(playlistPromises);
 
   if (isDemo) {
     const animePromises = SEED_ANIMES.map(async (animeData) => {

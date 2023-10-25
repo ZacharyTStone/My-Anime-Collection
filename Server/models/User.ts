@@ -3,24 +3,6 @@ import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-// Define the Playlist interface
-interface Playlist {
-  title: string;
-  id: string;
-}
-
-// Create a schema for the playlist
-const playlistSchema = new Schema<Playlist>({
-  title: String,
-  id: String,
-});
-
-// Create a document interface for the playlist
-interface PlaylistDocument {
-  title: string;
-  id: string;
-}
-
 const UserSchema = new Schema<UserDocument>(
   {
     name: {
@@ -59,23 +41,6 @@ const UserSchema = new Schema<UserDocument>(
       enum: ["en", "jp"],
       default: "en",
     },
-    playlists: {
-      type: [playlistSchema] as any,
-      default: [
-        {
-          title: "Currently Watching",
-          id: "0",
-        },
-        {
-          title: "Want to Watch",
-          id: "1",
-        },
-        {
-          title: "My All Time Favorites ❤️",
-          id: "2",
-        },
-      ] as PlaylistDocument[],
-    },
   },
   { timestamps: true }
 );
@@ -110,7 +75,6 @@ export interface UserDocument extends Document {
   password: string;
   theme: "light" | "dark";
   language: "en" | "jp";
-  playlists: Playlist[];
   createJWT(): string;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }

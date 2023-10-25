@@ -2,40 +2,45 @@ import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../errors/index.js";
 import Anime from "../models/Anime.js";
+import Playlist from "../models/Playlist.js";
 
 // REST routes are defined in playlistRoutes.js
 
 const getPlaylists = async (req, res) => {
-  const user = await User.findOne({ _id: req.user.userId });
-  const playlists = user.playlists;
+  const playlists = await Playlist.find({ createdBy: req.user.userId });
   res.status(StatusCodes.OK).json({ playlists });
 };
 
 const createPlaylist = async (req, res) => {
-  const user = await User.findOne({ _id: req.user.userId });
+  let newPlaylistID = Math.floor(Math.random() * 1000000).toString();
 
-  const newPlaylistID = user.playlists.length
-    ? (user.playlists[user.playlists.length - 1].id + 1).toString()
-    : Math.floor(Math.random() * 1000000).toString();
+  const playlistExists = await Playlist.findOne({ id: newPlaylistID });
 
-  Math.floor(Math.random() * 1000000);
+  if (playlistExists) {
+    newPlaylistID = Math.floor(Math.random() * 1000000).toString();
+  }
+
   const randomTitle = Math.floor(Math.random() * 1000);
 
   const playlist = {
     title: `Playlist ${randomTitle}`,
     id: `${newPlaylistID}`,
+    created_by: req.user.userId,
   };
 
-  user.playlists.push(playlist);
-  await user.save();
+  // create new playlist
+  const newPlaylist = new Playlist(playlist);
+
+  await newPlaylist.save();
+
   res.status(StatusCodes.CREATED).json({ playlist });
 };
 
 const updatePlaylist = async (req, res) => {
-  const user = await User.findOne({ _id: req.user.userId });
-  const playlist = user.playlists.find(
-    (playlist) => playlist.id === req.params.id
-  );
+  const playlist = await Playlist.findOne({
+    id: req.params.id,
+    createdBy: req.user.userId,
+  });
 
   if (!playlist) {
     throw new BadRequestError("Playlist not found");
@@ -43,16 +48,16 @@ const updatePlaylist = async (req, res) => {
 
   playlist.title = req.body.title;
 
-  await user.save();
-  res.status(StatusCodes.OK).json({ playlist });
+  await playlist.save();
 };
 
 const deletePlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
-  const playlist = user.playlists.find(
-    (playlist) => playlist.id === req.params.id
-  );
+  const playlist = await Playlist.findOne({
+    id: req.params.id,
+    createdBy: req.user.userId,
+  });
 
   if (!playlist) {
     throw new BadRequestError("Playlist not found");
@@ -76,11 +81,8 @@ const deletePlaylist = async (req, res) => {
 
   // Remove playlist
   //@ts-ignore
-  user.playlists = user.playlists.filter(
-    (playlist) => playlist.id !== req.params.id
-  );
+  playlist.remove();
 
-  await user.save();
   res.status(StatusCodes.OK).json({ message: "Playlist deleted" });
 };
 
