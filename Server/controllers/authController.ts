@@ -107,7 +107,7 @@ const register = async (req, res) => {
       await Playlist.create({
         title: playlist.title,
         id: playlist.id,
-        createdBy: user._id,
+        created_by: user._id,
       });
     } catch (error) {
       console.error(`Error creating playlist: ${error.message}`);
