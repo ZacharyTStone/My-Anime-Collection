@@ -2,8 +2,8 @@ import User from "../models/User.js";
 import Anime from "../models/Anime.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
-import { DEMO_USER } from "../utils/misc.js";
-import { SEED_ANIMES } from "../utils/seed_animes.js";
+import { DEMO_USER } from "../utils/constants.js";
+import { SEED_ANIMES } from "../utils/constants.js";
 import { generateRandomNumber } from "../utils/misc.js";
 import Playlist from "../models/Playlist.js";
 

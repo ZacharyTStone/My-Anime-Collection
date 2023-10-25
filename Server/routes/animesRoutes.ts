@@ -7,23 +7,13 @@ import {
   getAnimes,
 } from "../controllers/animesController.js"; // Add .js extension
 
-// Import middleware functions
-import rateLimiter from "express-rate-limit";
+import { apiLimiter500, apiLimiter2000 } from "../utils/apiRateLimiters.js";
 
-// Define the rate limiter middleware
-const apiLimiter = rateLimiter({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 500,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
-
-// Define the routes
 router
   .route("/")
-  .post(apiLimiter, createAnime) // POST /api/v1/animes
-  .get(getAnimes); // GET /api/v1/animes
+  .post(apiLimiter500, createAnime) // POST /api/v1/animes
+  .get(apiLimiter2000, getAnimes); // GET /api/v1/animes
 
-// :id is a dynamic parameter
-router.route("/:id").delete(deleteAnime); // DELETE /api/v1/animes/:id
+router.route("/:id").delete(apiLimiter500, deleteAnime); // DELETE /api/v1/animes/:id
 
 export default router;

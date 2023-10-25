@@ -6,34 +6,19 @@ import {
   deletePlaylist,
   getPlaylists,
   updatePlaylist,
-} from "../controllers/playlistsController.js"; // Add .js extension
-
-// Import middleware functions
-import rateLimiter from "express-rate-limit";
-
-// Define rate limiter middlewares
-const apiLimiterSmall = rateLimiter({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
-
-const apiLimiterLarge = rateLimiter({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 3000,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
+} from "../controllers/playlistsController.js";
+import { apiLimiter2000, apiLimiter50 } from "../utils/apiRateLimiters.js";
 
 // Define the routes
 router
   .route("/")
-  .post(apiLimiterSmall, createPlaylist) // POST /api/v1/playlists
-  .get(apiLimiterLarge, getPlaylists); // GET /api/v1/playlists
+  .post(apiLimiter50, createPlaylist) // POST /api/v1/playlists
+  .get(apiLimiter2000, getPlaylists); // GET /api/v1/playlists
 
 // :id is a dynamic parameter
 router
   .route("/:id")
-  .delete(apiLimiterLarge, deletePlaylist) // DELETE /api/v1/playlists/:id
-  .put(apiLimiterLarge, updatePlaylist); // PUT /api/v1/playlists/:id
+  .delete(apiLimiter2000, deletePlaylist) // DELETE /api/v1/playlists/:id
+  .put(apiLimiter2000, updatePlaylist); // PUT /api/v1/playlists/:id
 
 export default router;

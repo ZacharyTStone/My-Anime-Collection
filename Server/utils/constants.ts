@@ -1,3 +1,12 @@
+import { v4 as uuidv4 } from "uuid";
+
+export const DEMO_USER = {
+  name: "Demo",
+  is_demo_user: true,
+  email: `DemoUser${uuidv4()}@demo.com`,
+  password: uuidv4(),
+};
+
 export const SEED_ANIMES: any[] = [
   {
     creationDate: "1989-04-26T00:00:00.000Z",
