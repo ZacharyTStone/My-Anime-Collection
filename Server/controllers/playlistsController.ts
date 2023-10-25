@@ -30,13 +30,8 @@ const createPlaylist = async (req, res) => {
 
 const updatePlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
-
   const playlist = user.playlists.find(
-    (playlist) =>
-      playlist.id ===
-      (typeof req.params.id === "string"
-        ? parseInt(req.params.id)
-        : req.params.id)
+    (playlist) => playlist.id === req.params.id
   );
 
   if (!playlist) {
@@ -53,11 +48,7 @@ const deletePlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
   const playlist = user.playlists.find(
-    (playlist) =>
-      playlist.id ===
-      (typeof req.params.id === "string"
-        ? parseInt(req.params.id)
-        : req.params.id)
+    (playlist) => playlist.id === req.params.id
   );
 
   if (!playlist) {
@@ -71,10 +62,7 @@ const deletePlaylist = async (req, res) => {
   // Delete all user's animes in the playlist
   const animes = await Anime.find({
     createdBy: req.user.userId,
-    playlistID:
-      typeof req.params.id === "string"
-        ? parseInt(req.params.id)
-        : req.params.id,
+    playlistID: req.params.id,
   });
 
   animes.forEach((anime) => {
@@ -86,11 +74,7 @@ const deletePlaylist = async (req, res) => {
   // Remove playlist
   //@ts-ignore
   user.playlists = user.playlists.filter(
-    (playlist) =>
-      playlist.id !==
-      (typeof req.params.id === "string"
-        ? parseInt(req.params.id)
-        : req.params.id)
+    (playlist) => playlist.id !== req.params.id
   );
 
   await user.save();

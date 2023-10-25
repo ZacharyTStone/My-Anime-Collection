@@ -39,6 +39,8 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     getPlaylists();
+    setNewTitle(currentPlaylist.title);
+    setId(currentPlaylist.id);
   }, []);
 
   const handleNewPlaylistSubmit = async (e: React.FormEvent) => {
