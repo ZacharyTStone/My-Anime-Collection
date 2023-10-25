@@ -108,6 +108,7 @@ const register = async (req, res) => {
         title: playlist.title,
         id: playlist.id,
         created_by: user._id,
+        demo_user_playlist: user.isDemo,
       });
     } catch (error) {
       console.error(`Error creating playlist: ${error.message}`);

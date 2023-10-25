@@ -78,6 +78,12 @@ export interface AnimeDocument extends Document {
   isDemoAnime: boolean;
 }
 
+// Create a TTL index on the isDemoAnime field with a expireAfterSeconds option (in this case, 30 days)
+AnimeSchema.index(
+  { creationDate: 1 },
+  { expireAfterSeconds: 30 * 24 * 60 * 60 }
+);
+
 // Create and export the Anime model
-const Anime = mongoose.model<AnimeDocument>("Anime", AnimeSchema);
+const Anime = mongoose.model("Anime", AnimeSchema);
 export default Anime;

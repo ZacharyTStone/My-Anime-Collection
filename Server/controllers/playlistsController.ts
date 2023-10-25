@@ -20,6 +20,8 @@ const getPlaylists = async (req, res) => {
 };
 
 const createPlaylist = async (req, res) => {
+  const user = await User.findOne({ _id: req.user.userId });
+
   try {
     let newPlaylistID = uuidv4(); // Use uuid library for unique ID generation
 
@@ -35,6 +37,7 @@ const createPlaylist = async (req, res) => {
       title: randomTitle,
       id: newPlaylistID,
       created_by: req.user.userId,
+      demo_user_playlist: user.isDemo,
     };
 
     const newPlaylist = new Playlist(playlist);

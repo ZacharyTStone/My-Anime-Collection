@@ -1,8 +1,10 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+// Import the necessary libraries
+import mongoose, { Document, Schema } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+// Define the User schema
 const UserSchema = new Schema<UserDocument>(
   {
     name: {
@@ -66,6 +68,15 @@ UserSchema.methods.comparePassword = async function (
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
   return isMatch;
 };
+
+// Create a TTL index on the createdAt field for demo users with a expireAfterSeconds option (in this case, 30 days)
+UserSchema.index(
+  { createdAt: 1 },
+  {
+    expireAfterSeconds: 30 * 24 * 60 * 60,
+    partialFilterExpression: { isDemo: true },
+  }
+);
 
 // Create a document interface for the user
 export interface UserDocument extends Document {
