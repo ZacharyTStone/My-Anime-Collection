@@ -52,7 +52,7 @@ const AnimeSchema = new Schema<AnimeDocument>(
       type: String,
       required: true,
     },
-    isDemoAnime: {
+    is_demo_anime: {
       type: Boolean,
       default: false,
     },
@@ -75,10 +75,10 @@ export interface AnimeDocument extends Document {
   coverImage?: string;
   youtubeVideoId?: string;
   playlistID: string;
-  isDemoAnime: boolean;
+  is_demo_anime: boolean;
 }
 
-// Create a TTL index on the isDemoAnime field with a expireAfterSeconds option (in this case, 30 days)
+// Create a TTL index on the is_demo_anime field with a expireAfterSeconds option (in this case, 30 days)
 AnimeSchema.index(
   { creationDate: 1 },
   { expireAfterSeconds: 30 * 24 * 60 * 60 }

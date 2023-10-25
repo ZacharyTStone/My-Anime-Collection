@@ -23,7 +23,7 @@ const UserSchema = new Schema<UserDocument>(
       },
       unique: true,
     },
-    isDemo: {
+    is_demo_user: {
       type: Boolean,
       default: false,
     },
@@ -74,7 +74,7 @@ UserSchema.index(
   { createdAt: 1 },
   {
     expireAfterSeconds: 30 * 24 * 60 * 60,
-    partialFilterExpression: { isDemo: true },
+    partialFilterExpression: { is_demo_user: true },
   }
 );
 
@@ -82,7 +82,7 @@ UserSchema.index(
 export interface UserDocument extends Document {
   name: string;
   email: string;
-  isDemo: boolean;
+  is_demo_user: boolean;
   password: string;
   theme: "light" | "dark";
   language: "en" | "jp";

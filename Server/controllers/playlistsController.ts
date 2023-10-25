@@ -37,7 +37,7 @@ const createPlaylist = async (req, res) => {
       title: randomTitle,
       id: newPlaylistID,
       created_by: req.user.userId,
-      demo_user_playlist: user.isDemo,
+      demo_user_playlist: user.is_demo_user,
     };
 
     const newPlaylist = new Playlist(playlist);

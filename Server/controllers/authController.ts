@@ -56,13 +56,13 @@ const updateUser = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { isDemo } = req.body;
-  const { name, email, password } = isDemo ? DEMO_USER : req.body;
+  const { is_demo_user } = req.body;
+  const { name, email, password } = is_demo_user ? DEMO_USER : req.body;
   const { theme } = req.body;
 
   const errorMessage = "Please provide all values";
 
-  if (!isDemo && (!name || !email || !password)) {
+  if (!is_demo_user && (!name || !email || !password)) {
     throw new BadRequestError(errorMessage);
   }
 
@@ -71,7 +71,7 @@ const register = async (req, res) => {
   const userAlreadyExists = await User.findOne({ email });
 
   if (userAlreadyExists) {
-    if (isDemo) {
+    if (is_demo_user) {
       userEmail = `DemoUser${generateRandomNumber()}${generateRandomNumber()}${generateRandomNumber()}@demo.com`;
     } else {
       throw new BadRequestError("Email already in use");
@@ -82,7 +82,7 @@ const register = async (req, res) => {
     name,
     email: userEmail,
     password,
-    isDemo,
+    is_demo_user,
     theme,
   });
 
@@ -108,7 +108,7 @@ const register = async (req, res) => {
         title: playlist.title,
         id: playlist.id,
         created_by: user._id,
-        demo_user_playlist: user.isDemo,
+        demo_user_playlist: user.is_demo_user,
       });
     } catch (error) {
       console.error(`Error creating playlist: ${error.message}`);
@@ -117,7 +117,7 @@ const register = async (req, res) => {
 
   await Promise.all(playlistPromises);
 
-  if (isDemo) {
+  if (is_demo_user) {
     const animePromises = SEED_ANIMES.map(async (animeData) => {
       try {
         await Anime.create({
@@ -136,7 +136,7 @@ const register = async (req, res) => {
   res.status(StatusCodes.CREATED).json({
     user: {
       email: user.email,
-      isDemo: user.isDemo,
+      is_demo_user: user.is_demo_user,
       name: user.name,
       theme: user.theme,
     },

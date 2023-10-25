@@ -26,7 +26,7 @@ const Register = () => {
   const localTheme = theme ? theme : "light";
   const onSubmit = () => {
     const currentUser = {
-      isDemo: true,
+      is_demo_user: true,
       theme: localTheme,
     };
 

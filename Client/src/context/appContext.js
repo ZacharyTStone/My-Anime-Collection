@@ -344,7 +344,7 @@ const AppProvider = ({ children }) => {
         anime.attributes.canonicalTitle ||
         "Title N/A";
 
-      const isDemoAnime = state.user.isDemo ? true : false;
+      const is_demo_anime = state.user.is_demo_user ? true : false;
 
       await authFetch.post("/animes", {
         title,
@@ -358,7 +358,7 @@ const AppProvider = ({ children }) => {
         youtubeVideoId,
         japanese_title,
         playlistID,
-        isDemoAnime,
+        is_demo_anime,
       });
 
       dispatch({

@@ -11,7 +11,7 @@ interface FormValues {
   name: string;
   email: string;
   password: string;
-  isDemo: boolean;
+  is_demo_user: boolean;
   theme: string;
   isMember?: boolean;
 }
@@ -20,7 +20,7 @@ const initialState: FormValues = {
   name: "",
   email: "",
   password: "",
-  isDemo: false,
+  is_demo_user: false,
   theme: "light",
 };
 
@@ -45,14 +45,14 @@ const Register: React.FC = () => {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, email, password, isMember } = values;
-    const isDemo = false;
+    const is_demo_user = false;
     const theme = localTheme;
 
     if (!email || !password || (!isMember && !name)) {
       displayAlert();
       return;
     }
-    const currentUser = { name, email, password, theme, isDemo };
+    const currentUser = { name, email, password, theme, is_demo_user };
 
     if (isMember) {
       setupUser({

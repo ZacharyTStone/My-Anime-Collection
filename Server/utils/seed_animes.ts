@@ -14,7 +14,7 @@ export const SEED_ANIMES: any[] = [
     coverImage: "https://media.kitsu.io/anime/poster_images/720/small.jpg",
     youtubeVideoId: "b5mKTXse_gQ",
     playlistID: "2",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "2014-07-04T00:00:00.000Z",
@@ -31,7 +31,7 @@ export const SEED_ANIMES: any[] = [
     coverImage: "https://media.kitsu.io/anime/poster_images/8271/small.jpg",
     youtubeVideoId: "vGuQeQsoRgU",
     playlistID: "0",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "2023-10-07T00:00:00.000Z",
@@ -46,7 +46,7 @@ export const SEED_ANIMES: any[] = [
       "https://media.kitsu.io/anime/46873/poster_image/small-4014254a3fdbd98ac825c53a94fbd2a3.jpeg",
     youtubeVideoId: "W2tMsaAVjD0",
     playlistID: "1",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "1995-10-04T00:00:00.000Z",
@@ -67,7 +67,7 @@ export const SEED_ANIMES: any[] = [
       "https://media.kitsu.io/anime/21/poster_image/small-6662f66b53b64098d873e037b3f59bd2.jpeg",
     youtubeVideoId: "qW5DCdRp3rk",
     playlistID: "2",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "2010-04-03T00:00:00.000Z",
@@ -84,7 +84,7 @@ export const SEED_ANIMES: any[] = [
     coverImage: "https://media.kitsu.io/anime/poster_images/4604/small.jpg",
     youtubeVideoId: "zkY-sG6crKI",
     playlistID: "2",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "2006-10-04T00:00:00.000Z",
@@ -105,7 +105,7 @@ export const SEED_ANIMES: any[] = [
     coverImage: "https://media.kitsu.io/anime/poster_images/1376/small.jpg",
     youtubeVideoId: "NlJZ-YgAt-c",
     playlistID: "2",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "2013-04-07T00:00:00.000Z",
@@ -124,7 +124,7 @@ export const SEED_ANIMES: any[] = [
     coverImage: "https://media.kitsu.io/anime/poster_images/7442/small.jpg",
     youtubeVideoId: "LHtdKWJdif4",
     playlistID: "2",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "2018-10-02T00:00:00.000Z",
@@ -141,7 +141,7 @@ export const SEED_ANIMES: any[] = [
     coverImage: "https://media.kitsu.io/anime/poster_images/41024/small.jpg",
     youtubeVideoId: "bXCCKubabe0",
     playlistID: "1",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "2012-10-12T00:00:00.000Z",
@@ -158,7 +158,7 @@ export const SEED_ANIMES: any[] = [
     coverImage: "https://media.kitsu.io/anime/poster_images/7000/small.jpg",
     youtubeVideoId: "70zW21l5ZUU",
     playlistID: "1",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
   {
     creationDate: "1999-06-30T00:00:00.000Z",
@@ -176,6 +176,6 @@ export const SEED_ANIMES: any[] = [
     coverImage: "https://media.kitsu.io/anime/poster_images/220/small.jpg",
     youtubeVideoId: "N/A",
     playlistID: "3",
-    isDemoAnime: true,
+    is_demo_anime: true,
   },
 ];
