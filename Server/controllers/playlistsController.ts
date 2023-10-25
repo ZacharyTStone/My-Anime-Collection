@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid"; // Import uuid library for unique ID genera
 
 const getPlaylists = async (req, res) => {
   try {
-    const playlists = await Playlist.find({ createdBy: req.user.userId });
+    const playlists = await Playlist.find({ created_by: req.user.userId });
 
     console.log("wow", playlists);
     res.status(StatusCodes.OK).json({ playlists });
@@ -56,7 +56,7 @@ const updatePlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findOne({
       id: req.params.id,
-      createdBy: req.user.userId,
+      created_by: req.user.userId,
     });
 
     if (!playlist) {
@@ -79,7 +79,7 @@ const deletePlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findOne({
       id: req.params.id,
-      createdBy: req.user.userId,
+      created_by: req.user.userId,
     });
 
     if (!playlist) {
