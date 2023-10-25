@@ -3,7 +3,6 @@ import { FetchedAnimesContainer } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import { useEffect } from "react";
 import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
-import styled from "styled-components";
 
 const MyAnimes = () => {
   const { t } = useTranslation();
@@ -38,7 +37,17 @@ const MyAnimes = () => {
           {t("top_animes.title")}
         </h1>
 
-        <HeaderDiv>
+        <div
+          style={{
+            display: "flex",
+
+            margin: "0 auto",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           {/* playlist */}
 
           <form className="form-row">
@@ -67,7 +76,7 @@ const MyAnimes = () => {
               )}
             </select>
           </form>
-        </HeaderDiv>
+        </div>
         <FetchedAnimesContainer
           searchText={""}
           baseURL={"https://kitsu.io/api/edge/trending/anime"}
@@ -79,14 +88,5 @@ const MyAnimes = () => {
     </>
   );
 };
-
-const HeaderDiv = styled.div`
-  display: flex;
-  margin: 0 auto;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default MyAnimes;

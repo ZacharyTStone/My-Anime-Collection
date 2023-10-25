@@ -74,8 +74,8 @@ function Anime({
     if (isLoading) return;
     createAnime(fetchedAnime, currentPlaylist.id, currentPlaylist.title);
     if (addToDefault) {
-      if (currentPlaylist.id !== 0 || currentPlaylist.title !== "default") {
-        createAnime(fetchedAnime, 0, "default");
+      if (currentPlaylist.id !== "0" || currentPlaylist.title !== "default") {
+        createAnime(fetchedAnime, "0", "default");
       }
     }
   };

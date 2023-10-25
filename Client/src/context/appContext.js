@@ -431,8 +431,6 @@ const AppProvider = ({ children }) => {
       const { data } = await authFetch("/playlists");
       const { playlists } = data || [];
 
-      console.log("playlists", playlists);
-
       dispatch({
         type: GET_PLAYLIST_SUCCESS,
         payload: { playlists },
@@ -481,7 +479,7 @@ const AppProvider = ({ children }) => {
   const updatePlaylist = async (playlist) => {
     dispatch({ type: UPDATE_PLAYLIST_BEGIN });
 
-    if (playlist.id === 0) {
+    if (playlist.id === "0") {
       toast.error(`Woops. The default playlist can not be edited`, {
         toastId: "update-playlist-error",
       });

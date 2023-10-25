@@ -5,7 +5,6 @@ import { AiFillDelete } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import { FormRow } from "../../Components/UI";
 import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
-import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
@@ -21,13 +20,15 @@ const Profile: React.FC = () => {
     loadingFetchPlaylists,
   } = useAppContext();
 
-  const [newTitle, setNewTitle] = useState("");
-  const [id, setId] = useState<number | null>(null);
+  const DEFAULT_PLAYLIST_IDS = ["0", "1", "2"];
 
-  const handleClickOnPlaylist = async (id: number) => {
+  const [newTitle, setNewTitle] = useState("");
+  const [id, setId] = useState("");
+
+  const handleClickOnPlaylist = async (id: string) => {
     if (isLoading) return;
     const playlist = userPlaylists.find(
-      (playlist: { id: number; title: string }) => playlist.id === id
+      (playlist: { id: string; title: string }) => playlist.id === id
     );
     if (!playlist) {
       return;
@@ -74,56 +75,49 @@ const Profile: React.FC = () => {
         <h3>{t("edit_playlist.title")}</h3>
         <div className="form-left">
           <ul>
-            {userPlaylists.map(
-              (playlist: { id: number; title: string }) => (
-                console.log(playlist),
-                (
-                  <li
-                    key={playlist.id}
-                    className={
-                      playlist.id === currentPlaylist.id ? "active" : ""
-                    }
+            {userPlaylists.map((playlist: { id: string; title: string }) => (
+              <li
+                key={playlist.id}
+                className={playlist.id === currentPlaylist.id ? "active" : ""}
+              >
+                <span
+                  onClick={() => handleClickOnPlaylist(playlist.id)}
+                  className="playlist-title"
+                >
+                  {playlist.title}
+                </span>
+                {!DEFAULT_PLAYLIST_IDS.includes(playlist.id) && (
+                  <span
+                    style={{
+                      padding: "0px 10px",
+                    }}
+                    onClick={async () => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this playlist?"
+                        )
+                      ) {
+                        await deletePlaylist(playlist.id);
+                        setNewTitle("");
+                        setId("");
+                      }
+                    }}
                   >
-                    <span
-                      onClick={() => handleClickOnPlaylist(playlist.id)}
-                      className="playlist-title"
-                    >
-                      {playlist.title}
-                    </span>
-                    {!DEFAULT_PLAYLIST_IDS.includes(playlist.id) && (
-                      <span
-                        style={{
-                          padding: "0px 10px",
-                        }}
-                        onClick={async () => {
-                          if (
-                            window.confirm(
-                              "Are you sure you want to delete this playlist?"
-                            )
-                          ) {
-                            await deletePlaylist(playlist.id);
-                            setNewTitle("");
-                            setId(null);
-                          }
-                        }}
-                      >
-                        <AiFillDelete
-                          style={{
-                            display: "-ms-flexbox",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            color: "red",
-                            fontSize: "1.5rem",
-                            marginLeft: "1rem",
-                            backgroundColor: "transparent",
-                          }}
-                        />
-                      </span>
-                    )}
-                  </li>
-                )
-              )
-            )}
+                    <AiFillDelete
+                      style={{
+                        display: "-ms-flexbox",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "red",
+                        fontSize: "1.5rem",
+                        marginLeft: "1rem",
+                        backgroundColor: "transparent",
+                      }}
+                    />
+                  </span>
+                )}
+              </li>
+            ))}
           </ul>
 
           <button

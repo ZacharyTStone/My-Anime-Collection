@@ -6,19 +6,19 @@ import jwt from "jsonwebtoken";
 // Define the Playlist interface
 interface Playlist {
   title: string;
-  id: number;
+  id: string;
 }
 
 // Create a schema for the playlist
 const playlistSchema = new Schema<Playlist>({
   title: String,
-  id: Number,
+  id: String,
 });
 
 // Create a document interface for the playlist
 interface PlaylistDocument {
   title: string;
-  id: number;
+  id: string;
 }
 
 const UserSchema = new Schema<UserDocument>(
@@ -64,15 +64,15 @@ const UserSchema = new Schema<UserDocument>(
       default: [
         {
           title: "Currently Watching",
-          id: 0,
+          id: "0",
         },
         {
           title: "Want to Watch",
-          id: 1,
+          id: "1",
         },
         {
           title: "My All Time Favorites ❤️",
-          id: 2,
+          id: "2",
         },
       ] as PlaylistDocument[],
     },
