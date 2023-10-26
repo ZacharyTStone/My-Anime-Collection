@@ -161,7 +161,7 @@ const createDefaultPlaylists = async (user, playlists) => {
 const createSeedAnimes = async (user) => {
   const animePromises = SEED_ANIMES.map(async (animeData) => {
     try {
-      await Anime.create({ createdBy: user._id, ...animeData });
+      await Anime.create({ created_by: user._id, ...animeData });
     } catch (error) {
       console.error(`Error creating anime: ${error.message}`);
     }
@@ -171,7 +171,7 @@ const createSeedAnimes = async (user) => {
 };
 
 const deleteAssociatedAnimes = async (userId) => {
-  const animes = await Anime.find({ createdBy: userId });
+  const animes = await Anime.find({ created_by: userId });
 
   const animePromises = animes.map(async (anime) => {
     try {

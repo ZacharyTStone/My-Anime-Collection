@@ -8,7 +8,7 @@ import checkPermissions from "../utils/checkPermissions.js";
 const createAnime = async (req, res) => {
   const existingAnime = await Anime.findOne({
     title: req.body.title,
-    createdBy: req.user.userId,
+    created_by: req.user.userId,
     playlistID: req.body.playlistID,
   });
 
@@ -16,14 +16,14 @@ const createAnime = async (req, res) => {
     throw new NotFoundError(`You have already added that anime to your list`);
   }
 
-  req.body.createdBy = req.user.userId;
+  req.body.created_by = req.user.userId;
 
   const anime = await Anime.create(req.body);
   res.status(StatusCodes.CREATED).json({ anime });
 };
 
 interface QueryObject {
-  createdBy: string;
+  created_by: string;
   playlistID: string;
   title?: any;
 }
@@ -32,7 +32,7 @@ const getAnimes = async (req, res) => {
   const { sort, search, currentPlaylistID } = req.query;
 
   let queryObject: QueryObject = {
-    createdBy: req.user.userId,
+    created_by: req.user.userId,
     playlistID: currentPlaylistID,
   };
 
@@ -82,7 +82,7 @@ const deleteAnime = async (req, res) => {
     throw new NotFoundError(`No Anime with id :${animeId}`);
   }
 
-  checkPermissions(req.user, anime?.createdBy.toString()); // Convert createdBy to string
+  checkPermissions(req.user, anime?.created_by.toString()); // Convert created_by to string
 
   await anime.remove();
 

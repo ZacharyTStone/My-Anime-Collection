@@ -456,7 +456,6 @@ const AppProvider = ({ children }) => {
 
     playlist = {
       title: playlistTitle,
-      userId: `${state.userPlaylists.length + 1}`,
     };
 
     try {

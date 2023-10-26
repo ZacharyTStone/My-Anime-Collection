@@ -392,12 +392,13 @@ const reducer = (
   }
 
   if (action.type === DELETE_PLAYLIST_SUCCESS) {
-    toast.success(`${t("edit_playlist.playlist_deleted_successfully")}}`, {
+    toast.success(`${t("edit_playlist.playlist_deleted_successfully")}`, {
       toastId: "deletePlaylist",
     });
     return {
       ...state,
       isLoading: false,
+      currentPlaylist: state.userPlaylists[0],
     };
   }
 

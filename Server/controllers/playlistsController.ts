@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const getPlaylists = async (req, res) => {
   try {
+    // find all playlists created by the user
     const playlists = await Playlist.find({ created_by: req.user.userId });
     console.log("Playlists:", playlists);
     res.status(StatusCodes.OK).json({ playlists });
@@ -21,7 +22,7 @@ const getPlaylists = async (req, res) => {
 const createPlaylist = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.userId });
-    let newPlaylistID = generateUniqueID();
+    let newPlaylistID = uuidv4();
     const randomTitle = `Playlist ${Math.floor(Math.random() * 1000)}`;
 
     const playlist = new Playlist({
@@ -67,13 +68,13 @@ const deletePlaylist = async (req, res) => {
     validateDeletion(playlist);
 
     const animes = await Anime.find({
-      createdBy: req.user.userId,
+      created_by: req.user.userId,
       playlistID: req.params.id,
     });
 
     await Promise.all(
       animes.map(async (anime) => {
-        if (anime.playlistID.includes(playlist.id)) {
+        if (anime.playlistID === playlist.id) {
           await anime.remove();
         }
       })
@@ -87,18 +88,6 @@ const deletePlaylist = async (req, res) => {
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: "Internal Server Error" });
   }
-};
-
-const generateUniqueID = () => {
-  let newPlaylistID = uuidv4();
-  let playlistExists = Playlist.findOne({ id: newPlaylistID });
-
-  while (playlistExists) {
-    newPlaylistID = uuidv4();
-    playlistExists = Playlist.findOne({ id: newPlaylistID });
-  }
-
-  return newPlaylistID;
 };
 
 const findPlaylistByIdAndUser = async (id, userId) => {
