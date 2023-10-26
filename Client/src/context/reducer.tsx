@@ -398,7 +398,7 @@ const reducer = (
     return {
       ...state,
       isLoading: false,
-      selectedPlaylist: state.userPlaylists[0],
+      currentPlaylist: state.userPlaylists[0],
     };
   }
 
