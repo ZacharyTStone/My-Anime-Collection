@@ -81,7 +81,10 @@ export interface AnimeDocument extends Document {
 // Create a TTL index on the is_demo_anime field with a expireAfterSeconds option (in this case, 30 days)
 AnimeSchema.index(
   { creationDate: 1 },
-  { expireAfterSeconds: 30 * 24 * 60 * 60 }
+  {
+    expireAfterSeconds: 30 * 24 * 60 * 60,
+    partialFilterExpression: { is_demo_anime: true },
+  }
 );
 
 // Create and export the Anime model
