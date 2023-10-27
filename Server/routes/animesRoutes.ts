@@ -7,7 +7,7 @@ import {
   getAnimes,
 } from "../controllers/animesController.js"; // Add .js extension
 
-import { apiLimiter500, apiLimiter2000 } from "../utils/apiRateLimiters.js";
+import { apiLimiter500, apiLimiter2000 } from "../utils/rateLimiters.js";
 
 router
   .route("/")

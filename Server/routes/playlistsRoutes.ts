@@ -7,7 +7,8 @@ import {
   getPlaylists,
   updatePlaylist,
 } from "../controllers/playlistsController.js";
-import { apiLimiter2000, apiLimiter50 } from "../utils/apiRateLimiters.js";
+
+import { apiLimiter2000, apiLimiter50 } from "../utils/rateLimiters.js";
 
 // Define the routes
 router

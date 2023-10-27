@@ -8,7 +8,9 @@ import {
   deleteUser,
 } from "../controllers/authController.js"; // Add .js extension
 import authenticateUser from "../middleware/auth.js"; // Add .js extension
-import { apiLimiter10, apiLimiter500 } from "../utils/apiRateLimiters.js";
+
+import { apiLimiter10, apiLimiter500 } from "../utils/rateLimiters.js";
+
 
 // Define the routes
 router.route("/register").post(apiLimiter10, register); // POST /api/v1/auth/register
