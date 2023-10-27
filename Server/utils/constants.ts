@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import Playlist, { PlaylisDocument } from "../models/Playlists.js";
 
 export const DEMO_USER = {
   name: "Demo",
@@ -186,5 +187,23 @@ export const SEED_ANIMES: any[] = [
     youtubeVideoId: "N/A",
     playlistID: "3",
     isDemoAnime: true,
+  },
+];
+
+export const DEFAULT_PLAYLISTS: any[] = [
+  {
+    title: "Currently Watching",
+    id: "0",
+    userID: "",
+  },
+  {
+    title: "Want to Watch",
+    id: "1",
+    userID: "",
+  },
+  {
+    title: "My All Time Favorites ❤️",
+    id: "2",
+    userID: "",
   },
 ];

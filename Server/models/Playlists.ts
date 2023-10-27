@@ -5,6 +5,7 @@ interface Playlist {
   title: string;
   id: string;
   userID: Types.ObjectId;
+  isDemoUserPlaylist: boolean;
 }
 
 // Create a schema for the playlist
@@ -16,13 +17,15 @@ const playlistSchema = new Schema<Playlist>({
     ref: "User",
     required: [true, "Please provide user"],
   },
+  isDemoUserPlaylist: Boolean,
 });
 
 // Create a document interface for the user
 export interface PlaylisDocument extends Document {
-  titile: string;
+  title: string;
   id: string;
   userID: Types.ObjectId;
+  isDemoUserPlaylist: boolean;
 }
 
 // Create and export the User model

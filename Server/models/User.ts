@@ -75,6 +75,7 @@ export interface UserDocument extends Document {
   password: string;
   theme: "light" | "dark";
   language: "en" | "jp";
+
   createJWT(): string;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }

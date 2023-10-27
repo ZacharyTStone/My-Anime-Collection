@@ -1,10 +1,12 @@
 import User from "../models/User.js";
 import Anime from "../models/Anime.js";
+import Playlist from "../models/Playlists.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/constants.js";
-import { SEED_ANIMES } from "../utils/constants.js";
+import { SEED_ANIMES, DEFAULT_PLAYLISTS } from "../utils/constants.js";
 import { generateRandomNumber } from "../utils/misc.js";
+
 // REST routes are defined in authRoutes.js
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -77,12 +79,23 @@ const register = async (req, res) => {
     }
   }
 
+  // create user
   const user = await User.create({
     name,
     email: userEmail,
     password,
     isDemo,
     theme,
+  });
+
+  // create base playlists
+  for (const playlist of DEFAULT_PLAYLISTS) {
+    playlist.userID = user._id;
+    playlist.demoUserPlaylist = isDemo;
+  }
+
+  DEFAULT_PLAYLISTS.forEach(async (playlist) => {
+    await Playlist.create(playlist);
   });
 
   if (isDemo) {
@@ -130,6 +143,19 @@ const deleteUser = async (req, res) => {
   });
 
   await Promise.all(animePromises);
+
+  // delete all associated playlists
+  const playlists = await Playlist.find({ userID: req.user.userId });
+
+  const playlistPromises = playlists.map(async (playlist) => {
+    try {
+      await playlist.remove();
+    } catch (error) {
+      console.error(`Error deleting playlist: ${error.message}`);
+    }
+  });
+
+  await Promise.all(playlistPromises);
 };
 
 export { register, login, updateUser, deleteUser };
