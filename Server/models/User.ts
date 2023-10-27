@@ -80,6 +80,14 @@ export interface UserDocument extends Document {
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
+UserSchema.index(
+  { createdAt: 1 },
+  {
+    expireAfterSeconds: 30 * 24 * 60 * 60,
+    partialFilterExpression: { isDemo: true },
+  }
+);
+
 // Create and export the User model
 const User = mongoose.model<UserDocument>("User", UserSchema);
 export default User;

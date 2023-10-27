@@ -27,6 +27,15 @@ export interface PlaylisDocument extends Document {
   userID: Types.ObjectId;
   isDemoUserPlaylist: boolean;
 }
+// Create a TTL index on the demo field with a expireAfterSeconds option (in this case, 30 days)
+
+playlistSchema.index(
+  { createdAt: 1 },
+  {
+    expireAfterSeconds: 30 * 24 * 60 * 60,
+    partialFilterExpression: { isDemoUserPlaylist: true },
+  }
+);
 
 // Create and export the User model
 const Playlist = mongoose.model<PlaylisDocument>("Playlist", playlistSchema);
