@@ -50,6 +50,7 @@ import { toast } from "react-toastify";
 import { initialState } from "./appContext";
 import { RESET_FETCHED_ANIMES } from "./actions";
 import { t } from "i18next";
+import { stat } from "fs";
 
 const reducer = (
   state: any,
@@ -392,12 +393,17 @@ const reducer = (
   }
 
   if (action.type === DELETE_PLAYLIST_SUCCESS) {
-    toast.success(`${t("edit_playlist.playlist_deleted_successfully")}}`, {
+    toast.success(`${t("edit_playlist.playlist_deleted_successfully")}`, {
       toastId: "deletePlaylist",
     });
     return {
       ...state,
       isLoading: false,
+      currentPlaylist: state.userPlaylists.find((playlist: any) => {
+        return playlist.id === state.currentPlaylist.id;
+      })
+        ? state.currentPlaylist
+        : state.userPlaylists[0],
     };
   }
 
