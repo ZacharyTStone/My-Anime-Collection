@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import TwitterShare from "./UI/TwitterShare";
 // @ts-ignore
 import { debounce } from "lodash";
+import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 
 const SearchContainer = () => {
   const { t } = useTranslation();
@@ -90,18 +91,16 @@ const SearchContainer = () => {
             <label htmlFor="playlist" className="form-label">
               {t("search_container.current_playlist")}
             </label>
-            <select
-              name="playlist"
-              value={currentPlaylist.id}
-              onChange={handleLocalPlaylistChange}
-              className="form-select"
-            >
-              {loadingFetchPlaylists ? (
-                <option disabled={true} value="">
-                  Loading...
-                </option>
-              ) : (
-                userPlaylists.map(
+            {loadingFetchPlaylists ? (
+              <SkeletonLoadingBlock height={40} width={240} borderRadius={6} />
+            ) : (
+              <select
+                name="playlist"
+                value={currentPlaylist.id}
+                onChange={handleLocalPlaylistChange}
+                className="form-select"
+              >
+                {userPlaylists.map(
                   (
                     playlist: {
                       id: string;
@@ -115,9 +114,9 @@ const SearchContainer = () => {
                       </option>
                     );
                   }
-                )
-              )}
-            </select>
+                )}
+              </select>
+            )}
           </form>
 
           <ClearFiltersButton

@@ -54,27 +54,25 @@ const MyAnimes = () => {
             <label htmlFor="playlist" className="form-label">
               {t("search_container.playlist")}
             </label>
-            <select
-              name="playlist"
-              value={currentPlaylist.id}
-              disabled={isLoading}
-              onChange={handleLocalPlaylistChange}
-              className="form-select"
-            >
-              {loadingFetchPlaylists ? (
-                <option disabled={true} value="">
-                  Loading...
-                </option>
-              ) : (
-                userPlaylists.map((playlist: any, index: number) => {
+            {loadingFetchPlaylists ? (
+              <SkeletonLoadingBlock height={40} width={240} borderRadius={6} />
+            ) : (
+              <select
+                name="playlist"
+                value={currentPlaylist.id}
+                disabled={isLoading}
+                onChange={handleLocalPlaylistChange}
+                className="form-select"
+              >
+                {userPlaylists.map((playlist: any, index: number) => {
                   return (
                     <option key={index} value={playlist.id}>
                       {playlist.title}
                     </option>
                   );
-                })
-              )}
-            </select>
+                })}
+              </select>
+            )}
           </form>
         </div>
         <FetchedAnimesContainer

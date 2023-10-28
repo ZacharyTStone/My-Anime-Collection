@@ -3,6 +3,7 @@ import { FetchedAnimesContainer } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
+import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
 
 // @ts-ignore
 import { debounce } from "lodash";
@@ -109,18 +110,20 @@ const AddAnime: React.FC = () => {
               <label htmlFor="playlist" className="form-label">
                 {t("search_container.playlist")}
               </label>
-              <select
-                name="playlist"
-                value={currentPlaylist.id}
-                onChange={handleLocalPlaylistChange}
-                className="form-select"
-              >
-                {loadingFetchPlaylists ? (
-                  <option disabled={true} value="">
-                    Loading...
-                  </option>
-                ) : (
-                  userPlaylists?.map(
+              {loadingFetchPlaylists ? (
+                <SkeletonLoadingBlock
+                  height={40}
+                  width={240}
+                  borderRadius={6}
+                />
+              ) : (
+                <select
+                  name="playlist"
+                  value={currentPlaylist.id}
+                  onChange={handleLocalPlaylistChange}
+                  className="form-select"
+                >
+                  {userPlaylists?.map(
                     (
                       playlist: {
                         id: string;
@@ -137,9 +140,9 @@ const AddAnime: React.FC = () => {
                         </option>
                       );
                     }
-                  )
-                )}
-              </select>
+                  )}
+                </select>
+              )}
             </form>
           </div>
         </form>
