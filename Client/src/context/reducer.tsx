@@ -369,7 +369,7 @@ const reducer = (
   }
 
   if (action.type === UPDATE_PLAYLIST_SUCCESS) {
-    toast.success(`${t("edit_playlist.playlist_updated_successfully")}}`, {
+    toast.success(`${t("edit_playlist.playlist_updated_successfully")}`, {
       toastId: "updatePlaylist",
     });
 
