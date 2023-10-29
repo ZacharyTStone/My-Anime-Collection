@@ -28,6 +28,7 @@ const TestimonialImg = styled.img`
   transform: translateY(-80%);
   z-index: 1;
   position: absolute;
+  border: 1px solid var(--primary-500);
 `;
 
 const TestimonialDiv = styled.div`
@@ -37,19 +38,16 @@ const TestimonialDiv = styled.div`
   justify-content: flex-start;
   text-align: center;
   margin: 20px 0 20px 20px;
-  border: 2px solid var(--primary-500);
+  border: 1px solid var(--primary-500);
   min-width: 140px;
-  width: 10vw;
+  width: 200px;
   height: fit-content;
   padding: 10px;
-
-  @media (min-width: 1040px) {
-    width: 15vw;
-  }
 `;
 
 const TestimonialText = styled.div`
-  min-height: 300px;
+  margin-top: 20px;
+  padding: 5px;
 `;
 
 const Wrapper = styled.section`
@@ -58,13 +56,11 @@ const Wrapper = styled.section`
 
 const Review = styled.p`
   font-size: 1rem;
-  min-height: 100px;
-  min-height: 175px;
 
-  @media (min-width: 1040px) {
-    font-size: 1.2rem;
-  }
+  min-height: 125px;
 `;
 
-const Name = styled.h3``;
+const Name = styled.h3`
+  font-size: 1.1rem;
+`;
 export default Testimonial;

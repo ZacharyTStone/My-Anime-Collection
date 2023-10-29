@@ -3,36 +3,8 @@ import styled from "styled-components";
 import Carousel from "react-simply-carousel";
 import Testimonial from "./UI/Testimonial";
 import { useTranslation } from "react-i18next";
-import {
-  pegasus,
-  pikachu,
-  shinji,
-  vegeta,
-} from "../assets/images/testimonials/index";
 import { useMobile } from "../utils/hooks";
-
-const testimonialsData = [
-  {
-    nameKey: "vegeta",
-    img: vegeta,
-    textKey: "landing.testimonials.vegeta.description",
-  },
-  {
-    nameKey: "pikachu",
-    img: pikachu,
-    textKey: "landing.testimonials.pikachu.description",
-  },
-  {
-    nameKey: "shinji",
-    img: shinji,
-    textKey: "landing.testimonials.shinji.description",
-  },
-  {
-    nameKey: "pegasus",
-    img: pegasus,
-    textKey: "landing.testimonials.pegasus.description",
-  },
-];
+import { TESTIMONIALS, TESTIMONIALS_TYPE } from "../utils/constants";
 
 function Testimonials() {
   const { t } = useTranslation();
@@ -63,7 +35,7 @@ function Testimonials() {
         itemsToShow={onMobile ? 1 : 3}
         speed={400}
       >
-        {testimonialsData.map((testimonial, index) => (
+        {TESTIMONIALS.map((testimonial: TESTIMONIALS_TYPE, index: number) => (
           <Testimonial
             key={index}
             name={t(`landing.testimonials.${testimonial.nameKey}.name`)}

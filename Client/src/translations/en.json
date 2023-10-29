@@ -101,6 +101,18 @@
         "pegasus": {
           "name": "Pegasus",
           "description": "The best thing ever creAATED~~~ Good job, Zachy boy!"
+        },
+        "kaneki": {
+          "name": "Kaneki Ken",
+          "description": "Just like my journey from a regular college student to a half-ghoul, this app transforms ordinary into extraordinary!"
+        },
+        "light": {
+          "name": "Light Yagami",
+          "description": "I've found a new use for this app. Kira's judgment is now digital!"
+        },
+        "erwin": {
+          "name": "Erwin Smith",
+          "description": "This app our key to freedom! Titans won't stand a chance against it!"
         }
       },
       "logged_in_redirect": "You're already logged in! Redirecting...",
