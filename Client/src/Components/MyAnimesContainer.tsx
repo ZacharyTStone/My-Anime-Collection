@@ -24,6 +24,7 @@ const MyAnimesContainer = () => {
     numOfPages,
     currentPlaylist,
   } = useAppContext();
+
   useEffect(() => {
     getAnimes().then(() => {
       if (isFirstLoad) {
@@ -40,55 +41,52 @@ const MyAnimesContainer = () => {
     currentPlaylist,
   ]);
 
-  if (isLoading) {
-    return (
-      <Wrapper>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-        </div>
-      </Wrapper>
-    );
-  }
+  const noAnimesInPlaylist = animes.length === 0 && search?.length === 0;
 
-  if (animes.length === 0 && search?.length === 0 && !isLoading) {
+  const PageLoader = () => {
     return (
-      <Wrapper>
-        <h5>
+      <StyledWrapper>
+        <LoadingContainer>
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+        </LoadingContainer>
+      </StyledWrapper>
+    );
+  };
+
+  if (isLoading) return <PageLoader />;
+
+  if (noAnimesInPlaylist && !isLoading) {
+    return (
+      <StyledWrapper>
+        <NoAnimeMessage>
           {t("my_animes_container.no_anime_message1")}
           <NavLink to="/add-anime" className="btn btn-block btn-outline">
             {t("my_animes_container.no_anime_message2")}
           </NavLink>
-        </h5>
-      </Wrapper>
+        </NoAnimeMessage>
+      </StyledWrapper>
     );
   }
 
   return (
-    <Wrapper>
+    <StyledWrapper>
       <h5>
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
       {numOfPages > 1 && <PageBtnContainer />}
-      <div className="animes">
+      <AnimeContainer>
         {animes?.map((anime: any) => {
           console.log("anime", anime);
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}
-      </div>
-    </Wrapper>
+      </AnimeContainer>
+    </StyledWrapper>
   );
 };
 
-const Wrapper = styled.section`
+const StyledWrapper = styled.section`
   margin-top: 4rem;
   padding: 40px;
   h2 {
@@ -97,22 +95,32 @@ const Wrapper = styled.section`
   & > h5 {
     font-weight: 700;
   }
-  .animes {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 2rem;
-    color: var(--textColor);
-  }
-  height: 100%;
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
+
+const NoAnimeMessage = styled.h5`
+  text-align: center;
+`;
+
+const AnimeContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 2rem;
+  color: var(--textColor);
 
   @media (min-width: 992px) {
-    .animes {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-      align-items: center;
-    }
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
   }
 `;
+
 export default MyAnimesContainer;

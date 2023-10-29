@@ -47,8 +47,9 @@ const SearchContainer = () => {
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleResetFilters = (e: any) => {
     e.preventDefault();
+    setLocalSearch("");
     clearFilters();
   };
 
@@ -122,7 +123,7 @@ const SearchContainer = () => {
           <ClearFiltersButton
             className="btn btn-block btn-outline"
             disabled={isLoading}
-            onClick={handleSubmit}
+            onClick={handleResetFilters}
           >
             {t("search_container.clear_filters")}
           </ClearFiltersButton>
