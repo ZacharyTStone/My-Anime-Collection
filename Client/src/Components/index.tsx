@@ -6,6 +6,7 @@ import Testimonials from "./Testimonials";
 import FetchedAnimesContainer from "./FetchedAnimesContainer";
 import MUINavbar from "./MUINavbar";
 import MyAnimesContainer from "./MyAnimesContainer";
+import BackgroundAnimeCards from "./BackgroundAnimeCards";
 
 export {
   FetchedAnimesContainer,
@@ -16,4 +17,5 @@ export {
   PageBtnContainer,
   SearchContainer,
   Testimonials,
+  BackgroundAnimeCards,
 };
