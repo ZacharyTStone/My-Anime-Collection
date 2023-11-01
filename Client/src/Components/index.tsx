@@ -7,6 +7,7 @@ import FetchedAnimesContainer from "./FetchedAnimesContainer";
 import MUINavbar from "./MUINavbar";
 import MyAnimesContainer from "./MyAnimesContainer";
 import BackgroundAnimeCards from "./BackgroundAnimeCards";
+import Pokemon from "./Pokemon";
 
 export {
   FetchedAnimesContainer,
@@ -18,4 +19,5 @@ export {
   SearchContainer,
   Testimonials,
   BackgroundAnimeCards,
+  Pokemon,
 };

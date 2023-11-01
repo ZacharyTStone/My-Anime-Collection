@@ -3,10 +3,10 @@ import { FormRow, FormRowSelect, Alert } from "../../Components/UI";
 
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
-import pokemon from "../../assets/images/pokemon.webp";
 import { BiCoffeeTogo } from "react-icons/bi";
 import { FaBitcoin } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { Pokemon } from "../../Components";
 const Profile = () => {
   const { t } = useTranslation();
   const {
@@ -88,7 +88,7 @@ const Profile = () => {
             {isLoading ? t("profile.wait") : t("profile.save")}
           </button>
         </div>
-        <Pokemon src={pokemon} alt="pokemon" />
+        <Pokemon />
         <div className="bottom-half ">
           <div>
             <span
@@ -153,19 +153,6 @@ const Profile = () => {
     </Wrapper>
   );
 };
-
-const Pokemon = styled.img`
-  display: none;
-  width: 200px;
-  height: auto;
-
-  @media (min-width: 992px) {
-    display: block;
-    position: relative;
-    left: 75%;
-    top: -2rem;
-  }
-`;
 
 const ButtonDiv = styled.div`
   display: flex;
