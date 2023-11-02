@@ -12,7 +12,7 @@ import { useInViewAnimation } from "../utils/hooks";
 // Images
 import narutoRun from "../assets/images/narutoRun.gif";
 import goku from "../assets/images/goku.webp";
-import aot from "../assets/images/aot.webp";
+import aot from "../assets/images/aot.png";
 import lucy from "../assets/images/lucy.webp";
 import { BackgroundAnimeCards } from "../Components";
 
@@ -120,7 +120,7 @@ const Landing = () => {
               src={aot}
               alt="anime character"
               loading="lazy"
-              className="img main-img"
+              className="img main-img oversized-img"
               initial="hidden"
               animate={controls3}
               variants={parallax}
@@ -353,6 +353,12 @@ const Wrapper = styled.main`
       width: 100%;
       overflow: visible;
       overflow-x: hidden;
+    }
+
+    .oversized-img {
+      height: 110%;
+      width: 110%;
+      overflow: visible;
     }
   }
 `;
