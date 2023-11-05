@@ -130,7 +130,6 @@ const Wrapper = styled.div`
     .animesRight {
       display: flex;
       right: 0%;
-      top: 300px;
     }
 
     .animeCard {
