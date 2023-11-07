@@ -216,15 +216,18 @@ export const DEFAULT_PLAYLISTS: PLAYLIST_TYPE[] = [
     title: "Currently Watching",
     id: "0",
     userID: "",
+    isDemoUserPlaylist: false,
   },
   {
     title: "Want to Watch",
     id: "1",
     userID: "",
+    isDemoUserPlaylist: false,
   },
   {
     title: "My All Time Favorites ❤️",
     id: "2",
     userID: "",
+    isDemoUserPlaylist: false,
   },
 ];

@@ -91,7 +91,7 @@ const register = async (req, res) => {
   // create base playlists
   for (const playlist of DEFAULT_PLAYLISTS) {
     playlist.userID = user._id;
-    playlist.demoUserPlaylist = isDemo;
+    playlist.isDemoUserPlaylist = isDemo;
   }
 
   DEFAULT_PLAYLISTS.forEach(async (playlist) => {
