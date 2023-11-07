@@ -1,14 +1,35 @@
 import { v4 as uuidv4 } from "uuid";
-import Playlist, { PlaylisDocument } from "../models/Playlists.js";
+import { PLAYLIST_TYPE } from "./types.js";
 
-export const DEMO_USER = {
+interface DEMO_USER_TYPE {
+  name: string;
+  is_demo_user: boolean;
+  email: string;
+  password: string;
+}
+export const DEMO_USER: DEMO_USER_TYPE = {
   name: "Demo",
   is_demo_user: true,
   email: `DemoUser${uuidv4()}@demo.com`,
   password: uuidv4(),
 };
 
-export const SEED_ANIMES: any[] = [
+interface SEED_ANIME_TYPE {
+  creationDate: string;
+  id: number;
+  title: string;
+  japanese_title: string;
+  rating: number;
+  format: string;
+  episodeCount: number;
+  synopsis: string;
+  coverImage: string;
+  youtubeVideoId: string;
+  playlistID: string;
+  isDemoAnime: boolean;
+}
+
+export const SEED_ANIMES: SEED_ANIME_TYPE[] = [
   {
     creationDate: "1989-04-26T00:00:00.000Z",
     id: 720,
@@ -190,7 +211,7 @@ export const SEED_ANIMES: any[] = [
   },
 ];
 
-export const DEFAULT_PLAYLISTS: any[] = [
+export const DEFAULT_PLAYLISTS: PLAYLIST_TYPE[] = [
   {
     title: "Currently Watching",
     id: "0",

@@ -21,11 +21,11 @@ const createPlaylist = async (req, res) => {
 
   const randomTitle = Math.floor(Math.random() * 1000);
 
-  const playlist = {
+  const playlist: Playlist = {
     title: `Playlist ${randomTitle}`,
     id: `${newPlaylistID}`,
     userID: req.user.userId,
-    demoUserPlaylist: user.isDemo,
+    isDemoUserPlaylist: user.isDemo,
   };
 
   await Playlist.create(playlist);
