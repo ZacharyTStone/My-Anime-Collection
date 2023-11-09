@@ -68,3 +68,6 @@ export const TESTIMONIALS: TESTIMONIALS_TYPE[] = [
     textKey: "landing.testimonials.erwin.description",
   },
 ];
+
+// can't be edited
+export const DEFAULT_PLAYLIST_IDS = ["0", "1", "2"];

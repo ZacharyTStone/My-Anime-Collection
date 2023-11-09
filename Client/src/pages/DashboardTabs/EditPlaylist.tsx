@@ -5,6 +5,8 @@ import { AiFillDelete } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import { FormRow } from "../../Components/UI";
 import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
+import { Alert } from "../../Components/UI";
+import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
@@ -18,9 +20,8 @@ const Profile: React.FC = () => {
     currentPlaylist,
     handlePlaylistChange,
     loadingFetchPlaylists,
+    showAlert,
   } = useAppContext();
-
-  const DEFAULT_PLAYLIST_IDS = ["0", "1", "2"];
 
   const [newTitle, setNewTitle] = useState("");
   const [id, setId] = useState("");
@@ -72,6 +73,7 @@ const Profile: React.FC = () => {
   return (
     <Wrapper>
       <div className="profile-container">
+        {showAlert && <Alert />}
         <h3>{t("edit_playlist.title")}</h3>
         <div className="form-left">
           <ul>

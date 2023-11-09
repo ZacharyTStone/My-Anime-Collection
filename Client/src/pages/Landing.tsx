@@ -80,7 +80,7 @@ const Landing = () => {
               </h1>
               <p>{t("landing.title_description")}</p>
               <div className="login-div">
-                <Link to="/register" className="btn btn-hero">
+                <Link to="/register" className="btn btn-primary">
                   {t("landing.login_button")}
                 </Link>
                 <Link to="/register-demo" className="btn btn-outline">
@@ -176,12 +176,12 @@ const Landing = () => {
               <div>
                 <h3>{t("landing.call_to_action.title")}</h3>
                 <div className="login-div">
-                  <Link to="/register" className="btn btn-hero">
+                  <Link to="/register" className="btn btn-primary">
                     {t("landing.login_button")}
                   </Link>
                   <Link
                     to="/register-demo"
-                    className="btn btn-hero btn-outline"
+                    className="btn btn-primary btn-outline"
                   >
                     {t("landing.demo_button")}
                   </Link>

@@ -79,6 +79,7 @@ const AddAnime: React.FC = () => {
   return (
     <Wrapper>
       <main className="content full-page">
+        {showAlert && <Alert />}
         <form
           className="form"
           onSubmit={(e) => {

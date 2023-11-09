@@ -3,6 +3,7 @@ import { FetchedAnimesContainer } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import { useEffect } from "react";
 import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
+import { Alert } from "../../Components/UI";
 
 const MyAnimes = () => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ const MyAnimes = () => {
     isLoading,
     handlePlaylistChange,
     loadingFetchPlaylists,
+    showAlert,
   } = useAppContext();
 
   useEffect(() => {
@@ -29,6 +31,7 @@ const MyAnimes = () => {
   return (
     <>
       <main className="content full-page" datatype="">
+        {showAlert && <Alert />}
         <h1
           style={{
             textAlign: "center",
