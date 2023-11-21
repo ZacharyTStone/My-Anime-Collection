@@ -74,7 +74,7 @@ export const SEED_ANIMES: SEED_ANIME_TYPE[] = [
     episodeCount: 12,
     synopsis: "The second season of SPY×FAMILY.",
     coverImage:
-      "https://media.kitsu.io/anime/46873/poster_image/small-4014254a3fdbd98ac825c53a94fbd2a3.jpeg",
+      "https://media.kitsu.io/anime/46873/poster_image/small-c65d949cfe1f9932fb7510cbe5e65e9c.jpeg",
     youtubeVideoId: "W2tMsaAVjD0",
     playlistID: "1",
     isDemoAnime: true,
