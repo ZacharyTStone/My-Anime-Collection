@@ -19,7 +19,7 @@ const createAnime = async (req, res) => {
     throw new NotFoundError(`You have already added that anime to your list`);
   }
 
-  req.body.createdBy = req.user.userId;
+  req.body.createdBy = sanitize(req.user.userId);
 
   const anime = await Anime.create(req.body);
   res.status(StatusCodes.CREATED).json({ anime });

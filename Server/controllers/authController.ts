@@ -6,10 +6,11 @@ import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/constants.js";
 import { SEED_ANIMES, DEFAULT_PLAYLISTS } from "../utils/constants.js";
 import { generateRandomNumber } from "../utils/misc.js";
+import sanitize from "mongo-sanitize";
 
 // REST routes are defined in authRoutes.js
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = sanitize(req.body);
 
   const errorMessage = "Please provide all values";
 
@@ -35,7 +36,7 @@ const login = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { email, name, theme } = req.body;
+  const { email, name, theme } = sanitize(req.body);
 
   const errorMessage = "Please provide all values";
 
@@ -57,9 +58,9 @@ const updateUser = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { isDemo } = req.body;
-  const { name, email, password } = isDemo ? DEMO_USER : req.body;
-  const { theme } = req.body;
+  const { isDemo } = sanitize(req.body);
+  const { name, email, password } = isDemo ? DEMO_USER : sanizite(req.body);
+  const { theme } = sanitize(req.body);
 
   const errorMessage = "Please provide all values";
 
