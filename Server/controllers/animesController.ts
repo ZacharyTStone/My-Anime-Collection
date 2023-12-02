@@ -3,13 +3,16 @@ import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
+// noSQL sanitization
+import sanitize from "mongo-sanitize";
+
 // REST routes are defined in AnimeRoutes.js
 
 const createAnime = async (req, res) => {
   const existingAnime = await Anime.findOne({
-    title: req.body.title,
-    createdBy: req.user.userId,
-    playlistID: req.body.playlistID,
+    title: sanitize(req.body.title),
+    createdBy: sanitize(req.user.userId),
+    playlistID: sanitize(req.body.playlistID),
   });
 
   if (existingAnime) {
@@ -29,10 +32,10 @@ interface QueryObject {
 }
 
 const getAnimes = async (req, res) => {
-  const { sort, search, currentPlaylistID } = req.query;
+  const { sort, search, currentPlaylistID } = sanitize(req.query);
 
   let queryObject: QueryObject = {
-    createdBy: req.user.userId,
+    createdBy: sanitize(req.user.userId),
     playlistID: currentPlaylistID,
   };
 
