@@ -23,6 +23,10 @@ import playlistsRouter from "./routes/playlistsRoutes.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import authenticateUser from "./middleware/auth.js";
 
+// rate limiting
+
+import { apiLimiter500 } from "./utils/rateLimiters.js";
+
 // Load environment variables from .env file
 dotenv.config();
 
@@ -66,8 +70,7 @@ if (process.env.NODE_ENV === "dev") {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, "../Client/build")));
 
-// HEROKU DEPLOYMENT
-app.get("*", (req, res) => {
+app.get("*", apiLimiter500, (req, res) => {
   res.sendFile(path.resolve(__dirname, "../Client/build", "index.html"));
 });
 
