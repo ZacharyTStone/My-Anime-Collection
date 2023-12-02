@@ -17,6 +17,7 @@
     "@types/styled-components": "^5.1.27",
     "axios": "^0.24.0",
     "babel-jest": "^26.6.0",
+    "dompurify": "^3.0.6",
     "framer-motion": "^10.16.4",
     "history": "^5.1.0",
     "i18next": "^21.8.10",
@@ -70,6 +71,7 @@
   "proxy": "http://localhost:5001",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
+    "@types/dompurify": "^3.0.5",
     "@types/styled-components": "^5.1.27"
   }
 }

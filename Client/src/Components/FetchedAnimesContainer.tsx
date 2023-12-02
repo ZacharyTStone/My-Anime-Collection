@@ -7,6 +7,8 @@ import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 
+import DOMPurify from "dompurify";
+
 const AnimeContainer = ({
   searchText,
   baseURL,
@@ -194,10 +196,7 @@ const AnimeContainer = ({
                       }
                       synopsis={
                         anime?.attributes?.synopsis
-                          ? anime?.attributes?.synopsis.replace(
-                              /<[^>]*>?/gm,
-                              ""
-                            )
+                          ? DOMPurify.sanitize(anime?.attributes?.synopsis)
                           : "No synopsis available"
                       }
                       coverImage={
