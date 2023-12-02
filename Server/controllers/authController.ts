@@ -59,7 +59,7 @@ const updateUser = async (req, res) => {
 
 const register = async (req, res) => {
   const { isDemo } = sanitize(req.body);
-  const { name, email, password } = isDemo ? DEMO_USER : sanizite(req.body);
+  const { name, email, password } = isDemo ? DEMO_USER : sanitize(req.body);
   const { theme } = sanitize(req.body);
 
   const errorMessage = "Please provide all values";
