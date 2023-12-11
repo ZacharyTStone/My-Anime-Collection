@@ -6,6 +6,7 @@ import { useAppContext } from "../context/appContext";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
+// @ts-ignore
 import DOMPurify from "dompurify";
 
 const AnimeContainer = ({
