@@ -1,48 +1,37 @@
-import { useAppContext } from "./../context/appContext";
+import { useAppContext } from "../context/appContext";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import styled from "styled-components";
 
 const PageBtnContainer = () => {
   const { numOfPages, page, changePage } = useAppContext();
 
-  const pages = Array.from({ length: numOfPages }, (_, index) => {
-    return index + 1;
-  });
-  const nextPage = () => {
-    let newPage = page + 1;
-    if (newPage > numOfPages) {
-      newPage = 1;
-    }
-    changePage(newPage);
+  const handlePageChange = (newPage: number) => {
+    changePage(((newPage + numOfPages - 1) % numOfPages) + 1);
   };
-  const prevPage = () => {
-    let newPage = page - 1;
-    if (newPage < 1) {
-      newPage = numOfPages;
-    }
-    changePage(newPage);
-  };
+
+  const renderPageButton = (pageNumber: number) => (
+    <button
+      type="button"
+      className={`pageBtn ${pageNumber === page ? "active" : ""}`}
+      key={pageNumber}
+      onClick={() => handlePageChange(pageNumber)}
+    >
+      {pageNumber}
+    </button>
+  );
+
   return (
     <Wrapper>
-      <button className="prev-btn" onClick={prevPage}>
+      <button className="prev-btn" onClick={() => handlePageChange(page - 1)}>
         <HiChevronDoubleLeft />
         prev
       </button>
       <ButtonContainer>
-        {pages.map((pageNumber) => {
-          return (
-            <button
-              type="button"
-              className={pageNumber === page ? "pageBtn active" : "pageBtn"}
-              key={pageNumber}
-              onClick={() => changePage(pageNumber)}
-            >
-              {pageNumber}
-            </button>
-          );
-        })}
+        {Array.from({ length: numOfPages }, (_, index) =>
+          renderPageButton(index + 1)
+        )}
       </ButtonContainer>
-      <button className="next-btn" onClick={nextPage}>
+      <button className="next-btn" onClick={() => handlePageChange(page + 1)}>
         next
         <HiChevronDoubleRight />
       </button>
@@ -58,14 +47,11 @@ const ButtonContainer = styled.div`
 const Wrapper = styled.section`
   height: 6rem;
   margin: 2rem;
-
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
-  display: flex;
-  justify-content: center;
   margin-top: 50px;
 
   .pageBtn {

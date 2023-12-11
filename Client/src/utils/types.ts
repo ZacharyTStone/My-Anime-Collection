@@ -15,7 +15,7 @@ export interface ExpectedFetchedAnimeResponse {
     subtype?: string;
     startDate?: string;
     youtubeVideoId?: string;
-    episodeCount?: number;
+    episodeCount?: number | null;
     format?: string;
     rating?: number;
     creationDate?: string;
@@ -32,7 +32,7 @@ export interface SavedAnime {
   synopsis?: string;
   rating?: number | string;
   startDate?: string;
-  episodeCount?: number;
+  episodeCount?: number | null;
   format?: string;
   subtype?: string;
   youtubeVideoId?: string;

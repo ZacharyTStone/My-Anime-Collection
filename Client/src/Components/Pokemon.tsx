@@ -32,20 +32,30 @@ interface Pokemon {
   name: string;
   image: string;
 }
+
 const Pokemon = () => {
   const [pokemon, setPokemon] = useState<Pokemon>({
     name: "",
     image: "",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getRandomPokemon().then((pokemon) => {
-      if (!pokemon) return;
-      setPokemon(pokemon);
-    });
+    const fetchPokemon = async () => {
+      try {
+        const newPokemon = await getRandomPokemon();
+        if (newPokemon) {
+          setPokemon(newPokemon);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPokemon();
   }, []);
 
-  if (!pokemon.image.length || !pokemon.name.length) {
+  if (loading || !pokemon.image.length || !pokemon.name.length) {
     return (
       <PokemonDiv>
         <SkeletonLoadingBlock

@@ -4,7 +4,7 @@ import { BadRequestError } from "../errors/index.js";
 import Anime from "../models/Anime.js";
 import Playlist from "../models/Playlists.js";
 import { v4 as uuidv4 } from "uuid";
-import { sanitize } from "mongo-sanitize";
+import sanitize from "mongo-sanitize";
 
 // REST routes are defined in playlistRoutes.js
 
@@ -18,7 +18,7 @@ const getPlaylists = async (req, res) => {
 const createPlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
-  const newPlaylistID = new uuidv4();
+  const newPlaylistID = uuidv4();
 
   const randomTitle = Math.floor(Math.random() * 1000);
 

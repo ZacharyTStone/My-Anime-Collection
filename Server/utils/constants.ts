@@ -21,7 +21,7 @@ interface SEED_ANIME_TYPE {
   japanese_title: string;
   rating: number;
   format: string;
-  episodeCount: number;
+  episodeCount: number | null;
   synopsis: string;
   coverImage: string;
   youtubeVideoId: string;

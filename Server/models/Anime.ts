@@ -33,7 +33,7 @@ const AnimeSchema = new Schema<AnimeDocument>(
       required: false,
     },
     episodeCount: {
-      type: Number,
+      type: Number || null,
       required: false,
     },
     synopsis: {
@@ -70,7 +70,7 @@ export interface AnimeDocument extends Document {
   japanese_title?: string;
   rating?: number;
   format?: string;
-  episodeCount?: number;
+  episodeCount?: number | null;
   synopsis?: string;
   coverImage?: string;
   youtubeVideoId?: string;

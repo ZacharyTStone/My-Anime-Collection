@@ -334,7 +334,7 @@ const AppProvider = ({ children }) => {
       const id = anime.id || Math.random() * 100000;
       const rating = anime.attributes.averageRating || "N/A";
       const format = anime.attributes.subtype || "N/A";
-      const episodeCount = anime.attributes.episodeCount || undefined;
+      const episodeCount = anime.attributes.episodeCount ?? null;
       const synopsis = anime.attributes.synopsis || "N/A";
       const coverImage = anime.attributes.posterImage.small || "N/A";
       const youtubeVideoId = anime.attributes.youtubeVideoId || "N/A";
