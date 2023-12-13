@@ -28,7 +28,8 @@
       "title": "アニメを追加する",
       "search": "タイトル",
       "sort": "ソート",
-      "add_to_default": "いつもデフォルト＆選択したプレイリストに追加"
+      "add_to_default": "いつもデフォルト＆選択したプレイリストに追加",
+      "anime_created_successfully": "アニメがプレイリストに追加されました！"
     },
 
     "search_container": {

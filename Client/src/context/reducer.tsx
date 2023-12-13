@@ -218,7 +218,6 @@ const reducer = (
     // don't add loading to global loading state (need to add to local card state somehow)
     // return { ...state, isLoading: true };
 
-    console.log("wow3", action.payload.id);
     return {
       ...state,
       isLoading: true,
@@ -231,7 +230,7 @@ const reducer = (
 
   if (action.type === CREATE_ANIME_SUCCESS) {
     toast.success(
-      `${action.payload.title} has been added to your playlist called ${action.payload.playlistTitle}`,
+      `${t("add_anime.anime_created_successfully")} - ${action.payload.title}`,
       {
         toastId: action.payload.title,
         autoClose: 5000,

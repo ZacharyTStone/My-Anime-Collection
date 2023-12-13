@@ -29,7 +29,8 @@
       "title": "Add Anime",
       "search": "Title",
       "sort": "Sort",
-      "add_to_default": "Always Add To Default & Selected Playlist"
+      "add_to_default": "Always Add To Default & Selected Playlist",
+      "anime_created_successfully": "Anime added to playlist!"
     },
     "search_container": {
       "title": "Filter Your Playlist",

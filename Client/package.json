@@ -71,7 +71,7 @@
   },
   "proxy": "http://localhost:5001",
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/dompurify": "^3.0.5",
     "@types/styled-components": "^5.1.27"
   }
