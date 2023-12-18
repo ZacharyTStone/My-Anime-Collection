@@ -67,7 +67,7 @@ https://youtu.be/YVlIq4clxxk
 
 ## Contributions
 
-Fork, request, or contact me.
+I am not taking contributions at this time. If you are interested in contributing please look at my app [Haku](https://github.com/ZacharyTStone/haku)
 
 ## Questions
 
