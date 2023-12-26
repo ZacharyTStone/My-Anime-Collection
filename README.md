@@ -67,7 +67,7 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 
 ### 使用技術
 
-- バックエンド: JS、Express、MongoDB
+- バックエンド: NodeJS、Express、MongoDB
 - フロントエンド: React、Styled Components
 
 ### プロジェクト構造
