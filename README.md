@@ -17,14 +17,14 @@ Welcome to My Anime Collection, a free anime tracker that allows users to explor
 
 ### Technologies Used
 
-- Backend: JS, Express, MongoDB
+- Backend: Node JS, Express, MongoDB
 - Frontend: React, Styled Components
 
 ### Project Structure
 
-This project uses Express and Node.js with a series of routers to manage data on the database. The frontend fetches anime data from the Kitsu.io API.
+This project uses Express and Node.js with a series of routers to manage data on the database. The front end fetches anime data from the Kitsu.io API.
 
-Note: The app utilizes the Concurrently package to run the backend and frontend from the same repo. However, it's not recommended for deployment due to complexity.
+Please note that the app uses the Concurrently package to simultaneously run the backend and frontend from the same repository as a mono repo. I would like to mention that I do not recommend using this structure due to increased deployment complexity, but changing this now would require a significant amount of work.
 
 I hope you enjoy exploring this project! Feel free to contact me with any questions or comments.
 
@@ -74,9 +74,7 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 
 このプロジェクトは、ExpressとNode.jsを使用してデータベース上のデータを管理するための一連のルーターを備えています。フロントエンドはKitsu.io APIからアニメデータを取得しています。
 
-注意: このアプリはConcurrentlyパッケージを使用して、同じリポジトリからバックエンドとフロントエンドを実行します。ただし、複雑さのためにデプロイすることはお勧めできません。
-
-このプロジェクトを探索するのをお楽しみいただければ幸いです！質問やコメントがあれば、お気軽にご連絡ください。
+アプリは同じリポジトリからバックエンドとフロントエンドを同時に実行するためにConcurrentlyパッケージを使用していることに注意してください。デプロイの複雑さが増すため、この構造の使用はお勧めできませんが、現在変更するにはかなりの作業が必要です。
 
 ## デモ
 
