@@ -28,9 +28,6 @@ Please note that the app uses the Concurrently package to simultaneously run the
 
 I hope you enjoy exploring this project! Feel free to contact me with any questions or comments.
 
-## Demo
-
-[Watch the Demo](https://youtu.be/YVlIq4clxxk)
 
 ## Table of Contents
 
@@ -41,7 +38,7 @@ I hope you enjoy exploring this project! Feel free to contact me with any questi
 
 ## Links
 
-- Live Site: [My Anime Collection](https://my-anime-collection.herokuapp.com)
+- Live Site: [My Anime Collection](https://www.my-anime-collection.com)
 - GitHub Repository: [My Anime Collection on GitHub](https://github.com/ZacharyTStone/My-Anime-Collection)
 
 ## License
@@ -76,13 +73,10 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 
 アプリは同じリポジトリからバックエンドとフロントエンドを同時に実行するためにConcurrentlyパッケージを使用していることに注意してください。デプロイの複雑さが増すため、この構造の使用はお勧めできませんが、現在変更するにはかなりの作業が必要です。
 
-## デモ
-
-[デモを見る](https://youtu.be/YVlIq4clxxk)
 
 ## リンク
 
-- サイト: [My Anime Collection](https://my-anime-collection.herokuapp.com)
+- サイト: [My Anime Collection](https://www.my-anime-collection.com)
 - GitHub リポジトリ: [My Anime Collection on GitHub](https://github.com/ZacharyTStone/My-Anime-Collection)
 
 ## ライセンス
