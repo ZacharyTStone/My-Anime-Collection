@@ -17,7 +17,7 @@ const Register = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  const { user, showAlert, setupUser, theme } = useAppContext();
+  const { user, showAlert, setupUser, theme, siteLanguage } = useAppContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -28,7 +28,10 @@ const Register = () => {
     const currentUser = {
       isDemo: true,
       theme: localTheme,
+      language: siteLanguage,
     };
+
+    console.log("wow", currentUser);
 
     setupUser({
       currentUser,

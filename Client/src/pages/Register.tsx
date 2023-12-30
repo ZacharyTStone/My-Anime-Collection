@@ -29,8 +29,15 @@ const Register: React.FC = () => {
 
   const navigate = useNavigate();
   const [values, setValues] = useState<FormValues>(initialState);
-  const { user, isLoading, showAlert, displayAlert, setupUser, theme } =
-    useAppContext();
+  const {
+    user,
+    isLoading,
+    showAlert,
+    displayAlert,
+    setupUser,
+    theme,
+    siteLanguage,
+  } = useAppContext();
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -52,7 +59,7 @@ const Register: React.FC = () => {
       displayAlert();
       return;
     }
-    const currentUser = { name, email, password, theme, isDemo };
+    const currentUser = { name, email, password, theme, isDemo, siteLanguage };
 
     if (isMember) {
       setupUser({

@@ -64,7 +64,6 @@ function Anime({
     deleteAnime,
     siteLanguage,
     currentPlaylist,
-    addToDefault,
     isLoading,
 
     loadingData,
@@ -72,12 +71,7 @@ function Anime({
 
   const handleSubmit = () => {
     if (isLoading) return;
-    createAnime(fetchedAnime, currentPlaylist.id, currentPlaylist.title);
-    if (addToDefault) {
-      if (currentPlaylist.id !== "0" || currentPlaylist.title !== "default") {
-        createAnime(fetchedAnime, "0", "default");
-      }
-    }
+    createAnime(fetchedAnime, currentPlaylist.id);
   };
 
   const onVideoError = () => {

@@ -4,7 +4,11 @@ import Playlist from "../models/Playlists.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/constants.js";
-import { SEED_ANIMES, DEFAULT_PLAYLISTS } from "../utils/constants.js";
+import {
+  SEED_ANIMES,
+  DEFAULT_PLAYLISTS_EN,
+  DEFAULT_PLAYLISTS_JP,
+} from "../utils/constants.js";
 import { generateRandomNumber } from "../utils/misc.js";
 import sanitize from "mongo-sanitize";
 
@@ -61,6 +65,7 @@ const register = async (req, res) => {
   const { isDemo } = sanitize(req.body);
   const { name, email, password } = isDemo ? DEMO_USER : sanitize(req.body);
   const { theme } = sanitize(req.body);
+  const { language } = sanitize(req.body);
 
   const errorMessage = "Please provide all values";
 
@@ -88,6 +93,9 @@ const register = async (req, res) => {
     isDemo,
     theme,
   });
+
+  let DEFAULT_PLAYLISTS =
+    language === "jp" ? DEFAULT_PLAYLISTS_JP : DEFAULT_PLAYLISTS_EN;
 
   // create base playlists
   for (const playlist of DEFAULT_PLAYLISTS) {

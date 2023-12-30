@@ -211,7 +211,7 @@ export const SEED_ANIMES: SEED_ANIME_TYPE[] = [
   },
 ];
 
-export const DEFAULT_PLAYLISTS: PLAYLIST_TYPE[] = [
+export const DEFAULT_PLAYLISTS_EN: PLAYLIST_TYPE[] = [
   {
     title: "Currently Watching",
     id: "0",
@@ -226,6 +226,27 @@ export const DEFAULT_PLAYLISTS: PLAYLIST_TYPE[] = [
   },
   {
     title: "My All Time Favorites ❤️",
+    id: "2",
+    userID: "",
+    isDemoUserPlaylist: false,
+  },
+];
+
+export const DEFAULT_PLAYLISTS_JP: PLAYLIST_TYPE[] = [
+  {
+    title: "現在視聴中",
+    id: "0",
+    userID: "",
+    isDemoUserPlaylist: false,
+  },
+  {
+    title: "見たい",
+    id: "1",
+    userID: "",
+    isDemoUserPlaylist: false,
+  },
+  {
+    title: "永遠のお気に入り ❤️",
     id: "2",
     userID: "",
     isDemoUserPlaylist: false,

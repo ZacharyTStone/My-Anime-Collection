@@ -76,7 +76,6 @@ const initialState = {
   searchType: "all",
   sort: "latest",
   currentPlaylist: {
-    title: "My All Time Favorites ❤️",
     id: "2",
   },
   userPlaylists: [],
@@ -321,7 +320,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CLEAR_VALUES });
   };
 
-  const createAnime = async (anime, playlistID, playlistTitle) => {
+  const createAnime = async (anime, playlistID) => {
     dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
 
     try {
@@ -345,6 +344,10 @@ const AppProvider = ({ children }) => {
         "Title N/A";
 
       const isDemoAnime = state.user.isDemo ? true : false;
+
+      const playlistTitle = state.userPlaylists.find(
+        (playlist) => playlist.id === playlistID
+      ).title;
 
       await authFetch.post("/animes", {
         title,
@@ -631,6 +634,7 @@ const AppProvider = ({ children }) => {
         fetchAnimes,
         changeTheme,
         resetFetchedAnimes,
+        siteLanguage: state.siteLanguage,
       }}
     >
       {children}
