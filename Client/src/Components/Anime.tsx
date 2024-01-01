@@ -82,10 +82,6 @@ function Anime({
 
   const onMobile = useMobile();
 
-  React.useEffect(() => {
-    console.log("onMobile", onMobile);
-  }, [onMobile]);
-
   if (
     isLoading &&
     (loadingData?.anime_id === _id ||

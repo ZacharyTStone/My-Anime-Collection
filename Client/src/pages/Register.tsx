@@ -13,7 +13,7 @@ interface FormValues {
   password: string;
   isDemo: boolean;
   theme: string;
-  isMember?: boolean;
+  existingUser?: boolean;
 }
 
 const initialState: FormValues = {
@@ -39,8 +39,8 @@ const Register: React.FC = () => {
     siteLanguage,
   } = useAppContext();
 
-  const toggleMember = () => {
-    setValues({ ...values, isMember: !values.isMember });
+  const toggleExistingUser = () => {
+    setValues({ ...values, existingUser: !values.existingUser });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,17 +51,17 @@ const Register: React.FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, email, password, isMember } = values;
+    const { name, email, password, existingUser } = values;
     const isDemo = false;
     const theme = localTheme;
 
-    if (!email || !password || (!isMember && !name)) {
+    if (!email || !password || (!existingUser && !name)) {
       displayAlert();
       return;
     }
     const currentUser = { name, email, password, theme, isDemo, siteLanguage };
 
-    if (isMember) {
+    if (existingUser) {
       setupUser({
         currentUser,
         endPoint: "login",
@@ -89,10 +89,12 @@ const Register: React.FC = () => {
       <Wrapper className="full-page">
         <form className="form" onSubmit={onSubmit}>
           <Logo />
-          <h3>{values.isMember ? t("login.title") : t("register.title")}</h3>
+          <h3>
+            {values.existingUser ? t("login.title") : t("register.title")}
+          </h3>
           {showAlert && <Alert />}
           {/* name input */}
-          {!values.isMember && (
+          {!values.existingUser && (
             <FormRow
               type="text"
               name="name"
@@ -126,9 +128,13 @@ const Register: React.FC = () => {
             {t("register.submit")}
           </button>
           <p>
-            {values.isMember ? t("login.switch1") : t("register.switch1")}
-            <button type="button" onClick={toggleMember} className="member-btn">
-              {values.isMember ? t("login.switch2") : t("register.switch2")}
+            {values.existingUser ? t("login.switch1") : t("register.switch1")}
+            <button
+              type="button"
+              onClick={toggleExistingUser}
+              className="existing-user-btn"
+            >
+              {values.existingUser ? t("login.switch2") : t("register.switch2")}
             </button>
           </p>
         </form>
@@ -171,7 +177,7 @@ const Wrapper = styled.section`
   .btn {
     margin-top: 1rem;
   }
-  .member-btn {
+  .existing-user-btn {
     background: transparent;
     border: transparent;
     color: var(--primary-500);

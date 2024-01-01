@@ -64,7 +64,7 @@
       "title": "Login",
       "email": "Email",
       "password": "Password",
-      "switch1": "Not a member yet?",
+      "switch1": "Don't have an account?",
       "switch2": "Register",
       "submit": "Submit",
       "alert_text": "Login Successful! Redirecting..."
@@ -75,7 +75,7 @@
       "email": "Email",
       "password": "Password",
       "submit": "Submit",
-      "switch1": "Already a member?",
+      "switch1": "Already hav an account?",
       "switch2": "Login",
       "alert_text": "User Created! Redirecting..."
     },
