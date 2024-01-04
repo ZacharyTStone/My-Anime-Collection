@@ -1,68 +1,32 @@
 import styled, { keyframes } from "styled-components";
-import A1 from "../assets/images/sampleAnimes/A1.webp";
-import A2 from "../assets/images/sampleAnimes/A2.webp";
-import A3 from "../assets/images/sampleAnimes/A3.webp";
-import A4 from "../assets/images/sampleAnimes/A4.webp";
-import A5 from "../assets/images/sampleAnimes/A5.webp";
-import A6 from "../assets/images/sampleAnimes/A6.webp";
-import A7 from "../assets/images/sampleAnimes/A7.webp";
-import A8 from "../assets/images/sampleAnimes/A8.webp";
+import { sampleAnimes } from "../assets/images/sampleAnimes";
+import React from "react";
 
 const BackgroundAnimeCards = () => {
   return (
     <Wrapper>
       <div className="animesLeft">
-        <AnimeCard
-          src={A1}
-          alt="anime character"
-          className="animeCard left"
-          loading="lazy"
-        />
-        <AnimeCard
-          src={A2}
-          alt="anime character"
-          className="animeCard left"
-          loading="lazy"
-        />
-        <AnimeCard
-          src={A3}
-          alt="anime character"
-          className="animeCard left"
-          loading="lazy"
-        />
+        {sampleAnimes.slice(0, 3).map((anime, index) => (
+          <AnimeCard
+            key={index}
+            src={anime}
+            alt="anime character"
+            className="animeCard left"
+            loading="lazy"
+          />
+        ))}
       </div>
 
       <div className="animesRight">
-        <AnimeCard
-          src={A4}
-          alt="anime character"
-          className="animeCard left"
-          loading="lazy"
-        />
-        <AnimeCard
-          src={A5}
-          alt="anime character"
-          className="animeCard right"
-          loading="lazy"
-        />
-        <AnimeCard
-          src={A6}
-          alt="anime character"
-          className="animeCard right"
-          loading="lazy"
-        />
-        <AnimeCard
-          src={A7}
-          alt="anime character"
-          className="animeCard right"
-          loading="lazy"
-        />
-        <AnimeCard
-          src={A8}
-          alt="anime character"
-          className="animeCard right"
-          loading="lazy"
-        />
+        {sampleAnimes.slice(4, 8).map((anime, index) => (
+          <AnimeCard
+            key={index}
+            src={anime}
+            alt="anime character"
+            className="animeCard right"
+            loading="lazy"
+          />
+        ))}
       </div>
     </Wrapper>
   );
