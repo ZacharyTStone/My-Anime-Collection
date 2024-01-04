@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
 
-const getRandomPokemon = async () => {
+export const getRandomPokemon = async () => {
   const randomId = Math.floor(Math.random() * 1000) + 1;
 
   try {

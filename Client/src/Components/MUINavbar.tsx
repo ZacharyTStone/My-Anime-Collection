@@ -101,7 +101,7 @@ const MUINavbar = () => {
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Other Settings" className="nav-link">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <UserIcon onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <FaUserCircle color="var(--textColor)" />
                   <span
                     style={{
@@ -111,7 +111,7 @@ const MUINavbar = () => {
                     {user.name}
                   </span>
                   <FaCaretDown color="var(--textColor)" />
-                </IconButton>
+                </UserIcon>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
@@ -177,6 +177,12 @@ const Navbar = styled.nav`
   .active .icon {
     color: var(--primary-500);
   }
+`;
+
+const UserIcon = styled(IconButton)`
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
 
 export default MUINavbar;

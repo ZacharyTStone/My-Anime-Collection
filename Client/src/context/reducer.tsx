@@ -229,13 +229,10 @@ const reducer = (
   }
 
   if (action.type === CREATE_ANIME_SUCCESS) {
-    toast.success(
-      `${t("add_anime.anime_created_successfully")} - ${action.payload.title}`,
-      {
-        toastId: action.payload.title,
-        autoClose: 5000,
-      }
-    );
+    toast.success(`${t("add_anime.anime_created_successfully")}`, {
+      toastId: action.payload.title,
+      autoClose: 5000,
+    });
 
     return {
       ...state,
