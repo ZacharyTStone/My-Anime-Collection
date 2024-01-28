@@ -22,7 +22,9 @@ const Profile: React.FC = () => {
   } = useAppContext();
 
   const [newTitle, setNewTitle] = useState("");
-  const [id, setId] = useState("");
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState<
+    undefined | string
+  >(undefined);
 
   interface IPlaylist {
     id: string;
@@ -37,12 +39,12 @@ const Profile: React.FC = () => {
     if (!playlist) return;
     await handlePlaylistChange({ name: playlist.id, value: playlist.id });
     setNewTitle(playlist.title);
-    setId(playlist.id);
+    setSelectedPlaylistId(playlist.id);
   };
 
   useEffect(() => {
     getPlaylists();
-    setId(currentPlaylist.id);
+    setSelectedPlaylistId(currentPlaylist.id);
   }, []);
 
   const handleNewPlaylistSubmit = async (e: React.FormEvent) => {
@@ -51,7 +53,7 @@ const Profile: React.FC = () => {
     const numberOfPlaylists = userPlaylists.length - 1;
     await createPlaylist(`New Playlist #`);
     setNewTitle(userPlaylists[numberOfPlaylists].title);
-    setId(userPlaylists[numberOfPlaylists].id);
+    setSelectedPlaylistId(userPlaylists[numberOfPlaylists].id);
   };
 
   const handlePlaylistEdit = async (e: React.FormEvent) => {
@@ -59,7 +61,7 @@ const Profile: React.FC = () => {
     if (isLoading) return;
     await updatePlaylist({
       title: newTitle,
-      id: id,
+      id: selectedPlaylistId,
     });
     await getPlaylists();
   };
@@ -68,7 +70,7 @@ const Profile: React.FC = () => {
     if (window.confirm("Are you sure you want to delete this playlist?")) {
       await deletePlaylist(playlistId);
       setNewTitle("");
-      setId("");
+      setSelectedPlaylistId(undefined);
     }
   };
 
@@ -118,30 +120,33 @@ const Profile: React.FC = () => {
         </div>
       </div>
       <hr />
-      {id && DEFAULT_PLAYLIST_IDS.includes(id) ? (
-        <div className="form-left">
-          <p>{t("edit_playlist.cta")}</p>
-        </div>
-      ) : (
-        <form className="form" onSubmit={handlePlaylistEdit}>
-          <div className="form-center">
-            <FormRow
-              type="text"
-              name="title"
-              value={newTitle}
-              labelText="Edit Playlist Title"
-              handleChange={(e) => setNewTitle(e.target.value)}
-            />
-            <button
-              className="btn btn-block"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? t("profile.wait") : t("profile.save")}
-            </button>
-          </div>
-        </form>
-      )}
+
+      <div className="form-left">
+        <p>{t("edit_playlist.cta")}</p>
+      </div>
+      {currentPlaylist.id &&
+        !!selectedPlaylistId &&
+        // not default playlist
+        !DEFAULT_PLAYLIST_IDS.includes(selectedPlaylistId) && (
+          <form className="form" onSubmit={handlePlaylistEdit}>
+            <div className="form-center">
+              <FormRow
+                type="text"
+                name="title"
+                value={newTitle}
+                labelText="Edit Playlist Title"
+                handleChange={(e) => setNewTitle(e.target.value)}
+              />
+              <button
+                className="btn btn-block"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? t("profile.wait") : t("profile.save")}
+              </button>
+            </div>
+          </form>
+        )}
     </Wrapper>
   );
 };
@@ -170,7 +175,6 @@ const Wrapper = styled.section`
     display: inline-flex;
     color: red;
     font-size: 1.5rem;
-    margin-left: 1rem;
     cursor: pointer;
   }
 
