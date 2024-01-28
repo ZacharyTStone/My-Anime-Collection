@@ -6,7 +6,7 @@ import AddAnime from "./pages/DashboardTabs/AddAnime";
 import MyAnimes from "./pages/DashboardTabs/MyAnimes";
 import EditPlaylist from "./pages/DashboardTabs/EditPlaylist";
 import TopAnimes from "./pages/DashboardTabs/TopAnimes";
-import { SkeletonLoadingBlock } from "./Components/UI/SkeletonLoadingBlock";
+import { SkeletonLoadingBlock } from "./Components/UI";
 import Dashboard from "./pages/Dashboard";
 import styled from "styled-components";
 const Profile = lazy(() => import("./pages/DashboardTabs/Profile"));

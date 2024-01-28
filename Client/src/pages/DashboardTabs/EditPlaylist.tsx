@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
-import { useAppContext } from "../../context/appContext";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiOutlineArrowRight } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
-import { FormRow } from "../../Components/UI";
-import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
-import { Alert } from "../../Components/UI";
+import { useAppContext } from "../../context/appContext";
+import { FormRow, Alert, SkeletonLoadingBlock } from "../../Components/UI";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 
 const Profile: React.FC = () => {
@@ -26,14 +24,17 @@ const Profile: React.FC = () => {
   const [newTitle, setNewTitle] = useState("");
   const [id, setId] = useState("");
 
-  const handleClickOnPlaylist = async (id: string) => {
+  interface IPlaylist {
+    id: string;
+    title: string;
+  }
+
+  const handleClickOnPlaylist = async (playlistId: string) => {
     if (isLoading) return;
     const playlist = userPlaylists.find(
-      (playlist: { id: string; title: string }) => playlist.id === id
+      (playlist: IPlaylist) => playlist.id === playlistId
     );
-    if (!playlist) {
-      return;
-    }
+    if (!playlist) return;
     await handlePlaylistChange({ name: playlist.id, value: playlist.id });
     setNewTitle(playlist.title);
     setId(playlist.id);
@@ -63,6 +64,14 @@ const Profile: React.FC = () => {
     await getPlaylists();
   };
 
+  const handleDeletePlaylist = async (playlistId: string) => {
+    if (window.confirm("Are you sure you want to delete this playlist?")) {
+      await deletePlaylist(playlistId);
+      setNewTitle("");
+      setId("");
+    }
+  };
+
   if (isLoading || loadingFetchPlaylists) {
     return (
       <SkeletonLoadingBlock height={500} width={"100%"} borderRadius={8} />
@@ -76,51 +85,29 @@ const Profile: React.FC = () => {
         <h3>{t("edit_playlist.title")}</h3>
         <div className="form-left">
           <ul>
-            {userPlaylists.map((playlist: { id: string; title: string }) => (
-              <li
-                key={playlist.id}
-                className={playlist.id === currentPlaylist.id ? "active" : ""}
-              >
+            {userPlaylists.map((playlist: IPlaylist) => (
+              <li key={playlist.id}>
                 <span
                   onClick={() => handleClickOnPlaylist(playlist.id)}
                   className="playlist-title"
                 >
+                  {playlist.id === currentPlaylist.id && (
+                    <AiOutlineArrowRight size={20} className="arrow-icon" />
+                  )}
                   {playlist.title}
+                  {!DEFAULT_PLAYLIST_IDS.includes(currentPlaylist.id) &&
+                    playlist.id === currentPlaylist.id && (
+                      <span
+                        className="delete-icon"
+                        onClick={() => handleDeletePlaylist(playlist.id)}
+                      >
+                        <AiFillDelete size={20} className="delete-icon" />
+                      </span>
+                    )}
                 </span>
-                {!DEFAULT_PLAYLIST_IDS.includes(playlist.id) && (
-                  <span
-                    style={{
-                      padding: "0px 10px",
-                    }}
-                    onClick={async () => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to delete this playlist?"
-                        )
-                      ) {
-                        await deletePlaylist(playlist.id);
-                        setNewTitle("");
-                        setId("");
-                      }
-                    }}
-                  >
-                    <AiFillDelete
-                      style={{
-                        display: "-ms-flexbox",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color: "red",
-                        fontSize: "1.5rem",
-                        marginLeft: "1rem",
-                        backgroundColor: "transparent",
-                      }}
-                    />
-                  </span>
-                )}
               </li>
             ))}
           </ul>
-
           <button
             className="btn"
             onClick={handleNewPlaylistSubmit}
@@ -130,21 +117,19 @@ const Profile: React.FC = () => {
           </button>
         </div>
       </div>
-
-      <hr
-        style={{
-          border: "1px solid #ccc",
-          margin: "1rem 0",
-        }}
-      ></hr>
-      {id && !DEFAULT_PLAYLIST_IDS.includes(id) && (
+      <hr />
+      {id && DEFAULT_PLAYLIST_IDS.includes(id) ? (
+        <div className="form-left">
+          <p>{t("edit_playlist.cta")}</p>
+        </div>
+      ) : (
         <form className="form" onSubmit={handlePlaylistEdit}>
           <div className="form-center">
             <FormRow
               type="text"
               name="title"
               value={newTitle}
-              labelText={t("edit_playlist.cta")}
+              labelText="Edit Playlist Title"
               handleChange={(e) => setNewTitle(e.target.value)}
             />
             <button
@@ -167,17 +152,25 @@ const Wrapper = styled.section`
   background: var(--white);
   padding: 3rem 2rem 4rem;
   box-shadow: var(--shadow-2);
-  .active {
-    font-weight: bold;
-    border-radius: 5px;
-    padding: 5px;
-    margin-bottom: 5px;
-    border: 5px solid #ccc;
-    cursor: pointer;
-  }
 
   .playlist-title {
     font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .arrow-icon {
+    color: var(--primary-400);
+    font-size: 1rem;
+  }
+
+  .delete-icon {
+    display: inline-flex;
+    color: red;
+    font-size: 1.5rem;
+    margin-left: 1rem;
     cursor: pointer;
   }
 
@@ -189,13 +182,16 @@ const Wrapper = styled.section`
     max-width: 100%;
     width: 100%;
   }
+
   .form-row {
     margin-bottom: 0;
   }
+
   .form-center {
     display: grid;
     row-gap: 0.5rem;
   }
+
   .form-center button {
     align-self: end;
     height: 35px;
@@ -204,18 +200,25 @@ const Wrapper = styled.section`
 
   @media (min-width: 992px) {
     .form-center {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       align-items: center;
       column-gap: 1rem;
     }
   }
+
   @media (min-width: 1120px) {
     .form-center {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
     }
+
     .form-center button {
       margin-top: 0;
     }
+  }
+
+  hr {
+    border: 1px solid #ccc;
+    margin: 1rem 0;
   }
 `;
 

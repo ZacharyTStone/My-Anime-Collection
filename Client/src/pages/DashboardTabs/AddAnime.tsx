@@ -3,7 +3,7 @@ import { FetchedAnimesContainer } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
-import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
+import { SkeletonLoadingBlock } from "../../Components/UI";
 
 // @ts-ignore
 import { debounce } from "lodash";

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
+import { SkeletonLoadingBlock } from "./UI";
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();

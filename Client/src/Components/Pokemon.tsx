@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
+import { SkeletonLoadingBlock } from "./UI";
 
 export const getRandomPokemon = async () => {
   const randomId = Math.floor(Math.random() * 1000) + 1;

@@ -33,6 +33,9 @@ dotenv.config();
 // Start up the server
 const app = express();
 
+// Enable trust proxy to get the client's IP address to work with rate limiting
+app.set("trust proxy", 1);
+
 // Get the app to use JSON as the default data format
 app.use(express.json());
 

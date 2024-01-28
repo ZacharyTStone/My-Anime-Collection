@@ -25,7 +25,7 @@
       "title": "トップアニメ"
     },
     "add_anime": {
-      "title": "アニメを追加する",
+      "title": "アニメを検索する",
       "search": "タイトル",
       "sort": "ソート",
       "add_to_default": "いつもデフォルト＆選択したプレイリストに追加",
@@ -56,7 +56,7 @@
     "edit_playlist": {
       "title": "マイ・プレイリスト",
       "new_playlist": "新しいプレイリストを作る",
-      "cta": "プレイリストの名前を編集するにはクリックしてください",
+      "cta": "プレイリストをクリックして名前を編集します。デフォルトのプレイリストは編集できません。",
       "playlist_updated_successfully": "プレイリストが正常に更新されました！",
       "playlist_deleted_successfully": "プレイリストが正常に削除されました！"
     },

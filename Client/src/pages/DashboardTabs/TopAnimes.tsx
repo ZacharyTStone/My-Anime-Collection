@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { FetchedAnimesContainer } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 import { useEffect } from "react";
-import { SkeletonLoadingBlock } from "../../Components/UI/SkeletonLoadingBlock";
+import { SkeletonLoadingBlock } from "../../Components/UI";
 import { Alert } from "../../Components/UI";
 
 const MyAnimes = () => {

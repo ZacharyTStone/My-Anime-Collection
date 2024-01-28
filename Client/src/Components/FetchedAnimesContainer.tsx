@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Anime } from "../Components";
 import { useAppContext } from "../context/appContext";
-import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
+import { SkeletonLoadingBlock } from "./UI";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 // @ts-ignore

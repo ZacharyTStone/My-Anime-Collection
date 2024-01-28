@@ -55,7 +55,7 @@
 
     "edit_playlist": {
       "title": "My Playlists",
-      "cta": "Click on a playlist to edit it's name",
+      "cta": "Click on a playlist to edit it's name. Default playlists cannot be edited.",
       "new_playlist": "Create a new playlist",
       "playlist_updated_successfully": "Playlist updated successfully!",
       "playlist_deleted_successfully": "Playlist deleted successfully!"

@@ -25,30 +25,30 @@ const createPulseAnimation = (
     }
   `;
 
-export const SkeletonLoadingBlock = styled.div<SkeletonLoadingBlockProps>(
-  (props) => {
-    const { width, height, borderRadius } = props;
+const SkeletonLoadingBlock = styled.div<SkeletonLoadingBlockProps>((props) => {
+  const { width, height, borderRadius } = props;
 
-    // get the dark and light colors from assets/css vars
-    const darkColor = props.darkPulseStateColor
-      ? props.darkPulseStateColor
-      : "var(--grey-200)";
+  // get the dark and light colors from assets/css vars
+  const darkColor = props.darkPulseStateColor
+    ? props.darkPulseStateColor
+    : "var(--grey-200)";
 
-    const lightColor = props.lightPulseStateColor
-      ? props.lightPulseStateColor
-      : "var(--grey-50)";
-    const pulseAnimation = createPulseAnimation(darkColor, lightColor);
+  const lightColor = props.lightPulseStateColor
+    ? props.lightPulseStateColor
+    : "var(--grey-50)";
+  const pulseAnimation = createPulseAnimation(darkColor, lightColor);
 
-    return css`
-      width: ${typeof width === "number" ? `${width}px` : width};
-      height: ${typeof height === "number" ? `${height}px` : height};
-      background-color: ${lightColor};
-      animation: ${pulseAnimation} 1s ease infinite;
-      animation-delay: 0.5s;
+  return css`
+    width: ${typeof width === "number" ? `${width}px` : width};
+    height: ${typeof height === "number" ? `${height}px` : height};
+    background-color: ${lightColor};
+    animation: ${pulseAnimation} 1s ease infinite;
+    animation-delay: 0.5s;
 
-      border-radius: ${typeof borderRadius === "number"
-        ? `${borderRadius}px`
-        : borderRadius};
-    `;
-  }
-);
+    border-radius: ${typeof borderRadius === "number"
+      ? `${borderRadius}px`
+      : borderRadius};
+  `;
+});
+
+export default SkeletonLoadingBlock;

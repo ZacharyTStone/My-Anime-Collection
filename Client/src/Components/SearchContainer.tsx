@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import TwitterShare from "./UI/TwitterShare";
 // @ts-ignore
 import { debounce } from "lodash";
-import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
+import { SkeletonLoadingBlock } from "./UI";
 
 const SearchContainer = () => {
   const { t } = useTranslation();

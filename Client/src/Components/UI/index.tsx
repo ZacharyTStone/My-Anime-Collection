@@ -9,6 +9,8 @@ import RunningImg from "./RunningImg";
 import Testimonial from "./Testimonial";
 import TwitterShare from "./TwitterShare";
 
+import SkeletonLoadingBlock from "./SkeletonLoadingBlock";
+
 export {
   Alert,
   FormRow,
@@ -19,4 +21,5 @@ export {
   RunningImg,
   Testimonial,
   TwitterShare,
+  SkeletonLoadingBlock,
 };

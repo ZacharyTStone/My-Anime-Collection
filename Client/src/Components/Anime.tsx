@@ -15,7 +15,7 @@ import { FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
 import ReactPlayer from "react-player";
-import { SkeletonLoadingBlock } from "./UI/SkeletonLoadingBlock";
+import { SkeletonLoadingBlock } from "./UI";
 
 import pokeball from "../assets/images/pokeball.png";
 import { useMobile } from "../utils/hooks";
