@@ -31,7 +31,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
     "@types/styled-components": "^5.1.25",
-    "axios": "^0.27.2",
+    "axios": "^0.28.0",
     "babel-jest": "^26.6.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.5.1",
