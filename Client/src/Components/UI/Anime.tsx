@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
 import { SkeletonLoadingBlock } from ".";
 
-import pokeball from "../assets/images/pokeball.png";
+import pokeball from "../../assets/images/pokeball.png";
 import { useMobile } from "../../utils/hooks";
 import { ExpectedFetchedAnimeResponse, SavedAnime } from "../../utils/types";
 
