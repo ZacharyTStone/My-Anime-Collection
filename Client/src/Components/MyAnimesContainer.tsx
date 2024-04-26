@@ -1,11 +1,28 @@
 import { useAppContext } from "./../context/appContext";
 import { useEffect, useState } from "react";
-import Anime from "./Anime";
+import Anime from "./UI/Anime";
 import styled from "styled-components";
 import PageBtnContainer from "./PageBtnContainer";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { SkeletonLoadingBlock } from "./UI";
+import { ExpectedFetchedAnimeResponse } from "../utils/types";
+
+interface IAnime {
+  _id: string;
+  title: string;
+  rating: number;
+  episodeCount: number;
+  format: string;
+  creationDate: string;
+  synopsis: string;
+  coverImage: string;
+  type: string;
+  japanese_title: string;
+  youtubeVideoId: string;
+  fetchedAnime: ExpectedFetchedAnimeResponse;
+  __v: number;
+}
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();
@@ -77,8 +94,7 @@ const MyAnimesContainer = () => {
       </h5>
       {numOfPages > 1 && <PageBtnContainer />}
       <AnimeContainer>
-        {animes?.map((anime: any) => {
-          console.log("anime", anime);
+        {animes?.map((anime: IAnime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}
       </AnimeContainer>

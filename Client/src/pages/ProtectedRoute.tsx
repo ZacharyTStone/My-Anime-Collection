@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useRedirectOnAuth } from "../utils/hooks";
 
-const ProtectedRoute = ({ children }: { children: any }) => {
+const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
   const { user } = useAppContext();
 
   const successRoute = "/top-animes";

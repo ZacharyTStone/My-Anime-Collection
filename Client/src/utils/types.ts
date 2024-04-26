@@ -25,6 +25,11 @@ export interface ExpectedFetchedAnimeResponse {
   type?: string;
 }
 
+export interface IPlaylist {
+  id: string;
+  title: string;
+}
+
 export interface SavedAnime {
   _id?: string;
   title?: string;

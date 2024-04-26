@@ -4,6 +4,7 @@ import { useAppContext } from "../../context/appContext";
 import { useEffect } from "react";
 import { SkeletonLoadingBlock } from "../../Components/UI";
 import { Alert } from "../../Components/UI";
+import { IPlaylist } from "../../utils/types";
 
 const MyAnimes = () => {
   const { t } = useTranslation();
@@ -22,7 +23,11 @@ const MyAnimes = () => {
     getPlaylists();
   }, []);
 
-  const handleLocalPlaylistChange = (e: any) => {
+  const handleLocalPlaylistChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     if (isLoading) return;
 
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
@@ -67,7 +72,7 @@ const MyAnimes = () => {
                 onChange={handleLocalPlaylistChange}
                 className="form-select"
               >
-                {userPlaylists.map((playlist: any, index: number) => {
+                {userPlaylists.map((playlist: IPlaylist, index: number) => {
                   return (
                     <option key={index} value={playlist.id}>
                       {playlist.title}

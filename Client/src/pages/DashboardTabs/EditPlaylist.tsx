@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../context/appContext";
 import { FormRow, Alert, SkeletonLoadingBlock } from "../../Components/UI";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
+import { IPlaylist } from "../../utils/types";
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
@@ -25,11 +26,6 @@ const Profile: React.FC = () => {
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<
     undefined | string
   >(undefined);
-
-  interface IPlaylist {
-    id: string;
-    title: string;
-  }
 
   const handleClickOnPlaylist = async (playlistId: string) => {
     if (isLoading) return;

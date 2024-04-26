@@ -21,14 +21,22 @@ const MUINavbar = () => {
   const { t } = useTranslation();
   const { logoutUser, user } = useAppContext();
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<HTMLElement | null>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<HTMLElement | null>(
+    null
+  );
 
-  const handleOpenNavMenu = (event: any) => {
+  const handleOpenNavMenu = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleOpenUserMenu = (event: any) => {
+  const handleOpenUserMenu = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
     setAnchorElUser(event.currentTarget);
   };
 

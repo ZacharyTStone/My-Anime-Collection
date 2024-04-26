@@ -1,4 +1,4 @@
-import Anime from "./Anime";
+import Anime from "./UI/Anime";
 import FlagContainer from "./FlagContainer";
 import PageBtnContainer from "./PageBtnContainer";
 import SearchContainer from "./SearchContainer";
@@ -7,7 +7,7 @@ import FetchedAnimesContainer from "./FetchedAnimesContainer";
 import MUINavbar from "./MUINavbar";
 import MyAnimesContainer from "./MyAnimesContainer";
 import BackgroundAnimeCards from "./BackgroundAnimeCards";
-import Pokemon from "./Pokemon";
+import Pokemon from "./UI/Pokemon";
 
 export {
   FetchedAnimesContainer,

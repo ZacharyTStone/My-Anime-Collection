@@ -47,7 +47,7 @@ const SearchContainer = () => {
     handlePlaylistChange({ name: e.target.name, value: e.target.value });
   };
 
-  const handleResetFilters = (e: any) => {
+  const handleResetFilters = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLocalSearch("");
     clearFilters();

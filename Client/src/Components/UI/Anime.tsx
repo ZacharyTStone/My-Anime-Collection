@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppContext } from "./../context/appContext";
+import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import * as React from "react";
 import Card from "@mui/material/Card";
@@ -15,11 +15,11 @@ import { FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
 import ReactPlayer from "react-player";
-import { SkeletonLoadingBlock } from "./UI";
+import { SkeletonLoadingBlock } from ".";
 
 import pokeball from "../assets/images/pokeball.png";
-import { useMobile } from "../utils/hooks";
-import { ExpectedFetchedAnimeResponse, SavedAnime } from "../utils/types";
+import { useMobile } from "../../utils/hooks";
+import { ExpectedFetchedAnimeResponse, SavedAnime } from "../../utils/types";
 
 interface animeCardProps extends SavedAnime {
   fetchedAnime: ExpectedFetchedAnimeResponse;
