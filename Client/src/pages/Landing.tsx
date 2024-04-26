@@ -1,20 +1,20 @@
+import { motion } from "framer-motion";
 import React, { Suspense } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { motion } from "framer-motion";
 import "react-toastify/dist/ReactToastify.css";
-import { useAppContext } from "./../context/appContext";
+import styled from "styled-components";
 import { useInViewAnimation } from "../utils/hooks";
+import { useAppContext } from "./../context/appContext";
 
 // Images
-import narutoRun from "../assets/images/narutoRun.gif";
-import goku from "../assets/images/goku.webp";
-import aot from "../assets/images/aot.png";
-import lucy from "../assets/images/lucy.webp";
 import { BackgroundAnimeCards } from "../Components";
+import aot from "../assets/images/aot.png";
+import goku from "../assets/images/goku.webp";
+import lucy from "../assets/images/lucy.webp";
+import narutoRun from "../assets/images/narutoRun.gif";
 
 const Testimonials = React.lazy(() => import("../Components/Testimonials"));
 const FlagContainer = React.lazy(() => import("../Components/FlagContainer"));

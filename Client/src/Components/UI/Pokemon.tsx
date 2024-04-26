@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 import { SkeletonLoadingBlock } from ".";
 
 export const getRandomPokemon = async () => {

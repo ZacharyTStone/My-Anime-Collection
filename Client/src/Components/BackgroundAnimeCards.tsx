@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 import { sampleAnimes } from "../assets/images/sampleAnimes";
-import React from "react";
 
 const BackgroundAnimeCards = () => {
   return (

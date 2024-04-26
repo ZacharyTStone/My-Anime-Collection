@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { Logo, FormRow, Alert } from "../Components/UI";
-import styled from "styled-components";
-import { useAppContext } from "../context/appContext";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { Alert, FormRow, Logo } from "../Components/UI";
+import { useAppContext } from "../context/appContext";
 
 const initialState = {
   name: "",

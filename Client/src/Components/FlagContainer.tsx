@@ -1,14 +1,14 @@
-import america from "./../assets/images/america-big.png";
-import IconButton from "@mui/material/IconButton";
-import japan from "./../assets/images/japan-big.png";
 import Box from "@mui/material/Box";
-import { useAppContext } from "../context/appContext";
+import IconButton from "@mui/material/IconButton";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useAppContext } from "../context/appContext";
+import america from "./../assets/images/america-big.png";
+import japan from "./../assets/images/japan-big.png";
 
 //icons
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 
 const FlagContainer = () => {
   const { changeSiteLanguage, theme, changeTheme } = useAppContext();

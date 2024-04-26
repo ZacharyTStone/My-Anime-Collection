@@ -1,4 +1,4 @@
-import styled, { keyframes, css, Keyframes } from "styled-components";
+import styled, { Keyframes, css, keyframes } from "styled-components";
 
 interface SkeletonLoadingBlockProps {
   width: string | number;

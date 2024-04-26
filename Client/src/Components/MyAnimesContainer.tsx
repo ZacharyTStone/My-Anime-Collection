@@ -1,12 +1,12 @@
-import { useAppContext } from "./../context/appContext";
 import { useEffect, useState } from "react";
-import Anime from "./UI/Anime";
-import styled from "styled-components";
-import PageBtnContainer from "./PageBtnContainer";
-import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { SkeletonLoadingBlock } from "./UI";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
+import { useAppContext } from "./../context/appContext";
+import PageBtnContainer from "./PageBtnContainer";
+import { SkeletonLoadingBlock } from "./UI";
+import Anime from "./UI/Anime";
 
 interface IAnime {
   _id: string;

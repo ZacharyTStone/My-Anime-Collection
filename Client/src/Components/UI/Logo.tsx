@@ -1,5 +1,5 @@
-import logo from "../../assets/images/logo.svg";
 import styled from "styled-components";
+import logo from "../../assets/images/logo.svg";
 const Logo = () => {
   return <MacLogo src={logo} alt="My Anime Collection" />;
 };
