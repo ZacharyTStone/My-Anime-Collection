@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Alert, FormRow, Logo } from "../Components/UI";
 import { useAppContext } from "../context/appContext";
+import { User } from "../utils/types";
 
 const initialState = {
   name: "",
@@ -25,7 +26,7 @@ const Register = () => {
 
   const localTheme = theme ? theme : "light";
   const onSubmit = () => {
-    const currentUser = {
+    const currentUser: Partial<User> = {
       isDemo: true,
       theme: localTheme,
       language: siteLanguage,

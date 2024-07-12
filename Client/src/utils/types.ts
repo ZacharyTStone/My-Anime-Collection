@@ -46,3 +46,15 @@ export interface SavedAnime {
   coverImage?: string;
   japanese_title?: string;
 }
+
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  isDemo: boolean;
+  password?: string;
+  theme: "light" | "dark";
+  language: "en" | "jp";
+  createdAt: Date;
+  updatedAt: Date;
+}
