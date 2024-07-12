@@ -5,13 +5,9 @@ import styled from "styled-components";
 import { Alert, FormRow, Logo, RunningImg } from "../Components/UI";
 import narutoRun from "../assets/images/narutoRun.gif";
 import { useAppContext } from "../context/appContext";
+import { User } from "../utils/types";
 
-interface FormValues {
-  name: string;
-  email: string;
-  password: string;
-  isDemo: boolean;
-  theme: string;
+interface FormValues extends Partial<User> {
   existingUser?: boolean;
 }
 
@@ -98,7 +94,7 @@ const Register: React.FC = () => {
               type="text"
               name="name"
               labelText={t("register.name")}
-              value={values.name}
+              value={values.name || ""}
               handleChange={handleChange}
             />
           )}
@@ -108,7 +104,7 @@ const Register: React.FC = () => {
             type="email"
             name="email"
             labelText={t("register.email")}
-            value={values.email}
+            value={values.email || ""}
             handleChange={handleChange}
           />
           {/* password input */}
@@ -116,7 +112,7 @@ const Register: React.FC = () => {
             type="password"
             name="password"
             labelText={t("register.password")}
-            value={values.password}
+            value={values.password || ""}
             handleChange={handleChange}
           />
           <button

@@ -7,6 +7,8 @@ import { BiCoffeeTogo } from "react-icons/bi";
 import { FaBitcoin } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { Pokemon } from "../../Components";
+import { User } from "../../utils/types";
+
 const Profile = () => {
   const { t } = useTranslation();
   const {
@@ -19,9 +21,9 @@ const Profile = () => {
     logoutUser,
   } = useAppContext();
 
-  const [name, setName] = useState(user?.name);
-  const [email, setEmail] = useState(user?.email);
-  const [theme, setTheme] = useState(user?.theme);
+  const [name, setName] = useState<User["name"]>(user?.name);
+  const [email, setEmail] = useState<User["email"]>(user?.email);
+  const [theme, setTheme] = useState<User["theme"]>(user?.theme);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,7 +70,7 @@ const Profile = () => {
             labelText={t("profile.theme")}
             value={theme}
             handleChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setTheme(e.target.value)
+              setTheme(e.target.value as User["theme"])
             }
             list={[
               {
