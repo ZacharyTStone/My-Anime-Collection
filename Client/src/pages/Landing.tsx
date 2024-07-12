@@ -20,6 +20,47 @@ const Testimonials = React.lazy(() => import("../Components/Testimonials"));
 const FlagContainer = React.lazy(() => import("../Components/FlagContainer"));
 const RunningImg = React.lazy(() => import("../Components/UI/RunningImg"));
 
+const StyledFlagContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 5%;
+  right: 5%;
+  z-index: 100;
+`;
+
+const StyledButton = styled(Link)`
+  &:hover {
+    transform: scale(1.1) !important;
+  }
+`;
+
+const StyledLoginDiv = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 2rem;
+`;
+
+const StyledIcon = styled.div`
+  background-color: var(--grey-50);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--primary-50);
+    color: white;
+    transform: scale(1.1);
+    transform-style: flat;
+    transition: all 0.5s ease-in-out;
+  }
+`;
+
 const Landing = () => {
   const { theme } = useAppContext();
   const { t } = useTranslation();
@@ -59,7 +100,9 @@ const Landing = () => {
       <Wrapper>
         <nav>
           <Suspense fallback={<div>Loading...</div>}>
-            <FlagContainer />
+            <StyledFlagContainer>
+              <FlagContainer />
+            </StyledFlagContainer>
           </Suspense>
         </nav>
         <main>
@@ -79,14 +122,14 @@ const Landing = () => {
                 <span>{t("landing.title")}</span>
               </h1>
               <p>{t("landing.title_description")}</p>
-              <div className="login-div">
-                <Link to="/register" className="btn btn-primary">
+              <StyledLoginDiv>
+                <StyledButton to="/register" className="btn btn-primary">
                   {t("landing.login_button")}
-                </Link>
-                <Link to="/register-demo" className="btn btn-outline">
+                </StyledButton>
+                <StyledButton to="/register-demo" className="btn btn-outline">
                   {t("landing.demo_button")}
-                </Link>
-              </div>
+                </StyledButton>
+              </StyledLoginDiv>
             </div>
             <div>
               <motion.img
@@ -176,15 +219,15 @@ const Landing = () => {
               <div>
                 <h3>{t("landing.call_to_action.title")}</h3>
                 <div className="login-div">
-                  <Link to="/register" className="btn btn-primary">
+                  <StyledButton to="/register" className="btn btn-primary">
                     {t("landing.login_button")}
-                  </Link>
-                  <Link
+                  </StyledButton>
+                  <StyledButton
                     to="/register-demo"
                     className="btn btn-primary btn-outline"
                   >
                     {t("landing.demo_button")}
-                  </Link>
+                  </StyledButton>
                 </div>
                 <h5
                   style={{
@@ -243,22 +286,7 @@ const Wrapper = styled.main`
 
   overflow: hidden;
   background-color: var(--white);
-  // special css for anime cards
 
-  .flag-div-holder {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 5%;
-    right: 5%;
-    z-index: 100;
-  }
-
-  .btn:hover {
-    transform: scale(1.1) !important;
-  }
   nav {
     width: var(--fluid-width);
     max-width: var(--max-width);
@@ -267,12 +295,7 @@ const Wrapper = styled.main`
     display: flex;
     align-items: center;
   }
-  .login-div {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    margin-top: 2rem;
-  }
+
   .page {
     display: flex;
     flex-direction: column;
@@ -282,6 +305,8 @@ const Wrapper = styled.main`
 
   p {
     text-align: left;
+    color: var(--grey-600);
+    size: 120%;
     span {
       color: var(--primary-500);
       font-weight: bold;
@@ -303,24 +328,6 @@ const Wrapper = styled.main`
     margin-bottom: 2rem;
   }
 
-  .icon {
-    background-color: var(--grey-50);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .icon:hover {
-    background-color: var(--primary-50);
-    color: white;
-    transform: scale(1.1);
-    transform-style: flat;
-    // slow transition
-    transition: all 0.5s ease-in-out;
-  }
-
   h1 {
     font-weight: 700;
     span {
@@ -331,10 +338,6 @@ const Wrapper = styled.main`
     span {
       text-decoration: underline var(--primary-500);
     }
-  }
-  p {
-    color: var(--grey-600);
-    size: 120%;
   }
   .main-img {
     display: none;

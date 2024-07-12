@@ -69,5 +69,14 @@ export const TESTIMONIALS: TESTIMONIALS_TYPE[] = [
   },
 ];
 
-// can't be edited
 export const DEFAULT_PLAYLIST_IDS = ["0", "1", "2"];
+
+export const SORT_OPTIONS = [
+  { title: "Latest", value: "latest" },
+  { title: "Oldest", value: "oldest" },
+  { title: "A - Z", value: "a-z" },
+  { title: "Z - A", value: "z-a" },
+  { title: "Rating", value: "rating" },
+  { title: "Format", value: "format" },
+  { title: "Date added", value: "date added" },
+];

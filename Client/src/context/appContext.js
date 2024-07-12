@@ -4,52 +4,8 @@ import reducer from "./reducer";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import {
-  DISPLAY_ALERT,
-  CLEAR_ALERT,
-  SETUP_USER_BEGIN,
-  SETUP_USER_SUCCESS,
-  SETUP_USER_ERROR,
-  LOGOUT_USER,
-  UPDATE_USER_BEGIN,
-  UPDATE_USER_SUCCESS,
-  UPDATE_USER_ERROR,
-  DELETE_USER_BEGIN,
-  DELETE_USER_SUCCESS,
-  DELETE_USER_ERROR,
-  HANDLE_CHANGE,
-  HANDLE_PLAYLIST_CHANGE,
-  RESET_FETCHED_ANIMES,
-  CLEAR_VALUES,
-  CREATE_ANIME_BEGIN,
-  CREATE_ANIME_SUCCESS,
-  CREATE_ANIME_ERROR,
-  CREATE_PLAYLIST_BEGIN,
-  CREATE_PLAYLIST_SUCCESS,
-  CREATE_PLAYLIST_ERROR,
-  UPDATE_PLAYLIST_BEGIN,
-  UPDATE_PLAYLIST_SUCCESS,
-  UPDATE_PLAYLIST_ERROR,
-  GET_ANIMES_BEGIN,
-  GET_ANIMES_SUCCESS,
-  GET_ANIMES_ERROR,
-  FETCH_ANIMES_BEGIN,
-  FETCH_ANIMES_SUCCESS,
-  FETCH_ANIMES_ERROR,
-  GET_PLAYLIST_BEGIN,
-  GET_PLAYLIST_SUCCESS,
-  GET_PLAYLIST_ERROR,
-  CHANGE_DEFAULT_PLAYLIST_POLICY,
-  DELETE_ANIME_BEGIN,
-  DELETE_ANIME_SUCCESS,
-  DELETE_PLAYLIST_BEGIN,
-  DELETE_PLAYLIST_SUCCESS,
-  DELETE_PLAYLIST_ERROR,
-  CLEAR_FILTERS,
-  CHANGE_PAGE,
-  CHANGE_SITE_LANGUAGE,
-  CHANGE_THEME,
-} from "./actions";
+import { ACTIONS } from "./actions";
+import { SORT_OPTIONS } from "../utils/constants";
 
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
@@ -79,37 +35,7 @@ const initialState = {
     id: "2",
   },
   userPlaylists: [],
-  sortOptions: [
-    {
-      title: "Latest",
-      value: "latest",
-    },
-    {
-      title: "Oldest",
-      value: "oldest",
-    },
-    {
-      title: "A - Z",
-      value: "a-z",
-    },
-    {
-      title: "Z - A",
-      value: "z-a",
-    },
-    {
-      title: "Rating",
-      value: "rating",
-    },
-    {
-      title: "Format",
-      value: "format",
-    },
-    {
-      title: "Date added",
-      value: "date added",
-    },
-  ],
-
+  sortOptions: SORT_OPTIONS,
   siteLanguage: "en",
   addToDefault: false,
   fetchedAnimes: [],
@@ -163,7 +89,7 @@ const AppProvider = ({ children }) => {
 
   const changeTheme = (theme) => {
     dispatch({
-      type: CHANGE_THEME,
+      type: ACTIONS.CHANGE_THEME,
       payload: theme,
     });
 
@@ -177,13 +103,13 @@ const AppProvider = ({ children }) => {
 
   const changeDefaultPlaylistPolicy = () => {
     dispatch({
-      type: CHANGE_DEFAULT_PLAYLIST_POLICY,
+      type: ACTIONS.CHANGE_DEFAULT_PLAYLIST_POLICY,
     });
   };
 
   const changeSiteLanguage = (lang) => {
     dispatch({
-      type: CHANGE_SITE_LANGUAGE,
+      type: ACTIONS.CHANGE_SITE_LANGUAGE,
       payload: lang,
     });
 
@@ -191,13 +117,13 @@ const AppProvider = ({ children }) => {
   };
 
   const displayAlert = () => {
-    dispatch({ type: DISPLAY_ALERT });
+    dispatch({ type: ACTIONS.DISPLAY_ALERT });
     clearAlert();
   };
 
   const clearAlert = () => {
     setTimeout(() => {
-      dispatch({ type: CLEAR_ALERT });
+      dispatch({ type: ACTIONS.CLEAR_ALERT });
     }, 3000);
   };
 
@@ -212,7 +138,7 @@ const AppProvider = ({ children }) => {
   };
 
   const setupUser = async ({ currentUser, endPoint, alertText }) => {
-    dispatch({ type: SETUP_USER_BEGIN });
+    dispatch({ type: ACTIONS.SETUP_USER_BEGIN });
     try {
       const { data } = await axios.post(
         `/api/v1/auth/${endPoint}`,
@@ -221,17 +147,17 @@ const AppProvider = ({ children }) => {
       const { user, token } = data;
       console.log(user);
       dispatch({
-        type: SETUP_USER_SUCCESS,
+        type: ACTIONS.SETUP_USER_SUCCESS,
         payload: { user, token, alertText },
       });
       dispatch({
-        type: CHANGE_THEME,
+        type: ACTIONS.CHANGE_THEME,
         payload: user.theme,
       });
       addUserToLocalStorage({ user, token });
     } catch (error) {
       dispatch({
-        type: SETUP_USER_ERROR,
+        type: ACTIONS.SETUP_USER_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
@@ -239,18 +165,18 @@ const AppProvider = ({ children }) => {
   };
 
   const logoutUser = async () => {
-    dispatch({ type: LOGOUT_USER });
+    dispatch({ type: ACTIONS.LOGOUT_USER });
     removeUserFromLocalStorage();
   };
 
   const updateUser = async (currentUser) => {
-    dispatch({ type: UPDATE_USER_BEGIN });
+    dispatch({ type: ACTIONS.UPDATE_USER_BEGIN });
     try {
       const oldUser = JSON.parse(localStorage.getItem("user"));
 
       if (!oldUser) {
         dispatch({
-          type: UPDATE_USER_ERROR,
+          type: ACTIONS.UPDATE_USER_ERROR,
           payload: { msg: "User not found" },
         });
         return;
@@ -261,18 +187,18 @@ const AppProvider = ({ children }) => {
       const { user, token } = data;
 
       dispatch({
-        type: UPDATE_USER_SUCCESS,
+        type: ACTIONS.UPDATE_USER_SUCCESS,
         payload: { oldUser, user, token },
       });
       dispatch({
-        type: CHANGE_THEME,
+        type: ACTIONS.CHANGE_THEME,
         payload: user.theme,
       });
       addUserToLocalStorage({ user, token });
     } catch (error) {
       if (error.response.status !== 401) {
         dispatch({
-          type: UPDATE_USER_ERROR,
+          type: ACTIONS.UPDATE_USER_ERROR,
           payload: { msg: error.response.data.msg },
         });
       }
@@ -280,18 +206,18 @@ const AppProvider = ({ children }) => {
   };
 
   const deleteUser = async (currentUser) => {
-    dispatch({ type: DELETE_USER_BEGIN });
+    dispatch({ type: ACTIONS.DELETE_USER_BEGIN });
     try {
       const { data } = await authFetch.delete("/auth/deleteUser", currentUser);
       const { user, token } = data;
       dispatch({
-        type: DELETE_USER_SUCCESS,
+        type: ACTIONS.DELETE_USER_SUCCESS,
         payload: { user, token },
       });
     } catch (error) {
       if (error.response.status !== 401) {
         dispatch({
-          type: DELETE_USER_ERROR,
+          type: ACTIONS.DELETE_USER_ERROR,
           payload: { msg: error.response.data.msg },
         });
       }
@@ -301,7 +227,7 @@ const AppProvider = ({ children }) => {
   };
 
   const handleChange = ({ name, value }) => {
-    dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
+    dispatch({ type: ACTIONS.HANDLE_CHANGE, payload: { name, value } });
   };
 
   const handlePlaylistChange = ({ value }) => {
@@ -313,15 +239,15 @@ const AppProvider = ({ children }) => {
     if (!playlist) {
       alert("Playlist not found");
     } else {
-      dispatch({ type: HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
+      dispatch({ type: ACTIONS.HANDLE_PLAYLIST_CHANGE, payload: { playlist } });
     }
   };
   const clearValues = () => {
-    dispatch({ type: CLEAR_VALUES });
+    dispatch({ type: ACTIONS.CLEAR_VALUES });
   };
 
   const createAnime = async (anime, playlistID) => {
-    dispatch({ type: CREATE_ANIME_BEGIN, payload: anime });
+    dispatch({ type: ACTIONS.CREATE_ANIME_BEGIN, payload: anime });
 
     try {
       const creationDate = anime.attributes.startDate;
@@ -365,14 +291,14 @@ const AppProvider = ({ children }) => {
       });
 
       dispatch({
-        type: CREATE_ANIME_SUCCESS,
+        type: ACTIONS.CREATE_ANIME_SUCCESS,
         payload: { title, playlistTitle },
       });
-      dispatch({ type: CLEAR_VALUES });
+      dispatch({ type: ACTIONS.CLEAR_VALUES });
     } catch (error) {
       if (error.response.status === 401) return;
       dispatch({
-        type: CREATE_ANIME_ERROR,
+        type: ACTIONS.CREATE_ANIME_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
@@ -386,12 +312,12 @@ const AppProvider = ({ children }) => {
     if (search) {
       url = url + `&search=${search}`;
     }
-    dispatch({ type: GET_ANIMES_BEGIN });
+    dispatch({ type: ACTIONS.GET_ANIMES_BEGIN });
     try {
       const { data } = await authFetch(url);
       const { animes, totalAnimes, numOfPages } = data;
       dispatch({
-        type: GET_ANIMES_SUCCESS,
+        type: ACTIONS.GET_ANIMES_SUCCESS,
         payload: {
           animes,
           totalAnimes,
@@ -400,18 +326,18 @@ const AppProvider = ({ children }) => {
       });
     } catch (error) {
       dispatch({
-        type: GET_ANIMES_ERROR,
+        type: ACTIONS.GET_ANIMES_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
   };
 
   const deleteAnime = async (animeId) => {
-    dispatch({ type: DELETE_ANIME_BEGIN });
+    dispatch({ type: ACTIONS.DELETE_ANIME_BEGIN });
     try {
       await authFetch.delete(`/animes/${animeId}`);
       dispatch({
-        type: DELETE_ANIME_SUCCESS,
+        type: ACTIONS.DELETE_ANIME_SUCCESS,
         payload: { animeId },
       });
       getAnimes();
@@ -422,32 +348,32 @@ const AppProvider = ({ children }) => {
   };
 
   const clearFilters = () => {
-    dispatch({ type: CLEAR_FILTERS });
+    dispatch({ type: ACTIONS.CLEAR_FILTERS });
   };
   const changePage = (page) => {
-    dispatch({ type: CHANGE_PAGE, payload: { page } });
+    dispatch({ type: ACTIONS.CHANGE_PAGE, payload: { page } });
   };
 
   const getPlaylists = async () => {
-    dispatch({ type: GET_PLAYLIST_BEGIN });
+    dispatch({ type: ACTIONS.GET_PLAYLIST_BEGIN });
     try {
       const { data } = await authFetch("/playlists");
       const { playlists } = data || [];
 
       dispatch({
-        type: GET_PLAYLIST_SUCCESS,
+        type: ACTIONS.GET_PLAYLIST_SUCCESS,
         payload: { playlists },
       });
     } catch (error) {
       dispatch({
-        type: GET_PLAYLIST_ERROR,
+        type: ACTIONS.GET_PLAYLIST_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
   };
 
   const createPlaylist = async (playlistTitle) => {
-    dispatch({ type: CREATE_PLAYLIST_BEGIN });
+    dispatch({ type: ACTIONS.CREATE_PLAYLIST_BEGIN });
 
     let playlist = state.userPlaylists.find(
       (playlist) => playlist.title === playlistTitle
@@ -467,20 +393,20 @@ const AppProvider = ({ children }) => {
 
       getPlaylists();
       dispatch({
-        type: CREATE_PLAYLIST_SUCCESS,
+        type: ACTIONS.CREATE_PLAYLIST_SUCCESS,
       });
     } catch (error) {
       if (error.response.status === 401) return;
 
       dispatch({
-        type: CREATE_PLAYLIST_ERROR,
+        type: ACTIONS.CREATE_PLAYLIST_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
   };
 
   const updatePlaylist = async (playlist) => {
-    dispatch({ type: UPDATE_PLAYLIST_BEGIN });
+    dispatch({ type: ACTIONS.UPDATE_PLAYLIST_BEGIN });
 
     if (playlist.id === "0") {
       toast.error(`Woops. The default playlist can not be edited`, {
@@ -503,37 +429,37 @@ const AppProvider = ({ children }) => {
       await authFetch.put(`/playlists/${playlist.id}`, playlist);
 
       dispatch({
-        type: UPDATE_PLAYLIST_SUCCESS,
+        type: ACTIONS.UPDATE_PLAYLIST_SUCCESS,
       });
     } catch (error) {
       if (error.response.status === 401) return;
 
       dispatch({
-        type: UPDATE_PLAYLIST_ERROR,
+        type: ACTIONS.UPDATE_PLAYLIST_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
   };
 
   const deletePlaylist = async (playlistId) => {
-    dispatch({ type: DELETE_PLAYLIST_BEGIN });
+    dispatch({ type: ACTIONS.DELETE_PLAYLIST_BEGIN });
     try {
       await authFetch.delete(`/playlists/${playlistId}`);
       getPlaylists();
       dispatch({
-        type: DELETE_PLAYLIST_SUCCESS,
+        type: ACTIONS.DELETE_PLAYLIST_SUCCESS,
       });
     } catch (error) {
       if (error.response.status === 401) return;
       dispatch({
-        type: DELETE_PLAYLIST_ERROR,
+        type: ACTIONS.DELETE_PLAYLIST_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
   };
 
   const resetFetchedAnimes = () => {
-    dispatch({ type: RESET_FETCHED_ANIMES });
+    dispatch({ type: ACTIONS.RESET_FETCHED_ANIMES });
   };
 
   const fetchAnimes = async ({
@@ -544,7 +470,7 @@ const AppProvider = ({ children }) => {
     pagination,
     sort,
   }) => {
-    dispatch({ type: FETCH_ANIMES_BEGIN });
+    dispatch({ type: ACTIONS.FETCH_ANIMES_BEGIN });
     // the fetching is done here. the sorting is passed in from AddAnime Page
     let APIURL = baseURL;
 
@@ -565,7 +491,7 @@ const AppProvider = ({ children }) => {
         .then((res) => {
           if (!res.ok && res.status !== 404) {
             dispatch({
-              type: FETCH_ANIMES_ERROR,
+              type: ACTIONS.FETCH_ANIMES_ERROR,
               payload: { msg: "could not fetch animes from API" },
             });
             throw Error("Could not fetch the data for that resource");
@@ -589,19 +515,19 @@ const AppProvider = ({ children }) => {
           }
 
           dispatch({
-            type: FETCH_ANIMES_SUCCESS,
+            type: ACTIONS.FETCH_ANIMES_SUCCESS,
             payload: { animes, totalFetchedAnimes, numOfFetchedAnimesPages },
           });
         })
         .catch((error) => {
           dispatch({
-            type: FETCH_ANIMES_ERROR,
+            type: ACTIONS.FETCH_ANIMES_ERROR,
             payload: { msg: error.response.data.msg },
           });
         });
     } catch (error) {
       dispatch({
-        type: FETCH_ANIMES_ERROR,
+        type: ACTIONS.FETCH_ANIMES_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
