@@ -44,22 +44,19 @@ const StyledLoginDiv = styled.div`
   margin-top: 2rem;
 `;
 
-const StyledIcon = styled.div`
-  background-color: var(--grey-50);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: var(--primary-50);
-    color: white;
-    transform: scale(1.1);
-    transform-style: flat;
-    transition: all 0.5s ease-in-out;
-  }
-`;
+const createAnimation = (
+  opacity: number,
+  y: number,
+  duration: number,
+  ease: string
+) => ({
+  hidden: { opacity, y },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration, ease },
+  },
+});
 
 const Landing = () => {
   const { theme } = useAppContext();
@@ -70,19 +67,8 @@ const Landing = () => {
   const { controls: controls3, ref: ref3 } = useInViewAnimation();
   const { controls: controls4, ref: ref4 } = useInViewAnimation();
 
-  const fadeIn = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } },
-  };
-
-  const parallax = {
-    hidden: { opacity: 0, y: 100 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1, ease: "easeInOut" },
-    },
-  };
+  const fadeIn = createAnimation(0, 0, 0.8, "easeInOut");
+  const parallax = createAnimation(0, 100, 1, "easeInOut");
 
   return (
     <div data-theme={theme ? theme : "light"}>

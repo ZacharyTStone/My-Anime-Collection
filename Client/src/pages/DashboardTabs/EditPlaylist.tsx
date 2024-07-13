@@ -118,7 +118,9 @@ const Profile: React.FC = () => {
       <hr />
 
       <div className="form-left">
-        <p>{t("edit_playlist.cta")}</p>
+        <p style={{ fontSize: "0.8rem", textDecoration: "underline" }}>
+          {t("edit_playlist.cta")}
+        </p>
       </div>
       {currentPlaylist.id &&
         !!selectedPlaylistId &&

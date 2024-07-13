@@ -13,14 +13,22 @@ import { generateRandomNumber } from "../utils/misc.js";
 import sanitize from "mongo-sanitize";
 
 // REST routes are defined in authRoutes.js
+const validateInputs = (inputObject: Record<string, unknown>) => {
+  const missingValues = Object.entries(inputObject)
+    .filter(([_, value]) => !value)
+    .map(([key, _]) => key);
+
+  if (missingValues.length > 0) {
+    throw new BadRequestError(
+      `Please provide all values: ${missingValues.join(", ")}`
+    );
+  }
+};
+
 const login = async (req, res) => {
   const { email, password } = sanitize(req.body);
 
-  const errorMessage = "Please provide all values";
-
-  if (!email || !password) {
-    throw new BadRequestError(errorMessage);
-  }
+  validateInputs({ email, password });
 
   const user = await User.findOne({ email }).select("+password");
 
@@ -67,10 +75,8 @@ const register = async (req, res) => {
   const { theme } = sanitize(req.body);
   const { language } = sanitize(req.body);
 
-  const errorMessage = "Please provide all values";
-
-  if (!isDemo && (!name || !email || !password)) {
-    throw new BadRequestError(errorMessage);
+  if (!isDemo) {
+    validateInputs({ name, email, password });
   }
 
   let userEmail = email;
@@ -134,6 +140,20 @@ const register = async (req, res) => {
   });
 };
 
+const deleteAssociatedRecords = async (model: any, userId: string) => {
+  const records = await model.find({ createdBy: userId });
+
+  const deletePromises = records.map(async (record: any) => {
+    try {
+      await record.remove();
+    } catch (error) {
+      console.error(`Error deleting ${model.modelName}: ${error.message}`);
+    }
+  });
+
+  await Promise.all(deletePromises);
+};
+
 const deleteUser = async (req, res) => {
   // Delete user
   const user = await User.findOne({ _id: req.user.userId });
@@ -141,30 +161,10 @@ const deleteUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ message: "User deleted" });
 
   // Delete all associated animes
-  const animes = await Anime.find({ createdBy: req.user.userId });
+  await deleteAssociatedRecords(Anime, req.user.userId);
 
-  const animePromises = animes.map(async (anime) => {
-    try {
-      await anime.remove();
-    } catch (error) {
-      console.error(`Error deleting anime: ${error.message}`);
-    }
-  });
-
-  await Promise.all(animePromises);
-
-  // delete all associated playlists
-  const playlists = await Playlist.find({ userID: req.user.userId });
-
-  const playlistPromises = playlists.map(async (playlist) => {
-    try {
-      await playlist.remove();
-    } catch (error) {
-      console.error(`Error deleting playlist: ${error.message}`);
-    }
-  });
-
-  await Promise.all(playlistPromises);
+  // Delete all associated playlists
+  await deleteAssociatedRecords(Playlist, req.user.userId);
 };
 
 export { register, login, updateUser, deleteUser };

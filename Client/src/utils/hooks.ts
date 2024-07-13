@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useMediaQuery } from "react-responsive";
@@ -24,17 +24,37 @@ const useRedirectOnAuth = (
 ) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const redirectOnUserState = () => {
     if (!user) {
       navigate(redirectFailurePath);
-      return;
     }
+  };
 
+  const redirectOnSuccessfulLogin = () => {
     if (user && window.location.pathname === "/") {
       navigate(redirectSuccessPath);
-      return;
     }
+  };
+
+  useEffect(() => {
+    redirectOnUserState();
+    redirectOnSuccessfulLogin();
   }, [user, navigate, redirectSuccessPath, redirectFailurePath]);
+};
+
+const useLoadingState = (isLoading: boolean) => {
+  const [loading, setLoading] = useState(isLoading);
+
+  const withLoading =
+    (callback: Function) =>
+    (...args: any[]) => {
+      if (loading) return;
+      setLoading(true);
+      callback(...args);
+      setLoading(false);
+    };
+
+  return { isLoading: loading, withLoading };
 };
 
 const useMobile = () => {
@@ -68,4 +88,5 @@ export {
   useTablet,
   useDesktop,
   useLargeDesktop,
+  useLoadingState,
 };

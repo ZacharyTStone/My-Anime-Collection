@@ -7,6 +7,7 @@ import TwitterShare from "./UI/TwitterShare";
 // @ts-ignore
 import { debounce } from "lodash";
 import { SkeletonLoadingBlock } from "./UI";
+import { useLoadingState } from "../utils/hooks";
 
 const SearchContainer = () => {
   const { t } = useTranslation();
@@ -28,24 +29,33 @@ const SearchContainer = () => {
     getPlaylists();
   }, []);
 
-  const handleSearch = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (isLoading) return;
-    handleChange({ name: e.target.name, value: e.target.value });
-  };
+  const { isLoading: isLoadingSearch, withLoading: withLoadingSearch } =
+    useLoadingState(isLoading);
+  const {
+    isLoading: isLoadingPlaylistChange,
+    withLoading: withLoadingPlaylistChange,
+  } = useLoadingState(isLoading);
 
-  const handleLocalPlaylistChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (isLoading) return;
-    e.preventDefault();
-    handlePlaylistChange({ name: e.target.name, value: e.target.value });
-  };
+  const handleSearch = withLoadingSearch(
+    (
+      e:
+        | React.ChangeEvent<HTMLInputElement>
+        | React.ChangeEvent<HTMLSelectElement>
+    ) => {
+      handleChange({ name: e.target.name, value: e.target.value });
+    }
+  );
+
+  const handleLocalPlaylistChange = withLoadingPlaylistChange(
+    (
+      e:
+        | React.ChangeEvent<HTMLInputElement>
+        | React.ChangeEvent<HTMLSelectElement>
+    ) => {
+      e.preventDefault();
+      handlePlaylistChange({ name: e.target.name, value: e.target.value });
+    }
+  );
 
   const handleResetFilters = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
