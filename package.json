@@ -9,12 +9,12 @@
     "install-Server": "yarn install",
     "build-Client": "cd Client && yarn build",
     "install-dependencies": "yarn install-Client && yarn install-Server",
-    "heroku-postbuild": "yarn install-dependencies && yarn build-Client  && tsc",
+    "heroku-postbuild": "yarn install-dependencies && yarn build-Client && tsc",
     "start-heroku-server": "node dist/server.js",
     "watch-scss": "node-sass --watch Client/src/assets/scss -o Client/src/assets/css",
     "Server-local": "tsc && nodemon dist/server.js",
-    "Client-local": "yarn start --cwd Client",
-    "start": "concurrently \"yarn Server-local\" \"yarn Client-local\" \"yarn watch-scss\""
+    "Client-local": "yarn start --prefix Client",
+    "start": "concurrently \"yarn run Server-local\" \"yarn run Client-local\" \"yarn run watch-scss\""
   },
   "keywords": [],
   "author": "",
