@@ -5,16 +5,16 @@
   "main": "Server/server.ts",
   "type": "module",
   "scripts": {
-    "install-Client": "cd Client && npm install",
-    "install-Server": "npm install",
-    "build-Client": "cd Client && npm run build",
-    "install-dependencies": "npm run install-Client && npm run install-Server",
-    "heroku-postbuild": "npm run install-dependencies && npm run build-Client  && tsc",
+    "install-Client": "cd Client && yarn install",
+    "install-Server": "yarn install",
+    "build-Client": "cd Client && yarn build",
+    "install-dependencies": "yarn install-Client && yarn install-Server",
+    "heroku-postbuild": "yarn install-dependencies && yarn build-Client  && tsc",
     "start-heroku-server": "node dist/server.js",
     "watch-scss": "node-sass --watch Client/src/assets/scss -o Client/src/assets/css",
     "Server-local": "tsc && nodemon dist/server.js",
-    "Client-local": "npm start --prefix Client",
-    "start": "concurrently \"npm run Server-local\" \"npm run Client-local\" \"npm run watch-scss\""
+    "Client-local": "yarn start --cwd Client",
+    "start": "concurrently \"yarn Server-local\" \"yarn Client-local\" \"yarn watch-scss\""
   },
   "keywords": [],
   "author": "",
@@ -65,7 +65,7 @@
     "xss-clean": "^0.1.1"
   },
   "engines": {
-    "node": "v20.6.1",
+    "node": "v20.11.0",
     "npm": "10.2.3"
   }
 }
