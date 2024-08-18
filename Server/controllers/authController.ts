@@ -5,7 +5,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/constants.js";
 import {
-  SEED_ANIMES,
+  // SEED_ANIMES,
   DEFAULT_PLAYLISTS_EN,
   DEFAULT_PLAYLISTS_JP,
 } from "../utils/constants.js";
@@ -113,20 +113,22 @@ const register = async (req, res) => {
     await Playlist.create(playlist);
   });
 
-  if (isDemo) {
-    const animePromises = SEED_ANIMES.map(async (animeData) => {
-      try {
-        await Anime.create({
-          createdBy: user._id,
-          ...animeData,
-        });
-      } catch (error) {
-        console.error(`Error creating anime: ${error.message}`);
-      }
-    });
+  // seed anime information such as the image links has been removed from API.
+  // in order to reintroduce we will need to update to use a fetch call to the API
+  // if (isDemo) {
+  //   const animePromises = SEED_ANIMES.map(async (animeData) => {
+  //     try {
+  //       await Anime.create({
+  //         createdBy: user._id,
+  //         ...animeData,
+  //       });
+  //     } catch (error) {
+  //       console.error(`Error creating anime: ${error.message}`);
+  //     }
+  //   });
 
-    await Promise.all(animePromises);
-  }
+  //   await Promise.all(animePromises);
+  // }
 
   const token = user.createJWT();
   res.status(StatusCodes.CREATED).json({
