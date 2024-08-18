@@ -70,6 +70,18 @@ const Landing = () => {
   const fadeIn = createAnimation(0, 0, 0.8, "easeInOut");
   const parallax = createAnimation(0, 100, 1, "easeInOut");
 
+  const listItemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: (i: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: i * 0.3,
+        duration: 0.5,
+      },
+    }),
+  };
+
   return (
     <div data-theme={theme ? theme : "light"}>
       <ToastContainer
@@ -128,15 +140,17 @@ const Landing = () => {
               />
             </div>
           </motion.div>
+
           <motion.div
-            style={{ height: "80vh" }}
+            className="container page"
             initial="hidden"
             animate={controls2}
-            variants={fadeIn}
             ref={ref2}
+            variants={fadeIn}
           >
             <Testimonials />
           </motion.div>
+
           <motion.div
             className="container page"
             style={{ height: "80vh" }}
@@ -159,38 +173,26 @@ const Landing = () => {
               <h3>
                 <span>{t("landing.why.title")}</span>
               </h3>
-              <ul>
-                <li>
-                  <FaCheck color="var(--primary-500)" />{" "}
-                  <span style={{ color: "var(--black)" }}>
-                    {t("landing.why.point1")}
-                  </span>
-                </li>
-                <li>
-                  <FaCheck color="var(--primary-500)" />{" "}
-                  <span style={{ color: "var(--black)" }}>
-                    {t("landing.why.point2")}
-                  </span>
-                </li>
-                <li>
-                  <FaCheck color="var(--primary-500)" />{" "}
-                  <span style={{ color: "var(--black)" }}>
-                    {t("landing.why.point3")}
-                  </span>
-                </li>
-                <li>
-                  <FaCheck color="var(--primary-500)" />{" "}
-                  <span style={{ color: "var(--black)" }}>
-                    {t("landing.why.point4")}
-                  </span>
-                </li>
-                <li>
-                  <FaCheck color="var(--primary-500)" />{" "}
-                  <span style={{ color: "var(--black)" }}>
-                    {t("landing.why.point5")}
-                  </span>
-                </li>
-              </ul>
+              <motion.ul
+                initial="hidden"
+                animate="visible"
+                variants={listItemVariants}
+              >
+                {["point1", "point2", "point3", "point4", "point5"].map(
+                  (point, index) => (
+                    <motion.li
+                      key={point}
+                      custom={index}
+                      variants={listItemVariants}
+                    >
+                      <FaCheck color="var(--primary-500)" />{" "}
+                      <span style={{ color: "var(--black)" }}>
+                        {t(`landing.why.${point}`)}
+                      </span>
+                    </motion.li>
+                  )
+                )}
+              </motion.ul>
             </div>
           </motion.div>
 
