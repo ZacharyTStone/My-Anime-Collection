@@ -89,10 +89,12 @@ const Wrapper = styled.div`
     .animesLeft {
       display: flex;
       left: 0%;
+      animation: fadeIn 2s ease-in-out;
     }
     .animesRight {
       display: flex;
       right: 0%;
+      animation: fadeIn 2s ease-in-out;
     }
 
     .animeCard {
@@ -122,10 +124,20 @@ const shimmerBorder = keyframes`
   }
 `;
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 const AnimeCard = styled.img`
   transform: scale(0.4);
   border: 1px solid var(--primary-200);
   animation: ${shimmerBorder} 1.5s infinite linear;
+  animation: ${fadeIn} 2s ease-in-out;
 
   &.left {
     transform: rotate(-5deg) scale(0.4);
