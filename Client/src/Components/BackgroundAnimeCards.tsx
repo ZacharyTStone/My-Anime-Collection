@@ -36,10 +36,10 @@ const Wrapper = styled.div`
     height: 90%;
     display: none;
     flex-direction: column;
-    /* justify-content: space-evenly; */
     position: absolute;
     top: 0;
     left: 0;
+    animation: fadeIn 2s ease-in-out;
   }
 
   .animesRight {
@@ -54,12 +54,11 @@ const Wrapper = styled.div`
     position: absolute;
     top: 0;
     right: 0;
+    animation: fadeIn 2s ease-in-out;
   }
   .animeCard {
     transform: scale(0.4);
     border: 1px solid var(--primary-200);
-    // shimer and bob animation
-    animation: shimmerBorder 1.5s infinite linear;
   }
 
   .animeCard.left {
@@ -128,6 +127,9 @@ const fadeIn = keyframes`
   0% {
     opacity: 0;
   }
+  50% {
+    opacity: 0;
+  }
   100% {
     opacity: 1;
   }
@@ -136,8 +138,7 @@ const fadeIn = keyframes`
 const AnimeCard = styled.img`
   transform: scale(0.4);
   border: 1px solid var(--primary-200);
-  animation: ${shimmerBorder} 1.5s infinite linear;
-  animation: ${fadeIn} 2s ease-in-out;
+  animation: ${shimmerBorder} 1.5s infinite linear, ${fadeIn} 2s ease-in-out;
 
   &.left {
     transform: rotate(-5deg) scale(0.4);
