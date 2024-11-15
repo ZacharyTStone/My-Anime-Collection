@@ -63,7 +63,7 @@ const MyAnimes = () => {
               {t("search_container.playlist")}
             </label>
             {loadingFetchPlaylists ? (
-              <SkeletonLoadingBlock height={40} width={240} borderRadius={6} />
+              <SkeletonLoadingBlock height={40} width={200} borderRadius={6} />
             ) : (
               <select
                 name="playlist"
