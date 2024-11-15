@@ -58,7 +58,12 @@ const Pokemon = () => {
   if (loading || !pokemon.image.length || !pokemon.name.length) {
     return (
       <PokemonDiv>
-        <SkeletonLoadingBlock width={200} height={200} borderRadius={6} />
+        <SkeletonLoadingBlock
+          width={200}
+          height={200}
+          borderRadius={6}
+          className="pokemon-img"
+        />
       </PokemonDiv>
     );
   }
