@@ -18,6 +18,7 @@
     "@types/styled-components": "^5.1.27",
     "axios": "^0.24.0",
     "babel-jest": "^26.6.0",
+    "dependencies": "^0.0.1",
     "dompurify": "^3.0.6",
     "framer-motion": "^10.16.4",
     "history": "^5.1.0",
@@ -73,6 +74,7 @@
   "proxy": "http://localhost:5001",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@playwright/test": "^1.49.1",
     "@types/dompurify": "^3.0.5",
     "@types/react-scroll": "^1.8.10",
     "@types/styled-components": "^5.1.27"

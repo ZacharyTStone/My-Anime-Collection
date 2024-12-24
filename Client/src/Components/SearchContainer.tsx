@@ -135,7 +135,7 @@ const SearchContainer = () => {
             disabled={isLoading}
             onClick={handleResetFilters}
           >
-            {t("search_container.clear_filters")}
+            {t("search_container.clear_filters") as string}
           </ClearFiltersButton>
 
           <TwitterShare />

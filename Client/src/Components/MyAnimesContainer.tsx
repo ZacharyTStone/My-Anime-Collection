@@ -78,10 +78,13 @@ const MyAnimesContainer = () => {
     return (
       <StyledWrapper>
         <NoAnimeMessage>
-          {t("my_animes_container.no_anime_message1")}
-          <NavLink to="/add-anime" className="btn btn-block btn-outline">
-            {t("my_animes_container.no_anime_message2")}
-          </NavLink>
+          <>
+            {" "}
+            {t("my_animes_container.no_anime_message1")}
+            <NavLink to="/add-anime" className="btn btn-block btn-outline">
+              {t("my_animes_container.no_anime_message2")}
+            </NavLink>
+          </>
         </NoAnimeMessage>
       </StyledWrapper>
     );

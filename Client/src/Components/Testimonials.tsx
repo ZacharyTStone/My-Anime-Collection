@@ -13,7 +13,9 @@ function Testimonials() {
 
   return (
     <TestimonialsContainer>
-      <TestimonialsTitle>{t("landing.testimonials.title")}</TestimonialsTitle>
+      <TestimonialsTitle>
+        {t("landing.testimonials.title") as string}
+      </TestimonialsTitle>
       <Carousel
         updateOnItemClick
         containerProps={{
