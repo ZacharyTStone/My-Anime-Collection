@@ -20,6 +20,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/dompurify": "^3.2.0",
     "@types/react-scroll": "^1.8.10",
     "node-sass": "^9.0.0",
     "nodemon": "^2.0.22",
@@ -66,7 +67,7 @@
     "xss-clean": "^0.1.1"
   },
   "engines": {
-    "node": "v20.6.1",
+    "node": "v20.12.1",
     "npm": "10.2.3"
   }
 }
