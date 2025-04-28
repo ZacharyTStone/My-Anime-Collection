@@ -80,7 +80,6 @@
     "@playwright/test": "^1.49.1",
     "@types/dompurify": "^3.0.5",
     "@types/react-scroll": "^1.8.10",
-    "@types/styled-components": "^5.1.27",
     "babel-plugin-react-compiler": "^19.0.0-beta-e552027-20250112",
     "eslint-plugin-react-compiler": "^19.0.0-beta-e552027-20250112"
   }
