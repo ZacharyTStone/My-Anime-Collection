@@ -3,16 +3,8 @@
     "outDir": "./dist",
     "target": "ES2020",
     "module": "Node16",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types", "./Server/typings-custom"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    // FE folder and all its subfolders
-    "Client/**/*",
-    // BE folder and all its subfolders
-    // "BE/**/*",
-    // "BE",
-    "Client"
-  ]
+  "exclude": ["node_modules", "dist", "Client/**/*", "Client"]
 }

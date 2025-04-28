@@ -80,66 +80,116 @@ const register = async (req, res) => {
   }
 
   let userEmail = email;
+  let retryCount = 0;
+  const MAX_RETRIES = 3;
 
-  const userAlreadyExists = await User.findOne({ email });
+  while (retryCount < MAX_RETRIES) {
+    try {
+      const userAlreadyExists = await User.findOne({ email: userEmail });
 
-  if (userAlreadyExists) {
-    if (isDemo) {
-      userEmail = `DemoUser${generateRandomNumber()}${generateRandomNumber()}${generateRandomNumber()}@demo.com`;
-    } else {
-      throw new BadRequestError("Email already in use");
+      if (userAlreadyExists) {
+        if (isDemo) {
+          // Generate a new unique email for demo user
+          const timestamp = Date.now();
+          const randomString = Math.random().toString(36).substring(2, 15);
+          userEmail = `DemoUser${timestamp}-${randomString}@demo.com`;
+          retryCount++;
+        } else {
+          throw new BadRequestError("Email already in use");
+        }
+      } else {
+        break;
+      }
+    } catch (error) {
+      if (error instanceof BadRequestError) {
+        throw error;
+      }
+      retryCount++;
     }
   }
 
-  // create user
-  const user = await User.create({
-    name,
-    email: userEmail,
-    password,
-    isDemo,
-    theme,
-  });
-
-  let DEFAULT_PLAYLISTS =
-    language === "jp" ? DEFAULT_PLAYLISTS_JP : DEFAULT_PLAYLISTS_EN;
-
-  // create base playlists
-  for (const playlist of DEFAULT_PLAYLISTS) {
-    playlist.userID = user._id;
-    playlist.isDemoUserPlaylist = isDemo;
+  if (retryCount === MAX_RETRIES) {
+    throw new BadRequestError("Failed to create demo user. Please try again.");
   }
 
-  DEFAULT_PLAYLISTS.forEach(async (playlist) => {
-    await Playlist.create(playlist);
-  });
+  try {
+    // create user
+    const user = await User.create({
+      name,
+      email: userEmail,
+      password,
+      isDemo,
+      theme,
+      language,
+    });
 
-  // seed anime information such as the image links has been removed from API.
-  // in order to reintroduce we will need to update to use a fetch call to the API
-  // if (isDemo) {
-  //   const animePromises = SEED_ANIMES.map(async (animeData) => {
-  //     try {
-  //       await Anime.create({
-  //         createdBy: user._id,
-  //         ...animeData,
-  //       });
-  //     } catch (error) {
-  //       console.error(`Error creating anime: ${error.message}`);
-  //     }
-  //   });
+    let DEFAULT_PLAYLISTS =
+      language === "jp" ? DEFAULT_PLAYLISTS_JP : DEFAULT_PLAYLISTS_EN;
 
-  //   await Promise.all(animePromises);
-  // }
+    // create base playlists
+    for (const playlist of DEFAULT_PLAYLISTS) {
+      playlist.userID = user._id;
+      playlist.isDemoUserPlaylist = isDemo;
+    }
 
-  const token = user.createJWT();
-  res.status(StatusCodes.CREATED).json({
-    user: {
-      email: user.email,
-      isDemo: user.isDemo,
-      name: user.name,
-      theme: user.theme,
-    },
-    token,
-  });
+    await Promise.all(
+      DEFAULT_PLAYLISTS.map((playlist) => Playlist.create(playlist))
+    );
+
+    const token = user.createJWT();
+    res.status(StatusCodes.CREATED).json({
+      user: {
+        email: user.email,
+        isDemo: user.isDemo,
+        name: user.name,
+        theme: user.theme,
+        language: user.language,
+      },
+      token,
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      // If we still get a duplicate key error, try one more time with a different email
+      const timestamp = Date.now();
+      const randomString = Math.random().toString(36).substring(2, 15);
+      const newEmail = `DemoUser${timestamp}-${randomString}@demo.com`;
+
+      const user = await User.create({
+        name,
+        email: newEmail,
+        password,
+        isDemo,
+        theme,
+        language,
+      });
+
+      let DEFAULT_PLAYLISTS =
+        language === "jp" ? DEFAULT_PLAYLISTS_JP : DEFAULT_PLAYLISTS_EN;
+
+      for (const playlist of DEFAULT_PLAYLISTS) {
+        playlist.userID = user._id;
+        playlist.isDemoUserPlaylist = isDemo;
+      }
+
+      await Promise.all(
+        DEFAULT_PLAYLISTS.map((playlist) => Playlist.create(playlist))
+      );
+
+      const token = user.createJWT();
+      res.status(StatusCodes.CREATED).json({
+        user: {
+          email: user.email,
+          isDemo: user.isDemo,
+          name: user.name,
+          theme: user.theme,
+          language: user.language,
+        },
+        token,
+      });
+    } else {
+      throw error;
+    }
+  }
 };
 
 const deleteAssociatedRecords = async (model: any, userId: string) => {

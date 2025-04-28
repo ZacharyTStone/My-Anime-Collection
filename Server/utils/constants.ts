@@ -7,10 +7,11 @@ interface DEMO_USER_TYPE {
   email: string;
   password: string;
 }
+
 export const DEMO_USER: DEMO_USER_TYPE = {
   name: "Demo",
   is_demo_user: true,
-  email: `DemoUser${uuidv4()}@demo.com`,
+  email: `DemoUser${Date.now()}-${uuidv4()}@demo.com`,
   password: uuidv4(),
 };
 
@@ -56,7 +57,7 @@ export const DEMO_USER: DEMO_USER_TYPE = {
 //     format: "TV",
 //     episodeCount: 12,
 //     synopsis:
-//       "Tokyo has become a cruel and merciless city—a place where vicious creatures called “ghouls” exist alongside humans. The citizens of this once great metropolis live in constant fear of these bloodthirsty savages and their thirst for human flesh. However, the greatest threat these ghouls pose is their dangerous ability to masquerade as humans and blend in with society.\n" +
+//       "Tokyo has become a cruel and merciless city—a place where vicious creatures called "ghouls" exist alongside humans. The citizens of this once great metropolis live in constant fear of these bloodthirsty savages and their thirst for human flesh. However, the greatest threat these ghouls pose is their dangerous ability to masquerade as humans and blend in with society.\n" +
 //       "Based on the best-selling supernatural horror manga by Sui Ishida, Tokyo Ghoul follows Ken Kaneki, a shy, bookish college student, who is instantly drawn to Rize Kamishiro, an avid reader like himself. However, Rize is not exactly who she seems, and this unfortunate meeting pushes Kaneki into the dark depths of the ghouls' inhuman world. In a twist of fate, Kaneki is saved by the enigmatic waitress Touka Kirishima, and thus begins his new, secret life as a half-ghoul/half-human who must find a way to integrate into both societies.\n" +
 //       "[Written by MAL Rewrite]",
 //     coverImage: "https://media.kitsu.io/anime/poster_images/8271/small.jpg",
@@ -166,7 +167,7 @@ export const DEMO_USER: DEMO_USER_TYPE = {
 //     format: "TV",
 //     episodeCount: 24,
 //     synopsis:
-//       "Corporate worker Mikami Satoru is stabbed by a random killer, and is reborn to an alternate world. But he turns out to be reborn a slime! Thrown into this new world with the name Rimuru, he begins his quest to create a world that’s welcoming to all races.\n" +
+//       "Corporate worker Mikami Satoru is stabbed by a random killer, and is reborn to an alternate world. But he turns out to be reborn a slime! Thrown into this new world with the name Rimuru, he begins his quest to create a world that's welcoming to all races.\n" +
 //       "\n" +
 //       "(Source: Crunchyroll)",
 //     coverImage: "https://media.kitsu.io/anime/poster_images/41024/small.jpg",

@@ -155,6 +155,8 @@ const AppProvider = ({ children }) => {
         payload: user.theme,
       });
       addUserToLocalStorage({ user, token });
+      // Redirect to top-animes page after successful login
+      window.location.href = "/top-animes";
     } catch (error) {
       dispatch({
         type: ACTIONS.SETUP_USER_ERROR,
@@ -296,10 +298,15 @@ const AppProvider = ({ children }) => {
       });
       dispatch({ type: ACTIONS.CLEAR_VALUES });
     } catch (error) {
-      if (error.response.status === 401) return;
+      if (error.response && error.response.status === 401) return;
       dispatch({
         type: ACTIONS.CREATE_ANIME_ERROR,
-        payload: { msg: error.response.data.msg },
+        payload: {
+          msg:
+            error.response && error.response.data && error.response.data.msg
+              ? error.response.data.msg
+              : "An error occurred while adding the anime",
+        },
       });
     }
   };

@@ -6,68 +6,38 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
 
-// Protections
-import helmet from "helmet";
-import xss from "xss-clean";
-import mongoSanitize from "express-mongo-sanitize";
+// Load environment variables
+dotenv.config();
 
-// Database and authenticateUser
+// Configurations
+import { configureSecurity } from "./middleware/security.js";
+
+// Database
 import connectDB from "./db/connect.js";
 
-// Routers
-import authRouter from "./routes/authRoutes.js";
-import animesRouter from "./routes/animesRoutes.js";
-import playlistsRouter from "./routes/playlistsRoutes.js";
+// Routes
+import routes from "./routes/index.js";
 
 // Middleware
 import errorHandlerMiddleware from "./middleware/error-handler.js";
-import authenticateUser from "./middleware/auth.js";
 
-// rate limiting
-
+// Rate limiting
 import { apiLimiter500 } from "./utils/rateLimiters.js";
-
-// Load environment variables from .env file
-dotenv.config();
 
 // Start up the server
 const app = express();
 
-// Enable trust proxy to get the client's IP address to work with rate limiting
-app.set("trust proxy", 1);
+// Configure security middleware
+configureSecurity(app);
 
 // Get the app to use JSON as the default data format
 app.use(express.json());
 
-// Protections
-app.use(helmet.dnsPrefetchControl());
-app.use(helmet.expectCt());
-app.use(helmet.frameguard());
-app.use(helmet.hidePoweredBy());
-app.use(helmet.hsts());
-app.use(helmet.ieNoOpen());
-app.use(helmet.noSniff());
-app.use(helmet.originAgentCluster());
-app.use(helmet.permittedCrossDomainPolicies());
-app.use(helmet.referrerPolicy());
-app.use(helmet.xssFilter());
+// API Routes
+app.use(routes);
 
-// Sanitize input
-app.use(xss());
-// Prevents MongoDB operator injection from MongoDB queries
-app.use(mongoSanitize());
-
-// App-level routes
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/animes", authenticateUser, animesRouter);
-app.use("/api/v1/playlists", authenticateUser, playlistsRouter);
-
-// Middleware
+// Error handling middleware
 app.use(errorHandlerMiddleware);
-
-if (process.env.NODE_ENV === "dev") {
-  // app.use(morgan("dev"));
-}
 
 // HEROKU DEPLOYMENT
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -77,21 +47,34 @@ app.get("*", apiLimiter500, (req, res) => {
   res.sendFile(path.resolve(__dirname, "../Client/build", "index.html"));
 });
 
+// Handle uncaught exceptions
+process.on("uncaughtException", (error) => {
+  console.error("Uncaught Exception:", error);
+  process.exit(1);
+});
+
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (error) => {
+  console.error("Unhandled Rejection:", error);
+  process.exit(1);
+});
+
 // Start the server
-
-const port = process.env.PORT || 5001;
-
 const start = async () => {
   try {
-    if (!process.env.MONGO_URL) {
-      throw new Error("MONGO_URL must be defined");
-    }
     await connectDB(process.env.MONGO_URL);
-    app.listen(port, () => {
-      console.log(`Server is listening on port ${port}...`);
+    const server = app.listen(process.env.PORT || 5001, () => {
+      console.log(`Server is listening on port ${process.env.PORT || 5001}...`);
+    });
+
+    // Handle server errors
+    server.on("error", (error) => {
+      console.error("Server error:", error);
+      process.exit(1);
     });
   } catch (error) {
-    console.log(error);
+    console.error("Failed to start server:", error);
+    process.exit(1);
   }
 };
 

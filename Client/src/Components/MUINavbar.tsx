@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { FaCaretDown, FaUserCircle } from "react-icons/fa";
 import styled from "styled-components";
 import { useAppContext } from "./../context/appContext";
@@ -19,6 +20,7 @@ import NavLinks from "./UI/NavLinks";
 
 const MUINavbar = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { logoutUser, user } = useAppContext();
 
   const [anchorElNav, setAnchorElNav] = React.useState<HTMLElement | null>(
@@ -46,6 +48,12 @@ const MUINavbar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    handleCloseUserMenu();
+    logoutUser();
+    navigate("/landing");
   };
 
   return (
@@ -116,7 +124,7 @@ const MUINavbar = () => {
                       color: "var(--textColor)",
                     }}
                   >
-                    {user.name}
+                    {user?.name || "Guest"}
                   </span>
                   <FaCaretDown color="var(--textColor)" />
                 </UserIcon>
@@ -137,7 +145,7 @@ const MUINavbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem key={1} onClick={logoutUser}>
+                <MenuItem key={1} onClick={handleLogout}>
                   <Typography textAlign="center">
                     {t("navbar.logout")}
                   </Typography>
