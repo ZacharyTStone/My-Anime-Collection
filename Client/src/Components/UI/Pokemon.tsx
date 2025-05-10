@@ -58,38 +58,123 @@ const Pokemon = () => {
   if (loading || !pokemon.image.length || !pokemon.name.length) {
     return (
       <PokemonDiv>
-        <SkeletonLoadingBlock
-          width={200}
-          height={200}
-          borderRadius={6}
-          className="pokemon-img"
-        />
+        <div className="pokemon-container loading">
+          <SkeletonLoadingBlock
+            width={150}
+            height={150}
+            borderRadius={75}
+            className="pokemon-img"
+          />
+        </div>
       </PokemonDiv>
     );
   }
 
   return (
     <PokemonDiv>
-      <img
-        src={pokemon.image}
-        alt={`pokemon: ${pokemon.name}`}
-        className="pokemon_img"
-      />
+      <div className="pokemon-container">
+        <div className="pokemon-image-wrapper">
+          <img
+            src={pokemon.image}
+            alt={`pokemon: ${pokemon.name}`}
+            className="pokemon_img"
+          />
+        </div>
+        <div className="pokemon-info">
+          <span className="pokemon-title">Your Random Pokémon</span>
+          <span className="pokemon-name">{pokemon.name}</span>
+        </div>
+      </div>
     </PokemonDiv>
   );
 };
 
 const PokemonDiv = styled.div`
-  .pokemon_img {
-    display: none;
-    width: 200px;
-    height: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
 
-    @media (min-width: 992px) {
-      display: block;
-      position: relative;
-      left: 75%;
-      top: -2rem;
+  .pokemon-container {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--grey-200);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-200);
+    }
+
+    &.loading {
+      min-height: 250px;
+      justify-content: center;
+    }
+  }
+
+  .pokemon-image-wrapper {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      rgba(212, 54, 124, 0.1),
+      rgba(212, 54, 124, 0.05)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 2px solid var(--primary-100);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pokemon_img {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+  }
+
+  .pokemon-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .pokemon-title {
+    font-size: 0.9rem;
+    color: var(--grey-500);
+    margin-bottom: 0.25rem;
+  }
+
+  .pokemon-name {
+    color: var(--grey-900);
+    font-weight: 600;
+    text-transform: capitalize;
+    font-size: 1.25rem;
+    border-bottom: 2px solid var(--primary-200);
+    padding-bottom: 0.25rem;
+  }
+
+  @media (max-width: 992px) {
+    .pokemon-image-wrapper {
+      width: 140px;
+      height: 140px;
+    }
+
+    .pokemon_img {
+      width: 110px;
+      height: 110px;
     }
   }
 `;

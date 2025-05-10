@@ -33,7 +33,7 @@ const StyledFlagContainer = styled.div`
 
 const StyledButton = styled(Link)`
   &:hover {
-    transform: scale(1.1) !important;
+    transform: translateY(-2px) !important;
   }
 `;
 
@@ -41,7 +41,8 @@ const StyledLoginDiv = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  gap: 1rem;
 `;
 
 const createAnimation = (
@@ -83,7 +84,7 @@ const Landing = () => {
   };
 
   return (
-    <div data-theme={theme ? theme : "light"}>
+    <div>
       <ToastContainer
         position="top-left"
         autoClose={5000}
@@ -262,13 +263,13 @@ export default Landing;
 const Wrapper = styled.main`
   @keyframes shimmerBorder {
     0% {
-      border: 3px solid var(--primary-200);
+      border-color: var(--primary-200);
     }
     50% {
-      border: 3px solid var(--primary-500);
+      border-color: var(--primary-500);
     }
     100% {
-      border: 3px solid var(--primary-200);
+      border-color: var(--primary-200);
     }
   }
 
@@ -289,16 +290,18 @@ const Wrapper = styled.main`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 2rem auto;
   }
 
   p {
     text-align: left;
     color: var(--grey-600);
-    size: 120%;
+    font-size: 1.1rem;
+    line-height: 1.7;
+
     span {
-      color: var(--primary-500);
-      font-weight: bold;
-      font-size: 1.5rem;
+      color: var(--primary-600);
+      font-weight: 600;
     }
   }
 
@@ -318,32 +321,66 @@ const Wrapper = styled.main`
 
   h1 {
     font-weight: 700;
+    letter-spacing: -0.03em;
+
     span {
-      color: var(--primary-500);
+      color: var(--primary-600);
     }
   }
+
   h3 {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+
     span {
-      text-decoration: underline var(--primary-500);
+      text-decoration: underline;
+      text-decoration-color: var(--primary-500);
+      text-decoration-thickness: 3px;
+      text-underline-offset: 6px;
     }
   }
+
+  li {
+    color: var(--grey-700);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    span {
+      font-weight: 400;
+    }
+  }
+
   .main-img {
     display: none;
     overflow: visible;
   }
+
   @media (min-width: 992px) {
     .page {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      column-gap: 3rem;
+      column-gap: 4rem;
       min-height: 90fvh;
     }
+
     .main-img {
       display: block;
       height: auto;
       width: 100%;
       overflow: visible;
       overflow-x: hidden;
+      border-radius: 8px;
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        transform: scale(1.02);
+      }
     }
 
     .oversized-img {

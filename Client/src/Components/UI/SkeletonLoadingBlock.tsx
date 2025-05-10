@@ -31,7 +31,7 @@ const SkeletonLoadingBlock = styled.div<SkeletonLoadingBlockProps>((props) => {
   // get the dark and light colors from assets/css vars
   const darkColor = props.darkPulseStateColor
     ? props.darkPulseStateColor
-    : "var(--grey-200)";
+    : "var(--grey-100)";
 
   const lightColor = props.lightPulseStateColor
     ? props.lightPulseStateColor

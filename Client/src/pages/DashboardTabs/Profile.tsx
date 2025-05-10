@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormRow, FormRowSelect, Alert } from "../../Components/UI";
+import { FormRow, Alert } from "../../Components/UI";
 
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
@@ -23,7 +23,6 @@ const Profile = () => {
 
   const [name, setName] = useState<User["name"]>(user?.name);
   const [email, setEmail] = useState<User["email"]>(user?.email);
-  const [theme, setTheme] = useState<User["theme"]>(user?.theme);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,7 +30,7 @@ const Profile = () => {
       displayAlert();
       return;
     }
-    updateUser({ name, email, theme });
+    updateUser({ name, email, theme: "light" });
   };
 
   const handleDelete = () => {
@@ -63,25 +62,6 @@ const Profile = () => {
             labelText={t("profile.email")}
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
-          />
-          <FormRowSelect
-            name="theme"
-            disabled={isLoading}
-            labelText={t("profile.theme")}
-            value={theme}
-            handleChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setTheme(e.target.value as User["theme"])
-            }
-            list={[
-              {
-                title: "light",
-                value: "light",
-              },
-              {
-                title: "dark",
-                value: "dark",
-              },
-            ]}
           />
 
           <button
@@ -165,29 +145,52 @@ const ButtonDiv = styled.div`
 
 const Wrapper = styled.section`
   .btn-submit {
-    margin-top: 50px !important;
+    margin-top: 2rem !important;
   }
 
   .btn-outline:hover {
     background-color: var(--primary-50);
-    color: var(--primary-100);
-    border-color: var(--primary-500);
+    color: var(--primary-700);
+    border-color: var(--primary-400);
   }
 
   border-radius: var(--borderRadius);
   width: 100%;
   background: var(--white);
-  padding: 3rem 2rem 4rem;
-  box-shadow: var(--shadow-2);
+  padding: 2.5rem;
+  box-shadow: var(--shadow);
+
   h3 {
     margin-top: 0;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: var(--grey-900);
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -0.75rem;
+      left: 0;
+      width: 4rem;
+      height: 3px;
+      background-color: var(--primary-500);
+      border-radius: 2px;
+    }
   }
+
   .btn-danger {
     position: relative;
+    background-color: var(--grey-300);
+    color: var(--grey-700);
+    transition: all 0.2s ease;
+
     :hover {
+      background-color: var(--red-dark);
       color: white;
     }
   }
+
   .form {
     margin: 0;
     border-radius: 0;
@@ -196,37 +199,46 @@ const Wrapper = styled.section`
     max-width: 100%;
     width: 100%;
   }
+
   .form-row {
-    margin-bottom: 0;
-  }
-  .form-center {
-    display: grid;
-    row-gap: 0.5rem;
-  }
-  .form-center button {
-    align-self: end;
-    height: 35px;
-    margin-top: 1rem;
+    margin-bottom: 1.5rem;
   }
 
-  .clear-btn {
-    background: var(--grey-500);
+  .form-center {
+    display: grid;
+    row-gap: 1rem;
   }
-  .clear-btn:hover {
-    background: var(--black);
+
+  .form-center button {
+    align-self: end;
+    height: 42px;
+    margin-top: 1.5rem;
+  }
+
+  .bottom-half {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--grey-200);
+  }
+
+  .bottom-half span {
+    color: var(--grey-700);
+    font-weight: 500;
   }
 
   @media (min-width: 992px) {
     .form-center {
       grid-template-columns: 1fr 1fr;
       align-items: center;
-      column-gap: 1rem;
+      column-gap: 1.5rem;
     }
   }
+
   @media (min-width: 1120px) {
     .form-center {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
     }
+
     .form-center button {
       margin-top: 0;
     }

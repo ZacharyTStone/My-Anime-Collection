@@ -8,79 +8,89 @@
   max-width: var(--fixed-width);
   background: var(--white);
   border-radius: var(--borderRadius);
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--shadow);
   padding: 2rem 2.5rem;
   margin: 3rem auto;
   transition: var(--transition);
 }
 
 .form:hover {
-  box-shadow: var(--shadow-4);
+  box-shadow: var(--shadow-md);
 }
 
 .form-label {
-  color: var(--textColor);
+  color: var(--grey-700);
   display: block;
-  font-size: var(--smallText);
+  font-size: var(--small-text);
   margin-bottom: 0.5rem;
-  text-transform: capitalize;
+  font-weight: 500;
   letter-spacing: var(--letterSpacing);
 }
 
 .form-input,
 .form-textarea,
 .form-select {
-  color: var(--textColor);
+  color: var(--grey-900);
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.625rem 0.75rem;
   border-radius: var(--borderRadius);
-  background-color: var(--primary-1000);
-  border: 1px solid var(--primary-300);
+  background-color: var(--white);
+  border: 1px solid var(--grey-300);
   -webkit-appearance: none;
   appearance: none;
   transition: var(--transition);
   height: max-content;
+  font-size: 0.95rem;
 }
 
 .form-input:focus,
 .form-textarea:focus,
 .form-select:focus {
   outline: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added a subtle focus effect */
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(212, 54, 124, 0.1);
 }
 
 .form-input,
 .form-select {
-  min-height: 35px;
+  min-height: 42px;
   height: max-content;
 }
 
 .form-row {
-  margin-bottom: 1.5rem; /* Increased margin for better spacing */
+  margin-bottom: 1.5rem;
 }
 
 .form-textarea {
   height: 7rem;
+  resize: vertical;
+  min-height: 5rem;
 }
 
 ::placeholder {
   font-family: inherit;
   color: var(--grey-400);
+  opacity: 0.8;
 }
 
 .form-alert {
   color: var(--red-dark);
   letter-spacing: var(--letterSpacing);
-  text-transform: capitalize;
-  margin-top: 0.5rem; /* Added margin for better separation */
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
 }
 
 /* mobile only */
 @media (max-width: $tablet) {
+  .form {
+    padding: 1.5rem;
+  }
+
   .form-textarea {
     height: 5rem;
   }
+
   .form-alert {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
   }
 }

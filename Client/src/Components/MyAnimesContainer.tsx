@@ -77,15 +77,12 @@ const MyAnimesContainer = () => {
   if (noAnimesInPlaylist && !isLoading) {
     return (
       <StyledWrapper>
-        <NoAnimeMessage>
-          <>
-            {" "}
-            {t("my_animes_container.no_anime_message1")}
-            <NavLink to="/add-anime" className="btn btn-block btn-outline">
-              {t("my_animes_container.no_anime_message2")}
-            </NavLink>
-          </>
-        </NoAnimeMessage>
+        <EmptyAnimeContainer>
+          <p>{t("my_animes_container.no_anime_message1")}</p>
+          <NavLink to="/add-anime" className="btn btn-primary">
+            {t("my_animes_container.no_anime_message2")}
+          </NavLink>
+        </EmptyAnimeContainer>
       </StyledWrapper>
     );
   }
@@ -123,8 +120,30 @@ const LoadingContainer = styled.div`
   gap: 10px;
 `;
 
-const NoAnimeMessage = styled.h5`
+const EmptyAnimeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 4rem auto;
+  max-width: 600px;
+  padding: 2rem;
   text-align: center;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--grey-200);
+
+  p {
+    font-size: 1.25rem;
+    color: var(--grey-700);
+    margin: 0;
+  }
+
+  .btn {
+    min-width: 200px;
+  }
 `;
 
 const AnimeContainer = styled.div`

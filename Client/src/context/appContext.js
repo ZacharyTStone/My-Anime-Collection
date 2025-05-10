@@ -20,7 +20,7 @@ const initialState = {
   alertText: "",
   alertType: "",
   user: user ? JSON.parse(user) : null,
-  theme: user ? JSON.parse(user).theme : "light",
+  theme: "light",
   token: token,
   animes: [],
   totalAnimes: 0,
@@ -87,20 +87,6 @@ const AppProvider = ({ children }) => {
   // axios instance with token
   const authFetch = createAxiosInstance(state.token);
 
-  const changeTheme = (theme) => {
-    dispatch({
-      type: ACTIONS.CHANGE_THEME,
-      payload: theme,
-    });
-
-    // if there is a user, update the default theme in database
-    if (state.user) {
-      const user = state.user;
-      user.theme = theme;
-      updateUser(user);
-    }
-  };
-
   const changeDefaultPlaylistPolicy = () => {
     dispatch({
       type: ACTIONS.CHANGE_DEFAULT_PLAYLIST_POLICY,
@@ -150,10 +136,6 @@ const AppProvider = ({ children }) => {
         type: ACTIONS.SETUP_USER_SUCCESS,
         payload: { user, token, alertText },
       });
-      dispatch({
-        type: ACTIONS.CHANGE_THEME,
-        payload: user.theme,
-      });
       addUserToLocalStorage({ user, token });
       // Redirect to top-animes page after successful login
       window.location.href = "/top-animes";
@@ -191,10 +173,6 @@ const AppProvider = ({ children }) => {
       dispatch({
         type: ACTIONS.UPDATE_USER_SUCCESS,
         payload: { oldUser, user, token },
-      });
-      dispatch({
-        type: ACTIONS.CHANGE_THEME,
-        payload: user.theme,
       });
       addUserToLocalStorage({ user, token });
     } catch (error) {
@@ -565,7 +543,6 @@ const AppProvider = ({ children }) => {
         clearFilters,
         changePage,
         fetchAnimes,
-        changeTheme,
         resetFetchedAnimes,
         siteLanguage: state.siteLanguage,
       }}

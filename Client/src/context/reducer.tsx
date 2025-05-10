@@ -12,15 +12,6 @@ const reducer = (
     payload: any;
   }
 ) => {
-  if (action.type === ACTIONS.CHANGE_THEME) {
-    const user = localStorage.getItem("user");
-
-    return {
-      ...state,
-      theme: action.payload,
-    };
-  }
-
   if (action.type === ACTIONS.CHANGE_SITE_LANGUAGE) {
     return {
       ...state,
@@ -53,7 +44,7 @@ const reducer = (
       ...state,
       isLoading: true,
       token: action.payload.token,
-      theme: action.payload.theme,
+      theme: "light",
       user: action.payload.user,
       showAlert: true,
       alertType: "success",
@@ -82,14 +73,14 @@ const reducer = (
   }
   if (action.type === ACTIONS.UPDATE_USER_SUCCESS) {
     toast.success(`User updated successfully.`, {
-      toastId: "user-update-success" + action.payload.user.theme,
+      toastId: "user-update-success",
     });
 
     return {
       ...state,
       isLoading: false,
       token: action.payload.token || state.token,
-      theme: action.payload.theme || state.theme,
+      theme: "light",
       user: action.payload.user || state.user,
       playlist: action.payload.playlist || state.playlist,
     };

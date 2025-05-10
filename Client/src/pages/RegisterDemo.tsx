@@ -18,17 +18,16 @@ const Register = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  const { user, showAlert, setupUser, theme, siteLanguage } = useAppContext();
+  const { user, showAlert, setupUser, siteLanguage } = useAppContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const localTheme = theme ? theme : "light";
   const onSubmit = () => {
     const currentUser: Partial<User> = {
       isDemo: true,
-      theme: localTheme,
+      theme: "light",
       language: siteLanguage,
     };
 
@@ -54,7 +53,7 @@ const Register = () => {
   }, []);
 
   return (
-    <div data-theme={theme ? theme : "light"}>
+    <div>
       <Wrapper className="full-page">
         <form className="form" onSubmit={onSubmit}>
           <Logo />
@@ -102,36 +101,37 @@ const Register = () => {
 };
 
 const Wrapper = styled.section`
-  background-color: var(--white);
+  background-color: var(--grey-50);
   display: grid;
   align-items: center;
 
   .form {
-    max-width: 400px;
-    border-top: 2px solid var(--primary-500);
-    border-left: 1px solid var(--primary-500);
-    border-right: 1px solid var(--primary-500);
-    border-bottom: 2px solid var(--primary-500);
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.1);
+    max-width: 420px;
+    border-radius: var(--borderRadius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--grey-200);
+    background-color: var(--white);
+    transition: var(--transition);
   }
 
   h3 {
     text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--grey-900);
   }
+
   p {
     margin: 0;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     text-align: center;
+    color: var(--grey-600);
   }
+
   .btn {
-    margin-top: 1rem;
-  }
-  .existing-user-button {
-    background: transparent;
-    border: transparent;
-    color: var(--primary-500);
-    cursor: pointer;
-    letter-spacing: var(--letterSpacing);
+    margin-top: 1.5rem;
+    width: 100%;
+    font-weight: 500;
+    opacity: 0.6;
   }
 `;
 

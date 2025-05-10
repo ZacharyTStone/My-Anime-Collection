@@ -24,15 +24,8 @@ const Register: React.FC = () => {
 
   const navigate = useNavigate();
   const [values, setValues] = useState<FormValues>(initialState);
-  const {
-    user,
-    isLoading,
-    showAlert,
-    displayAlert,
-    setupUser,
-    theme,
-    siteLanguage,
-  } = useAppContext();
+  const { user, isLoading, showAlert, displayAlert, setupUser, siteLanguage } =
+    useAppContext();
 
   const toggleExistingUser = () => {
     setValues({ ...values, existingUser: !values.existingUser });
@@ -42,13 +35,11 @@ const Register: React.FC = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const localTheme = theme ? theme : "light";
-
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, email, password, existingUser } = values;
     const isDemo = false;
-    const theme = localTheme;
+    const theme = "light";
 
     if (!email || !password || (!existingUser && !name)) {
       displayAlert();
@@ -80,7 +71,7 @@ const Register: React.FC = () => {
   }, [user, navigate]);
 
   return (
-    <div data-theme={theme ? theme : "light"}>
+    <div>
       <Wrapper className="full-page">
         <form className="form" onSubmit={onSubmit}>
           <Logo />
@@ -142,7 +133,7 @@ const Register: React.FC = () => {
 };
 
 const Wrapper = styled.section`
-  background-color: var(--white);
+  background-color: var(--grey-50);
   .run {
     position: absolute;
     top: 80vh;
@@ -153,31 +144,46 @@ const Wrapper = styled.section`
   align-items: center;
 
   .form {
-    max-width: 400px;
-    border-top: 2px solid var(--primary-500);
-    border-left: 1px solid var(--primary-500);
-    border-right: 1px solid var(--primary-500);
-    border-bottom: 2px solid var(--primary-500);
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.1);
+    max-width: 420px;
+    border-radius: var(--borderRadius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--grey-200);
+    background-color: var(--white);
+    transition: var(--transition);
   }
 
   h3 {
     text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--grey-900);
   }
+
   p {
     margin: 0;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     text-align: center;
+    color: var(--grey-600);
   }
+
   .btn {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    width: 100%;
+    font-weight: 500;
   }
+
   .existing-user-btn {
     background: transparent;
     border: transparent;
-    color: var(--primary-500);
+    color: var(--primary-600);
     cursor: pointer;
     letter-spacing: var(--letterSpacing);
+    font-weight: 500;
+    padding: 0 0.25rem;
+    transition: var(--transition);
+
+    &:hover {
+      color: var(--primary-700);
+    }
   }
 `;
 export default Register;

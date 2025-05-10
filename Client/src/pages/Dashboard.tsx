@@ -6,13 +6,11 @@ import { MUINavbar } from "../Components";
 import { useAppContext } from "../context/appContext";
 
 const Dashboard = () => {
-  const { theme } = useAppContext();
   return (
     <div
       style={{
-        backgroundColor: theme === "dark" ? "#1e1e1e" : "#f5f5f5",
+        backgroundColor: "var(--grey-50)",
       }}
-      data-theme={theme}
     >
       <ToastContainer
         position="bottom-left"
@@ -24,11 +22,12 @@ const Dashboard = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        theme="light"
       />
       <Wrapper>
-        <main className="dashboard" data-theme={theme}>
+        <main className="dashboard">
           <MUINavbar />
-          <div className="dashboard-page" data-theme={theme}>
+          <div className="dashboard-page">
             <Outlet />
           </div>
         </main>
@@ -41,18 +40,24 @@ const Wrapper = styled.section`
   .dashboard {
     min-height: 100vh;
     height: 100%;
+    background-color: var(--grey-50);
   }
+
   .dashboard-page {
     width: 100%;
     margin: 0 auto;
-    padding: 2rem 0;
+    padding: 2rem 1.5rem;
+    max-width: 1240px;
   }
+
   @media (min-width: 992px) {
     .dashboard {
       grid-template-columns: auto 1fr;
     }
+
     .dashboard-page {
-      width: 80%;
+      width: 92%;
+      padding: 2.5rem 0;
     }
   }
 `;

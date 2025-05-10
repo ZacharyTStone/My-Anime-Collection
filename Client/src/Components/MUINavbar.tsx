@@ -58,9 +58,17 @@ const MUINavbar = () => {
 
   return (
     <Navbar>
-      <AppBar position="static" color="transparent">
-        <Container>
-          <Toolbar disableGutters>
+      <AppBar
+        position="static"
+        elevation={0}
+        sx={{
+          backgroundColor: "var(--white)",
+          borderBottom: "1px solid var(--grey-200)",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar disableGutters sx={{ padding: "0.5rem 1rem" }}>
             <Box
               sx={{
                 flexGrow: 1,
@@ -164,7 +172,8 @@ const Navbar = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 100% !important;
+  width: 100%;
+  background: var(--white);
 
   .toggle-btn {
     background: transparent;
@@ -176,8 +185,6 @@ const Navbar = styled.nav`
     align-items: center;
   }
 
-  background: var(--white);
-
   .btn button {
     display: flex;
     align-items: center;
@@ -187,18 +194,38 @@ const Navbar = styled.nav`
   }
 
   .active {
-    color: var(--primary-500);
+    color: var(--primary-600);
+    font-weight: 500;
   }
 
   .active .icon {
-    color: var(--primary-500);
+    color: var(--primary-600);
   }
 `;
 
 const UserIcon = styled(IconButton)`
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(212, 54, 124, 0.05);
+  }
+
+  svg {
+    font-size: 1.25rem;
+    color: var(--grey-700);
+  }
+
+  span {
+    color: var(--grey-700);
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin: 0 4px;
+  }
 `;
 
 export default MUINavbar;

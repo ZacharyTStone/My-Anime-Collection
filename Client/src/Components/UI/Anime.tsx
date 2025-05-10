@@ -110,23 +110,25 @@ function Anime({
           height: "100%",
           width: 300,
           color: "var(--textColor)",
-          backgroundColor: "var(--backgroundColor)",
-          marginBottom: "1rem",
-
+          backgroundColor: "var(--white)",
+          marginBottom: "1.5rem",
           borderRadius: "10px",
-          border: "1px solid var(--primary-50)",
+          border: "1px solid var(--grey-200)",
+          boxShadow: "var(--shadow)",
 
           // get bigger on hover
           transition: "all 0.3s ease",
           "&:hover": {
             transform: "scale(1.02)",
+            boxShadow: "var(--shadow-md)",
+            borderColor: "var(--primary-300)",
           },
         }}
       >
         <React.Fragment>
           <CardContent
             sx={{
-              backgroundColor: "var(--backgroundColor)",
+              backgroundColor: "var(--white)",
               marginBottom: "0px",
               paddingBottom: "0px",
             }}
@@ -136,7 +138,7 @@ function Anime({
                 fontSize: 20,
                 fontWeight: "bold",
                 color: "var(--textColor)",
-                backgroundColor: "var(--backgroundColor)",
+                backgroundColor: "var(--white)",
                 minHeight: "75px",
                 textAlign: "center",
               }}
@@ -300,7 +302,7 @@ function Anime({
               display: "flex",
               width: "100%",
               justifyContent: "space-between",
-              backgroundColor: "var(--backgroundColor)",
+              backgroundColor: "var(--white)",
             }}
           >
             <Button
@@ -342,7 +344,7 @@ function Anime({
           <Collapse in={false} timeout="auto" unmountOnExit>
             <CardContent
               sx={{
-                backgroundColor: "var(--backgroundColor)",
+                backgroundColor: "var(--white)",
               }}
             >
               <Typography
@@ -350,7 +352,7 @@ function Anime({
                   fontSize: 14,
                   fontWeight: "bold",
                   color: "var(--textColor)",
-                  backgroundColor: "var(--backgroundColor)",
+                  backgroundColor: "var(--white)",
                 }}
                 color="var(--textColor)"
                 gutterBottom
@@ -451,24 +453,28 @@ const Modal = styled.div<{ onClose: () => void }>`
 `;
 
 const ModalContent = styled.div`
-  background-color: var(--backgroundColor);
+  background-color: var(--white);
   padding: 2rem;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: var(--borderRadius);
+  box-shadow: var(--shadow-lg);
   max-width: 80%;
   max-height: 80%;
   overflow-y: auto;
+  border: 1px solid var(--grey-200);
 
   h5 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--textColor);
+    margin-bottom: 1.5rem;
+    color: var(--grey-900);
+    font-weight: 600;
+    border-bottom: 1px solid var(--grey-200);
+    padding-bottom: 0.75rem;
   }
 
   p {
     font-size: 1rem;
-    line-height: 1.5;
-    color: var(--textColor);
+    line-height: 1.6;
+    color: var(--grey-700);
   }
 `;
 

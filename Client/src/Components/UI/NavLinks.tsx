@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
@@ -11,6 +11,7 @@ import { IconContext } from "react-icons";
 
 const NavLinks = () => {
   const { t } = useTranslation();
+  const location = useLocation();
 
   interface Link {
     id: number;
@@ -51,29 +52,47 @@ const NavLinks = () => {
       icon: <CgProfile />,
     },
   ];
+
   return (
     <Wrapper>
       <div className="nav-links">
         {LINKS.map((link: Link) => {
           const { text, path, id, icon } = link;
+          const isActive = location.pathname.includes(path);
+
           return (
-            <NavLink to={path} key={id}>
-              <Button className="nav-link">
+            <NavLink
+              to={path}
+              key={id}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <Button
+                className={isActive ? "nav-link active" : "nav-link"}
+                sx={{
+                  borderRadius: "8px",
+                  padding: "6px 12px",
+                  transition: "all 0.2s ease",
+                  backgroundColor: isActive
+                    ? "rgba(212, 54, 124, 0.08)"
+                    : "transparent",
+                  "&:hover": {
+                    backgroundColor: isActive
+                      ? "rgba(212, 54, 124, 0.12)"
+                      : "rgba(212, 54, 124, 0.05)",
+                  },
+                }}
+              >
                 <IconContext.Provider
                   value={{
-                    size: "1.5rem",
-                    color: "var(--primary-500)",
+                    size: "1.25rem",
+                    color: isActive ? "var(--primary-600)" : "var(--grey-600)",
                   }}
                 >
                   <span className="icon">{icon}</span>
                 </IconContext.Provider>
-                <span
-                  className={
-                    window.location.pathname === path ? "active icon" : "icon"
-                  }
-                >
-                  {text}
-                </span>
+                <span className="nav-text">{text}</span>
               </Button>
             </NavLink>
           );
@@ -84,31 +103,52 @@ const NavLinks = () => {
 };
 
 const Wrapper = styled.section`
-  @media (max-width: 768px) {
-    .nav-links {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-
   .nav-links {
     display: flex;
+    gap: 0.5rem;
+  }
+
+  .nav-item {
+    text-decoration: none;
   }
 
   .icon {
     display: flex;
+    align-items: center;
+    margin-right: 6px;
   }
 
   .nav-link {
     display: flex;
-    gap: 8px !important;
-    width: max-content;
+    align-items: center;
+    font-weight: 500;
+    color: var(--grey-600);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.95rem;
   }
 
   .nav-link.active {
-    color: var(--primary-500) !important;
+    color: var(--primary-600) !important;
+    font-weight: 600;
+  }
+
+  .nav-text {
+    margin-top: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      padding: 0.5rem;
+    }
+
+    .nav-link {
+      width: 100%;
+      justify-content: flex-start;
+      padding: 0.75rem 1rem;
+    }
   }
 `;
 

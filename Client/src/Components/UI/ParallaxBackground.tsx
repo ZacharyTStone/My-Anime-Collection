@@ -27,10 +27,10 @@ const BackgroundWrapper = styled.div`
     height: 120%;
     background: linear-gradient(
       to bottom,
-      var(--primary-100),
-      var(--primary-200)
+      var(--primary-800),
+      var(--primary-900)
     );
-    opacity: 0.1;
+    opacity: 0.15;
   }
 `;
 
