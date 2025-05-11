@@ -69,7 +69,13 @@ const Landing = () => {
   const { controls: controls4, ref: ref4 } = useInViewAnimation();
 
   const fadeIn = createAnimation(0, 0, 0.8, "easeInOut");
-  const parallax = createAnimation(0, 100, 1, "easeInOut");
+  const imageAnimation = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 1, ease: "easeInOut" },
+    },
+  };
 
   const listItemVariants = {
     hidden: { opacity: 0, x: -10 },
@@ -137,7 +143,7 @@ const Landing = () => {
                 className="img main-img"
                 initial="hidden"
                 animate={controls1}
-                variants={parallax}
+                variants={imageAnimation}
               />
             </div>
           </motion.div>
@@ -167,7 +173,7 @@ const Landing = () => {
               className="img main-img oversized-img"
               initial="hidden"
               animate={controls3}
-              variants={parallax}
+              variants={imageAnimation}
             />
 
             <div>
@@ -248,7 +254,7 @@ const Landing = () => {
               className="img main-img"
               initial="hidden"
               animate={controls4}
-              variants={parallax}
+              variants={imageAnimation}
             />
           </motion.div>
           <BackgroundAnimeCards />
@@ -360,6 +366,7 @@ const Wrapper = styled.main`
     display: none;
     overflow: visible;
     position: relative;
+    transform: none !important;
   }
 
   @media (min-width: 992px) {
@@ -368,21 +375,23 @@ const Wrapper = styled.main`
       grid-template-columns: 1fr 1fr;
       column-gap: 4rem;
       min-height: 90fvh;
+      position: relative;
     }
 
     .main-img {
       display: block;
       height: auto;
       width: 100%;
+      position: static;
       overflow: visible;
       overflow-x: hidden;
       border-radius: 8px;
-      transition: transform 0.3s ease-in-out;
-      position: relative;
-      transform-origin: center center;
+      transition: none;
+      will-change: auto;
 
       &:hover {
-        transform: scale(1.02);
+        transform: none;
+        box-shadow: var(--shadow-md);
       }
     }
 
