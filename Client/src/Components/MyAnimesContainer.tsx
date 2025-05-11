@@ -89,7 +89,7 @@ const MyAnimesContainer = () => {
 
   return (
     <StyledWrapper>
-      <h5>
+      <h5 className="anime-count-text">
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
       {numOfPages > 1 && <PageBtnContainer />}
@@ -111,6 +111,19 @@ const StyledWrapper = styled.section`
   & > h5 {
     font-weight: 700;
   }
+
+  .anime-count-text {
+    font-size: 1.1rem;
+    color: var(--grey-700);
+    font-weight: 600;
+    background-color: var(--white);
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--grey-100);
+  }
 `;
 
 const LoadingContainer = styled.div`
@@ -128,21 +141,29 @@ const EmptyAnimeContainer = styled.div`
   gap: 1.5rem;
   margin: 4rem auto;
   max-width: 600px;
-  padding: 2rem;
+  padding: 3rem 2rem;
   text-align: center;
   background-color: var(--white);
   border-radius: 10px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-md);
   border: 1px solid var(--grey-200);
 
   p {
     font-size: 1.25rem;
     color: var(--grey-700);
     margin: 0;
+    font-weight: 500;
   }
 
   .btn {
     min-width: 200px;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
   }
 `;
 

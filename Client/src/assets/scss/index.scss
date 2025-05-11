@@ -46,6 +46,7 @@ ul {
   width: 100%;
   display: block;
   object-fit: cover;
+  max-height: 100%; /* Add max-height to maintain aspect ratio */
 }
 
 /* alerts */
@@ -72,7 +73,9 @@ ul {
   width: var(--fluid-width);
   max-width: var(--max-width);
   margin: 0 auto;
+  padding: 0 1rem; /* Add consistent padding */
 }
+
 .full-page {
   min-height: 100vh;
 }
@@ -82,6 +85,34 @@ ul {
   cursor: not-allowed;
 }
 
+/* Add smooth transitions for all elements */
 * {
-  transition: "all 0.3s ease-in-out";
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease,
+    opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Add improved focus styles for accessibility */
+:focus {
+  outline: 2px solid var(--primary-300);
+  outline-offset: 2px;
+}
+
+/* Add improved scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--grey-50);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-500);
 }

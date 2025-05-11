@@ -20,6 +20,7 @@
   background-color: var(--primary-600);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
+  color: var(--white);
 }
 
 .btn:active {
@@ -37,6 +38,7 @@
 .btn-outline:hover {
   background-color: var(--primary-50) !important;
   border-color: var(--primary-400) !important;
+  color: var(--primary-600) !important;
 }
 
 .btn-outline .span {

@@ -359,6 +359,7 @@ const Wrapper = styled.main`
   .main-img {
     display: none;
     overflow: visible;
+    position: relative;
   }
 
   @media (min-width: 992px) {
@@ -377,6 +378,8 @@ const Wrapper = styled.main`
       overflow-x: hidden;
       border-radius: 8px;
       transition: transform 0.3s ease-in-out;
+      position: relative;
+      transform-origin: center center;
 
       &:hover {
         transform: scale(1.02);
