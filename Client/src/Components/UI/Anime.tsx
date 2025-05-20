@@ -112,16 +112,18 @@ function Anime({
           color: "var(--textColor)",
           backgroundColor: "var(--white)",
           marginBottom: "1.5rem",
-          borderRadius: "10px",
-          border: "1px solid var(--grey-200)",
+          borderRadius: "var(--borderRadius)",
+          border: "1px solid var(--card-border-light)",
           boxShadow: "var(--shadow)",
+          overflow: "hidden",
+          position: "relative",
 
-          // get bigger on hover
-          transition: "all 0.3s ease",
+          // improved hover effect
+          transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
           "&:hover": {
-            transform: "scale(1.02)",
-            boxShadow: "var(--shadow-md)",
-            borderColor: "var(--primary-300)",
+            transform: "translateY(-4px)",
+            boxShadow: "var(--shadow-lg)",
+            borderColor: "var(--card-border-hover)",
           },
         }}
       >
@@ -129,18 +131,28 @@ function Anime({
           <CardContent
             sx={{
               backgroundColor: "var(--white)",
-              marginBottom: "0px",
-              paddingBottom: "0px",
+              margin: 0,
+              padding: "var(--spacing-md)",
+              paddingBottom: "var(--spacing-sm)",
+              "&:last-child": {
+                paddingBottom: "var(--spacing-sm)",
+              },
             }}
           >
             <Typography
               sx={{
-                fontSize: 20,
-                fontWeight: "bold",
-                color: "var(--textColor)",
+                fontSize: "1.125rem",
+                fontWeight: "600",
+                color: "var(--grey-800)",
                 backgroundColor: "var(--white)",
-                minHeight: "75px",
+                minHeight: "60px",
                 textAlign: "center",
+                letterSpacing: "-0.01em",
+                lineHeight: 1.4,
+                marginBottom: "var(--spacing-md)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
               color="var(--textColor)"
               gutterBottom
@@ -156,9 +168,11 @@ function Anime({
                     image={coverImage}
                     title={title}
                     sx={{
-                      transition: "all 0.3s ease",
+                      transition: "all 0.4s ease",
+                      borderRadius: "var(--spacing-xs)",
+                      boxShadow: "var(--shadow-sm)",
                       "&:hover": {
-                        scale: "1.02",
+                        transform: "scale(1.02)",
                       },
                     }}
                   />
@@ -177,6 +191,9 @@ function Anime({
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
+                          borderRadius: "var(--spacing-xs)",
+                          overflow: "hidden",
+                          boxShadow: "var(--shadow-md)",
                         }}
                         fallback={
                           <CardMedia
@@ -189,9 +206,11 @@ function Anime({
                             }
                             title={title}
                             sx={{
-                              transition: "all 0.3s ease",
+                              transition: "all 0.4s ease",
+                              borderRadius: "var(--spacing-xs)",
+                              boxShadow: "var(--shadow-sm)",
                               "&:hover": {
-                                scale: "1.02",
+                                transform: "scale(1.02)",
                               },
                             }}
                           />
@@ -209,9 +228,11 @@ function Anime({
                         }
                         title={title}
                         sx={{
-                          transition: "all 0.3s ease",
+                          transition: "all 0.4s ease",
+                          borderRadius: "var(--spacing-xs)",
+                          boxShadow: "var(--shadow-sm)",
                           "&:hover": {
-                            scale: "1.02",
+                            transform: "scale(1.02)",
                           },
                         }}
                       />
@@ -228,15 +249,35 @@ function Anime({
                     }
                     title={title}
                     sx={{
-                      transition: "all 0.3s ease",
+                      transition: "all 0.4s ease",
+                      borderRadius: "var(--spacing-xs)",
+                      boxShadow: "var(--shadow-sm)",
                       "&:hover": {
-                        scale: "1.02",
+                        transform: "scale(1.02)",
                       },
                     }}
                   />
                 )}
               </ImageDiv>
-              <Typography sx={{ mb: 1.5 }} color="var(--textColor)">
+              <Typography
+                sx={{
+                  mb: 1.5,
+                  color: "var(--grey-700)",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "var(--spacing-xs)",
+                  margin: "var(--spacing-sm) 0 0",
+                  flexWrap: "wrap",
+                  "& .MuiButton-root": {
+                    minWidth: "auto",
+                    padding: "4px 8px",
+                  },
+                }}
+                color="var(--textColor)"
+              >
                 <Button
                   sx={{
                     color: "var(--textColor)",
@@ -299,10 +340,11 @@ function Anime({
           </CardContent>
           <CardActions
             sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-between",
-              backgroundColor: "var(--white)",
+              padding: "var(--spacing-md)",
+              justifyContent: "center",
+              borderTop: "1px solid var(--grey-100)",
+              backgroundColor: "var(--grey-50)",
+              gap: "var(--spacing-md)",
             }}
           >
             <Button

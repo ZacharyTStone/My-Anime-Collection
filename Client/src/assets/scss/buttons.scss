@@ -8,17 +8,22 @@
   border: transparent;
   border-radius: var(--borderRadius);
   letter-spacing: var(--letterSpacing);
-  padding: 0.5rem 1rem;
+  padding: 0.625rem 1.25rem;
   box-shadow: var(--shadow);
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   text-transform: capitalize;
   font-weight: 500;
   font-size: 0.95rem;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn:hover {
   background-color: var(--primary-600);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   color: var(--white);
 }
@@ -33,12 +38,15 @@
   background: var(--outline-button-background) !important;
   background-color: var(--outline-button-background) !important;
   border: 1px solid var(--primary-300) !important;
+  position: relative;
+  z-index: 1;
 }
 
 .btn-outline:hover {
   background-color: var(--primary-50) !important;
   border-color: var(--primary-400) !important;
   color: var(--primary-600) !important;
+  box-shadow: var(--shadow-md);
 }
 
 .btn-outline .span {
@@ -47,22 +55,32 @@
 
 .btn-primary + .btn-outline {
   font-size: 1rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.625rem 1.5rem;
 }
 
 .btn-primary {
   font-size: 1rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.625rem 1.5rem;
+  font-weight: 500;
 }
 
 .btn-block {
   width: 100%;
-  min-height: 38px;
+  min-height: 42px;
   height: max-content;
+  margin-right: 0;
 }
 
 .btn-submit {
   color: var(--white);
+  background: var(--primary-500);
+  border: none;
+  box-shadow: var(--shadow);
+}
+
+.btn-submit:hover {
+  background: var(--primary-600);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-danger {
@@ -74,4 +92,33 @@
 .btn-danger:hover {
   background: var(--red-dark);
   color: var(--white);
+}
+
+/* Add loading state styling */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.btn-loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: calc(50% - 8px);
+  left: calc(50% - 8px);
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: button-loading-spinner 0.7s linear infinite;
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
 }

@@ -118,9 +118,7 @@ const Profile: React.FC = () => {
       <hr />
 
       <div className="form-left">
-        <p style={{ fontSize: "0.8rem", textDecoration: "underline" }}>
-          {t("edit_playlist.cta")}
-        </p>
+        <p className="helper-text">{t("edit_playlist.cta")}</p>
       </div>
       {currentPlaylist.id &&
         !!selectedPlaylistId &&
@@ -154,7 +152,30 @@ const Wrapper = styled.section`
   width: 100%;
   background: var(--white);
   padding: 3rem 2rem 4rem;
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--shadow);
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: var(--grey-900);
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -0.75rem;
+      left: 0;
+      width: 4rem;
+      height: 3px;
+      background-color: var(--primary-500);
+      border-radius: 2px;
+    }
+  }
+
+  .profile-container {
+    margin-bottom: 2rem;
+  }
 
   .playlist-title {
     font-size: 1.1rem;
@@ -162,18 +183,52 @@ const Wrapper = styled.section`
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: var(--borderRadius);
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+
+    &:hover {
+      background-color: var(--grey-50);
+      border-color: var(--grey-200);
+    }
+  }
+
+  li {
+    list-style: none;
+  }
+
+  ul {
+    margin-bottom: 1.5rem;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--grey-200);
+    border-radius: var(--borderRadius);
+    padding: 0.5rem;
+    background-color: var(--white);
+    box-shadow: var(--shadow-sm) inset;
   }
 
   .arrow-icon {
-    color: var(--primary-400);
-    font-size: 1rem;
+    color: var(--primary-500);
+    font-size: 1.25rem;
   }
 
   .delete-icon {
     display: inline-flex;
-    color: red;
-    font-size: 1.5rem;
+    color: var(--red-dark);
+    font-size: 1.25rem;
     cursor: pointer;
+    margin-left: auto;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
   }
 
   .form {
@@ -192,35 +247,57 @@ const Wrapper = styled.section`
   .form-center {
     display: grid;
     row-gap: 0.5rem;
+    background-color: var(--grey-50);
+    padding: 1.5rem;
+    border-radius: var(--borderRadius);
+    border: 1px solid var(--grey-200);
+    margin-top: 1.5rem;
   }
 
   .form-center button {
     align-self: end;
-    height: 35px;
+    height: 42px;
     margin-top: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--grey-200);
+    margin: 1.5rem 0;
+  }
+
+  .form-left p {
+    font-size: 0.9rem !important;
+    color: var(--grey-600);
+    margin-bottom: 1rem;
+    font-style: italic;
+    text-decoration: none !important;
+    position: relative;
+    display: inline-block;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--grey-300);
+    }
   }
 
   @media (min-width: 992px) {
     .form-center {
-      grid-template-columns: repeat(2, 1fr);
-      align-items: center;
+      grid-template-columns: 1fr auto;
+      align-items: end;
       column-gap: 1rem;
     }
   }
 
   @media (min-width: 1120px) {
     .form-center {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr auto;
     }
-
-    .form-center button {
-      margin-top: 0;
-    }
-  }
-
-  hr {
-    border: 1px solid #ccc;
-    margin: 1rem 0;
   }
 `;
 

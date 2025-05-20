@@ -113,16 +113,25 @@ const StyledWrapper = styled.section`
   }
 
   .anime-count-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--grey-700);
-    font-weight: 600;
-    background-color: var(--white);
-    padding: 0.75rem 1.25rem;
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm);
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    border: 1px solid var(--grey-100);
+    font-weight: 500;
+    background-color: transparent;
+    padding: 0.5rem 0;
+    margin-bottom: 1.75rem;
+    position: relative;
+    cursor: default;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background-color: var(--primary-500);
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
   }
 `;
 
@@ -138,30 +147,48 @@ const EmptyAnimeContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.75rem;
   margin: 4rem auto;
   max-width: 600px;
-  padding: 3rem 2rem;
+  padding: 3.5rem 2.5rem;
   text-align: center;
   background-color: var(--white);
-  border-radius: 10px;
+  border-radius: var(--borderRadius);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--grey-200);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+      to right,
+      var(--primary-300),
+      var(--primary-500)
+    );
+  }
 
   p {
     font-size: 1.25rem;
     color: var(--grey-700);
     margin: 0;
     font-weight: 500;
+    line-height: 1.6;
   }
 
   .btn {
-    min-width: 200px;
-    margin-top: 0.5rem;
+    min-width: 220px;
+    margin-top: 0.75rem;
     transition: all 0.3s ease;
+    font-weight: 500;
 
     &:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-lg);
     }
   }
@@ -178,7 +205,8 @@ const AnimeContainer = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-start;
+    gap: 1.5rem;
   }
 `;
 

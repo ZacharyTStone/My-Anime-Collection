@@ -3,39 +3,41 @@
   --yellow-dark: #edc74f;
   --yellow-light: #fff8e6;
 
-  /*primary colors*/
-  --primary-50: #fce4ef;
-  --primary-100: #f9c5de;
-  --primary-200: #f5a6ce;
-  --primary-300: #eb82b3;
-  --primary-400: #e05e98;
+  /*primary colors - refine for better visual hierarchy*/
+  --primary-50: #fef0f6;
+  --primary-100: #fad8e8;
+  --primary-200: #f7b9d7;
+  --primary-300: #ef91be;
+  --primary-400: #e6699f;
   --primary-500: #d4367c;
-  --primary-600: #b82666;
-  --primary-700: #9c1c53;
-  --primary-800: #801644;
+  --primary-600: #c12d6d;
+  --primary-700: #a8255e;
+  --primary-800: #88204b;
   --primary-900: #661036;
 
-  /* grey */
-  --grey-50: #f8fafc;
-  --grey-100: #eef2f6;
-  --grey-200: #e3e8ef;
-  --grey-300: #cfd9e3;
-  --grey-400: #a4b4c4;
-  --grey-500: #728197;
-  --grey-600: #546277;
-  --grey-700: #3a4556;
-  --grey-800: #232b38;
-  --grey-900: #121820;
+  /* grey - more balanced tones */
+  --grey-50: #f9fafb;
+  --grey-100: #f1f5f9;
+  --grey-200: #e2e8f0;
+  --grey-300: #cbd5e1;
+  --grey-400: #94a3b8;
+  --grey-500: #64748b;
+  --grey-600: #475569;
+  --grey-700: #334155;
+  --grey-800: #1e293b;
+  --grey-900: #0f172a;
 
-  /* rest of the colors */
+  /* refined colors */
   --red-light: #fee2e2;
-  --red-dark: #991b1b;
-  --black: #121212;
+  --red-dark: #b91c1c;
+  --green-50: #ecfdf5;
+  --green-500: #10b981;
+  --black: #0f172a;
   --white: #ffffff;
 
-  /* fonts  */
-  --headingFont: "Roboto Condensed", Sans-Serif;
-  --bodyFont: "Cabin", Sans-Serif;
+  /* fonts */
+  --headingFont: "Poppins", Sans-Serif;
+  --bodyFont: "Inter", Sans-Serif;
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
 
@@ -43,18 +45,34 @@
   --outline-button-background: var(--white);
   --backgroundColor: var(--grey-50);
   --textColor: var(--grey-900);
-  --borderRadius: 0.375rem;
+  --borderRadius: 0.5rem;
   --letterSpacing: 0.5px;
   --transition: 0.2s ease-in-out all;
-  --max-width: 1120px;
-  --fixed-width: $large-mobile;
+  --max-width: 1200px;
+  --fixed-width: 600px;
   --fluid-width: 90vw;
   --breakpoint-lg: 992px;
-  --nav-height: 6rem;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --nav-height: 5rem;
+
+  /* enhanced shadows for better depth */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08),
+    0 10px 10px -5px rgba(0, 0, 0, 0.01);
+
+  /* card border colors */
+  --card-border-light: var(--grey-200);
+  --card-border-hover: var(--primary-200);
+
+  /* spacing values for consistency */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
 }

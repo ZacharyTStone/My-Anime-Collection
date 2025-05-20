@@ -64,13 +64,15 @@ const Profile = () => {
             handleChange={(e) => setEmail(e.target.value)}
           />
 
-          <button
-            className="btn btn-block btn-submit"
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? t("profile.wait") : t("profile.save")}
-          </button>
+          <div className="btn-container">
+            <button
+              className="btn btn-submit"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? t("profile.wait") : t("profile.save")}
+            </button>
+          </div>
         </div>
         <Pokemon />
         <div className="bottom-half ">
@@ -146,6 +148,13 @@ const ButtonDiv = styled.div`
 const Wrapper = styled.section`
   .btn-submit {
     margin-top: 2rem !important;
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    grid-column: 1 / -1;
   }
 
   .btn-outline:hover {

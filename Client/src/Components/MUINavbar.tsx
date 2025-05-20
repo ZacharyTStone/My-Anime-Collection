@@ -64,7 +64,7 @@ const MUINavbar = () => {
         sx={{
           backgroundColor: "var(--white)",
           borderBottom: "1px solid var(--grey-200)",
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+          boxShadow: "var(--shadow)",
         }}
       >
         <Container maxWidth="xl">
@@ -85,10 +85,16 @@ const MUINavbar = () => {
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
                 color="inherit"
+                sx={{
+                  color: "var(--primary-500)",
+                  "&:hover": {
+                    backgroundColor: "var(--primary-50)",
+                  },
+                }}
               >
                 <MenuIcon
                   sx={{
-                    fontSize: "var(--font-size-lg)",
+                    fontSize: "1.75rem",
                     cursor: "pointer",
                     color: "var(--primary-500)",
                   }}
@@ -112,6 +118,12 @@ const MUINavbar = () => {
                   display: { xs: "flex", md: "none" },
                   flexDirection: "column",
                   alignItems: "left",
+                  "& .MuiPaper-root": {
+                    boxShadow: "var(--shadow-md)",
+                    borderRadius: "var(--borderRadius)",
+                    border: "1px solid var(--grey-100)",
+                    mt: 1.5,
+                  },
                 }}
               >
                 <NavLinks />
@@ -124,21 +136,44 @@ const MUINavbar = () => {
             <FlagContainer />
 
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Other Settings" className="nav-link">
+              <Tooltip
+                title="Other Settings"
+                className="nav-link"
+                arrow
+                placement="bottom"
+                sx={{
+                  "& .MuiTooltip-arrow": {
+                    color: "var(--grey-800)",
+                  },
+                  "& .MuiTooltip-tooltip": {
+                    backgroundColor: "var(--grey-800)",
+                    fontSize: "0.75rem",
+                    fontWeight: 500,
+                    letterSpacing: "0.5px",
+                  },
+                }}
+              >
                 <UserIcon onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <FaUserCircle color="var(--textColor)" />
+                  <FaUserCircle color="var(--grey-700)" />
                   <span
                     style={{
-                      color: "var(--textColor)",
+                      color: "var(--grey-800)",
                     }}
                   >
                     {user?.name || "Guest"}
                   </span>
-                  <FaCaretDown color="var(--textColor)" />
+                  <FaCaretDown color="var(--primary-500)" />
                 </UserIcon>
               </Tooltip>
               <Menu
-                sx={{ mt: "45px" }}
+                sx={{
+                  mt: "45px",
+                  "& .MuiPaper-root": {
+                    boxShadow: "var(--shadow-md)",
+                    borderRadius: "var(--borderRadius)",
+                    border: "1px solid var(--grey-100)",
+                  },
+                }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
@@ -153,8 +188,22 @@ const MUINavbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem key={1} onClick={handleLogout}>
-                  <Typography textAlign="center">
+                <MenuItem
+                  key={1}
+                  onClick={handleLogout}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "var(--primary-50)",
+                    },
+                  }}
+                >
+                  <Typography
+                    textAlign="center"
+                    sx={{
+                      color: "var(--grey-800)",
+                      fontWeight: 500,
+                    }}
+                  >
                     {t("navbar.logout")}
                   </Typography>
                 </MenuItem>
@@ -174,6 +223,7 @@ const Navbar = styled.nav`
   justify-content: center;
   width: 100%;
   background: var(--white);
+  box-shadow: var(--shadow);
 
   .toggle-btn {
     background: transparent;
@@ -195,7 +245,19 @@ const Navbar = styled.nav`
 
   .active {
     color: var(--primary-600);
-    font-weight: 500;
+    font-weight: 600;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary-500);
+      border-radius: 2px;
+    }
   }
 
   .active .icon {
@@ -207,12 +269,15 @@ const UserIcon = styled(IconButton)`
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 12px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 24px;
   transition: all 0.2s ease;
+  background-color: var(--grey-50);
+  border: 1px solid var(--grey-200);
 
   &:hover {
-    background-color: rgba(212, 54, 124, 0.05);
+    background-color: var(--primary-50);
+    border-color: var(--primary-100);
   }
 
   svg {
@@ -221,7 +286,7 @@ const UserIcon = styled(IconButton)`
   }
 
   span {
-    color: var(--grey-700);
+    color: var(--grey-800);
     font-weight: 500;
     font-size: 0.95rem;
     margin: 0 4px;
