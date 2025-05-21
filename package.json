@@ -14,12 +14,18 @@
     "watch-scss": "sass --watch Client/src/assets/scss:Client/src/assets/css",
     "Server-local": "tsc && nodemon dist/server.js",
     "Client-local": "npm start --prefix Client",
-    "start": "concurrently \"npm run Server-local\" \"npm run Client-local\" \"npm run watch-scss\""
+    "start": "concurrently \"npm run Server-local\" \"npm run Client-local\" \"npm run watch-scss\"",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:prod": "BASE_URL=https://www.my-anime-collection.com playwright test",
+    "test:e2e:prod:ui": "BASE_URL=https://www.my-anime-collection.com playwright test --ui"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@types/dompurify": "^3.2.0",
     "@types/react-scroll": "^1.8.10",
     "@types/styled-components": "^5.1.34",

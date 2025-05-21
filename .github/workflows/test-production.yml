@@ -1,0 +1,36 @@
+name: Test Production Deployment
+on:
+  workflow_dispatch: # Manual trigger
+  # Uncomment to run automatically after deploy if you have a deploy workflow
+  # workflow_run:
+  #   workflows: ["Deploy to Heroku"]
+  #   types:
+  #     - completed
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    # Only run this job if the deploy was successful (when using workflow_run)
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install -D @playwright/test
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Wait for deployment to stabilize
+        run: sleep 60 # Give the app time to fully deploy and start
+      - name: Run Playwright tests against production
+        env:
+          BASE_URL: https://www.my-anime-collection.com
+        run: npx playwright test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

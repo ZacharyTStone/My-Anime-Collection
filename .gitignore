@@ -16,3 +16,9 @@ dist
 Server/dist
 Client/build
 Client/src/assets/css
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
