@@ -14,8 +14,8 @@ jobs:
     # Only run this job if the deploy was successful (when using workflow_run)
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: Install dependencies
@@ -28,7 +28,7 @@ jobs:
         env:
           BASE_URL: https://www.my-anime-collection.com
         run: npx playwright test
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
