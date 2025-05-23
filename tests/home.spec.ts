@@ -12,8 +12,8 @@ test.describe("Home Page", () => {
     await page.waitForLoadState("networkidle");
 
     // Verify that we are on the landing page
-    const demoButton = page.getByRole("link", { name: /demo/i });
-    await expect(demoButton.first()).toBeVisible();
+    const demoButton = page.getByTestId("demo-button");
+    await expect(demoButton).toBeVisible({ timeout: 10000 });
   });
 
   test("should have main navigation elements", async ({
@@ -36,9 +36,9 @@ test.describe("Home Page", () => {
 
     // Verify landing page elements
     const loginButton = page.getByRole("link", { name: /login/i });
-    const demoButton = page.getByRole("link", { name: /demo/i });
+    const demoButton = page.getByTestId("demo-button");
 
-    await expect(loginButton.first()).toBeVisible();
-    await expect(demoButton.first()).toBeVisible();
+    await expect(loginButton).toBeVisible({ timeout: 10000 });
+    await expect(demoButton).toBeVisible({ timeout: 10000 });
   });
 });

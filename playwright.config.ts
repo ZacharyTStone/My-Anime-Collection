@@ -3,6 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 // Read from environment or use defaults
 const baseURL = process.env.BASE_URL || "http://localhost:3000";
 const isCI = !!process.env.CI;
+const isHeaded = process.env.HEADED === "1" || process.env.HEADED === "true";
 
 export default defineConfig({
   testDir: "./tests",
@@ -21,7 +22,7 @@ export default defineConfig({
     navigationTimeout: 30000,
     javaScriptEnabled: true,
     viewport: { width: 1280, height: 720 },
-    headless: isCI,
+    headless: !isHeaded,
     launchOptions: {
       args: [
         "--no-sandbox",

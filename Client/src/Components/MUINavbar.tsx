@@ -75,6 +75,7 @@ const MUINavbar = () => {
                 flexGrow: 1,
                 display: { xs: "none", sm: "none", md: "block" },
               }}
+              data-testid="navbar-logo"
             >
               <Logo />
             </Box>
@@ -104,6 +105,7 @@ const MUINavbar = () => {
               </IconButton>
               <Menu
                 id="menu-appbar"
+                data-testid="nav-menu"
                 anchorEl={anchorElNav}
                 anchorOrigin={{
                   vertical: "bottom",
@@ -132,7 +134,10 @@ const MUINavbar = () => {
               </Menu>
             </Box>
 
-            <Box sx={{ flexGrow: 6, display: { xs: "none", md: "flex" } }}>
+            <Box
+              sx={{ flexGrow: 6, display: { xs: "none", md: "flex" } }}
+              data-testid="nav-links"
+            >
               <NavLinks />
             </Box>
             <FlagContainer />

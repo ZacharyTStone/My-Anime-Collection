@@ -131,7 +131,11 @@ const Landing = () => {
                 <StyledButton to="/register" className="btn btn-primary">
                   {t("landing.login_button")}
                 </StyledButton>
-                <StyledButton to="/register-demo" className="btn btn-outline">
+                <StyledButton
+                  to="/register-demo"
+                  className="btn btn-outline"
+                  data-testid="demo-button"
+                >
                   {t("landing.demo_button")}
                 </StyledButton>
               </StyledLoginDiv>

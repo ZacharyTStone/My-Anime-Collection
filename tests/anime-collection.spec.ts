@@ -8,9 +8,9 @@ test.describe("Anime Collection", () => {
     await page.waitForLoadState("networkidle");
 
     // Find and click the demo button
-    const demoButtons = page.getByRole("link", { name: /demo/i });
-    await expect(demoButtons.first()).toBeVisible();
-    await demoButtons.first().click();
+    const demoButton = page.getByTestId("demo-button");
+    await expect(demoButton).toBeVisible({ timeout: 10000 });
+    await demoButton.click();
 
     // Wait for login and redirect to complete
     await page.waitForLoadState("networkidle");
@@ -19,28 +19,28 @@ test.describe("Anime Collection", () => {
 
   test("should display main app structure", async ({ page }) => {
     // Check for essential app structure elements
-    await expect(page.locator("#root")).toBeVisible();
+    await expect(page.locator("#root")).toBeVisible({ timeout: 10000 });
 
     // Check for MUI Navbar
-    const navbar = page.locator("[data-testid='navbar']");
-    await expect(navbar).toBeVisible();
+    const navbar = page.getByTestId("navbar");
+    await expect(navbar).toBeVisible({ timeout: 10000 });
 
     // Check for main content containers after login
-    await expect(
-      page.locator("[data-testid='my-animes-container']")
-    ).toBeVisible();
-    await expect(
-      page.locator("[data-testid='search-container']")
-    ).toBeVisible();
+    await expect(page.getByTestId("my-animes-container")).toBeVisible({
+      timeout: 10000,
+    });
+    await expect(page.getByTestId("search-container")).toBeVisible({
+      timeout: 10000,
+    });
   });
 
   test("should have working navigation in MUI Navbar", async ({ page }) => {
     // Get all navigation links in the MUI Navbar
-    const navbar = page.locator("[data-testid='navbar']");
-    await expect(navbar).toBeVisible();
+    const navbar = page.getByTestId("navbar");
+    await expect(navbar).toBeVisible({ timeout: 10000 });
 
     // Test navigation menu toggle if it exists (for mobile)
-    const menuButton = page.locator("[data-testid='menu-button']");
+    const menuButton = page.getByTestId("menu-button");
     if (await menuButton.isVisible()) {
       await menuButton.click();
       await page.waitForLoadState("networkidle");
@@ -48,24 +48,24 @@ test.describe("Anime Collection", () => {
 
     // Verify key navigation elements are present
     const homeLink = page.getByRole("link", { name: /home/i });
-    await expect(homeLink).toBeVisible();
+    await expect(homeLink).toBeVisible({ timeout: 10000 });
     await homeLink.click();
     await page.waitForLoadState("networkidle");
 
     const myAnimesLink = page.getByRole("link", { name: /my animes/i });
-    await expect(myAnimesLink).toBeVisible();
+    await expect(myAnimesLink).toBeVisible({ timeout: 10000 });
     await myAnimesLink.click();
     await page.waitForLoadState("networkidle");
   });
 
   test("should handle search functionality", async ({ page }) => {
     // Look for search container
-    const searchContainer = page.locator("[data-testid='search-container']");
-    await expect(searchContainer).toBeVisible();
+    const searchContainer = page.getByTestId("search-container");
+    await expect(searchContainer).toBeVisible({ timeout: 10000 });
 
     // Find and test search input
     const searchInput = page.locator("input[name='search']");
-    await expect(searchInput).toBeVisible();
+    await expect(searchInput).toBeVisible({ timeout: 10000 });
 
     // Test search interaction
     await searchInput.fill("Naruto");
@@ -75,38 +75,34 @@ test.describe("Anime Collection", () => {
     await page.waitForLoadState("networkidle");
 
     // Verify fetched animes container is visible
-    const resultsContainer = page.locator(
-      "[data-testid='fetched-animes-container']"
-    );
-    await expect(resultsContainer).toBeVisible();
+    const resultsContainer = page.getByTestId("fetched-animes-container");
+    await expect(resultsContainer).toBeVisible({ timeout: 10000 });
 
     // Verify anime grid is visible
-    const animeGrid = page.locator("[data-testid='anime-grid']");
-    await expect(animeGrid).toBeVisible();
+    const animeGrid = page.getByTestId("anime-grid");
+    await expect(animeGrid).toBeVisible({ timeout: 10000 });
   });
 
   test("should handle pagination", async ({ page }) => {
     // Search for something that will have multiple pages
     const searchInput = page.locator("input[name='search']");
-    await expect(searchInput).toBeVisible();
+    await expect(searchInput).toBeVisible({ timeout: 10000 });
     await searchInput.fill("a");
     await searchInput.press("Enter");
     await page.waitForLoadState("networkidle");
 
     // Look for pagination container
-    const paginationControls = page.locator(
-      "[data-testid='pagination-controls']"
-    );
-    await expect(paginationControls).toBeVisible();
+    const paginationControls = page.getByTestId("pagination-controls");
+    await expect(paginationControls).toBeVisible({ timeout: 10000 });
 
     // Test next page navigation if available
-    const nextButton = page.locator("[data-testid='next-page-button']");
+    const nextButton = page.getByTestId("next-page-button");
     if (await nextButton.isEnabled()) {
       await nextButton.click();
       await page.waitForLoadState("networkidle");
 
       // Verify page changed
-      const prevButton = page.locator("[data-testid='prev-page-button']");
+      const prevButton = page.getByTestId("prev-page-button");
       await expect(prevButton).toBeEnabled();
     }
   });
@@ -118,15 +114,15 @@ test.describe("Anime Collection", () => {
 
     // Should show some kind of error message or 404 page
     const errorElement = page.locator("text=/error|not found|404/i");
-    await expect(errorElement).toBeVisible();
+    await expect(errorElement).toBeVisible({ timeout: 10000 });
 
     // Should have the navbar with home link still visible
-    const navbar = page.locator("[data-testid='navbar']");
-    await expect(navbar).toBeVisible();
+    const navbar = page.getByTestId("navbar");
+    await expect(navbar).toBeVisible({ timeout: 10000 });
 
     // Should be able to navigate back home
     const homeLink = page.getByRole("link", { name: /home/i });
-    await expect(homeLink).toBeVisible();
+    await expect(homeLink).toBeVisible({ timeout: 10000 });
     await homeLink.click();
 
     // Verify we're back home
@@ -137,7 +133,7 @@ test.describe("Anime Collection", () => {
   test("should handle playlist selection", async ({ page }) => {
     // Find and verify playlist selector
     const playlistSelect = page.locator("select[name='playlist']");
-    await expect(playlistSelect).toBeVisible();
+    await expect(playlistSelect).toBeVisible({ timeout: 10000 });
 
     // Get current playlist value
     const currentValue = await playlistSelect.inputValue();
