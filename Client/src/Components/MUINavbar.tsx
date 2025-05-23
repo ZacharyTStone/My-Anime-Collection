@@ -61,6 +61,7 @@ const MUINavbar = () => {
       <AppBar
         position="static"
         elevation={0}
+        data-testid="navbar"
         sx={{
           backgroundColor: "var(--white)",
           borderBottom: "1px solid var(--grey-200)",
@@ -81,6 +82,7 @@ const MUINavbar = () => {
               <IconButton
                 size="large"
                 aria-label="account of current user"
+                data-testid="menu-button"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
@@ -191,6 +193,7 @@ const MUINavbar = () => {
                 <MenuItem
                   key={1}
                   onClick={handleLogout}
+                  data-testid="logout-button"
                   sx={{
                     "&:hover": {
                       backgroundColor: "var(--primary-50)",

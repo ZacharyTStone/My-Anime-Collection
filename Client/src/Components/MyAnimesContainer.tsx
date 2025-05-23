@@ -77,7 +77,7 @@ const MyAnimesContainer = () => {
   if (noAnimesInPlaylist && !isLoading) {
     return (
       <StyledWrapper>
-        <EmptyAnimeContainer>
+        <EmptyAnimeContainer data-testid="empty-anime-container">
           <p>{t("my_animes_container.no_anime_message1")}</p>
           <NavLink to="/add-anime" className="btn btn-primary">
             {t("my_animes_container.no_anime_message2")}
@@ -88,12 +88,12 @@ const MyAnimesContainer = () => {
   }
 
   return (
-    <StyledWrapper>
+    <StyledWrapper data-testid="my-animes-container">
       <h5 className="anime-count-text">
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
       {numOfPages > 1 && <PageBtnContainer />}
-      <AnimeContainer>
+      <AnimeContainer data-testid="anime-list">
         {animes?.map((anime: IAnime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}

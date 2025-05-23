@@ -71,6 +71,7 @@ const SearchContainer = () => {
     <Wrapper>
       <form
         className="form"
+        data-testid="search-container"
         onSubmit={(e) => {
           e.preventDefault();
         }}
@@ -81,6 +82,7 @@ const SearchContainer = () => {
             type="text"
             name="search"
             value={localSearch}
+            data-testid="search-input"
             labelText={t("search_container.search")}
             handleChange={(e) => {
               setLocalSearch(e.target.value);
@@ -92,6 +94,7 @@ const SearchContainer = () => {
             disabled={isLoading}
             name="sort"
             value={sort}
+            data-testid="sort-select"
             labelText={t("search_container.sort")}
             handleChange={handleSearch}
             list={sortOptions}
@@ -108,6 +111,7 @@ const SearchContainer = () => {
               <select
                 name="playlist"
                 value={currentPlaylist.id}
+                data-testid="playlist-select"
                 onChange={handleLocalPlaylistChange}
                 className="form-select"
               >

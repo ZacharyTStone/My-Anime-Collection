@@ -100,13 +100,14 @@ const AnimeContainer = ({
   return (
     <Wrapper>
       {fetchedAnimes?.length > 0 ? (
-        <div>
+        <div data-testid="fetched-animes-container">
           {pagination === "true" && (
-            <div className="buttons">
+            <div className="buttons" data-testid="pagination-controls">
               <Button
                 onClick={() => handlePageClick(-1)}
                 color="primary"
                 variant="contained"
+                data-testid="prev-page-button"
                 disabled={page.current === 1}
                 sx={{ m: 2, display: { xs: "flex", md: "flex" } }}
               >
@@ -119,6 +120,7 @@ const AnimeContainer = ({
                 onClick={() => handlePageClick(1)}
                 color="primary"
                 disabled={page.current === numOfFetchedAnimesPages}
+                data-testid="next-page-button"
                 variant="contained"
                 sx={{ m: 2, display: { xs: "flex", md: "flex" } }}
               >
@@ -126,7 +128,7 @@ const AnimeContainer = ({
               </Button>
             </div>
           )}
-          <div className="animes">
+          <div className="animes" data-testid="anime-grid">
             {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => (
               <Anime
                 key={anime.id}
