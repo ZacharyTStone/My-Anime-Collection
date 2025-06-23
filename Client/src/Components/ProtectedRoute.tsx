@@ -9,6 +9,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { user } = useAuth();
 
+  
   if (!user) {
     return <Navigate to="/landing" replace />;
   }

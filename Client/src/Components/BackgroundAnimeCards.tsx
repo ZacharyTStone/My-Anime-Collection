@@ -3,8 +3,8 @@ import { sampleAnimes } from "../assets/images/sampleAnimes";
 
 const BackgroundAnimeCards = () => {
   return (
-    <Wrapper>
-      <div className="animesLeft">
+    <>
+      <AnimesLeft>
         {sampleAnimes.slice(0, 3).map((anime, index) => (
           <AnimeCard
             key={index}
@@ -14,9 +14,9 @@ const BackgroundAnimeCards = () => {
             loading="lazy"
           />
         ))}
-      </div>
+      </AnimesLeft>
 
-      <div className="animesRight">
+      <AnimesRight>
         {sampleAnimes.slice(4, 8).map((anime, index) => (
           <AnimeCard
             key={index}
@@ -26,49 +26,29 @@ const BackgroundAnimeCards = () => {
             loading="lazy"
           />
         ))}
-      </div>
-    </Wrapper>
+      </AnimesRight>
+    </>
   );
 };
 
-const Wrapper = styled.div`
-  .animesLeft {
-    height: 90%;
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: fadeIn 2s ease-in-out;
-  }
+const AnimesLeft = styled.div`
+  height: 90%;
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: fadeIn 2s ease-in-out;
 
-  .animesRight {
-    height: 90%;
-    width: min-content;
-    padding: 0px;
-    margin: 0px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    position: absolute;
-    top: 0;
-    right: 0;
-    animation: fadeIn 2s ease-in-out;
-  }
   .animeCard {
     transform: scale(0.4);
     border: 1px solid var(--primary-200);
+    margin-bottom: 300px;
   }
 
   .animeCard.left {
     // rotate slight left
     transform: rotate(-5deg) scale(0.4);
-    transition: 1s ease-out;
-  }
-  .animeCard.right {
-    // rotate slight right
-    transform: rotate(5deg) scale(0.4);
     transition: 1s ease-out;
   }
 
@@ -77,6 +57,44 @@ const Wrapper = styled.div`
     transform: scale(0.7) rotate(0deg) translateX(70px);
     transition: 1s ease-out;
   }
+
+  @media (min-width: 1574px) {
+    display: flex;
+    left: 0%;
+    animation: fadeIn 2s ease-in-out;
+
+    @media (min-width: 1800px) {
+      left: 5%;
+    }
+  }
+`;
+
+const AnimesRight = styled.div`
+  height: 90%;
+  width: min-content;
+  padding: 0px;
+  margin: 0px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  top: 0;
+  right: 0;
+  animation: fadeIn 2s ease-in-out;
+
+  .animeCard {
+    transform: scale(0.4);
+    border: 1px solid var(--primary-200);
+    margin-bottom: 300px;
+  }
+
+  .animeCard.right {
+    // rotate slight right
+    transform: rotate(5deg) scale(0.4);
+    transition: 1s ease-out;
+  }
+
   .animeCard.right:hover {
     transform-origin: center;
     // slow down the animation
@@ -84,29 +102,14 @@ const Wrapper = styled.div`
     // move the slightly closer to the center
     transform: scale(0.7) rotate(0deg) translateX(-70px);
   }
-  @media (min-width: 1574px) {
-    .animesLeft {
-      display: flex;
-      left: 0%;
-      animation: fadeIn 2s ease-in-out;
-    }
-    .animesRight {
-      display: flex;
-      right: 0%;
-      animation: fadeIn 2s ease-in-out;
-    }
 
-    .animeCard {
-      margin-bottom: 300px;
-    }
+  @media (min-width: 1574px) {
+    display: flex;
+    right: 0%;
+    animation: fadeIn 2s ease-in-out;
 
     @media (min-width: 1800px) {
-      .animesLeft {
-        left: 5%;
-      }
-      .animesRight {
-        right: 5%;
-      }
+      right: 5%;
     }
   }
 `;

@@ -13,14 +13,13 @@ const user = localStorage.getItem("user");
 const initialState = {
   isLoading: false,
 
-  loadingdata: {
+  loadingData: {
     anime_id: "",
   },
   showAlert: false,
   alertText: "",
   alertType: "",
   user: user ? JSON.parse(user) : null,
-  theme: "light",
   token: token,
   animes: [],
   totalAnimes: 0,
@@ -37,7 +36,6 @@ const initialState = {
   userPlaylists: [],
   sortOptions: SORT_OPTIONS,
   siteLanguage: "en",
-  addToDefault: false,
   fetchedAnimes: [],
   totalFetchedAnimes: 0,
   numOfFetchedAnimesPages: 0,
@@ -86,12 +84,6 @@ const AppProvider = ({ children }) => {
 
   // axios instance with token
   const authFetch = createAxiosInstance(state.token);
-
-  const changeDefaultPlaylistPolicy = () => {
-    dispatch({
-      type: ACTIONS.CHANGE_DEFAULT_PLAYLIST_POLICY,
-    });
-  };
 
   const changeSiteLanguage = (lang) => {
     dispatch({
@@ -151,6 +143,8 @@ const AppProvider = ({ children }) => {
   const logoutUser = async () => {
     dispatch({ type: ACTIONS.LOGOUT_USER });
     removeUserFromLocalStorage();
+    // redirect to home page
+    window.location.href = "/";
   };
 
   const updateUser = async (currentUser) => {
@@ -539,7 +533,6 @@ const AppProvider = ({ children }) => {
         deleteAnime,
         updatePlaylist,
         deletePlaylist,
-        changeDefaultPlaylistPolicy,
         clearFilters,
         changePage,
         fetchAnimes,

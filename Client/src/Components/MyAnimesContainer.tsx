@@ -62,13 +62,13 @@ const MyAnimesContainer = () => {
 
   const PageLoader = () => {
     return (
-      <StyledWrapper>
+      <AnimeSection>
         <LoadingContainer>
           <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
           <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
           <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
         </LoadingContainer>
-      </StyledWrapper>
+      </AnimeSection>
     );
   };
 
@@ -76,62 +76,60 @@ const MyAnimesContainer = () => {
 
   if (noAnimesInPlaylist && !isLoading) {
     return (
-      <StyledWrapper>
+      <AnimeSection>
         <EmptyAnimeContainer>
           <p>{t("my_animes_container.no_anime_message1")}</p>
           <NavLink to="/add-anime" className="btn btn-primary">
             {t("my_animes_container.no_anime_message2")}
           </NavLink>
         </EmptyAnimeContainer>
-      </StyledWrapper>
+      </AnimeSection>
     );
   }
 
   return (
-    <StyledWrapper>
-      <h5 className="anime-count-text">
+    <AnimeSection>
+      <AnimeCountText>
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
-      </h5>
+      </AnimeCountText>
       {numOfPages > 1 && <PageBtnContainer />}
       <AnimeContainer>
         {animes?.map((anime: IAnime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}
       </AnimeContainer>
-    </StyledWrapper>
+    </AnimeSection>
   );
 };
 
-const StyledWrapper = styled.section`
+const AnimeSection = styled.section`
   margin-top: 4rem;
   padding: 40px;
   h2 {
     text-transform: none;
   }
-  & > h5 {
-    font-weight: 700;
-  }
+`;
 
-  .anime-count-text {
-    font-size: 1rem;
-    color: var(--grey-700);
-    font-weight: 500;
-    background-color: transparent;
-    padding: 0.5rem 0;
-    margin-bottom: 1.75rem;
-    position: relative;
-    cursor: default;
+const AnimeCountText = styled.h5`
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--grey-700);
+  font-weight: 500;
+  background-color: transparent;
+  padding: 0.5rem 0;
+  margin-bottom: 1.75rem;
+  position: relative;
+  cursor: default;
 
-    &::before {
-      content: "";
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      background-color: var(--primary-500);
-      border-radius: 50%;
-      margin-right: 8px;
-      vertical-align: middle;
-    }
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--primary-500);
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
   }
 `;
 

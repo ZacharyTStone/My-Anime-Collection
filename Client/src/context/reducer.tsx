@@ -357,13 +357,7 @@ const reducer = (
     };
   }
 
-  if (action.type === ACTIONS.CHANGE_DEFAULT_PLAYLIST_POLICY) {
-    let change = !state.addToDefault;
-    return {
-      ...state,
-      addToDefault: change,
-    };
-  }
+
 
   if (action.type === ACTIONS.FETCH_ANIMES_BEGIN) {
     return { ...state, isLoading: true, loadingFetchAnimes: true };

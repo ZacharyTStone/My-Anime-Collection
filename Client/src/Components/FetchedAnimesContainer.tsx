@@ -76,11 +76,11 @@ const AnimeContainer = ({
   const onMobile = useMobile();
 
   const LoadingUI = () => (
-    <Wrapper>
-      <div className="buttons">
+    <Container>
+      <ButtonContainer>
         <SkeletonLoadingBlock height={50} width={"100%"} borderRadius={8} />
-      </div>
-      <div className="animes">
+      </ButtonContainer>
+      <AnimesGrid>
         {[...Array(onMobile ? 6 : 3)].map((_, index) => (
           <SkeletonLoadingBlock
             key={index}
@@ -89,8 +89,8 @@ const AnimeContainer = ({
             borderRadius={8}
           />
         ))}
-      </div>
-    </Wrapper>
+      </AnimesGrid>
+    </Container>
   );
 
   if (loadingFetchAnimes) {
@@ -98,11 +98,11 @@ const AnimeContainer = ({
   }
 
   return (
-    <Wrapper>
+    <Container>
       {fetchedAnimes?.length > 0 ? (
         <div>
           {pagination === "true" && (
-            <div className="buttons">
+            <ButtonContainer>
               <Button
                 onClick={() => handlePageClick(-1)}
                 color="primary"
@@ -112,9 +112,9 @@ const AnimeContainer = ({
               >
                 Previous
               </Button>
-              <div className="top-info">
+              <TopInfo>
                 <h3>We found {totalFetchedAnimes} animes </h3>
-              </div>
+              </TopInfo>
               <Button
                 onClick={() => handlePageClick(1)}
                 color="primary"
@@ -124,9 +124,9 @@ const AnimeContainer = ({
               >
                 Next
               </Button>
-            </div>
+            </ButtonContainer>
           )}
-          <div className="animes">
+          <AnimesGrid>
             {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => (
               <Anime
                 key={anime.id}
@@ -174,64 +174,59 @@ const AnimeContainer = ({
                 Load next page
               </Button>
             )}
-          </div>
+          </AnimesGrid>
           {!onTrendingPage && (
-            <div className="page-info">
+            <PageInfo>
               <h5>
                 Page {page.current} of {numOfFetchedAnimesPages}
               </h5>
-            </div>
+            </PageInfo>
           )}
         </div>
       ) : (
         <div>{searchText && !isLoading && <h2>No animes found.</h2>}</div>
       )}
-    </Wrapper>
+    </Container>
   );
 };
 
-const Wrapper = styled.section`
+const Container = styled.section`
   margin-top: 4rem;
-
-  .hidden {
-    display: none;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
-
-  .top-info {
-    text-align: center;
-  }
-
-  .animes {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    color: var(--textColor);
-  }
-
-  .page-info {
-    margin-top: 32px;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
   h2 {
     text-transform: none;
   }
-
-  h5 {
-    font-weight: 700;
-  }
 `;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+`;
+
+const TopInfo = styled.div`
+  text-align: center;
+`;
+
+const AnimesGrid = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  color: var(--textColor);
+`;
+
+const PageInfo = styled.div`
+  margin-top: 32px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+ 
+`;
+
 
 export default AnimeContainer;
