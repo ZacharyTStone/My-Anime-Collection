@@ -326,7 +326,7 @@ npm start
 
 ## リンク
 
-- **サイト：** [My Anime Collection](https://www.my-anime-collection.com)
+- **サイト：** [My Anime Collection](https://www.my-anime-collection.com](https://my-anime-collection.onrender.com)
 - **GitHub リポジトリ：** [My Anime Collection on GitHub](https://github.com/ZacharyTStone/My-Anime-Collection)
 
 ## ライセンス
