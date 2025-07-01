@@ -1,16 +1,17 @@
 import User from "../models/User.js";
 import Anime from "../models/Anime.js";
 import Playlist from "../models/Playlists.js";
+import { Model, Document } from "mongoose";
+import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/constants.js";
-import {
-  // SEED_ANIMES,
-  DEFAULT_PLAYLISTS_EN,
-  DEFAULT_PLAYLISTS_JP,
-} from "../utils/constants.js";
-import { generateRandomNumber } from "../utils/misc.js";
 import sanitize from "mongo-sanitize";
+import {
+  generateDemoEmail,
+  createUserWithPlaylists,
+} from "../utils/authHelpers.js";
+
 
 // REST routes are defined in authRoutes.js
 const validateInputs = (inputObject: Record<string, unknown>) => {
@@ -25,7 +26,7 @@ const validateInputs = (inputObject: Record<string, unknown>) => {
   }
 };
 
-const login = async (req, res) => {
+const login = async (req: Request, res: Response) => {
   const { email, password } = sanitize(req.body);
 
   validateInputs({ email, password });
@@ -47,7 +48,7 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user, token });
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req: Request, res: Response) => {
   const { email, name, theme } = sanitize(req.body);
 
   const errorMessage = "Please provide all values";
@@ -69,7 +70,7 @@ const updateUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user, token });
 };
 
-const register = async (req, res) => {
+const register = async (req: Request, res: Response) => {
   const { isDemo } = sanitize(req.body);
   const { name, email, password } = isDemo ? DEMO_USER : sanitize(req.body);
   const { theme } = sanitize(req.body);
@@ -84,28 +85,11 @@ const register = async (req, res) => {
   const MAX_RETRIES = 3;
 
   while (retryCount < MAX_RETRIES) {
-    try {
-      const userAlreadyExists = await User.findOne({ email: userEmail });
-
-      if (userAlreadyExists) {
-        if (isDemo) {
-          // Generate a new unique email for demo user
-          const timestamp = Date.now();
-          const randomString = Math.random().toString(36).substring(2, 15);
-          userEmail = `DemoUser${timestamp}-${randomString}@demo.com`;
-          retryCount++;
-        } else {
-          throw new BadRequestError("Email already in use");
-        }
-      } else {
-        break;
-      }
-    } catch (error) {
-      if (error instanceof BadRequestError) {
-        throw error;
-      }
-      retryCount++;
-    }
+    const userAlreadyExists = await User.findOne({ email: userEmail });
+    if (!userAlreadyExists) break;
+    if (!isDemo) throw new BadRequestError("Email already in use");
+    userEmail = generateDemoEmail();
+    retryCount++;
   }
 
   if (retryCount === MAX_RETRIES) {
@@ -113,8 +97,7 @@ const register = async (req, res) => {
   }
 
   try {
-    // create user
-    const user = await User.create({
+    const { user, token } = await createUserWithPlaylists({
       name,
       email: userEmail,
       password,
@@ -123,20 +106,6 @@ const register = async (req, res) => {
       language,
     });
 
-    let DEFAULT_PLAYLISTS =
-      language === "jp" ? DEFAULT_PLAYLISTS_JP : DEFAULT_PLAYLISTS_EN;
-
-    // create base playlists
-    for (const playlist of DEFAULT_PLAYLISTS) {
-      playlist.userID = user._id;
-      playlist.isDemoUserPlaylist = isDemo;
-    }
-
-    await Promise.all(
-      DEFAULT_PLAYLISTS.map((playlist) => Playlist.create(playlist))
-    );
-
-    const token = user.createJWT();
     res.status(StatusCodes.CREATED).json({
       user: {
         email: user.email,
@@ -148,34 +117,16 @@ const register = async (req, res) => {
       token,
     });
   } catch (error) {
-    if (error.code === 11000) {
-      // If we still get a duplicate key error, try one more time with a different email
-      const timestamp = Date.now();
-      const randomString = Math.random().toString(36).substring(2, 15);
-      const newEmail = `DemoUser${timestamp}-${randomString}@demo.com`;
-
-      const user = await User.create({
+    if (error.code === 11000 && isDemo) {
+      const { user, token } = await createUserWithPlaylists({
         name,
-        email: newEmail,
+        email: generateDemoEmail(),
         password,
         isDemo,
         theme,
         language,
       });
 
-      let DEFAULT_PLAYLISTS =
-        language === "jp" ? DEFAULT_PLAYLISTS_JP : DEFAULT_PLAYLISTS_EN;
-
-      for (const playlist of DEFAULT_PLAYLISTS) {
-        playlist.userID = user._id;
-        playlist.isDemoUserPlaylist = isDemo;
-      }
-
-      await Promise.all(
-        DEFAULT_PLAYLISTS.map((playlist) => Playlist.create(playlist))
-      );
-
-      const token = user.createJWT();
       res.status(StatusCodes.CREATED).json({
         user: {
           email: user.email,
@@ -192,7 +143,10 @@ const register = async (req, res) => {
   }
 };
 
-const deleteAssociatedRecords = async (model: any, userId: string) => {
+const deleteAssociatedRecords = async (
+  model: Model<Document>,
+  userId: string
+) => {
   const records = await model.find({ createdBy: userId });
 
   const deletePromises = records.map(async (record: any) => {
@@ -206,7 +160,7 @@ const deleteAssociatedRecords = async (model: any, userId: string) => {
   await Promise.all(deletePromises);
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req: Request, res: Response) => {
   // Delete user
   const user = await User.findOne({ _id: req.user.userId });
   await user.remove();

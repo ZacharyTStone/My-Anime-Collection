@@ -1,4 +1,5 @@
 import Anime from "../models/Anime.js";
+import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
@@ -6,9 +7,20 @@ import checkPermissions from "../utils/checkPermissions.js";
 // noSQL sanitization
 import sanitize from "mongo-sanitize";
 
+const SORT_OPTIONS = {
+  latest: { creationDate: -1 },
+  oldest: { creationDate: 1 },
+  rating: { rating: -1, popularity: -1 },
+  episodeCount: { episodeCount: -1 },
+  format: { format: -1 },
+  "a-z": { title: 1 },
+  "z-a": { title: -1 },
+  "date added": { createdAt: -1 },
+} as const;
+
 // REST routes are defined in AnimeRoutes.js
 
-const createAnime = async (req, res) => {
+const createAnime = async (req: Request, res: Response) => {
   const existingAnime = await Anime.findOne({
     title: sanitize(req.body.title),
     createdBy: sanitize(req.user.userId),
@@ -31,7 +43,7 @@ interface QueryObject {
   title?: any;
 }
 
-const getAnimes = async (req, res) => {
+const getAnimes = async (req: Request, res: Response) => {
   const { sort, search, currentPlaylistID } = sanitize(req.query);
 
   let queryObject: QueryObject = {
@@ -47,19 +59,10 @@ const getAnimes = async (req, res) => {
   let result = Anime.find(queryObject);
 
   // Apply sorting based on the provided option
-  const SORT_OPTIONS = {
-    latest: { creationDate: -1 },
-    oldest: { creationDate: 1 },
-    rating: { rating: -1, popularity: -1 },
-    episodeCount: { episodeCount: -1 },
-    format: { format: -1 },
-    "a-z": { title: 1 },
-    "z-a": { title: -1 },
-    "date added": { createdAt: -1 },
-  };
-
-  if (SORT_OPTIONS.hasOwnProperty(sort)) {
-    result = result.sort(SORT_OPTIONS[sort]);
+  if (sort && sort in SORT_OPTIONS) {
+    result = result.sort(
+      SORT_OPTIONS[sort as keyof typeof SORT_OPTIONS]
+    );
   }
 
   // Setup pagination
@@ -76,7 +79,7 @@ const getAnimes = async (req, res) => {
   res.status(StatusCodes.OK).json({ animes, totalAnimes, numOfPages });
 };
 
-const deleteAnime = async (req, res) => {
+const deleteAnime = async (req: Request, res: Response) => {
   const { id: animeId } = req.params;
 
   const anime = await Anime.findOne({ _id: animeId });
