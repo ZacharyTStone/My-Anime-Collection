@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Button } from "@mui/material";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
@@ -6,21 +7,22 @@ import { useAppContext } from "../context/appContext";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
-// @ts-ignore
 import DOMPurify from "dompurify";
 
-const AnimeContainer = ({
-  searchText,
-  baseURL,
-  filter,
-  pagination,
-  sort,
-}: {
+interface AnimeContainerProps {
   searchText: string;
   baseURL: string;
   filter: string;
   pagination: string;
   sort: string;
+}
+
+const AnimeContainer: React.FC<AnimeContainerProps> = ({
+  searchText,
+  baseURL,
+  filter,
+  pagination,
+  sort,
 }) => {
   const onTrendingPage = baseURL.includes("trending");
   const page = useRef(1);

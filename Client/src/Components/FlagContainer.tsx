@@ -5,7 +5,7 @@ import { useAppContext } from "../context/appContext";
 import america from "./../assets/images/america-big.png";
 import japan from "./../assets/images/japan-big.png";
 
-const FlagContainer = () => {
+const FlagContainer: React.FC = () => {
   const { changeSiteLanguage } = useAppContext();
   const { i18n } = useTranslation();
 

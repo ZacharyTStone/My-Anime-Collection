@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, useRoutes } from "react-router-dom";
 import { Suspense } from "react";
-import ErrorBoundary from "./pages/ErrorBoundry";
+import ErrorBoundary from "./pages/ErrorBoundary";
 import { LoadingLayout } from "./Components/Layout/MainLayout";
 import { routes } from "./routes";
 
