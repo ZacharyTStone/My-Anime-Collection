@@ -4,9 +4,7 @@ import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
 import { SkeletonLoadingBlock } from "../../Components/UI";
-
-// @ts-ignore
-import { debounce } from "lodash";
+import { debounce } from "../../utils/debounce";
 import { useTranslation } from "react-i18next";
 
 const SORT_OPTIONS = [

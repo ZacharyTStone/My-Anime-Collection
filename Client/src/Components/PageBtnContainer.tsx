@@ -1,8 +1,9 @@
+import * as React from "react";
 import { useAppContext } from "../context/appContext";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import styled from "styled-components";
 
-const PageBtnContainer = () => {
+const PageBtnContainer: React.FC = () => {
   const { numOfPages, page, changePage } = useAppContext();
 
   const handlePageChange = (newPage: number) => {

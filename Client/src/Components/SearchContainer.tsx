@@ -4,8 +4,7 @@ import { useAppContext } from "../context/appContext";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import TwitterShare from "./UI/TwitterShare";
-// @ts-ignore
-import { debounce } from "lodash";
+import { debounce } from "../utils/debounce";
 import { SkeletonLoadingBlock } from "./UI";
 import { useLoadingState } from "../utils/hooks";
 
