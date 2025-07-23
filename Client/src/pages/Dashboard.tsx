@@ -5,38 +5,23 @@ import styled from "styled-components";
 import { MUINavbar } from "../Components";
 import { useAppContext } from "../context/appContext";
 
-const Dashboard = () => {
-  return (
-    <div
-      style={{
-        backgroundColor: "var(--grey-50)",
-      }}
-    >
-      <ToastContainer
-        position="bottom-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <Wrapper>
-        <main className="dashboard">
-          <MUINavbar />
-          <div className="dashboard-page">
-            <Outlet />
-          </div>
-        </main>
-      </Wrapper>
-    </div>
-  );
-};
+// Types and Interfaces
+interface DashboardProps {
+  className?: string;
+}
 
-const Wrapper = styled.section`
+// Constants
+const TOAST_POSITION = "bottom-left";
+const TOAST_AUTO_CLOSE = 2000;
+const TOAST_THEME = "light";
+
+// Styled Components
+const DashboardContainer = styled.div`
+  background-color: var(--grey-50);
+  min-height: 100vh;
+`;
+
+const DashboardWrapper = styled.section`
   .dashboard {
     min-height: 100vh;
     height: 100%;
@@ -61,5 +46,35 @@ const Wrapper = styled.section`
     }
   }
 `;
+
+/**
+ * Dashboard component that serves as the main layout for authenticated users
+ */
+const Dashboard: React.FC<DashboardProps> = ({ className }) => {
+  return (
+    <DashboardContainer className={className}>
+      <ToastContainer
+        position={TOAST_POSITION}
+        autoClose={TOAST_AUTO_CLOSE}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={TOAST_THEME}
+      />
+      <DashboardWrapper>
+        <main className="dashboard">
+          <MUINavbar />
+          <div className="dashboard-page">
+            <Outlet />
+          </div>
+        </main>
+      </DashboardWrapper>
+    </DashboardContainer>
+  );
+};
 
 export default Dashboard;

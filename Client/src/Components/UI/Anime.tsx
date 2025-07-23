@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useAppContext } from "../../context/appContext";
 import styled from "styled-components";
 import * as React from "react";
@@ -21,11 +21,29 @@ import pokeball from "../../assets/images/pokeball.png";
 import { useMobile } from "../../utils/hooks";
 import { ExpectedFetchedAnimeResponse, SavedAnime } from "../../utils/types";
 
-interface animeCardProps extends SavedAnime {
+// Types and Interfaces
+interface AnimeCardProps extends SavedAnime {
   fetchedAnime: ExpectedFetchedAnimeResponse;
+  type?: "add" | "delete";
+  className?: string;
 }
 
-function Anime({
+interface AnimeCardState {
+  modalOpen: boolean;
+  isHovering: boolean;
+  failedToLoadYoutube: boolean;
+}
+
+// Constants
+const SKELETON_HEIGHT_MOBILE = 300;
+const SKELETON_HEIGHT_DESKTOP = 600;
+const SKELETON_WIDTH = 300;
+const SKELETON_BORDER_RADIUS = 8;
+
+/**
+ * Anime component that displays anime information in a card format
+ */
+const Anime: React.FC<AnimeCardProps> = ({
   _id,
   title,
   rating,
@@ -35,64 +53,95 @@ function Anime({
   synopsis,
   coverImage,
   fetchedAnime,
-  type,
+  type = "add",
   japanese_title,
   youtubeVideoId,
-}: animeCardProps) {
+  className,
+}) => {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
-  const [failedToLoadYoutube, setFailedToLoadYoutube] = useState(false);
+  const [state, setState] = useState<AnimeCardState>({
+    modalOpen: false,
+    isHovering: false,
+    failedToLoadYoutube: false,
+  });
 
-  const handleMouseEnter = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-  };
-
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
   const {
     createAnime,
     deleteAnime,
     siteLanguage,
     currentPlaylist,
     isLoading,
-
     loadingData,
   } = useAppContext();
 
-  const handleSubmit = () => {
-    if (isLoading) return;
-    createAnime(fetchedAnime, currentPlaylist.id);
-  };
-
-  const onVideoError = () => {
-    setFailedToLoadYoutube(true);
-  };
-
-  const hasYoutubeVideoId = youtubeVideoId;
-
   const onMobile = useMobile();
 
-  if (
-    isLoading &&
-    (loadingData?.anime_id === _id ||
-      loadingData?.anime_id === fetchedAnime?.id)
-  ) {
+  // Memoized values
+  const isCurrentlyLoading = useMemo(
+    () =>
+      isLoading &&
+      (loadingData?.anime_id === _id ||
+        loadingData?.anime_id === fetchedAnime?.id),
+    [isLoading, loadingData?.anime_id, _id, fetchedAnime?.id]
+  );
+
+  const hasYoutubeVideoId = useMemo(
+    () => Boolean(youtubeVideoId),
+    [youtubeVideoId]
+  );
+
+  const skeletonHeight = useMemo(
+    () => (onMobile ? SKELETON_HEIGHT_MOBILE : SKELETON_HEIGHT_DESKTOP),
+    [onMobile]
+  );
+
+  // Callbacks
+  const handleMouseEnter = useCallback(() => {
+    setState((prev) => ({ ...prev, isHovering: true }));
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setState((prev) => ({ ...prev, isHovering: false }));
+  }, []);
+
+  const handleModalOpen = useCallback(() => {
+    setState((prev) => ({ ...prev, modalOpen: true }));
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setState((prev) => ({ ...prev, modalOpen: false }));
+  }, []);
+
+  const handleSubmit = useCallback(() => {
+    if (isLoading) return;
+
+    if (type === "add") {
+      createAnime(fetchedAnime, currentPlaylist.id);
+    } else if (type === "delete") {
+      deleteAnime(_id);
+    }
+  }, [
+    isLoading,
+    type,
+    createAnime,
+    fetchedAnime,
+    currentPlaylist.id,
+    deleteAnime,
+    _id,
+  ]);
+
+  const onVideoError = useCallback(() => {
+    setState((prev) => ({ ...prev, failedToLoadYoutube: true }));
+  }, []);
+
+  // Render loading skeleton
+  if (isCurrentlyLoading) {
     return (
-      <Wrapper>
+      <Wrapper className={className}>
         <SkeletonLoadingBlock
-          height={onMobile ? 300 : 600}
-          width={300}
-          borderRadius={8}
+          height={skeletonHeight}
+          width={SKELETON_WIDTH}
+          borderRadius={SKELETON_BORDER_RADIUS}
         />
       </Wrapper>
     );
@@ -176,9 +225,9 @@ function Anime({
                       },
                     }}
                   />
-                ) : isHovering ? (
+                ) : state.isHovering ? (
                   <>
-                    {hasYoutubeVideoId && !failedToLoadYoutube ? (
+                    {hasYoutubeVideoId && !state.failedToLoadYoutube ? (
                       <ReactPlayer
                         url={`https://www.youtube.com/watch?v=${
                           youtubeVideoId ||
@@ -412,7 +461,7 @@ function Anime({
           </Collapse>
         </React.Fragment>
       </Card>
-      {modalOpen && (
+      {state.modalOpen && (
         <Modal onClose={handleModalClose} onClick={handleModalClose}>
           <ModalContent>
             <Typography variant="h5" gutterBottom>
@@ -424,7 +473,7 @@ function Anime({
       )}
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.article`
   display: flex;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/Anime";
 
+// Types and Interfaces
 interface IAnime {
   _id: string;
   title: string;
@@ -24,9 +25,18 @@ interface IAnime {
   __v: number;
 }
 
-const MyAnimesContainer = () => {
+interface MyAnimesContainerProps {
+  className?: string;
+}
+
+const SKELETON_COUNT = 3;
+const SKELETON_HEIGHT = 300;
+const SKELETON_BORDER_RADIUS = 8;
+
+const MyAnimesContainer: React.FC<MyAnimesContainerProps> = ({ className }) => {
   const { t } = useTranslation();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+
   const {
     getAnimes,
     animes,
@@ -42,12 +52,31 @@ const MyAnimesContainer = () => {
     currentPlaylist,
   } = useAppContext();
 
+  // Memoized values
+  const hasNoAnimes = useMemo(
+    () => animes.length === 0 && !search?.length,
+    [animes.length, search?.length]
+  );
+
+  const shouldShowPagination = useMemo(() => numOfPages > 1, [numOfPages]);
+
+  const animeCountText = useMemo(
+    () =>
+      `${totalAnimes} anime${animes.length > 1 ? "s" : ""} found in playlist`,
+    [totalAnimes, animes.length]
+  );
+
+  // Callbacks
+  const handleInitialLoad = useCallback(async () => {
+    await getAnimes();
+    if (isFirstLoad) {
+      setIsFirstLoad(false);
+    }
+  }, [getAnimes, isFirstLoad]);
+
+  // Effects
   useEffect(() => {
-    getAnimes().then(() => {
-      if (isFirstLoad) {
-        setIsFirstLoad(false);
-      }
-    });
+    handleInitialLoad();
   }, [
     page,
     search,
@@ -56,65 +85,72 @@ const MyAnimesContainer = () => {
     searchType,
     sort,
     currentPlaylist,
+    handleInitialLoad,
   ]);
 
-  const noAnimesInPlaylist = animes.length === 0 && search?.length === 0;
+  // Render methods
+  const renderSkeletonLoader = () => (
+    <AnimeSection>
+      <LoadingContainer>
+        {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
+          <SkeletonLoadingBlock
+            key={index}
+            height={SKELETON_HEIGHT}
+            width="100%"
+            borderRadius={SKELETON_BORDER_RADIUS}
+          />
+        ))}
+      </LoadingContainer>
+    </AnimeSection>
+  );
 
-  const PageLoader = () => {
-    return (
-      <AnimeSection>
-        <LoadingContainer>
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-        </LoadingContainer>
-      </AnimeSection>
-    );
-  };
+  const renderEmptyState = () => (
+    <AnimeSection>
+      <EmptyAnimeContainer>
+        <p>{t("my_animes_container.no_anime_message1")}</p>
+        <NavLink to="/add-anime" className="btn btn-primary">
+          {t("my_animes_container.no_anime_message2")}
+        </NavLink>
+      </EmptyAnimeContainer>
+    </AnimeSection>
+  );
 
-  if (isLoading) return <PageLoader />;
+  // Main render logic
+  if (isLoading) {
+    return renderSkeletonLoader();
+  }
 
-  if (noAnimesInPlaylist && !isLoading) {
-    return (
-      <AnimeSection>
-        <EmptyAnimeContainer>
-          <p>{t("my_animes_container.no_anime_message1")}</p>
-          <NavLink to="/add-anime" className="btn btn-primary">
-            {t("my_animes_container.no_anime_message2")}
-          </NavLink>
-        </EmptyAnimeContainer>
-      </AnimeSection>
-    );
+  if (hasNoAnimes && !isLoading) {
+    return renderEmptyState();
   }
 
   return (
-    <AnimeSection>
-      <AnimeCountText>
-        {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
-      </AnimeCountText>
-      {numOfPages > 1 && <PageBtnContainer />}
+    <AnimeSection className={className}>
+      <AnimeCountText>{animeCountText}</AnimeCountText>
+      {shouldShowPagination && <PageBtnContainer />}
       <AnimeContainer>
-        {animes?.map((anime: IAnime) => {
-          return <Anime key={anime._id} {...anime} type="delete" />;
-        })}
+        {animes?.map((anime: IAnime) => (
+          <Anime key={anime._id} {...anime} type="delete" />
+        ))}
       </AnimeContainer>
     </AnimeSection>
   );
 };
 
+// Styled Components
 const AnimeSection = styled.section`
   margin-top: 4rem;
   padding: 40px;
+
   h2 {
     text-transform: none;
   }
 `;
 
 const AnimeCountText = styled.h5`
-  font-weight: 700;
+  font-weight: 500;
   font-size: 1rem;
   color: var(--grey-700);
-  font-weight: 500;
   background-color: transparent;
   padding: 0.5rem 0;
   margin-bottom: 1.75rem;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { FormRow, FormRowSelect } from "./UI";
 import { useAppContext } from "../context/appContext";
 import styled from "styled-components";
@@ -8,7 +8,26 @@ import { debounce } from "../utils/debounce";
 import { SkeletonLoadingBlock } from "./UI";
 import { useLoadingState } from "../utils/hooks";
 
-const SearchContainer = () => {
+// Types and Interfaces
+interface SearchContainerProps {
+  className?: string;
+}
+
+interface FormEvent {
+  target: {
+    name: string;
+    value: string;
+  };
+  preventDefault?: () => void;
+}
+
+// Constants
+const DEBOUNCE_DELAY = 300;
+
+/**
+ * SearchContainer component that handles search and filtering functionality
+ */
+const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
   const { t } = useTranslation();
   const {
     isLoading,
@@ -24,10 +43,9 @@ const SearchContainer = () => {
     loadingFetchPlaylists,
   } = useAppContext();
 
-  useEffect(() => {
-    getPlaylists();
-  }, []);
+  const [localSearch, setLocalSearch] = useState(search ?? "");
 
+  // Loading states
   const { isLoading: isLoadingSearch, withLoading: withLoadingSearch } =
     useLoadingState(isLoading);
   const {
@@ -35,45 +53,72 @@ const SearchContainer = () => {
     withLoading: withLoadingPlaylistChange,
   } = useLoadingState(isLoading);
 
-  const handleSearch = withLoadingSearch(
-    (
-      e:
-        | React.ChangeEvent<HTMLInputElement>
-        | React.ChangeEvent<HTMLSelectElement>
-    ) => {
-      handleChange({ name: e.target.name, value: e.target.value });
-    }
+  // Effects
+  useEffect(() => {
+    getPlaylists();
+  }, [getPlaylists]);
+
+  // Memoized values
+  const isFormDisabled = useMemo(
+    () => isLoading || loadingFetchPlaylists,
+    [isLoading, loadingFetchPlaylists]
   );
 
-  const handleLocalPlaylistChange = withLoadingPlaylistChange(
-    (
-      e:
-        | React.ChangeEvent<HTMLInputElement>
-        | React.ChangeEvent<HTMLSelectElement>
-    ) => {
+  // Callbacks
+  const handleSearch = useCallback(
+    withLoadingSearch((e: FormEvent) => {
+      handleChange({ name: e.target.name, value: e.target.value });
+    }),
+    [withLoadingSearch, handleChange]
+  );
+
+  const handleLocalPlaylistChange = useCallback(
+    withLoadingPlaylistChange((e: React.ChangeEvent<HTMLSelectElement>) => {
       e.preventDefault();
       handlePlaylistChange({ name: e.target.name, value: e.target.value });
-    }
+    }),
+    [withLoadingPlaylistChange, handlePlaylistChange]
   );
 
-  const handleResetFilters = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setLocalSearch("");
-    clearFilters();
-  };
+  const handleResetFilters = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      setLocalSearch("");
+      clearFilters();
+    },
+    [clearFilters]
+  );
 
-  const [localSearch, setLocalSearch] = useState(search ?? "");
-  // Use debounce on handleSearch function
-  const debouncedHandleSearch = debounce(handleSearch, 300); // 300ms debounce delay
+  const handleLocalSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setLocalSearch(e.target.value);
+      debouncedHandleSearch(e);
+    },
+    []
+  );
+
+  const handleFormSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+  }, []);
+
+  // Debounced search handler
+  const debouncedHandleSearch = useMemo(
+    () => debounce(handleSearch, DEBOUNCE_DELAY),
+    [handleSearch]
+  );
+
+  // Render loading skeleton
+  if (loadingFetchPlaylists) {
+    return (
+      <Wrapper className={className}>
+        <SkeletonLoadingBlock height={200} width="100%" borderRadius={8} />
+      </Wrapper>
+    );
+  }
 
   return (
-    <Wrapper>
-      <form
-        className="form"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+    <Wrapper className={className}>
+      <form className="form" onSubmit={handleFormSubmit}>
         <h4>{t("search_container.title")}</h4>
         <div className="form-center">
           <FormRow
@@ -81,14 +126,13 @@ const SearchContainer = () => {
             name="search"
             value={localSearch}
             labelText={t("search_container.search")}
-            handleChange={(e) => {
-              setLocalSearch(e.target.value);
-              debouncedHandleSearch(e);
-            }}
+            handleChange={handleLocalSearchChange}
+            disabled={isFormDisabled}
           />
-          {/* sort */}
+
+          {/* Sort */}
           <FormRowSelect
-            disabled={isLoading}
+            disabled={isFormDisabled}
             name="sort"
             value={sort}
             labelText={t("search_container.sort")}
@@ -96,50 +140,33 @@ const SearchContainer = () => {
             list={sortOptions}
           />
 
-          {/* playlist */}
-          <form className="">
-            <label htmlFor="playlist" className="form-label">
-              {t("search_container.current_playlist")}
-            </label>
-            {loadingFetchPlaylists ? (
-              <SkeletonLoadingBlock height={40} width={240} borderRadius={6} />
-            ) : (
-              <select
-                name="playlist"
-                value={currentPlaylist.id}
-                onChange={handleLocalPlaylistChange}
-                className="form-select"
-              >
-                {userPlaylists.map(
-                  (
-                    playlist: {
-                      id: string;
-                      title: string;
-                    },
-                    index: number
-                  ) => {
-                    return (
-                      <option key={index} value={playlist.id}>
-                        {playlist.title}
-                      </option>
-                    );
-                  }
-                )}
-              </select>
+          {/* Playlist */}
+          <FormRowSelect
+            disabled={isFormDisabled}
+            name="playlist"
+            value={currentPlaylist.id}
+            labelText={t("search_container.playlist")}
+            handleChange={handleLocalPlaylistChange}
+            list={userPlaylists.map(
+              (playlist: { id: string; title: string }) => ({
+                value: playlist.id,
+                label: playlist.title,
+              })
             )}
-          </form>
+          />
 
-          <ClearFiltersButton
-            className="btn btn-block btn-outline"
-            disabled={isLoading}
+          <button
+            type="button"
+            className="btn btn-block btn-danger"
             onClick={handleResetFilters}
+            disabled={isFormDisabled}
           >
-            {t("search_container.clear_filters") as string}
-          </ClearFiltersButton>
-
-          <TwitterShare />
+            {t("search_container.clear_filters")}
+          </button>
         </div>
       </form>
+
+      <TwitterShare />
     </Wrapper>
   );
 };
