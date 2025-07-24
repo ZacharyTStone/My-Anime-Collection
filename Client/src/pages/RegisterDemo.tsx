@@ -27,7 +27,7 @@ const Register = () => {
   const onSubmit = () => {
     const currentUser: User = {
       id: "",
-      username: values.name || "",
+      name: values.name || "",
       email: values.email || "",
     };
 

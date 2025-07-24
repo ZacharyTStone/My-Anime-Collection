@@ -21,7 +21,7 @@ const Profile = () => {
     logoutUser,
   } = useAppContext();
 
-  const [name, setName] = useState<string>(user?.username || "");
+  const [name, setName] = useState<string>(user?.name || "");
   const [email, setEmail] = useState<User["email"]>(user?.email || "");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,7 +30,7 @@ const Profile = () => {
       displayAlert();
       return;
     }
-    updateUser({ username: name, email, id: user?.id ?? "" });
+    updateUser({ name, email, id: user?.id ?? "" });
   };
 
   const handleDelete = () => {

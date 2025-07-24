@@ -14,7 +14,7 @@ interface FormValues extends Partial<User> {
 
 const initialState: FormValues = {
   id: "",
-  username: "",
+  name: "",
   email: "",
   password: "",
   existingUser: false,
@@ -38,15 +38,15 @@ const Register: React.FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { username, email, password, existingUser } = values;
+    const { name, email, password, existingUser } = values;
     const isDemo = false;
     const theme = "light";
 
-    if (!email || !password || (!existingUser && !username)) {
+    if (!email || !password || (!existingUser && !name)) {
       displayAlert();
       return;
     }
-    const currentUser = { id: "", username: username || "", email, password };
+    const currentUser = { id: "", name: name || "", email, password };
 
     if (existingUser) {
       setupUser({
@@ -84,9 +84,9 @@ const Register: React.FC = () => {
           {!values.existingUser && (
             <FormRow
               type="text"
-              name="username"
+              name="name"
               labelText={t("register.name")}
-              value={values.username || ""}
+              value={values.name || ""}
               handleChange={handleChange}
             />
           )}
