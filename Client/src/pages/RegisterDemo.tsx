@@ -25,10 +25,10 @@ const Register = () => {
   };
 
   const onSubmit = () => {
-    const currentUser: Partial<User> = {
-      isDemo: true,
-      theme: "light",
-      language: siteLanguage,
+    const currentUser: User = {
+      id: "",
+      username: values.name || "",
+      email: values.email || "",
     };
 
     console.log("wow", currentUser);

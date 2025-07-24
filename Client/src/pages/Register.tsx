@@ -8,15 +8,16 @@ import { useAppContext } from "../context/appContext";
 import { User } from "../utils/types";
 
 interface FormValues extends Partial<User> {
+  password?: string;
   existingUser?: boolean;
 }
 
 const initialState: FormValues = {
-  name: "",
+  id: "",
+  username: "",
   email: "",
   password: "",
-  isDemo: false,
-  theme: "light",
+  existingUser: false,
 };
 
 const Register: React.FC = () => {
@@ -37,15 +38,15 @@ const Register: React.FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, email, password, existingUser } = values;
+    const { username, email, password, existingUser } = values;
     const isDemo = false;
     const theme = "light";
 
-    if (!email || !password || (!existingUser && !name)) {
+    if (!email || !password || (!existingUser && !username)) {
       displayAlert();
       return;
     }
-    const currentUser = { name, email, password, theme, isDemo, siteLanguage };
+    const currentUser = { id: "", username: username || "", email, password };
 
     if (existingUser) {
       setupUser({
@@ -83,9 +84,9 @@ const Register: React.FC = () => {
           {!values.existingUser && (
             <FormRow
               type="text"
-              name="name"
+              name="username"
               labelText={t("register.name")}
-              value={values.name || ""}
+              value={values.username || ""}
               handleChange={handleChange}
             />
           )}

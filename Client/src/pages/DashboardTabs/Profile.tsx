@@ -21,8 +21,8 @@ const Profile = () => {
     logoutUser,
   } = useAppContext();
 
-  const [name, setName] = useState<User["name"]>(user?.name);
-  const [email, setEmail] = useState<User["email"]>(user?.email);
+  const [name, setName] = useState<string>(user?.username || "");
+  const [email, setEmail] = useState<User["email"]>(user?.email || "");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,15 +30,17 @@ const Profile = () => {
       displayAlert();
       return;
     }
-    updateUser({ name, email, theme: "light" });
+    updateUser({ username: name, email, id: user?.id ?? "" });
   };
 
   const handleDelete = () => {
     if (!window.confirm(t("profile.confirm"))) {
       return;
     }
-    deleteUser();
-    logoutUser();
+    if (user) {
+      deleteUser(user);
+      logoutUser();
+    }
   };
 
   return (
@@ -48,7 +50,7 @@ const Profile = () => {
         {showAlert && <Alert />}
         <div className="form-center">
           <FormRow
-            disabled={isLoading || user?.isDemo}
+            disabled={isLoading}
             type="text"
             name="name"
             labelText={t("profile.name")}
@@ -56,7 +58,7 @@ const Profile = () => {
             handleChange={(e) => setName(e.target.value)}
           />
           <FormRow
-            disabled={isLoading || user?.isDemo}
+            disabled={isLoading}
             type="email"
             name="email"
             labelText={t("profile.email")}

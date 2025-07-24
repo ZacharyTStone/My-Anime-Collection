@@ -33,7 +33,9 @@ const Profile: React.FC = () => {
       (playlist: IPlaylist) => playlist.id === playlistId
     );
     if (!playlist) return;
-    await handlePlaylistChange({ name: playlist.id, value: playlist.id });
+    if (playlist.id) {
+      await handlePlaylistChange({ value: playlist.id });
+    }
     setNewTitle(playlist.title);
     setSelectedPlaylistId(playlist.id);
   };
@@ -55,11 +57,13 @@ const Profile: React.FC = () => {
   const handlePlaylistEdit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
-    await updatePlaylist({
-      title: newTitle,
-      id: selectedPlaylistId,
-    });
-    await getPlaylists();
+    if (selectedPlaylistId) {
+      const playlist = userPlaylists.find((p) => p.id === selectedPlaylistId);
+      if (playlist) {
+        await updatePlaylist({ ...playlist, title: newTitle });
+        await getPlaylists();
+      }
+    }
   };
 
   const handleDeletePlaylist = async (playlistId: string) => {

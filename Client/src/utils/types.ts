@@ -48,13 +48,7 @@ export interface SavedAnime {
 }
 
 export interface User {
-  _id: string;
-  name: string;
+  id: string;
+  username: string;
   email: string;
-  isDemo: boolean;
-  password?: string;
-  theme: "light" | "dark";
-  language: "en" | "jp";
-  createdAt: Date;
-  updatedAt: Date;
 }

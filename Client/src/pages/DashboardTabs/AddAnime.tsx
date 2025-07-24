@@ -65,7 +65,7 @@ const AddAnime: React.FC = () => {
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     if (isLoading) return;
-    handlePlaylistChange({ name: e.target.name, value: e.target.value });
+    handlePlaylistChange({ value: e.target.value });
   };
 
   useEffect(() => {

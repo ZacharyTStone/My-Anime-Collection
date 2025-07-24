@@ -75,7 +75,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
   const handleLocalPlaylistChange = useCallback(
     withLoadingPlaylistChange((e: React.ChangeEvent<HTMLSelectElement>) => {
       e.preventDefault();
-      handlePlaylistChange({ name: e.target.name, value: e.target.value });
+      handlePlaylistChange({ value: e.target.value });
     }),
     [withLoadingPlaylistChange, handlePlaylistChange]
   );
@@ -150,7 +150,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
             list={userPlaylists.map(
               (playlist: { id: string; title: string }) => ({
                 value: playlist.id,
-                label: playlist.title,
+                title: playlist.title,
               })
             )}
           />

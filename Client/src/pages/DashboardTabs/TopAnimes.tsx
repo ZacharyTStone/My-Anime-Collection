@@ -30,7 +30,7 @@ const MyAnimes = () => {
   ) => {
     if (isLoading) return;
 
-    handlePlaylistChange({ name: e.target.name, value: e.target.value });
+    handlePlaylistChange({ value: e.target.value });
   };
 
   return (

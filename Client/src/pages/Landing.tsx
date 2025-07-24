@@ -60,7 +60,6 @@ const createAnimation = (
 });
 
 const Landing = () => {
-  const { theme } = useAppContext();
   const { t } = useTranslation();
 
   const { controls: controls1, ref: ref1 } = useInViewAnimation();

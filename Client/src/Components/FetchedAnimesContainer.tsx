@@ -48,7 +48,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
         baseURL,
         filter,
         searchText,
-        pagination,
+        pagination: pagination === "true",
         sort,
       });
     }
@@ -69,7 +69,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
       baseURL,
       searchText,
       filter,
-      pagination,
+      pagination: pagination === "true",
       sort,
       page: page.current,
     });

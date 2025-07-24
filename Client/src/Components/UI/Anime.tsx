@@ -118,7 +118,9 @@ const Anime: React.FC<AnimeCardProps> = ({
     if (type === "add") {
       createAnime(fetchedAnime, currentPlaylist.id);
     } else if (type === "delete") {
-      deleteAnime(_id);
+      if (_id) {
+        deleteAnime(_id);
+      }
     }
   }, [
     isLoading,
@@ -417,7 +419,9 @@ const Anime: React.FC<AnimeCardProps> = ({
               <button
                 type="button"
                 className="btn delete-btn"
-                onClick={() => deleteAnime(_id)}
+                onClick={() => {
+                  if (_id) deleteAnime(_id);
+                }}
               >
                 {t("anime.delete")}
               </button>

@@ -169,6 +169,8 @@ const getInitialState = (): AppState => {
   };
 };
 
+export const initialState = getInitialState();
+
 // Context
 const AppContext = React.createContext<AppContextType | undefined>(undefined);
 
