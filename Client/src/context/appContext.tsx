@@ -17,7 +17,7 @@ import { SORT_OPTIONS } from "../utils/constants";
 // Types and Interfaces
 interface User {
   id: string;
-  username: string;
+  name: string;
   email: string;
 }
 
