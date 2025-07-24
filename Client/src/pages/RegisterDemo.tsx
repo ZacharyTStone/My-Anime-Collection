@@ -25,16 +25,14 @@ const Register = () => {
   };
 
   const onSubmit = () => {
-    const currentUser: User = {
-      id: "",
-      name: values.name || "",
-      email: values.email || "",
+    const currentUser = {
+      isDemo: true,
     };
 
     console.log("wow", currentUser);
 
     setupUser({
-      currentUser,
+      currentUser: currentUser as any,
       endPoint: "register",
       alertText: t("register.alert_text"),
     });
