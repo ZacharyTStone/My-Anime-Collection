@@ -160,7 +160,7 @@ const MUINavbar = () => {
                       color: "var(--grey-800)",
                     }}
                   >
-                    {user?.username || "Guest"}
+                    {user?.name || "Guest"}
                   </span>
                   <FaCaretDown color="var(--primary-500)" />
                 </UserIcon>
