@@ -55,8 +55,8 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
 
   // Effects
   useEffect(() => {
-    getPlaylists();
-  }, [getPlaylists]);
+    getPlaylists(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Memoized values
   const isFormDisabled = useMemo(
