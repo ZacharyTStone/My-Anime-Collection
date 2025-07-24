@@ -44,7 +44,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
     // Fetch animes when searchText is present or on trending page
     if (!!searchText || onTrendingPage) {
       fetchAnimes({
-        page,
+        page: page.current,
         baseURL,
         filter,
         searchText,
@@ -226,9 +226,6 @@ const PageInfo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
- 
 `;
-
 
 export default AnimeContainer;
