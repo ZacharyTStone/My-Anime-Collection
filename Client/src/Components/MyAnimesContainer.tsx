@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -8,7 +8,6 @@ import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/Anime";
 
-// Types and Interfaces
 interface IAnime {
   _id: string;
   title: string;
@@ -25,18 +24,9 @@ interface IAnime {
   __v: number;
 }
 
-interface MyAnimesContainerProps {
-  className?: string;
-}
-
-const SKELETON_COUNT = 3;
-const SKELETON_HEIGHT = 300;
-const SKELETON_BORDER_RADIUS = 8;
-
-const MyAnimesContainer: React.FC<MyAnimesContainerProps> = ({ className }) => {
+const MyAnimesContainer = () => {
   const { t } = useTranslation();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-
   const {
     getAnimes,
     animes,
@@ -52,31 +42,12 @@ const MyAnimesContainer: React.FC<MyAnimesContainerProps> = ({ className }) => {
     currentPlaylist,
   } = useAppContext();
 
-  // Memoized values
-  const hasNoAnimes = useMemo(
-    () => animes.length === 0 && !search?.length,
-    [animes.length, search?.length]
-  );
-
-  const shouldShowPagination = useMemo(() => numOfPages > 1, [numOfPages]);
-
-  const animeCountText = useMemo(
-    () =>
-      `${totalAnimes} anime${animes.length > 1 ? "s" : ""} found in playlist`,
-    [totalAnimes, animes.length]
-  );
-
-  // Callbacks
-  const handleInitialLoad = useCallback(async () => {
-    await getAnimes();
-    if (isFirstLoad) {
-      setIsFirstLoad(false);
-    }
-  }, [getAnimes, isFirstLoad]);
-
-  // Effects
   useEffect(() => {
-    handleInitialLoad();
+    getAnimes().then(() => {
+      if (isFirstLoad) {
+        setIsFirstLoad(false);
+      }
+    });
   }, [
     page,
     search,
@@ -85,87 +56,63 @@ const MyAnimesContainer: React.FC<MyAnimesContainerProps> = ({ className }) => {
     searchType,
     sort,
     currentPlaylist,
-    handleInitialLoad,
   ]);
 
-  // Render methods
-  const renderSkeletonLoader = () => (
-    <AnimeSection>
-      <LoadingContainer>
-        {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
-          <SkeletonLoadingBlock
-            key={index}
-            height={SKELETON_HEIGHT}
-            width="100%"
-            borderRadius={SKELETON_BORDER_RADIUS}
-          />
-        ))}
-      </LoadingContainer>
-    </AnimeSection>
-  );
+  const noAnimesInPlaylist = animes.length === 0 && search?.length === 0;
 
-  const renderEmptyState = () => (
-    <AnimeSection>
-      <EmptyAnimeContainer>
-        <p>{t("my_animes_container.no_anime_message1")}</p>
-        <NavLink to="/add-anime" className="btn btn-primary">
-          {t("my_animes_container.no_anime_message2")}
-        </NavLink>
-      </EmptyAnimeContainer>
-    </AnimeSection>
-  );
+  const PageLoader = () => {
+    return (
+      <StyledWrapper>
+        <LoadingContainer>
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+        </LoadingContainer>
+      </StyledWrapper>
+    );
+  };
 
-  // Main render logic
-  if (isLoading) {
-    return renderSkeletonLoader();
-  }
+  if (isLoading) return <PageLoader />;
 
-  if (hasNoAnimes && !isLoading) {
-    return renderEmptyState();
+  if (noAnimesInPlaylist && !isLoading) {
+    return (
+      <StyledWrapper>
+        <NoAnimeMessage>
+          <>
+            {" "}
+            {t("my_animes_container.no_anime_message1")}
+            <NavLink to="/add-anime" className="btn btn-block btn-outline">
+              {t("my_animes_container.no_anime_message2")}
+            </NavLink>
+          </>
+        </NoAnimeMessage>
+      </StyledWrapper>
+    );
   }
 
   return (
-    <AnimeSection className={className}>
-      <AnimeCountText>{animeCountText}</AnimeCountText>
-      {shouldShowPagination && <PageBtnContainer />}
+    <StyledWrapper>
+      <h5>
+        {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
+      </h5>
+      {numOfPages > 1 && <PageBtnContainer />}
       <AnimeContainer>
-        {animes?.map((anime: IAnime) => (
-          <Anime key={anime._id} {...anime} type="delete" />
-        ))}
+        {animes?.map((anime: IAnime) => {
+          return <Anime key={anime._id} {...anime} type="delete" />;
+        })}
       </AnimeContainer>
-    </AnimeSection>
+    </StyledWrapper>
   );
 };
 
-// Styled Components
-const AnimeSection = styled.section`
+const StyledWrapper = styled.section`
   margin-top: 4rem;
   padding: 40px;
-
   h2 {
     text-transform: none;
   }
-`;
-
-const AnimeCountText = styled.h5`
-  font-weight: 500;
-  font-size: 1rem;
-  color: var(--grey-700);
-  background-color: transparent;
-  padding: 0.5rem 0;
-  margin-bottom: 1.75rem;
-  position: relative;
-  cursor: default;
-
-  &::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background-color: var(--primary-500);
-    border-radius: 50%;
-    margin-right: 8px;
-    vertical-align: middle;
+  & > h5 {
+    font-weight: 700;
   }
 `;
 
@@ -176,56 +123,8 @@ const LoadingContainer = styled.div`
   gap: 10px;
 `;
 
-const EmptyAnimeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.75rem;
-  margin: 4rem auto;
-  max-width: 600px;
-  padding: 3.5rem 2.5rem;
+const NoAnimeMessage = styled.h5`
   text-align: center;
-  background-color: var(--white);
-  border-radius: var(--borderRadius);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--grey-200);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(
-      to right,
-      var(--primary-300),
-      var(--primary-500)
-    );
-  }
-
-  p {
-    font-size: 1.25rem;
-    color: var(--grey-700);
-    margin: 0;
-    font-weight: 500;
-    line-height: 1.6;
-  }
-
-  .btn {
-    min-width: 220px;
-    margin-top: 0.75rem;
-    transition: all 0.3s ease;
-    font-weight: 500;
-
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg);
-    }
-  }
 `;
 
 const AnimeContainer = styled.div`
@@ -239,8 +138,7 @@ const AnimeContainer = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    align-items: flex-start;
-    gap: 1.5rem;
+    align-items: center;
   }
 `;
 
