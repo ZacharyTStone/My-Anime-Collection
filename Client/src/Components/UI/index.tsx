@@ -10,6 +10,7 @@ import Testimonial from "./Testimonial";
 import TwitterShare from "./TwitterShare";
 
 import SkeletonLoadingBlock from "./SkeletonLoadingBlock";
+import Anime from "./Anime";
 
 export {
   Alert,
@@ -22,4 +23,5 @@ export {
   Testimonial,
   TwitterShare,
   SkeletonLoadingBlock,
+  Anime,
 };

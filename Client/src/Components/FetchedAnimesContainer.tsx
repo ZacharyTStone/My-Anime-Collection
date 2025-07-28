@@ -1,23 +1,13 @@
-import * as React from "react";
-import { Button } from "@mui/material";
 import { useEffect, useRef } from "react";
-import styled from "styled-components";
-import { Anime } from "../Components";
 import { useAppContext } from "../context/appContext";
 import { useMobile } from "../utils/hooks";
-import { ExpectedFetchedAnimeResponse } from "../utils/types";
-import { SkeletonLoadingBlock } from "./UI";
+import { SkeletonLoadingBlock, Anime } from "./UI";
+import { FetchedAnimesContainerProps } from "../utils/types";
 import DOMPurify from "dompurify";
+import styled from "styled-components";
+import { Button } from "@mui/material";
 
-interface AnimeContainerProps {
-  searchText: string;
-  baseURL: string;
-  filter: string;
-  pagination: string;
-  sort: string;
-}
-
-const AnimeContainer: React.FC<AnimeContainerProps> = ({
+const AnimeContainer: React.FC<FetchedAnimesContainerProps> = ({
   searchText,
   baseURL,
   filter,
@@ -37,6 +27,9 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
     loadingFetchAnimes,
   } = useAppContext();
 
+  const onMobile = useMobile();
+
+  // Effects
   useEffect(() => {
     // Reset page to 1 whenever searchText or sort changes
     page.current = 1;
@@ -52,15 +45,24 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
         sort,
       });
     }
-  }, [searchText, sort]);
+  }, [
+    searchText,
+    sort,
+    onTrendingPage,
+    fetchAnimes,
+    baseURL,
+    filter,
+    pagination,
+  ]);
 
   useEffect(() => {
     // Cleanup fetchedAnimes on component unmount
     return () => {
       resetFetchedAnimes();
     };
-  }, []);
+  }, [resetFetchedAnimes]);
 
+  // Callbacks
   const handlePageClick = (increment: number) => {
     // Increment or decrement the page based on the button clicked
     page.current += increment;
@@ -75,8 +77,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
     });
   };
 
-  const onMobile = useMobile();
-
+  // Loading UI component
   const LoadingUI = () => (
     <Container>
       <ButtonContainer>
@@ -101,131 +102,111 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
 
   return (
     <Container>
-      {fetchedAnimes?.length > 0 ? (
-        <div>
-          {pagination === "true" && (
-            <ButtonContainer>
-              <Button
-                onClick={() => handlePageClick(-1)}
-                color="primary"
-                variant="contained"
-                disabled={page.current === 1}
-                sx={{ m: 2, display: { xs: "flex", md: "flex" } }}
-              >
-                Previous
-              </Button>
-              <TopInfo>
-                <h3>We found {totalFetchedAnimes} animes </h3>
-              </TopInfo>
-              <Button
-                onClick={() => handlePageClick(1)}
-                color="primary"
-                disabled={page.current === numOfFetchedAnimesPages}
-                variant="contained"
-                sx={{ m: 2, display: { xs: "flex", md: "flex" } }}
-              >
-                Next
-              </Button>
-            </ButtonContainer>
-          )}
-          <AnimesGrid>
-            {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => (
-              <Anime
-                key={anime.id}
-                fetchedAnime={anime}
-                type="add"
-                _id={anime.id}
-                title={
-                  anime?.attributes?.titles?.en ||
-                  anime?.attributes?.titles?.en_jp ||
-                  "Title N/A"
-                }
-                rating={anime?.attributes?.averageRating || "N/A"}
-                episodeCount={anime?.attributes?.episodeCount}
-                format={anime?.attributes?.subtype || "N/A"}
-                creationDate={anime?.attributes?.startDate || "N/A"}
-                synopsis={
-                  anime?.attributes?.synopsis
-                    ? DOMPurify.sanitize(anime?.attributes?.synopsis)
-                    : "No synopsis available"
-                }
-                coverImage={
-                  anime?.attributes?.posterImage?.medium ||
-                  anime?.attributes?.posterImage?.small
-                }
-                japanese_title={
-                  anime?.attributes?.titles?.ja_jp ||
-                  anime?.attributes?.titles?.en ||
-                  "Title N/A"
-                }
-                youtubeVideoId={anime?.attributes?.youtubeVideoId}
-              />
-            ))}
+      <ButtonContainer>
+        <Button
+          onClick={() => handlePageClick(-1)}
+          disabled={page.current === 1}
+          variant="contained"
+          color="primary"
+        >
+          Previous Page
+        </Button>
+        <span>Page {page.current}</span>
+        <Button
+          onClick={() => handlePageClick(1)}
+          disabled={fetchedAnimes.length === 0}
+          variant="contained"
+          color="primary"
+        >
+          Next Page
+        </Button>
+      </ButtonContainer>
 
-            {pagination === "true" && fetchedAnimes?.length === 0 && (
-              <Button
-                onClick={() => handlePageClick(1)}
-                color="primary"
-                disabled={fetchedAnimes.length === 0}
-                className={
-                  fetchedAnimes.length === 0
-                    ? "hidden"
-                    : "btn btn-block btn-load-more"
-                }
-              >
-                Load next page
-              </Button>
-            )}
-          </AnimesGrid>
-          {!onTrendingPage && (
-            <PageInfo>
-              <h5>
-                Page {page.current} of {numOfFetchedAnimesPages}
-              </h5>
-            </PageInfo>
-          )}
-        </div>
-      ) : (
-        <div>{searchText && !isLoading && <h2>No animes found.</h2>}</div>
-      )}
+      <AnimesGrid>
+        {fetchedAnimes.map((anime) => (
+          <Anime
+            key={anime.id}
+            fetchedAnime={anime}
+            actionType="add"
+            _id={anime.id}
+            title={
+              anime?.attributes?.titles?.en ||
+              anime?.attributes?.titles?.en_jp ||
+              "Title N/A"
+            }
+            rating={anime?.attributes?.averageRating || "N/A"}
+            episodeCount={anime?.attributes?.episodeCount}
+            format={anime?.attributes?.subtype || "N/A"}
+            creationDate={anime?.attributes?.startDate || "N/A"}
+            synopsis={
+              anime?.attributes?.synopsis
+                ? DOMPurify.sanitize(anime?.attributes?.synopsis)
+                : "No synopsis available"
+            }
+            coverImage={
+              anime?.attributes?.posterImage?.medium ||
+              anime?.attributes?.posterImage?.small
+            }
+            japanese_title={
+              anime?.attributes?.titles?.ja_jp ||
+              anime?.attributes?.titles?.en ||
+              "Title N/A"
+            }
+            youtubeVideoId={anime?.attributes?.youtubeVideoId}
+            type="anime"
+            __v={0}
+          />
+        ))}
+
+        {pagination === "true" && fetchedAnimes?.length === 0 && (
+          <Button
+            onClick={() => handlePageClick(1)}
+            color="primary"
+            disabled={fetchedAnimes.length === 0}
+            className={
+              fetchedAnimes.length === 0
+                ? "hidden"
+                : "btn btn-block btn-load-more"
+            }
+          >
+            Load next page
+          </Button>
+        )}
+      </AnimesGrid>
     </Container>
   );
 };
 
-const Container = styled.section`
-  margin-top: 4rem;
-
-  h2 {
-    text-transform: none;
-  }
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
-`;
+  gap: 1rem;
+  margin-bottom: 1rem;
 
-const TopInfo = styled.div`
-  text-align: center;
+  span {
+    font-weight: 600;
+    color: var(--textColor);
+  }
 `;
 
 const AnimesGrid = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  color: var(--textColor);
-`;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  align-items: start;
 
-const PageInfo = styled.div`
-  margin-top: 32px;
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 `;
 
 export default AnimeContainer;

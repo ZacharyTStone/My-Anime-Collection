@@ -13,48 +13,19 @@ import { toast } from "react-toastify";
 
 import { ACTIONS } from "./actions";
 import { SORT_OPTIONS } from "../utils/constants";
+import {
+  User,
+  SavedAnime,
+  Playlist,
+  ExpectedFetchedAnimeResponse,
+  LoadingData,
+  AlertState,
+  SearchFilters,
+  SortOption,
+  ApiError,
+} from "../utils/types";
 
 // Types and Interfaces
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
-interface LoadingData {
-  anime_id: string;
-}
-
-interface Playlist {
-  id: string;
-  title: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Anime {
-  _id: string;
-  title: string;
-  rating: number;
-  episodeCount: number;
-  format: string;
-  creationDate: string;
-  synopsis: string;
-  coverImage: string;
-  type: string;
-  japanese_title: string;
-  youtubeVideoId: string;
-  fetchedAnime: any; // TODO: Define proper type
-  __v: number;
-}
-
-interface FetchedAnime {
-  id: string;
-  title: string;
-  // Add other properties as needed
-}
-
 interface AppState {
   isLoading: boolean;
   loadingData: LoadingData;
@@ -63,7 +34,7 @@ interface AppState {
   alertType: string;
   user: User | null;
   token: string | null;
-  animes: Anime[];
+  animes: SavedAnime[];
   totalAnimes: number;
   numOfPages: number;
   page: number;
@@ -74,9 +45,9 @@ interface AppState {
   sort: string;
   currentPlaylist: Playlist;
   userPlaylists: Playlist[];
-  sortOptions: any[];
+  sortOptions: SortOption[];
   siteLanguage: string;
-  fetchedAnimes: FetchedAnime[];
+  fetchedAnimes: ExpectedFetchedAnimeResponse[];
   totalFetchedAnimes: number;
   numOfFetchedAnimesPages: number;
   loadingFetchAnimes: boolean;
@@ -97,7 +68,10 @@ interface AppContextType extends AppState {
   handleChange: (params: { name: string; value: string }) => void;
   handlePlaylistChange: (params: { value: string }) => void;
   clearValues: () => void;
-  createAnime: (anime: any, playlistID: string) => Promise<void>;
+  createAnime: (
+    anime: ExpectedFetchedAnimeResponse,
+    playlistID: string
+  ) => Promise<void>;
   getAnimes: () => Promise<void>;
   deleteAnime: (animeId: string) => Promise<void>;
   clearFilters: () => void;
@@ -270,11 +244,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success(alertText);
       } catch (error: any) {
+        const errorMessage = error.response?.data?.msg || "An error occurred";
         dispatch({
           type: ACTIONS.SETUP_USER_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
@@ -298,12 +273,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success("User Updated!");
       } catch (error: any) {
-        if (error.response.status !== 401) {
+        if (error.response?.status !== 401) {
+          const errorMessage = error.response?.data?.msg || "Update failed";
           dispatch({
             type: ACTIONS.UPDATE_USER_ERROR,
-            payload: { msg: error.response.data.msg },
+            payload: { msg: errorMessage },
           });
-          toast.error(error.response.data.msg);
+          toast.error(errorMessage);
         }
       }
       clearAlert();
@@ -318,12 +294,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         logoutUser();
         toast.success("User Deleted!");
       } catch (error: any) {
-        if (error.response.status !== 401) {
+        if (error.response?.status !== 401) {
+          const errorMessage = error.response?.data?.msg || "Delete failed";
           dispatch({
             type: ACTIONS.DELETE_USER_ERROR,
-            payload: { msg: error.response.data.msg },
+            payload: { msg: errorMessage },
           });
-          toast.error(error.response.data.msg);
+          toast.error(errorMessage);
         }
       }
       clearAlert();
@@ -352,7 +329,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   // Anime management functions
   const createAnime = useCallback(
-    async (anime: any, playlistID: string) => {
+    async (anime: ExpectedFetchedAnimeResponse, playlistID: string) => {
       dispatch({ type: ACTIONS.CREATE_ANIME_BEGIN, payload: {} });
       try {
         const { data } = await authFetch.post("/animes", {
@@ -365,12 +342,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success("Anime Created!");
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage =
+          error.response?.data?.msg || "Failed to create anime";
         dispatch({
           type: ACTIONS.CREATE_ANIME_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
@@ -472,12 +451,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success("Playlist Created!");
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage =
+          error.response?.data?.msg || "Failed to create playlist";
         dispatch({
           type: ACTIONS.CREATE_PLAYLIST_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
@@ -499,12 +480,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success("Playlist Updated!");
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage =
+          error.response?.data?.msg || "Failed to update playlist";
         dispatch({
           type: ACTIONS.UPDATE_PLAYLIST_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
@@ -566,11 +549,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           },
         });
       } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.msg || "Error fetching animes";
         dispatch({
           type: ACTIONS.FETCH_ANIMES_ERROR,
-          payload: {
-            msg: error.response?.data?.msg || "Error fetching animes",
-          },
+          payload: { msg: errorMessage },
         });
       }
       clearAlert();

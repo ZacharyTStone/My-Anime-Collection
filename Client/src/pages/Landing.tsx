@@ -1,71 +1,27 @@
-import { motion } from "framer-motion";
 import React, { Suspense } from "react";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { FaCheck } from "react-icons/fa";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import styled from "styled-components";
+
 import { useInViewAnimation } from "../utils/hooks";
-import { useAppContext } from "./../context/appContext";
+import { useMobile } from "../utils/hooks";
+import { FlagContainer } from "../Components";
+import { RunningImg } from "../Components/UI";
+import Testimonials from "../Components/Testimonials";
 
-// Images
-import { BackgroundAnimeCards } from "../Components";
-import aot from "../assets/images/aot.png";
 import goku from "../assets/images/goku.webp";
-import lucy from "../assets/images/lucy.webp";
 import narutoRun from "../assets/images/narutoRun.gif";
-
-const Testimonials = React.lazy(() => import("../Components/Testimonials"));
-const FlagContainer = React.lazy(() => import("../Components/FlagContainer"));
-const RunningImg = React.lazy(() => import("../Components/UI/RunningImg"));
-
-const StyledFlagContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  top: 5%;
-  right: 5%;
-  z-index: 100;
-`;
-
-const StyledButton = styled(Link)`
-  &:hover {
-    transform: translateY(-2px) !important;
-  }
-`;
-
-const StyledLoginDiv = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  margin-top: 2.5rem;
-  gap: 1rem;
-`;
-
-const createAnimation = (
-  opacity: number,
-  y: number,
-  duration: number,
-  ease: string
-) => ({
-  hidden: { opacity, y },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration, ease },
-  },
-});
 
 const Landing = () => {
   const { t } = useTranslation();
 
-  const { controls: controls1, ref: ref1 } = useInViewAnimation();
-  const { controls: controls2, ref: ref2 } = useInViewAnimation();
-  const { controls: controls3, ref: ref3 } = useInViewAnimation();
-  const { controls: controls4, ref: ref4 } = useInViewAnimation();
+  const { inView: inView1, ref: ref1 } = useInViewAnimation();
+  const { inView: inView2, ref: ref2 } = useInViewAnimation();
+  const { inView: inView3, ref: ref3 } = useInViewAnimation();
+  const { inView: inView4, ref: ref4 } = useInViewAnimation();
 
   const fadeIn = createAnimation(0, 0, 0.8, "easeInOut");
   const imageAnimation = {
@@ -118,7 +74,7 @@ const Landing = () => {
             style={{ height: "80vh" }}
             initial="hidden"
             variants={fadeIn}
-            animate={controls1}
+            animate={inView1 ? "visible" : "hidden"}
             ref={ref1}
           >
             <div>
@@ -141,7 +97,7 @@ const Landing = () => {
                 alt="anime character"
                 className="img main-img"
                 initial="hidden"
-                animate={controls1}
+                animate={inView1 ? "visible" : "hidden"}
                 variants={imageAnimation}
               />
             </div>
@@ -150,7 +106,7 @@ const Landing = () => {
           <motion.div
             className="container page"
             initial="hidden"
-            animate={controls2}
+            animate={inView2 ? "visible" : "hidden"}
             ref={ref2}
             variants={fadeIn}
           >
@@ -159,245 +115,140 @@ const Landing = () => {
 
           <motion.div
             className="container page"
-            style={{ height: "80vh" }}
             initial="hidden"
-            animate={controls3}
+            animate={inView3 ? "visible" : "hidden"}
             ref={ref3}
             variants={fadeIn}
           >
-            <motion.img
-              src={aot}
-              alt="anime character"
-              loading="lazy"
-              className="img main-img oversized-img"
-              initial="hidden"
-              animate={controls3}
-              variants={imageAnimation}
-            />
-
             <div>
-              <h3>
-                <span>{t("landing.why.title")}</span>
-              </h3>
+              <h2>{t("landing.features.title")}</h2>
               <motion.ul
                 initial="hidden"
-                animate="visible"
+                animate={inView3 ? "visible" : "hidden"}
                 variants={listItemVariants}
               >
-                {["point1", "point2", "point3", "point4", "point5"].map(
-                  (point, index) => (
-                    <motion.li
-                      key={point}
-                      custom={index}
-                      variants={listItemVariants}
-                    >
-                      <FaCheck color="var(--primary-500)" />{" "}
-                      <span style={{ color: "var(--black)" }}>
-                        {t(`landing.why.${point}`)}
-                      </span>
-                    </motion.li>
-                  )
-                )}
+                <motion.li custom={0}>
+                  {t("landing.features.feature1")}
+                </motion.li>
+                <motion.li custom={1}>
+                  {t("landing.features.feature2")}
+                </motion.li>
+                <motion.li custom={2}>
+                  {t("landing.features.feature3")}
+                </motion.li>
+                <motion.li custom={3}>
+                  {t("landing.features.feature4")}
+                </motion.li>
               </motion.ul>
+            </div>
+            <div>
+              <motion.img
+                src={goku}
+                alt="anime character"
+                className="img main-img"
+                initial="hidden"
+                animate={inView3 ? "visible" : "hidden"}
+                variants={imageAnimation}
+              />
             </div>
           </motion.div>
 
           <motion.div
             className="container page"
             initial="hidden"
-            animate={controls4}
+            animate={inView4 ? "visible" : "hidden"}
             ref={ref4}
             variants={fadeIn}
           >
             <div>
-              <div>
-                <h3>{t("landing.call_to_action.title")}</h3>
-                <div className="login-div">
-                  <StyledButton to="/register" className="btn btn-primary">
-                    {t("landing.login_button")}
-                  </StyledButton>
-                  <StyledButton
-                    to="/register-demo"
-                    className="btn btn-primary btn-outline"
-                  >
-                    {t("landing.demo_button")}
-                  </StyledButton>
-                </div>
-                <h5
-                  style={{
-                    marginTop: "2rem",
-                  }}
-                >
-                  {t("landing.call_to_action.contact_info")}{" "}
-                  <span>
-                    <a
-                      href="https://zstone.dev"
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{
-                        textDecoration: "underline",
-                        color: "var(--primary-500)",
-                      }}
-                    >
-                      ZStone.dev
-                    </a>
-                  </span>
-                </h5>
-              </div>
+              <h2>{t("landing.cta.title")}</h2>
+              <p>{t("landing.cta.description")}</p>
+              <StyledLoginDiv>
+                <StyledButton to="/register" className="btn btn-primary">
+                  {t("landing.cta.button")}
+                </StyledButton>
+              </StyledLoginDiv>
             </div>
-
-            <motion.img
-              src={lucy}
-              alt="anime character"
-              loading="lazy"
-              className="img main-img"
-              initial="hidden"
-              animate={controls4}
-              variants={imageAnimation}
-            />
+            <div>
+              <motion.img
+                src={goku}
+                alt="anime character"
+                className="img main-img"
+                initial="hidden"
+                animate={inView4 ? "visible" : "hidden"}
+                variants={imageAnimation}
+              />
+            </div>
           </motion.div>
-          <BackgroundAnimeCards />
         </main>
       </Wrapper>
     </div>
   );
 };
 
-export default Landing;
+const createAnimation = (
+  opacity: number,
+  y: number,
+  duration: number,
+  ease: string
+) => ({
+  hidden: { opacity: 0, y },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration, ease },
+  },
+});
 
-const Wrapper = styled.main`
-  @keyframes shimmerBorder {
-    0% {
-      border-color: var(--primary-200);
-    }
-    50% {
-      border-color: var(--primary-500);
-    }
-    100% {
-      border-color: var(--primary-200);
-    }
-  }
-
-  overflow: hidden;
-  background-color: var(--white);
-
-  nav {
-    width: var(--fluid-width);
-    max-width: var(--max-width);
+const Wrapper = styled.div`
+  .container {
+    width: 90vw;
     margin: 0 auto;
-    height: var(--nav-height);
-    display: flex;
-    align-items: center;
+    max-width: 1120px;
   }
-
   .page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem auto;
+    min-height: calc(100vh - 5rem);
+    margin-top: 2.5rem;
   }
-
-  p {
-    text-align: left;
-    color: var(--grey-600);
-    font-size: 1.1rem;
-    line-height: 1.7;
-
-    span {
-      color: var(--primary-600);
-      font-weight: 600;
-    }
-  }
-
-  .gallery {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .icon-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
-    margin-top: 4rem;
-    margin-bottom: 2rem;
-  }
-
   h1 {
     font-weight: 700;
-    letter-spacing: -0.03em;
-
     span {
-      color: var(--primary-600);
+      color: var(--primary-500);
     }
   }
-
-  h3 {
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-
-    span {
-      text-decoration: underline;
-      text-decoration-color: var(--primary-500);
-      text-decoration-thickness: 3px;
-      text-underline-offset: 6px;
-    }
+  h2 {
+    font-weight: 700;
   }
-
-  li {
-    color: var(--grey-700);
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-
-    svg {
-      margin-right: 0.75rem;
-      flex-shrink: 0;
-    }
-
-    span {
-      font-weight: 400;
-    }
+  p {
+    color: var(--grey-600);
   }
-
   .main-img {
     display: none;
-    overflow: visible;
-    position: relative;
-    transform: none !important;
   }
-
   @media (min-width: 992px) {
-    .page {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 4rem;
-      min-height: 90fvh;
-      position: relative;
-    }
-
     .main-img {
       display: block;
-      height: auto;
-      width: 100%;
-      position: static;
-      overflow: visible;
-      overflow-x: hidden;
-      border-radius: 8px;
-      transition: none;
-      will-change: auto;
-
-      &:hover {
-        transform: none;
-        box-shadow: var(--shadow-md);
-      }
-    }
-
-    .oversized-img {
-      height: 110%;
-      width: 110%;
-      overflow: visible;
     }
   }
 `;
+
+const StyledFlagContainer = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+`;
+
+const StyledLoginDiv = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+`;
+
+const StyledButton = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
+export default Landing;
