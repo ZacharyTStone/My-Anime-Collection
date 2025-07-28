@@ -1,13 +1,23 @@
 import Anime from "../models/Anime.js";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { NotFoundError } from "../errors/index.js";
+import { NotFoundError, BadRequestError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
-
-// noSQL sanitization
 import sanitize from "mongo-sanitize";
 
-const SORT_OPTIONS = {
+// Types
+interface QueryObject {
+  createdBy: string;
+  playlistID: string;
+  title?: { $regex: string; $options: string };
+}
+
+interface SortOptions {
+  [key: string]: Record<string, 1 | -1>;
+}
+
+// Constants
+const SORT_OPTIONS: SortOptions = {
   latest: { creationDate: -1 },
   oldest: { creationDate: 1 },
   rating: { rating: -1, popularity: -1 },
@@ -18,81 +28,122 @@ const SORT_OPTIONS = {
   "date added": { createdAt: -1 },
 } as const;
 
-// REST routes are defined in AnimeRoutes.js
+const DEFAULT_LIMIT = 10;
+const DEFAULT_PAGE = 1;
 
+/**
+ * Create a new anime entry
+ */
 const createAnime = async (req: Request, res: Response) => {
+  const { title, playlistID } = req.body;
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    throw new BadRequestError("User authentication required");
+  }
+
   const existingAnime = await Anime.findOne({
-    title: sanitize(req.body.title),
-    createdBy: sanitize(req.user.userId),
-    playlistID: sanitize(req.body.playlistID),
+    title: sanitize(title),
+    createdBy: sanitize(userId),
+    playlistID: sanitize(playlistID),
   });
 
   if (existingAnime) {
-    throw new NotFoundError(`You have already added that anime to your list`);
+    throw new BadRequestError("You have already added that anime to your list");
   }
 
-  req.body.createdBy = sanitize(req.user.userId);
+  const animeData = {
+    ...req.body,
+    createdBy: sanitize(userId),
+  };
 
-  const anime = await Anime.create(req.body);
+  const anime = await Anime.create(animeData);
   res.status(StatusCodes.CREATED).json({ anime });
 };
 
-interface QueryObject {
-  createdBy: string;
-  playlistID: string;
-  title?: any;
-}
-
+/**
+ * Get animes with filtering, sorting, and pagination
+ */
 const getAnimes = async (req: Request, res: Response) => {
   const { sort, search, currentPlaylistID } = sanitize(req.query);
+  const userId = req.user?.userId;
 
-  let queryObject: QueryObject = {
-    createdBy: sanitize(req.user.userId),
+  if (!userId) {
+    throw new BadRequestError("User authentication required");
+  }
+
+  if (!currentPlaylistID) {
+    throw new BadRequestError("Playlist ID is required");
+  }
+
+  const queryObject: QueryObject = {
+    createdBy: sanitize(userId),
     playlistID: currentPlaylistID,
   };
 
   if (search) {
-    // Add case-insensitive search for title
     queryObject.title = { $regex: search, $options: "i" };
   }
 
   let result = Anime.find(queryObject);
 
-  // Apply sorting based on the provided option
+  // Apply sorting
   if (sort && sort in SORT_OPTIONS) {
-    result = result.sort(
-      SORT_OPTIONS[sort as keyof typeof SORT_OPTIONS]
-    );
+    result = result.sort(SORT_OPTIONS[sort as keyof typeof SORT_OPTIONS]);
   }
 
   // Setup pagination
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
+  const page = Number(req.query.page) || DEFAULT_PAGE;
+  const limit = Number(req.query.limit) || DEFAULT_LIMIT;
   const skip = (page - 1) * limit;
 
   result = result.skip(skip).limit(limit);
 
-  const animes = await result;
-  const totalAnimes = await Anime.countDocuments(queryObject);
+  const [animes, totalAnimes] = await Promise.all([
+    result.exec(),
+    Anime.countDocuments(queryObject),
+  ]);
+
   const numOfPages = Math.ceil(totalAnimes / limit);
 
-  res.status(StatusCodes.OK).json({ animes, totalAnimes, numOfPages });
+  res.status(StatusCodes.OK).json({
+    animes,
+    totalAnimes,
+    numOfPages,
+    currentPage: page,
+    limit,
+  });
 };
 
+/**
+ * Delete an anime entry
+ */
 const deleteAnime = async (req: Request, res: Response) => {
   const { id: animeId } = req.params;
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    throw new BadRequestError("User authentication required");
+  }
+
+  if (!animeId) {
+    throw new BadRequestError("Anime ID is required");
+  }
 
   const anime = await Anime.findOne({ _id: animeId });
 
   if (!anime) {
-    throw new NotFoundError(`No Anime with id :${animeId}`);
+    throw new NotFoundError(`No anime found with id: ${animeId}`);
   }
 
-  checkPermissions(req.user, anime?.createdBy.toString()); // Convert createdBy to string
+  checkPermissions(req.user, anime.createdBy.toString());
 
-  await anime.remove();
+  await anime.deleteOne();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Anime removed" });
+  res.status(StatusCodes.OK).json({
+    msg: "Anime successfully removed",
+    deletedAnimeId: animeId,
+  });
 };
 
 export { createAnime, deleteAnime, getAnimes };

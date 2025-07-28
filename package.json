@@ -1,24 +1,44 @@
 {
   "name": "myanimecollection",
   "version": "1.0.1",
-  "description": "A anime tracking application",
+  "description": "A modern anime tracking application with playlist management",
   "main": "Server/server.ts",
   "type": "module",
   "scripts": {
-    "install-Client": "cd Client && npm install --include=dev",
-    "install-Server": "npm install --include=dev",
-    "build-Client": "cd Client && npm run build",
-    "install-dependencies": "npm run install-Client && npm run install-Server",
-    "heroku-postbuild": "npm run install-dependencies && npm run build-Client && tsc",
-    "start-heroku-server": "node dist/server.js",
-    "watch-scss": "sass --watch Client/src/assets/scss:Client/src/assets/css",
-    "Server-local": "tsc && nodemon dist/server.js",
-    "Client-local": "npm start --prefix Client",
-    "start": "concurrently \"npm run Server-local\" \"npm run Client-local\" \"npm run watch-scss\""
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\" \"npm run sass:watch\"",
+    "server:dev": "tsc && nodemon dist/server.js",
+    "client:dev": "npm start --prefix Client",
+    "sass:watch": "sass --watch Client/src/assets/scss:Client/src/assets/css",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd Client && npm run build",
+    "build:server": "tsc",
+    "install:all": "npm run install:client && npm run install:server",
+    "install:client": "cd Client && npm install --include=dev",
+    "install:server": "npm install --include=dev",
+    "start": "node dist/server.js",
+    "heroku-postbuild": "npm run install:all && npm run build",
+    "test": "npm run test:client && npm run test:server",
+    "test:client": "cd Client && npm test",
+    "test:server": "jest --config jest.config.js",
+    "lint": "npm run lint:client && npm run lint:server",
+    "lint:client": "cd Client && npm run lint",
+    "lint:server": "eslint Server/**/*.ts",
+    "type-check": "npm run type-check:client && npm run type-check:server",
+    "type-check:client": "cd Client && npx tsc --noEmit",
+    "type-check:server": "npx tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "anime",
+    "tracking",
+    "playlist",
+    "react",
+    "typescript",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "Zachary Stone",
+  "license": "MIT",
   "devDependencies": {
     "@types/dompurify": "^3.2.0",
     "@types/react-scroll": "^1.8.10",
@@ -52,7 +72,6 @@
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^6.12.0",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.22",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.0.0",
@@ -70,5 +89,13 @@
   "engines": {
     "node": "v20.12.1",
     "npm": "10.2.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZacharyTStone/My-Anime-Collection.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ZacharyTStone/My-Anime-Collection/issues"
+  },
+  "homepage": "https://www.my-anime-collection.com"
 }

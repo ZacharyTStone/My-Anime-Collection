@@ -19,15 +19,9 @@ import { SkeletonLoadingBlock } from ".";
 
 import pokeball from "../../assets/images/pokeball.png";
 import { useMobile } from "../../utils/hooks";
-import { ExpectedFetchedAnimeResponse, SavedAnime } from "../../utils/types";
+import { AnimeCardProps } from "../../utils/types";
 
 // Types and Interfaces
-interface AnimeCardProps extends SavedAnime {
-  fetchedAnime: ExpectedFetchedAnimeResponse;
-  type?: "add" | "delete";
-  className?: string;
-}
-
 interface AnimeCardState {
   modalOpen: boolean;
   isHovering: boolean;
@@ -53,7 +47,7 @@ const Anime: React.FC<AnimeCardProps> = ({
   synopsis,
   coverImage,
   fetchedAnime,
-  type = "add",
+  actionType = "add",
   japanese_title,
   youtubeVideoId,
   className,
@@ -95,6 +89,24 @@ const Anime: React.FC<AnimeCardProps> = ({
     [onMobile]
   );
 
+  const displayTitle = useMemo(
+    () => (siteLanguage === "en" ? title : japanese_title),
+    [siteLanguage, title, japanese_title]
+  );
+
+  const imageUrl = useMemo(
+    () =>
+      coverImage ||
+      fetchedAnime?.attributes?.posterImage?.medium ||
+      fetchedAnime?.attributes?.posterImage?.small,
+    [coverImage, fetchedAnime?.attributes?.posterImage]
+  );
+
+  const videoUrl = useMemo(
+    () => youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId,
+    [youtubeVideoId, fetchedAnime?.attributes?.youtubeVideoId]
+  );
+
   // Callbacks
   const handleMouseEnter = useCallback(() => {
     setState((prev) => ({ ...prev, isHovering: true }));
@@ -115,16 +127,16 @@ const Anime: React.FC<AnimeCardProps> = ({
   const handleSubmit = useCallback(() => {
     if (isLoading) return;
 
-    if (type === "add") {
+    if (actionType === "add") {
       createAnime(fetchedAnime, currentPlaylist.id);
-    } else if (type === "delete") {
+    } else if (actionType === "delete") {
       if (_id) {
         deleteAnime(_id);
       }
     }
   }, [
     isLoading,
-    type,
+    actionType,
     createAnime,
     fetchedAnime,
     currentPlaylist.id,
@@ -135,6 +147,12 @@ const Anime: React.FC<AnimeCardProps> = ({
   const onVideoError = useCallback(() => {
     setState((prev) => ({ ...prev, failedToLoadYoutube: true }));
   }, []);
+
+  const handleDelete = useCallback(() => {
+    if (_id) {
+      deleteAnime(_id);
+    }
+  }, [_id, deleteAnime]);
 
   // Render loading skeleton
   if (isCurrentlyLoading) {
@@ -168,8 +186,6 @@ const Anime: React.FC<AnimeCardProps> = ({
           boxShadow: "var(--shadow)",
           overflow: "hidden",
           position: "relative",
-
-          // improved hover effect
           transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
           "&:hover": {
             transform: "translateY(-4px)",
@@ -208,7 +224,7 @@ const Anime: React.FC<AnimeCardProps> = ({
               color="var(--textColor)"
               gutterBottom
             >
-              {siteLanguage === "en" ? title : japanese_title}
+              {displayTitle}
             </Typography>
             <div className="info-container">
               <ImageDiv onMobile={onMobile}>
@@ -216,7 +232,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                   <CardMedia
                     component="img"
                     className="anime-cover-image"
-                    image={coverImage}
+                    image={imageUrl}
                     title={title}
                     sx={{
                       transition: "all 0.4s ease",
@@ -231,10 +247,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                   <>
                     {hasYoutubeVideoId && !state.failedToLoadYoutube ? (
                       <ReactPlayer
-                        url={`https://www.youtube.com/watch?v=${
-                          youtubeVideoId ||
-                          fetchedAnime?.attributes?.youtubeVideoId
-                        }`}
+                        url={`https://www.youtube.com/watch?v=${videoUrl}`}
                         width={"100%"}
                         controls={true}
                         className={"anime-cover-image"}
@@ -250,11 +263,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                           <CardMedia
                             component="img"
                             className="anime-cover-image"
-                            image={
-                              coverImage ||
-                              fetchedAnime?.attributes?.posterImage?.medium ||
-                              fetchedAnime?.attributes?.posterImage?.small
-                            }
+                            image={imageUrl}
                             title={title}
                             sx={{
                               transition: "all 0.4s ease",
@@ -272,11 +281,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                       <CardMedia
                         component="img"
                         className="anime-cover-image"
-                        image={
-                          coverImage ||
-                          fetchedAnime?.attributes?.posterImage?.medium ||
-                          fetchedAnime?.attributes?.posterImage?.small
-                        }
+                        image={imageUrl}
                         title={title}
                         sx={{
                           transition: "all 0.4s ease",
@@ -293,11 +298,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                   <CardMedia
                     component="img"
                     className="anime-cover-image"
-                    image={
-                      coverImage ||
-                      fetchedAnime?.attributes?.posterImage?.medium ||
-                      fetchedAnime?.attributes?.posterImage?.small
-                    }
+                    image={imageUrl}
                     title={title}
                     sx={{
                       transition: "all 0.4s ease",
@@ -374,10 +375,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                     }}
                   >
                     <a
-                      href={`https://www.youtube.com/watch?v=${
-                        youtubeVideoId ||
-                        fetchedAnime?.attributes?.youtubeVideoId
-                      }`}
+                      href={`https://www.youtube.com/watch?v=${videoUrl}`}
                       target={"_blank"}
                       rel="noreferrer"
                     >
@@ -415,13 +413,11 @@ const Anime: React.FC<AnimeCardProps> = ({
                 }}
               />
             </Button>
-            {type === "delete" ? (
+            {actionType === "delete" ? (
               <button
                 type="button"
                 className="btn delete-btn"
-                onClick={() => {
-                  if (_id) deleteAnime(_id);
-                }}
+                onClick={handleDelete}
               >
                 {t("anime.delete")}
               </button>
@@ -469,7 +465,7 @@ const Anime: React.FC<AnimeCardProps> = ({
         <Modal onClose={handleModalClose} onClick={handleModalClose}>
           <ModalContent>
             <Typography variant="h5" gutterBottom>
-              {siteLanguage === "en" ? title : japanese_title}
+              {displayTitle}
             </Typography>
             <Typography variant="body1">{synopsis}</Typography>
           </ModalContent>
