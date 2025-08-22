@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { useInViewAnimation } from "../utils/hooks";
-import { useAppContext } from "./../context/appContext";
+
 
 // Images
 import { BackgroundAnimeCards } from "../Components";

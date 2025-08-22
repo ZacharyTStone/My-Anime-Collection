@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Alert, FormRow, Logo, RunningImg } from "../Components/UI";
 import narutoRun from "../assets/images/narutoRun.gif";
-import { useAppContext } from "../context/appContext";
+import { useAuthContext } from "../context/AuthContext";
+import { useLanguageContext } from "../context/LanguageContext";
 import { User } from "../utils/types";
 
 interface FormValues extends Partial<User> {
@@ -25,8 +26,8 @@ const Register: React.FC = () => {
 
   const navigate = useNavigate();
   const [values, setValues] = useState<FormValues>(initialState);
-  const { user, isLoading, showAlert, displayAlert, setupUser, siteLanguage } =
-    useAppContext();
+  const { user, isLoading, showAlert, displayAlert, setupUser } = useAuthContext();
+  const { siteLanguage } = useLanguageContext();
 
   const toggleExistingUser = () => {
     setValues({ ...values, existingUser: !values.existingUser });

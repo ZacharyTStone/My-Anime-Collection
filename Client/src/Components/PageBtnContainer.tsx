@@ -1,10 +1,10 @@
 import * as React from "react";
-import { useAppContext } from "../context/appContext";
+import { useAnimeContext } from "../context/AnimeContext";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import styled from "styled-components";
 
 const PageBtnContainer: React.FC = () => {
-  const { numOfPages, page, changePage } = useAppContext();
+  const { numOfPages, page, changePage } = useAnimeContext();
 
   const handlePageChange = (newPage: number) => {
     changePage(((newPage + numOfPages - 1) % numOfPages) + 1);

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { FetchedAnimesContainer } from "../../Components";
-import { useAppContext } from "../../context/appContext";
+
+import { usePlaylistContext } from "../../context/PlaylistContext";
 import { useEffect } from "react";
 import { SkeletonLoadingBlock } from "../../Components/UI";
 import { Alert } from "../../Components/UI";
@@ -13,30 +14,26 @@ const MyAnimes = () => {
     getPlaylists,
     currentPlaylist,
     userPlaylists,
-    isLoading,
     handlePlaylistChange,
     loadingFetchPlaylists,
-    showAlert,
-  } = useAppContext();
-
+  } = usePlaylistContext();
+  
   useEffect(() => {
     getPlaylists();
-  }, []);
+  }, [getPlaylists]);
 
   const handleLocalPlaylistChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
-    if (isLoading) return;
-
     handlePlaylistChange({ value: e.target.value });
   };
 
   return (
     <>
       <main className="content full-page" datatype="">
-        {showAlert && <Alert />}
+
         <h1
           style={{
             textAlign: "center",
@@ -68,7 +65,7 @@ const MyAnimes = () => {
               <select
                 name="playlist"
                 value={currentPlaylist.id}
-                disabled={isLoading}
+                disabled={false}
                 onChange={handleLocalPlaylistChange}
                 className="form-select"
               >

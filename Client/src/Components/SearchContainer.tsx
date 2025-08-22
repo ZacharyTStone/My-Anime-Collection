@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { FormRow, FormRowSelect } from "./UI";
-import { useAppContext } from "../context/appContext";
+import { useAnimeContext } from "../context/AnimeContext";
+import { usePlaylistContext } from "../context/PlaylistContext";
+
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import TwitterShare from "./UI/TwitterShare";
@@ -35,14 +37,17 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
     sort,
     sortOptions,
     handleChange,
-    handlePlaylistChange,
     clearFilters,
+  } = useAnimeContext();
+  
+  const {
+    handlePlaylistChange,
     getPlaylists,
     currentPlaylist,
     userPlaylists,
     loadingFetchPlaylists,
-  } = useAppContext();
-
+  } = usePlaylistContext();
+  
   const [localSearch, setLocalSearch] = useState(search ?? "");
 
   // Loading states
@@ -56,7 +61,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
   // Effects
   useEffect(() => {
     getPlaylists(); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getPlaylists]);
 
   // Memoized values
   const isFormDisabled = useMemo(

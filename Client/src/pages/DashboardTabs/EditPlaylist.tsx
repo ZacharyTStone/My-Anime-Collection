@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiFillDelete, AiOutlineArrowRight } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
-import { useAppContext } from "../../context/appContext";
+
+import { usePlaylistContext } from "../../context/PlaylistContext";
 import { FormRow, Alert, SkeletonLoadingBlock } from "../../Components/UI";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 import { IPlaylist } from "../../utils/types";
@@ -14,21 +15,18 @@ const Profile: React.FC = () => {
     updatePlaylist,
     deletePlaylist,
     createPlaylist,
-    isLoading,
     userPlaylists,
     currentPlaylist,
     handlePlaylistChange,
     loadingFetchPlaylists,
-    showAlert,
-  } = useAppContext();
-
+  } = usePlaylistContext();
+  
   const [newTitle, setNewTitle] = useState("");
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<
     undefined | string
   >(undefined);
 
   const handleClickOnPlaylist = async (playlistId: string) => {
-    if (isLoading) return;
     const playlist = userPlaylists.find(
       (playlist: IPlaylist) => playlist.id === playlistId
     );
@@ -43,11 +41,10 @@ const Profile: React.FC = () => {
   useEffect(() => {
     getPlaylists();
     setSelectedPlaylistId(currentPlaylist.id);
-  }, []);
+  }, [getPlaylists, currentPlaylist.id]);
 
   const handleNewPlaylistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isLoading) return;
     const numberOfPlaylists = userPlaylists.length - 1;
     await createPlaylist(`New Playlist #`);
     setNewTitle(userPlaylists[numberOfPlaylists].title);
@@ -56,7 +53,6 @@ const Profile: React.FC = () => {
 
   const handlePlaylistEdit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isLoading) return;
     if (selectedPlaylistId) {
       const playlist = userPlaylists.find((p) => p.id === selectedPlaylistId);
       if (playlist) {
@@ -74,7 +70,7 @@ const Profile: React.FC = () => {
     }
   };
 
-  if (isLoading || loadingFetchPlaylists) {
+  if (loadingFetchPlaylists) {
     return (
       <SkeletonLoadingBlock height={500} width={"100%"} borderRadius={8} />
     );
@@ -83,7 +79,7 @@ const Profile: React.FC = () => {
   return (
     <Wrapper>
       <div className="profile-container">
-        {showAlert && <Alert />}
+
         <h3>{t("edit_playlist.title")}</h3>
         <div className="form-left">
           <ul>
@@ -110,13 +106,13 @@ const Profile: React.FC = () => {
               </li>
             ))}
           </ul>
-          <button
-            className="btn"
-            onClick={handleNewPlaylistSubmit}
-            disabled={isLoading}
-          >
-            {t("edit_playlist.new_playlist")}
-          </button>
+                      <button
+              className="btn"
+              onClick={handleNewPlaylistSubmit}
+              disabled={false}
+            >
+              {t("edit_playlist.new_playlist")}
+            </button>
         </div>
       </div>
       <hr />
@@ -140,9 +136,9 @@ const Profile: React.FC = () => {
               <button
                 className="btn btn-block"
                 type="submit"
-                disabled={isLoading}
+                disabled={false}
               >
-                {isLoading ? t("profile.wait") : t("profile.save")}
+                                  {t("profile.save")}
               </button>
             </div>
           </form>

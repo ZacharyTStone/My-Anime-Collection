@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Anime } from "../Components";
-import { useAppContext } from "../context/appContext";
+import { useAnimeContext } from "../context/AnimeContext";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
@@ -35,7 +35,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
     numOfFetchedAnimesPages,
     resetFetchedAnimes,
     loadingFetchAnimes,
-  } = useAppContext();
+  } = useAnimeContext();
 
   useEffect(() => {
     // Reset page to 1 whenever searchText or sort changes

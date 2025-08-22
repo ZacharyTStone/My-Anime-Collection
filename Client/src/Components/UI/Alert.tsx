@@ -1,4 +1,4 @@
-import { useAppContext } from "../../context/appContext";
+import { useAuthContext } from "../../context/AuthContext";
 import styled from "styled-components";
 
 // Types and Interfaces
@@ -44,7 +44,7 @@ const AlertContainer = styled.div<{ alertType: string }>`
  * Used primarily for authentication feedback
  */
 const Alert: React.FC<AlertProps> = ({ className }) => {
-  const { alertType, alertText, showAlert } = useAppContext();
+  const { alertType, alertText, showAlert } = useAuthContext();
 
   if (!showAlert || !alertText) {
     return null;

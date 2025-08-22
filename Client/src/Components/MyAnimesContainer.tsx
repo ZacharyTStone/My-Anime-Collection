@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
-import { useAppContext } from "./../context/appContext";
+import { useAnimeContext } from "./../context/AnimeContext";
+import { usePlaylistContext } from "./../context/PlaylistContext";
 import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/Anime";
@@ -39,15 +40,18 @@ const MyAnimesContainer = () => {
     searchStared,
     sort,
     numOfPages,
-    currentPlaylist,
-  } = useAppContext();
+  } = useAnimeContext();
+  
+  const { currentPlaylist } = usePlaylistContext();
 
   useEffect(() => {
-    getAnimes().then(() => {
-      if (isFirstLoad) {
-        setIsFirstLoad(false);
-      }
-    });
+    if (currentPlaylist.id) {
+      getAnimes(currentPlaylist.id).then(() => {
+        if (isFirstLoad) {
+          setIsFirstLoad(false);
+        }
+      });
+    }
   }, [
     page,
     search,
@@ -56,6 +60,8 @@ const MyAnimesContainer = () => {
     searchType,
     sort,
     currentPlaylist,
+    getAnimes,
+    isFirstLoad,
   ]);
 
   const noAnimesInPlaylist = animes.length === 0 && search?.length === 0;

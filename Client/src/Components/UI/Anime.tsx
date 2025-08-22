@@ -1,5 +1,8 @@
 import { useState, useCallback, useMemo } from "react";
-import { useAppContext } from "../../context/appContext";
+import { useAnimeContext } from "../../context/AnimeContext";
+import { usePlaylistContext } from "../../context/PlaylistContext";
+import { useLanguageContext } from "../../context/LanguageContext";
+
 import styled from "styled-components";
 import * as React from "react";
 import Card from "@mui/material/Card";
@@ -68,12 +71,13 @@ const Anime: React.FC<AnimeCardProps> = ({
   const {
     createAnime,
     deleteAnime,
-    siteLanguage,
-    currentPlaylist,
     isLoading,
     loadingData,
-  } = useAppContext();
-
+  } = useAnimeContext();
+  
+  const { currentPlaylist } = usePlaylistContext();
+    const { siteLanguage } = useLanguageContext();
+  
   const onMobile = useMobile();
 
   // Memoized values
@@ -119,7 +123,7 @@ const Anime: React.FC<AnimeCardProps> = ({
       createAnime(fetchedAnime, currentPlaylist.id);
     } else if (type === "delete") {
       if (_id) {
-        deleteAnime(_id);
+        deleteAnime(_id, currentPlaylist.id);
       }
     }
   }, [
@@ -420,7 +424,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                 type="button"
                 className="btn delete-btn"
                 onClick={() => {
-                  if (_id) deleteAnime(_id);
+                  if (_id) deleteAnime(_id, currentPlaylist.id);
                 }}
               >
                 {t("anime.delete")}

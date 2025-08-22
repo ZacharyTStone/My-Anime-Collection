@@ -1,6 +1,7 @@
 import { FormRow, Alert, FormRowSelect } from "../../Components/UI";
 import { FetchedAnimesContainer } from "../../Components";
-import { useAppContext } from "../../context/appContext";
+
+import { usePlaylistContext } from "../../context/PlaylistContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
 import { SkeletonLoadingBlock } from "../../Components/UI";
@@ -37,15 +38,13 @@ const AddAnime: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
 
   const {
-    showAlert,
     getPlaylists,
     currentPlaylist,
     userPlaylists,
-    isLoading,
     handlePlaylistChange,
     loadingFetchPlaylists,
-  } = useAppContext();
-
+  } = usePlaylistContext();
+  
   const request = debounce((value: string) => {
     setSearchText(value);
   }, 500);
@@ -64,20 +63,18 @@ const AddAnime: React.FC = () => {
   const handleLocalPlaylistChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    if (isLoading) return;
     handlePlaylistChange({ value: e.target.value });
   };
 
   useEffect(() => {
     getPlaylists();
-  }, []);
+  }, [getPlaylists]);
 
   const debouceRequest = useCallback((value: string) => request(value), []);
 
   return (
     <Wrapper>
       <main className="content full-page">
-        {showAlert && <Alert />}
         <form
           className="form"
           onSubmit={(e) => {
@@ -85,8 +82,6 @@ const AddAnime: React.FC = () => {
           }}
         >
           <h3>{t("add_anime.title")}</h3>
-
-          {showAlert && <Alert />}
           <div className="form-center">
             {/* title */}
             <FormRow
@@ -96,14 +91,14 @@ const AddAnime: React.FC = () => {
               value={textInput}
               handleChange={handleTextInput}
             />
-            <FormRowSelect
-              disabled={isLoading}
-              name="sort"
-              value={sort}
-              labelText={t("add_anime.sort")}
-              handleChange={handleSort}
-              list={SORT_OPTIONS}
-            />
+                            <FormRowSelect
+                  disabled={false}
+                  name="sort"
+                  value={sort}
+                  labelText={t("add_anime.sort")}
+                  handleChange={handleSort}
+                  list={SORT_OPTIONS}
+                />
             {/* playlist */}
             <form className="form-row">
               <label htmlFor="playlist" className="form-label">

@@ -2,7 +2,7 @@ import { ACTIONS } from "./actions";
 
 import { toast } from "react-toastify";
 
-import { initialState } from "./appContext";
+
 import { t } from "i18next";
 
 const reducer = (
@@ -61,11 +61,18 @@ const reducer = (
     };
   }
   if (action.type === ACTIONS.LOGOUT_USER) {
-    return {
-      ...initialState,
+    const logoutState = {
+      isLoading: false,
+      showAlert: false,
+      alertText: "",
+      alertType: "",
       user: null,
       token: null,
       theme: "light",
+    };
+    return {
+      ...state,
+      ...logoutState,
     };
   }
   if (action.type === ACTIONS.UPDATE_USER_BEGIN) {

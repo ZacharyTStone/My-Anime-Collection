@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FormRow, Alert } from "../../Components/UI";
 
-import { useAppContext } from "../../context/appContext";
+import { useAuthContext } from "../../context/AuthContext";
 import styled from "styled-components";
 import { BiCoffeeTogo } from "react-icons/bi";
 import { FaBitcoin } from "react-icons/fa";
@@ -19,7 +19,7 @@ const Profile = () => {
     isLoading,
     deleteUser,
     logoutUser,
-  } = useAppContext();
+  } = useAuthContext();
 
   const [name, setName] = useState<string>(user?.name || "");
   const [email, setEmail] = useState<User["email"]>(user?.email || "");

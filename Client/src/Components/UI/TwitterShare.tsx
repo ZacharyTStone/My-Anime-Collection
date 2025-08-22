@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useAppContext } from "../../context/appContext";
+import { useAnimeContext } from "../../context/AnimeContext";
 import { FaTwitter } from "react-icons/fa";
 import styled from "styled-components";
 import { SavedAnime } from "../../utils/types";
 
 const TwitterShare: React.FC = () => {
   const { t } = useTranslation();
-  const { animes } = useAppContext();
+  const { animes } = useAnimeContext();
 
   const generateTwitterUrl = useMemo(() => {
     const baseUrl =

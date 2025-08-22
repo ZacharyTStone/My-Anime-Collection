@@ -1,10 +1,10 @@
 import { Alert } from "../../Components/UI";
 import { SearchContainer } from "../../Components";
 import { MyAnimesContainer } from "../../Components";
-import { useAppContext } from "../../context/appContext";
+import { useAuthContext } from "../../context/AuthContext";
 
 const MyAnimes = () => {
-  const { showAlert } = useAppContext();
+  const { showAlert } = useAuthContext();
   return (
     <>
       <main className="content full-page" datatype="">
