@@ -3,6 +3,7 @@ import React, {
   useContext,
   useCallback,
   useMemo,
+  useEffect,
 } from "react";
 import { toast } from "react-toastify";
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
@@ -22,6 +23,7 @@ interface AuthState {
   alertType: string;
   user: User | null;
   token: string | null;
+  isAuthenticated: boolean;
 }
 
 interface AuthContextType extends AuthState {
@@ -58,6 +60,7 @@ const getInitialAuthState = (): AuthState => {
     alertType: "",
     user: user ? JSON.parse(user) : null,
     token,
+    isAuthenticated: !!token,
   };
 };
 
@@ -88,6 +91,7 @@ const authReducer = (state: AuthState, action: { type: string; payload: any }) =
         isLoading: false,
         token: action.payload.token,
         user: action.payload.user,
+        isAuthenticated: !!action.payload.token,
         showAlert: true,
         alertType: "success",
         alertText: action.payload.alertText,
@@ -105,6 +109,7 @@ const authReducer = (state: AuthState, action: { type: string; payload: any }) =
         ...getInitialAuthState(),
         user: null,
         token: null,
+        isAuthenticated: false,
       };
     case ACTIONS.UPDATE_USER_BEGIN:
       return { ...state, isLoading: true };
@@ -114,6 +119,7 @@ const authReducer = (state: AuthState, action: { type: string; payload: any }) =
         isLoading: false,
         token: action.payload.token || state.token,
         user: action.payload.user || state.user,
+        isAuthenticated: !!(action.payload.token || state.token),
       };
     case ACTIONS.UPDATE_USER_ERROR:
       return {
@@ -134,6 +140,11 @@ const authReducer = (state: AuthState, action: { type: string; payload: any }) =
         showAlert: true,
         alertType: "danger",
         alertText: action.payload.msg,
+      };
+    case ACTIONS.UPDATE_AUTHENTICATION_STATUS:
+      return {
+        ...state,
+        isAuthenticated: action.payload.isAuthenticated,
       };
     default:
       return state;
@@ -303,6 +314,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const contextValue = useMemo(
     () => ({
       ...state,
+      isAuthenticated: !!state.token,
       displayAlert,
       clearAlert,
       setupUser,

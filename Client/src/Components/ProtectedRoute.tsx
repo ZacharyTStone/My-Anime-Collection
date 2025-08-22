@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 import styled from "styled-components";
 
 // Types and Interfaces
@@ -29,7 +29,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   fallback,
   className,
 }) => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuthContext();
   const location = useLocation();
 
   // Show fallback while checking authentication
