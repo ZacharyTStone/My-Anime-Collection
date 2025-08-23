@@ -160,6 +160,12 @@ const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, getInitialAuthState());
 
+  // Utility functions
+  const removeUserFromLocalStorage = useCallback(() => {
+    localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(TOKEN_KEY);
+  }, []);
+
   // Create axios instance with interceptors
   const createAxiosInstance = useCallback(
     (token: string | null): AxiosInstance => {
@@ -185,7 +191,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
         (error: AxiosError) => {
           if (error.response?.status === 401) {
-            logoutUser();
+            removeUserFromLocalStorage();
+            dispatch({ type: ACTIONS.LOGOUT_USER, payload: {} });
           }
           return Promise.reject(error);
         }
@@ -193,7 +200,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return instance;
     },
-    []
+    [removeUserFromLocalStorage, dispatch]
   );
 
   // Memoized axios instance
@@ -210,11 +217,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     },
     []
   );
-
-  const removeUserFromLocalStorage = useCallback(() => {
-    localStorage.removeItem(USER_KEY);
-    localStorage.removeItem(TOKEN_KEY);
-  }, []);
 
   // Alert functions
   const displayAlert = useCallback(() => {
