@@ -351,15 +351,36 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
     }) => {
       dispatch({ type: ACTIONS.FETCH_ANIMES_BEGIN, payload: {} });
       try {
-        let url = `${baseURL}?page=${page}&filter=${filter}&sort=${sort}`;
-        if (searchText) {
-          url = url + `&search=${searchText}`;
+        const limit = 18;
+        let url = baseURL;
+
+        // Build Kitsu-compatible query params
+        if (baseURL.includes("/trending/")) {
+          // Trending endpoint: uses limit/offset
+          const offset = Math.max(0, (page - 1) * limit);
+          const params = new URLSearchParams();
+          params.set("limit", String(limit));
+          params.set("offset", String(offset));
+          url = `${baseURL}?${params.toString()}`;
+        } else {
+          // Search endpoint: /anime with JSON:API style params
+          const offset = Math.max(0, (page - 1) * limit);
+          const params = new URLSearchParams();
+          params.set("page[limit]", String(limit));
+          params.set("page[offset]", String(offset));
+          if (searchText) {
+            params.set("filter[text]", searchText);
+          }
+          if (sort) {
+            params.set("sort", sort);
+          }
+          url = `${baseURL}?${params.toString()}`;
         }
-        if (pagination) {
-          url = url + `&pagination=true`;
-        }
+
         const { data } = await axios.get(url);
-        const { animes, totalAnimes, numOfPages } = data;
+        const animes = data?.data ?? [];
+        const totalAnimes = data?.meta?.count ?? animes.length;
+        const numOfPages = Math.max(1, Math.ceil(totalAnimes / limit));
         dispatch({
           type: ACTIONS.FETCH_ANIMES_SUCCESS,
           payload: {
