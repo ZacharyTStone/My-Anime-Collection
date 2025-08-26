@@ -242,7 +242,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       alertText: string;
     }) => {
       try {
-        const { data } = await authFetch.post(endPoint, currentUser);
+        const { data } = await authFetch.post(`/auth/${endPoint}`, currentUser);
         const { user, token } = data;
         addUserToLocalStorage({ user, token });
         dispatch({
