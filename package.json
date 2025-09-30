@@ -51,7 +51,7 @@
     "moment": "^2.29.4",
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^6.12.0",
-    "morgan": "^1.10.0",
+    "morgan": "^1.10.1",
     "nodemon": "^2.0.22",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
