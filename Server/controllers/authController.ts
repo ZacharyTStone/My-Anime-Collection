@@ -11,25 +11,17 @@ import {
   generateDemoEmail,
   createUserWithPlaylists,
 } from "../utils/authHelpers.js";
+import { validateInputs, validateUserInput } from "../utils/validators.js";
+import { sendSuccess, sendCreated } from "../utils/responseHelpers.js";
 
 
 // REST routes are defined in authRoutes.js
-const validateInputs = (inputObject: Record<string, unknown>) => {
-  const missingValues = Object.entries(inputObject)
-    .filter(([_, value]) => !value)
-    .map(([key, _]) => key);
 
-  if (missingValues.length > 0) {
-    throw new BadRequestError(
-      `Please provide all values: ${missingValues.join(", ")}`
-    );
-  }
-};
-
-const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = sanitize(req.body);
 
   validateInputs({ email, password });
+  validateUserInput({ email, password });
 
   const user = await User.findOne({ email }).select("+password");
 
@@ -45,19 +37,20 @@ const login = async (req: Request, res: Response) => {
 
   const token = user.createJWT();
   user.password = undefined;
-  res.status(StatusCodes.OK).json({ user, token });
+  sendSuccess(res, { user, token }, "Login successful");
 };
 
-const updateUser = async (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response): Promise<void> => {
   const { email, name, theme } = sanitize(req.body);
 
-  const errorMessage = "Please provide all values";
+  validateInputs({ email, name, theme });
+  validateUserInput({ email, name });
 
-  if (!email || !name || !theme) {
-    throw new BadRequestError(errorMessage);
+  const user = await User.findOne({ _id: req.user!.userId });
+
+  if (!user) {
+    throw new BadRequestError("User not found");
   }
-
-  const user = await User.findOne({ _id: req.user.userId });
 
   user.email = email;
   user.name = name;
@@ -67,7 +60,7 @@ const updateUser = async (req: Request, res: Response) => {
 
   const token = user.createJWT();
 
-  res.status(StatusCodes.OK).json({ user, token });
+  sendSuccess(res, { user, token }, "User updated successfully");
 };
 
 const register = async (req: Request, res: Response) => {
@@ -151,8 +144,8 @@ const deleteAssociatedRecords = async (
 
   const deletePromises = records.map(async (record: any) => {
     try {
-      await record.remove();
-    } catch (error) {
+      await record.deleteOne();
+    } catch (error: any) {
       console.error(`Error deleting ${model.modelName}: ${error.message}`);
     }
   });
@@ -163,7 +156,7 @@ const deleteAssociatedRecords = async (
 const deleteUser = async (req: Request, res: Response) => {
   // Delete user
   const user = await User.findOne({ _id: req.user.userId });
-  await user.remove();
+  await user.deleteOne();
   res.status(StatusCodes.OK).json({ message: "User deleted" });
 
   // Delete all associated animes

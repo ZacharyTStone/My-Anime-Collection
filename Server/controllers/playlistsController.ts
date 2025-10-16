@@ -5,39 +5,44 @@ import Anime from "../models/Anime.js";
 import Playlist from "../models/Playlists.js";
 import { v4 as uuidv4 } from "uuid";
 import sanitize from "mongo-sanitize";
+import { Request, Response } from "express";
+import { sendSuccess, sendCreated, sendNoContent } from "../utils/responseHelpers.js";
 
 // REST routes are defined in playlistRoutes.js
 
-const getPlaylists = async (req, res) => {
+const getPlaylists = async (req: Request, res: Response): Promise<void> => {
   // find all playlists with the userID of req.user.userId
-  const playlists = await Playlist.find({ userID: req.user.userId });
+  const playlists = await Playlist.find({ userID: req.user!.userId });
 
-  res.status(StatusCodes.OK).json({ playlists });
+  sendSuccess(res, { playlists }, "Playlists retrieved successfully");
 };
 
-const createPlaylist = async (req, res) => {
-  const user = await User.findOne({ _id: req.user.userId });
+const createPlaylist = async (req: Request, res: Response): Promise<void> => {
+  const user = await User.findOne({ _id: req.user!.userId });
+
+  if (!user) {
+    throw new BadRequestError("User not found");
+  }
 
   const newPlaylistID = uuidv4();
-
   const randomTitle = Math.floor(Math.random() * 1000);
 
-  const playlist: Playlist = {
+  const playlist = {
     title: `Playlist ${randomTitle}`,
     id: `${newPlaylistID}`,
-    userID: sanitize(req.user.userId),
+    userID: sanitize(req.user!.userId),
     isDemoUserPlaylist: user.isDemo,
   };
 
-  await Playlist.create(playlist);
+  const createdPlaylist = await Playlist.create(playlist);
 
-  res.status(StatusCodes.CREATED).json({ playlist });
+  sendCreated(res, { playlist: createdPlaylist }, "Playlist created successfully");
 };
 
-const updatePlaylist = async (req, res) => {
+const updatePlaylist = async (req: Request, res: Response): Promise<void> => {
   const playlist = await Playlist.findOne({
     id: req.params.id,
-    userID: sanitize(req.user.userId),
+    userID: sanitize(req.user!.userId),
   });
 
   if (!playlist) {
@@ -47,13 +52,13 @@ const updatePlaylist = async (req, res) => {
   playlist.title = sanitize(req.body.title);
 
   await playlist.save();
-  res.status(StatusCodes.OK).json({ playlist });
+  sendSuccess(res, { playlist }, "Playlist updated successfully");
 };
 
-const deletePlaylist = async (req, res) => {
+const deletePlaylist = async (req: Request, res: Response): Promise<void> => {
   const playlist = await Playlist.findOne({
     id: req.params.id,
-    userID: sanitize(req.user.userId),
+    userID: sanitize(req.user!.userId),
   });
 
   if (!playlist) {
@@ -66,20 +71,22 @@ const deletePlaylist = async (req, res) => {
 
   // Delete all user's animes in the playlist
   const animes = await Anime.find({
-    createdBy: sanitize(req.user.userId),
+    createdBy: sanitize(req.user!.userId),
     playlistID: sanitize(req.params.id),
   });
 
-  animes.forEach((anime) => {
-    if (anime.playlistID.includes(playlist.id)) {
-      anime.remove();
-    }
-  });
+  // Use deleteMany for better performance
+  if (animes.length > 0) {
+    await Anime.deleteMany({
+      createdBy: sanitize(req.user!.userId),
+      playlistID: sanitize(req.params.id),
+    });
+  }
 
   // Remove playlist
-  await playlist.remove();
+  await playlist.deleteOne();
 
-  res.status(StatusCodes.OK).json({ message: "Playlist deleted" });
+  sendNoContent(res, "Playlist deleted successfully");
 };
 
 export { getPlaylists, createPlaylist, updatePlaylist, deletePlaylist };

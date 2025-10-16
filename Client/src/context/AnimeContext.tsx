@@ -5,43 +5,17 @@ import React, {
   useMemo,
 } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { ACTIONS } from "./actions";
 import { SORT_OPTIONS } from "../utils/constants";
 import { useAuthContext } from "./AuthContext";
+import { AnimeService, AnimeData, AnimeQueryParams, ExternalAnimeData } from "../api/animeService";
+import { SavedAnime, ExpectedFetchedAnimeResponse, LoadingState } from "../utils/types";
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from "../config/constants";
 
 
 // Types and Interfaces
-interface LoadingData {
-  anime_id: string;
-}
-
-interface Anime {
-  _id: string;
-  title: string;
-  rating: number;
-  episodeCount: number;
-  format: string;
-  creationDate: string;
-  synopsis: string;
-  coverImage: string;
-  type: string;
-  japanese_title: string;
-  youtubeVideoId: string;
-  fetchedAnime: any; // TODO: Define proper type
-  __v: number;
-}
-
-interface FetchedAnime {
-  id: string;
-  title: string;
-  // Add other properties as needed
-}
-
-interface AnimeState {
-  isLoading: boolean;
-  loadingData: LoadingData;
-  animes: Anime[];
+interface AnimeState extends LoadingState {
+  animes: SavedAnime[];
   totalAnimes: number;
   numOfPages: number;
   page: number;
@@ -50,8 +24,8 @@ interface AnimeState {
   searchStared: string;
   searchType: string;
   sort: string;
-  sortOptions: any[];
-  fetchedAnimes: FetchedAnime[];
+  sortOptions: Array<{ title: string; value: string }>;
+  fetchedAnimes: ExternalAnimeData[];
   totalFetchedAnimes: number;
   numOfFetchedAnimesPages: number;
   loadingFetchAnimes: boolean;
@@ -60,7 +34,7 @@ interface AnimeState {
 interface AnimeContextType extends AnimeState {
   handleChange: (params: { name: string; value: string }) => void;
   clearValues: () => void;
-  createAnime: (anime: any, playlistID: string) => Promise<void>;
+  createAnime: (anime: AnimeData, playlistID: string) => Promise<void>;
   getAnimes: (playlistId: string) => Promise<void>;
   deleteAnime: (animeId: string, playlistId: string) => Promise<void>;
   clearFilters: () => void;
@@ -69,10 +43,10 @@ interface AnimeContextType extends AnimeState {
   fetchAnimes: (params: {
     page: number;
     baseURL: string;
-    filter: string;
-    searchText: string;
-    pagination: boolean;
-    sort: string;
+    filter?: string;
+    searchText?: string;
+    pagination?: boolean;
+    sort?: string;
   }) => Promise<void>;
 }
 
@@ -226,31 +200,30 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
 
   // Anime management functions
   const createAnime = useCallback(
-    async (anime: any, playlistID: string) => {
+    async (anime: AnimeData, playlistID: string) => {
       if (!token) return;
-      
+
       dispatch({ type: ACTIONS.CREATE_ANIME_BEGIN, payload: {} });
       try {
-        const { data } = await axios.post(`${API_BASE_URL}/animes`, {
+        const animeData: AnimeData = {
           ...anime,
           playlistID,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        };
+
+        const response = await AnimeService.createAnime(animeData);
         dispatch({
           type: ACTIONS.CREATE_ANIME_SUCCESS,
-          payload: { anime: data.anime },
+          payload: { anime: response.anime },
         });
-        toast.success("Anime Created!");
+        toast.success(SUCCESS_MESSAGES.ANIME_ADDED);
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage = error.response?.data?.msg || ERROR_MESSAGES.UNKNOWN_ERROR;
         dispatch({
           type: ACTIONS.CREATE_ANIME_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
     },
     [token]
@@ -258,7 +231,7 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
 
   const getAnimes = useCallback(async (playlistId: string) => {
     if (!token) return;
-    
+
     const {
       page,
       search,
@@ -267,20 +240,18 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
       searchStared,
       sort,
     } = state;
-    
-    let url = `${API_BASE_URL}/animes?page=${page}&status=${searchStatus}&type=${searchType}&stared=${searchStared}&sort=${sort}&playlistId=${playlistId}`;
-    if (search) {
-      url = url + `&search=${search}`;
-    }
-    
+
+    const queryParams: AnimeQueryParams = {
+      page,
+      search,
+      sort,
+      currentPlaylistID: playlistId,
+    };
+
     dispatch({ type: ACTIONS.GET_ANIMES_BEGIN, payload: {} });
     try {
-      const { data } = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const { animes, totalAnimes, numOfPages } = data;
+      const response = await AnimeService.getAnimes(queryParams);
+      const { animes, totalAnimes, numOfPages } = response;
       dispatch({
         type: ACTIONS.GET_ANIMES_SUCCESS,
         payload: {
@@ -290,9 +261,10 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
         },
       });
     } catch (error: any) {
+      const errorMessage = error.response?.data?.msg || ERROR_MESSAGES.UNKNOWN_ERROR;
       dispatch({
         type: ACTIONS.GET_ANIMES_ERROR,
-        payload: { msg: error.response?.data?.msg || "Error fetching animes" },
+        payload: { msg: errorMessage },
       });
     }
   }, [state.page, state.search, state.searchStatus, state.searchType, state.searchStared, state.sort, token]);
@@ -300,21 +272,19 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
   const deleteAnime = useCallback(
     async (animeId: string, playlistId: string) => {
       if (!token) return;
-      
+
       dispatch({ type: ACTIONS.DELETE_ANIME_BEGIN, payload: {} });
       try {
-        await axios.delete(`${API_BASE_URL}/animes/${animeId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await AnimeService.deleteAnime(animeId);
         getAnimes(playlistId);
-        toast.success("Anime Deleted!");
+        toast.success(SUCCESS_MESSAGES.ANIME_DELETED);
       } catch (error: any) {
+        const errorMessage = error.response?.data?.msg || ERROR_MESSAGES.UNKNOWN_ERROR;
         dispatch({
           type: ACTIONS.DELETE_ANIME_ERROR,
-          payload: { msg: error.response?.data?.msg || "Error deleting anime" },
+          payload: { msg: errorMessage },
         });
+        toast.error(errorMessage);
       }
     },
     [getAnimes, token]
@@ -344,43 +314,26 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
     }: {
       page: number;
       baseURL: string;
-      filter: string;
-      searchText: string;
-      pagination: boolean;
-      sort: string;
+      filter?: string;
+      searchText?: string;
+      pagination?: boolean;
+      sort?: string;
     }) => {
       dispatch({ type: ACTIONS.FETCH_ANIMES_BEGIN, payload: {} });
       try {
+        const response = await AnimeService.fetchExternalAnimes({
+          page,
+          baseURL,
+          filter,
+          searchText,
+          sort,
+        });
+
+        const animes = response.data ?? [];
+        const totalAnimes = response.meta?.count ?? animes.length;
         const limit = 18;
-        let url = baseURL;
-
-        // Build Kitsu-compatible query params
-        if (baseURL.includes("/trending/")) {
-          // Trending endpoint: uses limit/offset
-          const offset = Math.max(0, (page - 1) * limit);
-          const params = new URLSearchParams();
-          params.set("limit", String(limit));
-          params.set("offset", String(offset));
-          url = `${baseURL}?${params.toString()}`;
-        } else {
-          // Search endpoint: /anime with JSON:API style params
-          const offset = Math.max(0, (page - 1) * limit);
-          const params = new URLSearchParams();
-          params.set("page[limit]", String(limit));
-          params.set("page[offset]", String(offset));
-          if (searchText) {
-            params.set("filter[text]", searchText);
-          }
-          if (sort) {
-            params.set("sort", sort);
-          }
-          url = `${baseURL}?${params.toString()}`;
-        }
-
-        const { data } = await axios.get(url);
-        const animes = data?.data ?? [];
-        const totalAnimes = data?.meta?.count ?? animes.length;
         const numOfPages = Math.max(1, Math.ceil(totalAnimes / limit));
+
         dispatch({
           type: ACTIONS.FETCH_ANIMES_SUCCESS,
           payload: {
@@ -390,10 +343,11 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
           },
         });
       } catch (error: any) {
+        const errorMessage = error.response?.data?.msg || ERROR_MESSAGES.UNKNOWN_ERROR;
         dispatch({
           type: ACTIONS.FETCH_ANIMES_ERROR,
           payload: {
-            msg: error.response?.data?.msg || "Error fetching animes",
+            msg: errorMessage,
           },
         });
       }

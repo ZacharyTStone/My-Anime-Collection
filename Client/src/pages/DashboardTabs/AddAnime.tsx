@@ -5,7 +5,7 @@ import { usePlaylistContext } from "../../context/PlaylistContext";
 import styled from "styled-components";
 import React, { useState, useCallback, useEffect } from "react";
 import { SkeletonLoadingBlock } from "../../Components/UI";
-import { debounce } from "../../utils/debounce";
+import { useDebouncedCallback } from "../../hooks/useDebounce";
 import { useTranslation } from "react-i18next";
 
 const SORT_OPTIONS = [
@@ -44,16 +44,20 @@ const AddAnime: React.FC = () => {
     handlePlaylistChange,
     loadingFetchPlaylists,
   } = usePlaylistContext();
-  
-  const request = debounce((value: string) => {
-    setSearchText(value);
-  }, 500);
+
+  const debouncedRequest = useDebouncedCallback(
+    (value: string) => {
+      setSearchText(value);
+    },
+    500,
+    []
+  );
 
   const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     let api_value = value?.replace(/\s/g, "+");
     setTextInput(value);
-    debouceRequest(api_value);
+    debouncedRequest(api_value);
   };
 
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -91,14 +95,14 @@ const AddAnime: React.FC = () => {
               value={textInput}
               handleChange={handleTextInput}
             />
-                            <FormRowSelect
-                  disabled={false}
-                  name="sort"
-                  value={sort}
-                  labelText={t("add_anime.sort")}
-                  handleChange={handleSort}
-                  list={SORT_OPTIONS}
-                />
+            <FormRowSelect
+              disabled={false}
+              name="sort"
+              value={sort}
+              labelText={t("add_anime.sort")}
+              handleChange={handleSort}
+              list={SORT_OPTIONS}
+            />
             {/* playlist */}
             <form className="form-row">
               <label htmlFor="playlist" className="form-label">
