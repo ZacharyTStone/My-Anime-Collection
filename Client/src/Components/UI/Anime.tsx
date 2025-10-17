@@ -124,7 +124,6 @@ const Anime: React.FC<AnimeCardProps> = ({
       const animeData = {
         title: fetchedAnime.attributes?.titles?.en ||
           fetchedAnime.attributes?.titles?.en_jp ||
-          fetchedAnime.attributes?.canonicalTitle ||
           "Title N/A",
         rating: fetchedAnime.attributes?.averageRating,
         episodeCount: fetchedAnime.attributes?.episodeCount,
@@ -135,7 +134,6 @@ const Anime: React.FC<AnimeCardProps> = ({
         youtubeVideoId: fetchedAnime.attributes?.youtubeVideoId,
         japanese_title: fetchedAnime.attributes?.titles?.ja_jp ||
           fetchedAnime.attributes?.titles?.en_jp ||
-          fetchedAnime.attributes?.canonicalTitle ||
           "Title N/A",
         playlistID: currentPlaylist.id,
       };
