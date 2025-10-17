@@ -28,11 +28,9 @@ const createAnime = async (req: Request, res: Response): Promise<void> => {
       id: parseInt(req.body.id),
       title: attributes.titles?.en ||
         attributes.titles?.en_jp ||
-        attributes.canonicalTitle ||
         "Title N/A",
       japanese_title: attributes.titles?.ja_jp ||
         attributes.titles?.en_jp ||
-        attributes.canonicalTitle ||
         "Title N/A",
       rating: attributes.averageRating ? parseFloat(attributes.averageRating) : undefined,
       format: attributes.subtype || undefined,

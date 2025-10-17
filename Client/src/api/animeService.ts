@@ -8,7 +8,7 @@ export interface AnimeData {
     _id?: string;
     title: string;
     rating?: number;
-    episodeCount?: number;
+    episodeCount?: number | null;
     format?: string;
     creationDate?: string;
     synopsis?: string;
