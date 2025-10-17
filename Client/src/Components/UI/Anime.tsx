@@ -120,7 +120,26 @@ const Anime: React.FC<AnimeCardProps> = ({
     if (isLoading) return;
 
     if (type === "add" && fetchedAnime) {
-      createAnime(fetchedAnime, currentPlaylist.id);
+      // Transform Kitsu API data to AnimeData format
+      const animeData = {
+        title: fetchedAnime.attributes?.titles?.en ||
+          fetchedAnime.attributes?.titles?.en_jp ||
+          fetchedAnime.attributes?.canonicalTitle ||
+          "Title N/A",
+        rating: fetchedAnime.attributes?.averageRating,
+        episodeCount: fetchedAnime.attributes?.episodeCount,
+        format: fetchedAnime.attributes?.subtype,
+        creationDate: fetchedAnime.attributes?.startDate,
+        synopsis: fetchedAnime.attributes?.synopsis,
+        coverImage: fetchedAnime.attributes?.posterImage?.small,
+        youtubeVideoId: fetchedAnime.attributes?.youtubeVideoId,
+        japanese_title: fetchedAnime.attributes?.titles?.ja_jp ||
+          fetchedAnime.attributes?.titles?.en_jp ||
+          fetchedAnime.attributes?.canonicalTitle ||
+          "Title N/A",
+        playlistID: currentPlaylist.id,
+      };
+      createAnime(animeData, currentPlaylist.id);
     } else if (type === "delete") {
       if (_id) {
         deleteAnime(_id, currentPlaylist.id);
