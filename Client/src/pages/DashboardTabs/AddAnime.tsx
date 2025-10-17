@@ -74,7 +74,6 @@ const AddAnime: React.FC = () => {
     getPlaylists();
   }, [getPlaylists]);
 
-  const debouceRequest = useCallback((value: string) => request(value), []);
 
   return (
     <Wrapper>

@@ -448,7 +448,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     dispatch({ type: ACTIONS.GET_PLAYLIST_BEGIN, payload: {} });
     try {
       const { data } = await authFetch("/playlists");
-      const { playlists } = data;
+      const { playlists } = data.data;
       dispatch({
         type: ACTIONS.GET_PLAYLIST_SUCCESS,
         payload: { playlists },
