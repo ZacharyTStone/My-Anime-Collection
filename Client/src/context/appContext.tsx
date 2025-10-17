@@ -395,7 +395,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     try {
       const { data } = await authFetch(url);
       const { animes } = data.data;
-      const { total, pages } = data.pagination;
+      const { total, pages } = (data as any).pagination;
       dispatch({
         type: ACTIONS.GET_ANIMES_SUCCESS,
         payload: {
