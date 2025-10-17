@@ -41,9 +41,10 @@ const login = async (req: Request, res: Response): Promise<void> => {
 };
 
 const updateUser = async (req: Request, res: Response): Promise<void> => {
-  const { email, name, theme } = sanitize(req.body);
+  const { email, name, theme, id } = sanitize(req.body);
 
-  validateInputs({ email, name, theme });
+  // Only validate required fields, ignore id field and allow optional fields
+  validateInputs({ email, name });
   validateUserInput({ email, name });
 
   const user = await User.findOne({ _id: req.user!.userId });
@@ -54,7 +55,9 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
 
   user.email = email;
   user.name = name;
-  user.theme = theme;
+  if (theme) {
+    user.theme = theme;
+  }
 
   await user.save();
 

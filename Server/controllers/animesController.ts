@@ -18,19 +18,47 @@ import sanitize from "mongo-sanitize";
 // REST routes are defined in AnimeRoutes.js
 
 const createAnime = async (req: Request, res: Response): Promise<void> => {
+  // Transform Kitsu API data if it's in the nested format
+  let animeData = req.body;
+
+  // Check if this is Kitsu API format (has attributes and id at root level)
+  if (req.body.attributes && req.body.id) {
+    const attributes = req.body.attributes;
+    animeData = {
+      id: parseInt(req.body.id),
+      title: attributes.titles?.en ||
+        attributes.titles?.en_jp ||
+        attributes.canonicalTitle ||
+        "Title N/A",
+      japanese_title: attributes.titles?.ja_jp ||
+        attributes.titles?.en_jp ||
+        attributes.canonicalTitle ||
+        "Title N/A",
+      rating: attributes.averageRating ? parseFloat(attributes.averageRating) : undefined,
+      format: attributes.subtype || undefined,
+      episodeCount: attributes.episodeCount || null,
+      synopsis: attributes.synopsis || undefined,
+      coverImage: attributes.posterImage?.small || undefined,
+      youtubeVideoId: attributes.youtubeVideoId || undefined,
+      playlistID: req.body.playlistID,
+      creationDate: attributes.startDate || undefined,
+      isDemoAnime: false
+    };
+  }
+
   const existingAnime = await Anime.findOne({
-    title: sanitize(req.body.title),
+    title: sanitize(animeData.title),
     createdBy: sanitize(req.user!.userId),
-    playlistID: sanitize(req.body.playlistID),
+    playlistID: sanitize(animeData.playlistID),
   });
 
   if (existingAnime) {
     throw new NotFoundError(`You have already added that anime to your list`);
   }
 
-  req.body.createdBy = sanitize(req.user!.userId);
+  animeData.createdBy = sanitize(req.user!.userId);
 
-  const anime = await Anime.create(req.body);
+  const anime = await Anime.create(animeData);
   sendCreated(res, { anime }, "Anime created successfully");
 };
 
