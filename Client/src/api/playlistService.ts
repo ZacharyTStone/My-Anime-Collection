@@ -42,7 +42,7 @@ export class PlaylistService {
      */
     static async getPlaylists(): Promise<PlaylistResponse> {
         const response = await apiClient.get(API_ENDPOINTS.PLAYLIST.BASE);
-        return response.data;
+        return response.data.data;
     }
 
     /**
@@ -52,7 +52,7 @@ export class PlaylistService {
      */
     static async createPlaylist(playlistData?: CreatePlaylistData): Promise<{ playlist: PlaylistData }> {
         const response = await apiClient.post(API_ENDPOINTS.PLAYLIST.BASE, playlistData || {});
-        return response.data;
+        return response.data.data;
     }
 
     /**
@@ -63,7 +63,7 @@ export class PlaylistService {
      */
     static async updatePlaylist(playlistId: string, playlistData: UpdatePlaylistData): Promise<{ playlist: PlaylistData }> {
         const response = await apiClient.patch(API_ENDPOINTS.PLAYLIST.BY_ID(playlistId), playlistData);
-        return response.data;
+        return response.data.data;
     }
 
     /**
@@ -73,6 +73,6 @@ export class PlaylistService {
      */
     static async deletePlaylist(playlistId: string): Promise<{ message: string }> {
         const response = await apiClient.delete(API_ENDPOINTS.PLAYLIST.BY_ID(playlistId));
-        return response.data;
+        return response.data.data;
     }
 }

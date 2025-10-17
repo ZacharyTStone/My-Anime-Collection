@@ -394,13 +394,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     dispatch({ type: ACTIONS.GET_ANIMES_BEGIN, payload: {} });
     try {
       const { data } = await authFetch(url);
-      const { animes, totalAnimes, numOfPages } = data;
+      const { animes } = data.data;
+      const { total, pages } = data.pagination;
       dispatch({
         type: ACTIONS.GET_ANIMES_SUCCESS,
         payload: {
           animes,
-          totalAnimes,
-          numOfPages,
+          totalAnimes: total,
+          numOfPages: pages,
         },
       });
     } catch (error: any) {

@@ -84,7 +84,7 @@ export class AnimeService {
      */
     static async createAnime(animeData: AnimeData): Promise<{ anime: AnimeData }> {
         const response = await apiClient.post(API_ENDPOINTS.ANIME.BASE, animeData);
-        return response.data;
+        return response.data.data;
     }
 
     /**
@@ -102,7 +102,11 @@ export class AnimeService {
         if (params.currentPlaylistID) queryParams.append("currentPlaylistID", params.currentPlaylistID);
 
         const response = await apiClient.get(`${API_ENDPOINTS.ANIME.BASE}?${queryParams.toString()}`);
-        return response.data;
+        return {
+            animes: response.data.data.animes,
+            totalAnimes: response.data.pagination.total,
+            numOfPages: response.data.pagination.pages
+        };
     }
 
     /**
@@ -112,7 +116,7 @@ export class AnimeService {
      */
     static async deleteAnime(animeId: string): Promise<{ message: string }> {
         const response = await apiClient.delete(API_ENDPOINTS.ANIME.BY_ID(animeId));
-        return response.data;
+        return response.data.data;
     }
 
     /**

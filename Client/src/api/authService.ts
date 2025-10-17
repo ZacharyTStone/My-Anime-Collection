@@ -62,7 +62,7 @@ export class AuthService {
      */
     static async login(credentials: LoginCredentials): Promise<AuthResponse> {
         const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, credentials);
-        return response.data;
+        return response.data.data;
     }
 
     /**
@@ -72,7 +72,7 @@ export class AuthService {
      */
     static async register(userData: RegistrationData): Promise<AuthResponse> {
         const response = await apiClient.post(API_ENDPOINTS.AUTH.REGISTER, userData);
-        return response.data;
+        return response.data.data;
     }
 
     /**
@@ -82,7 +82,7 @@ export class AuthService {
      */
     static async updateUser(userData: UpdateUserData): Promise<AuthResponse> {
         const response = await apiClient.patch(API_ENDPOINTS.AUTH.UPDATE_USER, userData);
-        return response.data;
+        return response.data.data;
     }
 
     /**
@@ -91,7 +91,7 @@ export class AuthService {
      */
     static async deleteUser(): Promise<{ message: string }> {
         const response = await apiClient.delete(API_ENDPOINTS.AUTH.DELETE_USER);
-        return response.data;
+        return response.data.data;
     }
 
     /**
