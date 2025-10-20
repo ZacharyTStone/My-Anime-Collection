@@ -77,7 +77,7 @@
   "proxy": "http://localhost:5001",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@playwright/test": "^1.49.1",
+    "@playwright/test": "^1.56.1",
     "@types/dompurify": "^3.0.5",
     "@types/react-scroll": "^1.8.10",
     "babel-plugin-react-compiler": "^19.0.0-beta-e552027-20250112",
