@@ -31,7 +31,6 @@ const Register = () => {
       isDemo: true,
     };
 
-    console.log("wow", currentUser);
 
     setupUser({
       currentUser: currentUser as any,

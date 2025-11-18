@@ -394,13 +394,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     dispatch({ type: ACTIONS.GET_ANIMES_BEGIN, payload: {} });
     try {
       const { data } = await authFetch(url);
-      const { animes, totalAnimes, numOfPages } = data;
+      const { animes } = data.data;
+      const { total, pages } = (data as any).pagination;
       dispatch({
         type: ACTIONS.GET_ANIMES_SUCCESS,
         payload: {
           animes,
-          totalAnimes,
-          numOfPages,
+          totalAnimes: total,
+          numOfPages: pages,
         },
       });
     } catch (error: any) {
@@ -447,7 +448,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     dispatch({ type: ACTIONS.GET_PLAYLIST_BEGIN, payload: {} });
     try {
       const { data } = await authFetch("/playlists");
-      const { playlists } = data;
+      const { playlists } = data.data;
       dispatch({
         type: ACTIONS.GET_PLAYLIST_SUCCESS,
         payload: { playlists },

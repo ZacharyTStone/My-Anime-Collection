@@ -3,83 +3,90 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
+import {
+  buildAnimeQuery,
+  getPaginationParams,
+  applySorting,
+  applyPagination,
+  calculatePaginationMeta
+} from "../utils/queryBuilder.js";
+import { sendSuccess, sendCreated, sendNoContent, sendPaginatedSuccess } from "../utils/responseHelpers.js";
 
 // noSQL sanitization
 import sanitize from "mongo-sanitize";
 
-const SORT_OPTIONS = {
-  latest: { creationDate: -1 },
-  oldest: { creationDate: 1 },
-  rating: { rating: -1, popularity: -1 },
-  episodeCount: { episodeCount: -1 },
-  format: { format: -1 },
-  "a-z": { title: 1 },
-  "z-a": { title: -1 },
-  "date added": { createdAt: -1 },
-} as const;
-
 // REST routes are defined in AnimeRoutes.js
 
-const createAnime = async (req: Request, res: Response) => {
+const createAnime = async (req: Request, res: Response): Promise<void> => {
+  // Transform Kitsu API data if it's in the nested format
+  let animeData = req.body;
+
+  // Check if this is Kitsu API format (has attributes and id at root level)
+  if (req.body.attributes && req.body.id) {
+    const attributes = req.body.attributes;
+    animeData = {
+      id: parseInt(req.body.id),
+      title: attributes.titles?.en ||
+        attributes.titles?.en_jp ||
+        "Title N/A",
+      japanese_title: attributes.titles?.ja_jp ||
+        attributes.titles?.en_jp ||
+        "Title N/A",
+      rating: attributes.averageRating ? parseFloat(attributes.averageRating) : undefined,
+      format: attributes.subtype || undefined,
+      episodeCount: attributes.episodeCount || null,
+      synopsis: attributes.synopsis || undefined,
+      coverImage: attributes.posterImage?.small || undefined,
+      youtubeVideoId: attributes.youtubeVideoId || undefined,
+      playlistID: req.body.playlistID,
+      creationDate: attributes.startDate || undefined,
+      isDemoAnime: false
+    };
+  }
+
   const existingAnime = await Anime.findOne({
-    title: sanitize(req.body.title),
-    createdBy: sanitize(req.user.userId),
-    playlistID: sanitize(req.body.playlistID),
+    title: sanitize(animeData.title),
+    createdBy: sanitize(req.user!.userId),
+    playlistID: sanitize(animeData.playlistID),
   });
 
   if (existingAnime) {
     throw new NotFoundError(`You have already added that anime to your list`);
   }
 
-  req.body.createdBy = sanitize(req.user.userId);
+  animeData.createdBy = sanitize(req.user!.userId);
 
-  const anime = await Anime.create(req.body);
-  res.status(StatusCodes.CREATED).json({ anime });
+  const anime = await Anime.create(animeData);
+  sendCreated(res, { anime }, "Anime created successfully");
 };
 
-interface QueryObject {
-  createdBy: string;
-  playlistID: string;
-  title?: any;
-}
+const getAnimes = async (req: Request, res: Response): Promise<void> => {
+  const { sort } = sanitize(req.query);
 
-const getAnimes = async (req: Request, res: Response) => {
-  const { sort, search, currentPlaylistID } = sanitize(req.query);
+  // Build query using utility function
+  const queryObject = buildAnimeQuery(req);
 
-  let queryObject: QueryObject = {
-    createdBy: sanitize(req.user.userId),
-    playlistID: currentPlaylistID,
-  };
+  // Get pagination parameters
+  const { page, limit, skip } = getPaginationParams(req);
 
-  if (search) {
-    // Add case-insensitive search for title
-    queryObject.title = { $regex: search, $options: "i" };
-  }
-
+  // Build and execute query
   let result = Anime.find(queryObject);
-
-  // Apply sorting based on the provided option
-  if (sort && sort in SORT_OPTIONS) {
-    result = result.sort(
-      SORT_OPTIONS[sort as keyof typeof SORT_OPTIONS]
-    );
-  }
-
-  // Setup pagination
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
-
-  result = result.skip(skip).limit(limit);
+  result = applySorting(result, sort);
+  result = applyPagination(result, skip, limit);
 
   const animes = await result;
   const totalAnimes = await Anime.countDocuments(queryObject);
-  const numOfPages = Math.ceil(totalAnimes / limit);
+  const { numOfPages } = calculatePaginationMeta(totalAnimes, limit);
 
-  res.status(StatusCodes.OK).json({ animes, totalAnimes, numOfPages });
+  sendPaginatedSuccess(res, { animes }, {
+    page,
+    limit,
+    total: totalAnimes,
+    pages: numOfPages,
+  });
 };
 
-const deleteAnime = async (req: Request, res: Response) => {
+const deleteAnime = async (req: Request, res: Response): Promise<void> => {
   const { id: animeId } = req.params;
 
   const anime = await Anime.findOne({ _id: animeId });
@@ -88,11 +95,11 @@ const deleteAnime = async (req: Request, res: Response) => {
     throw new NotFoundError(`No Anime with id :${animeId}`);
   }
 
-  checkPermissions(req.user, anime?.createdBy.toString()); // Convert createdBy to string
+  checkPermissions(req.user!, anime?.createdBy.toString()); // Convert createdBy to string
 
-  await anime.remove();
+  await anime.deleteOne();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Anime removed" });
+  sendNoContent(res, "Anime removed successfully");
 };
 
 export { createAnime, deleteAnime, getAnimes };

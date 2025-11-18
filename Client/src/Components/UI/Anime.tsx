@@ -26,7 +26,7 @@ import { ExpectedFetchedAnimeResponse, SavedAnime } from "../../utils/types";
 
 // Types and Interfaces
 interface AnimeCardProps extends SavedAnime {
-  fetchedAnime: ExpectedFetchedAnimeResponse;
+  fetchedAnime?: ExpectedFetchedAnimeResponse;
   type?: "add" | "delete";
   className?: string;
 }
@@ -74,10 +74,10 @@ const Anime: React.FC<AnimeCardProps> = ({
     isLoading,
     loadingData,
   } = useAnimeContext();
-  
+
   const { currentPlaylist } = usePlaylistContext();
-    const { siteLanguage } = useLanguageContext();
-  
+  const { siteLanguage } = useLanguageContext();
+
   const onMobile = useMobile();
 
   // Memoized values
@@ -85,13 +85,13 @@ const Anime: React.FC<AnimeCardProps> = ({
     () =>
       isLoading &&
       (loadingData?.anime_id === _id ||
-        loadingData?.anime_id === fetchedAnime?.id),
-    [isLoading, loadingData?.anime_id, _id, fetchedAnime?.id]
+        (fetchedAnime && loadingData?.anime_id === fetchedAnime.id)),
+    [isLoading, loadingData?.anime_id, _id, fetchedAnime]
   );
 
   const hasYoutubeVideoId = useMemo(
-    () => Boolean(youtubeVideoId),
-    [youtubeVideoId]
+    () => Boolean(youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId),
+    [youtubeVideoId, fetchedAnime?.attributes?.youtubeVideoId]
   );
 
   const skeletonHeight = useMemo(
@@ -119,8 +119,25 @@ const Anime: React.FC<AnimeCardProps> = ({
   const handleSubmit = useCallback(() => {
     if (isLoading) return;
 
-    if (type === "add") {
-      createAnime(fetchedAnime, currentPlaylist.id);
+    if (type === "add" && fetchedAnime) {
+      // Transform Kitsu API data to AnimeData format
+      const animeData = {
+        title: fetchedAnime.attributes?.titles?.en ||
+          fetchedAnime.attributes?.titles?.en_jp ||
+          "Title N/A",
+        rating: fetchedAnime.attributes?.averageRating,
+        episodeCount: fetchedAnime.attributes?.episodeCount,
+        format: fetchedAnime.attributes?.subtype,
+        creationDate: fetchedAnime.attributes?.startDate,
+        synopsis: fetchedAnime.attributes?.synopsis,
+        coverImage: fetchedAnime.attributes?.posterImage?.small,
+        youtubeVideoId: fetchedAnime.attributes?.youtubeVideoId,
+        japanese_title: fetchedAnime.attributes?.titles?.ja_jp ||
+          fetchedAnime.attributes?.titles?.en_jp ||
+          "Title N/A",
+        playlistID: currentPlaylist.id,
+      };
+      createAnime(animeData, currentPlaylist.id);
     } else if (type === "delete") {
       if (_id) {
         deleteAnime(_id, currentPlaylist.id);
@@ -235,10 +252,9 @@ const Anime: React.FC<AnimeCardProps> = ({
                   <>
                     {hasYoutubeVideoId && !state.failedToLoadYoutube ? (
                       <ReactPlayer
-                        url={`https://www.youtube.com/watch?v=${
-                          youtubeVideoId ||
+                        url={`https://www.youtube.com/watch?v=${youtubeVideoId ||
                           fetchedAnime?.attributes?.youtubeVideoId
-                        }`}
+                          }`}
                         width={"100%"}
                         controls={true}
                         className={"anime-cover-image"}
@@ -378,10 +394,9 @@ const Anime: React.FC<AnimeCardProps> = ({
                     }}
                   >
                     <a
-                      href={`https://www.youtube.com/watch?v=${
-                        youtubeVideoId ||
+                      href={`https://www.youtube.com/watch?v=${youtubeVideoId ||
                         fetchedAnime?.attributes?.youtubeVideoId
-                      }`}
+                        }`}
                       target={"_blank"}
                       rel="noreferrer"
                     >

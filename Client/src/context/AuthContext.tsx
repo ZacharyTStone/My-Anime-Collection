@@ -6,22 +6,18 @@ import React, {
   useEffect,
 } from "react";
 import { toast } from "react-toastify";
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import { ACTIONS } from "./actions";
+import { AuthService, UserData, LoginCredentials, RegistrationData, UpdateUserData } from "../api/authService";
+import { useUserStorage, useTokenStorage } from "../hooks/useLocalStorage";
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from "../config/constants";
 
 // Types and Interfaces
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 interface AuthState {
   isLoading: boolean;
   showAlert: boolean;
   alertText: string;
   alertType: string;
-  user: User | null;
+  user: UserData | null;
   token: string | null;
   isAuthenticated: boolean;
 }
@@ -30,37 +26,29 @@ interface AuthContextType extends AuthState {
   displayAlert: () => void;
   clearAlert: () => void;
   setupUser: (params: {
-    currentUser: User;
+    currentUser: UserData;
     endPoint: string;
     alertText: string;
   }) => Promise<void>;
   logoutUser: () => Promise<void>;
-  updateUser: (currentUser: User) => Promise<void>;
-  deleteUser: (currentUser: User) => Promise<void>;
+  updateUser: (currentUser: UserData) => Promise<void>;
+  deleteUser: (currentUser: UserData) => Promise<void>;
 }
 
 interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-// Constants
-const TOKEN_KEY = "token";
-const USER_KEY = "user";
-const API_BASE_URL = "/api/v1";
-
 // Initial state
 const getInitialAuthState = (): AuthState => {
-  const token = localStorage.getItem(TOKEN_KEY);
-  const user = localStorage.getItem(USER_KEY);
-
   return {
     isLoading: false,
     showAlert: false,
     alertText: "",
     alertType: "",
-    user: user ? JSON.parse(user) : null,
-    token,
-    isAuthenticated: !!token,
+    user: null,
+    token: null,
+    isAuthenticated: false,
   };
 };
 
@@ -159,64 +147,32 @@ const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, getInitialAuthState());
+  const [storedUser, setStoredUser, removeStoredUser] = useUserStorage();
+  const [storedToken, setStoredToken, removeStoredToken] = useTokenStorage();
 
-  // Utility functions
-  const removeUserFromLocalStorage = useCallback(() => {
-    localStorage.removeItem(USER_KEY);
-    localStorage.removeItem(TOKEN_KEY);
-  }, []);
-
-  // Create axios instance with interceptors
-  const createAxiosInstance = useCallback(
-    (token: string | null): AxiosInstance => {
-      const instance = axios.create({
-        baseURL: API_BASE_URL,
+  // Initialize state from localStorage
+  useEffect(() => {
+    if (storedUser && storedToken) {
+      dispatch({
+        type: ACTIONS.SETUP_USER_SUCCESS,
+        payload: { user: storedUser, token: storedToken, alertText: "Welcome back!" },
       });
-
-      instance.interceptors.request.use(
-        (config) => {
-          if (token && config.headers) {
-            config.headers.Authorization = `Bearer ${token}`;
-          }
-          return config;
-        },
-        (error: AxiosError) => {
-          return Promise.reject(error);
-        }
-      );
-
-      instance.interceptors.response.use(
-        (response: AxiosResponse) => {
-          return response;
-        },
-        (error: AxiosError) => {
-          if (error.response?.status === 401) {
-            removeUserFromLocalStorage();
-            dispatch({ type: ACTIONS.LOGOUT_USER, payload: {} });
-          }
-          return Promise.reject(error);
-        }
-      );
-
-      return instance;
-    },
-    [removeUserFromLocalStorage, dispatch]
-  );
-
-  // Memoized axios instance
-  const authFetch = useMemo(
-    () => createAxiosInstance(state.token),
-    [state.token, createAxiosInstance]
-  );
+    }
+  }, [storedUser, storedToken]);
 
   // Utility functions
   const addUserToLocalStorage = useCallback(
-    ({ user, token }: { user: User; token: string }) => {
-      localStorage.setItem(USER_KEY, JSON.stringify(user));
-      localStorage.setItem(TOKEN_KEY, token);
+    ({ user, token }: { user: UserData; token: string }) => {
+      setStoredUser(user);
+      setStoredToken(token);
     },
-    []
+    [setStoredUser, setStoredToken]
   );
+
+  const removeUserFromLocalStorage = useCallback(() => {
+    removeStoredUser();
+    removeStoredToken();
+  }, [removeStoredUser, removeStoredToken]);
 
   // Alert functions
   const displayAlert = useCallback(() => {
@@ -237,13 +193,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       endPoint,
       alertText,
     }: {
-      currentUser: User;
+      currentUser: UserData;
       endPoint: string;
       alertText: string;
     }) => {
+      dispatch({ type: ACTIONS.SETUP_USER_BEGIN, payload: {} });
+
       try {
-        const { data } = await authFetch.post(`/auth/${endPoint}`, currentUser);
-        const { user, token } = data;
+        let response;
+
+        if (endPoint === "login") {
+          response = await AuthService.login(currentUser as LoginCredentials);
+        } else if (endPoint === "register") {
+          response = await AuthService.register(currentUser as RegistrationData);
+        } else {
+          throw new Error("Invalid endpoint");
+        }
+
+        const { user, token } = response;
         addUserToLocalStorage({ user, token });
         dispatch({
           type: ACTIONS.SETUP_USER_SUCCESS,
@@ -251,65 +218,73 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
         toast.success(alertText);
       } catch (error: any) {
+        const errorMessage = error.response?.data?.msg || ERROR_MESSAGES.UNKNOWN_ERROR;
         dispatch({
           type: ACTIONS.SETUP_USER_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
-    [authFetch, addUserToLocalStorage, clearAlert]
+    [addUserToLocalStorage, clearAlert]
   );
 
   const logoutUser = useCallback(async () => {
+    await AuthService.logout();
     removeUserFromLocalStorage();
     dispatch({ type: ACTIONS.LOGOUT_USER, payload: {} });
   }, [removeUserFromLocalStorage]);
 
   const updateUser = useCallback(
-    async (currentUser: User) => {
+    async (currentUser: UserData) => {
+      dispatch({ type: ACTIONS.UPDATE_USER_BEGIN, payload: {} });
+
       try {
-        const { data } = await authFetch.patch("/auth/updateUser", currentUser);
-        const { user, token } = data;
+        const response = await AuthService.updateUser(currentUser as UpdateUserData);
+        const { user, token } = response;
         addUserToLocalStorage({ user, token });
         dispatch({
           type: ACTIONS.UPDATE_USER_SUCCESS,
           payload: { user, token },
         });
-        toast.success("User Updated!");
+        toast.success(SUCCESS_MESSAGES.USER_UPDATED);
       } catch (error: any) {
-        if (error.response.status !== 401) {
+        if (error.response?.status !== 401) {
+          const errorMessage = error.response?.data?.msg || ERROR_MESSAGES.UNKNOWN_ERROR;
           dispatch({
             type: ACTIONS.UPDATE_USER_ERROR,
-            payload: { msg: error.response.data.msg },
+            payload: { msg: errorMessage },
           });
-          toast.error(error.response.data.msg);
+          toast.error(errorMessage);
         }
       }
       clearAlert();
     },
-    [authFetch, addUserToLocalStorage, clearAlert]
+    [addUserToLocalStorage, clearAlert]
   );
 
   const deleteUser = useCallback(
-    async (currentUser: User) => {
+    async (currentUser: UserData) => {
+      dispatch({ type: ACTIONS.DELETE_USER_BEGIN, payload: {} });
+
       try {
-        await authFetch.delete("/auth/deleteUser");
-        logoutUser();
+        await AuthService.deleteUser();
+        await logoutUser();
         toast.success("User Deleted!");
       } catch (error: any) {
-        if (error.response.status !== 401) {
+        if (error.response?.status !== 401) {
+          const errorMessage = error.response?.data?.msg || ERROR_MESSAGES.UNKNOWN_ERROR;
           dispatch({
             type: ACTIONS.DELETE_USER_ERROR,
-            payload: { msg: error.response.data.msg },
+            payload: { msg: errorMessage },
           });
-          toast.error(error.response.data.msg);
+          toast.error(errorMessage);
         }
       }
       clearAlert();
     },
-    [authFetch, logoutUser, clearAlert]
+    [logoutUser, clearAlert]
   );
 
   // Memoized context value

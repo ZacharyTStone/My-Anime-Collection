@@ -6,9 +6,10 @@ import { usePlaylistContext } from "../context/PlaylistContext";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import TwitterShare from "./UI/TwitterShare";
-import { debounce } from "../utils/debounce";
+import { useDebouncedCallback } from "../hooks/useDebounce";
 import { SkeletonLoadingBlock } from "./UI";
 import { useLoadingState } from "../utils/hooks";
+import { DEBOUNCE_CONFIG } from "../config/constants";
 
 // Types and Interfaces
 interface SearchContainerProps {
@@ -24,7 +25,7 @@ interface FormEvent {
 }
 
 // Constants
-const DEBOUNCE_DELAY = 300;
+const DEBOUNCE_DELAY = DEBOUNCE_CONFIG.SEARCH_DELAY;
 
 /**
  * SearchContainer component that handles search and filtering functionality
@@ -39,7 +40,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
     handleChange,
     clearFilters,
   } = useAnimeContext();
-  
+
   const {
     handlePlaylistChange,
     getPlaylists,
@@ -47,7 +48,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
     userPlaylists,
     loadingFetchPlaylists,
   } = usePlaylistContext();
-  
+
   const [localSearch, setLocalSearch] = useState(search ?? "");
 
   // Loading states
@@ -107,8 +108,9 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
   }, []);
 
   // Debounced search handler
-  const debouncedHandleSearch = useMemo(
-    () => debounce(handleSearch, DEBOUNCE_DELAY),
+  const debouncedHandleSearch = useDebouncedCallback(
+    handleSearch,
+    DEBOUNCE_DELAY,
     [handleSearch]
   );
 
