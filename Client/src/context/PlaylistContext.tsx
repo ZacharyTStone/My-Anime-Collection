@@ -5,10 +5,9 @@ import React, {
   useMemo,
 } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { ACTIONS } from "./actions";
 import { useAuthContext } from "./AuthContext";
-import { API_BASE_URL } from "../utils/constants";
+import { createApiClient } from "../utils/api";
 
 // Types and Interfaces
 interface Playlist {
@@ -153,6 +152,12 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
   const [state, dispatch] = useReducer(playlistReducer, getInitialPlaylistState());
   const { token } = useAuthContext();
 
+  // Create API client instance
+  const apiClient = useMemo(
+    () => createApiClient(token),
+    [token]
+  );
+
   // Playlist management functions
   const handlePlaylistChange = useCallback(({ value }: { value: string }) => {
     const playlist = state.userPlaylists.find((p: Playlist) => p.id === value);
@@ -169,12 +174,8 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
 
     dispatch({ type: ACTIONS.GET_PLAYLIST_BEGIN, payload: {} });
     try {
-      const { data } = await axios.get(`${API_BASE_URL}/playlists`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const { playlists } = data;
+      const response = await apiClient.get<{ playlists: Playlist[] }>("/playlists");
+      const { playlists } = response.data;
       dispatch({
         type: ACTIONS.GET_PLAYLIST_SUCCESS,
         payload: { playlists },
@@ -185,7 +186,7 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
         payload: { msg: error.response?.data?.msg || "Error fetching playlists" },
       });
     }
-  }, [token]);
+  }, [token, apiClient]);
 
   const createPlaylist = useCallback(
     async (playlistTitle: string) => {
@@ -193,14 +194,10 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
 
       dispatch({ type: ACTIONS.CREATE_PLAYLIST_BEGIN, payload: {} });
       try {
-        const { data } = await axios.post(`${API_BASE_URL}/playlists`, {
+        const response = await apiClient.post<{ playlist: Playlist }>("/playlists", {
           title: playlistTitle,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         });
-        const { playlist } = data;
+        const { playlist } = response.data;
         dispatch({
           type: ACTIONS.CREATE_PLAYLIST_SUCCESS,
           payload: { playlist },
@@ -227,16 +224,11 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
 
       dispatch({ type: ACTIONS.UPDATE_PLAYLIST_BEGIN, payload: {} });
       try {
-        const { data } = await axios.patch(
-          `${API_BASE_URL}/playlists/${playlist.id}`,
-          playlist,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const response = await apiClient.patch<{ updatedPlaylist: Playlist }>(
+          `/playlists/${playlist.id}`,
+          playlist
         );
-        const { updatedPlaylist } = data;
+        const { updatedPlaylist } = response.data;
         dispatch({
           type: ACTIONS.UPDATE_PLAYLIST_SUCCESS,
           payload: { playlist: updatedPlaylist },
@@ -263,11 +255,7 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
 
       dispatch({ type: ACTIONS.DELETE_PLAYLIST_BEGIN, payload: {} });
       try {
-        await axios.delete(`${API_BASE_URL}/playlists/${playlistId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await apiClient.delete(`/playlists/${playlistId}`);
         dispatch({
           type: ACTIONS.DELETE_PLAYLIST_SUCCESS,
           payload: {},

@@ -5,10 +5,11 @@ import React, {
   useMemo,
 } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
+import axios from "axios"; // For external API calls (Kitsu)
 import { ACTIONS } from "./actions";
-import { SORT_OPTIONS, API_BASE_URL } from "../utils/constants";
+import { SORT_OPTIONS } from "../utils/constants";
 import { useAuthContext } from "./AuthContext";
+import { createApiClient } from "../utils/api";
 
 // Types and Interfaces
 interface LoadingData {
@@ -111,7 +112,7 @@ interface AnimeAction {
   payload?: {
     name?: string;
     value?: string;
-    animes?: Anime[];
+    animes?: Anime[] | FetchedAnime[];
     totalAnimes?: number;
     numOfPages?: number;
     anime?: Anime;
@@ -124,6 +125,7 @@ interface AnimeAction {
 const animeReducer = (state: AnimeState, action: AnimeAction): AnimeState => {
   switch (action.type) {
     case ACTIONS.HANDLE_CHANGE:
+      if (!action.payload?.name || !action.payload?.value) return state;
       return {
         ...state,
         page: 1,
@@ -164,9 +166,9 @@ const animeReducer = (state: AnimeState, action: AnimeAction): AnimeState => {
       return {
         ...state,
         isLoading: false,
-        animes: action.payload.animes,
-        totalAnimes: action.payload.totalAnimes,
-        numOfPages: action.payload.numOfPages,
+        animes: (action.payload?.animes || []) as Anime[],
+        totalAnimes: action.payload?.totalAnimes || 0,
+        numOfPages: action.payload?.numOfPages || 1,
       };
     case ACTIONS.GET_ANIMES_ERROR:
       return { ...state, isLoading: false };
@@ -183,7 +185,7 @@ const animeReducer = (state: AnimeState, action: AnimeAction): AnimeState => {
         sort: "latest",
       };
     case ACTIONS.CHANGE_PAGE:
-      return { ...state, page: action.payload.page };
+      return { ...state, page: action.payload?.page || state.page };
     case ACTIONS.FETCH_ANIMES_BEGIN:
       return { ...state, isLoading: true, loadingFetchAnimes: true };
     case ACTIONS.FETCH_ANIMES_SUCCESS:
@@ -191,9 +193,9 @@ const animeReducer = (state: AnimeState, action: AnimeAction): AnimeState => {
         ...state,
         isLoading: false,
         loadingFetchAnimes: false,
-        fetchedAnimes: action.payload.animes,
-        totalFetchedAnimes: action.payload.totalAnimes,
-        numOfFetchedAnimesPages: action.payload.numOfPages,
+        fetchedAnimes: (action.payload?.animes || []) as unknown as FetchedAnime[],
+        totalFetchedAnimes: action.payload?.totalAnimes || 0,
+        numOfFetchedAnimesPages: action.payload?.numOfPages || 0,
       };
     case ACTIONS.RESET_FETCHED_ANIMES:
       return {
@@ -223,6 +225,12 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(animeReducer, getInitialAnimeState());
   const { token } = useAuthContext();
 
+  // Create API client instance
+  const apiClient = useMemo(
+    () => createApiClient(token),
+    [token]
+  );
+
   // Form handling functions
   const handleChange = useCallback(
     ({ name, value }: { name: string; value: string }) => {
@@ -239,20 +247,16 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
   const createAnime = useCallback(
     async (anime: any, playlistID: string) => {
       if (!token) return;
-      
+
       dispatch({ type: ACTIONS.CREATE_ANIME_BEGIN, payload: {} });
       try {
-        const { data } = await axios.post(`${API_BASE_URL}/animes`, {
+        const response = await apiClient.post<{ anime: Anime }>("/animes", {
           ...anime,
           playlistID,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         });
         dispatch({
           type: ACTIONS.CREATE_ANIME_SUCCESS,
-          payload: { anime: data.anime },
+          payload: { anime: response.data.anime },
         });
         toast.success("Anime Created!");
       } catch (error: any) {
@@ -265,12 +269,12 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
         toast.error(errorMessage);
       }
     },
-    [token]
+    [token, apiClient]
   );
 
   const getAnimes = useCallback(async (playlistId: string) => {
     if (!token) return;
-    
+
     const {
       page,
       search,
@@ -279,20 +283,23 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
       searchStared,
       sort,
     } = state;
-    
-    let url = `${API_BASE_URL}/animes?page=${page}&status=${searchStatus}&type=${searchType}&stared=${searchStared}&sort=${sort}&playlistId=${playlistId}`;
+
+    const params = new URLSearchParams({
+      page: String(page),
+      status: searchStatus,
+      type: searchType,
+      stared: searchStared,
+      sort,
+      playlistId: playlistId,
+    });
     if (search) {
-      url = url + `&search=${search}`;
+      params.append("search", search);
     }
-    
+
     dispatch({ type: ACTIONS.GET_ANIMES_BEGIN, payload: {} });
     try {
-      const { data } = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const { animes, totalAnimes, numOfPages } = data;
+      const response = await apiClient.get<{ animes: Anime[]; totalAnimes: number; numOfPages: number }>(`/animes?${params.toString()}`);
+      const { animes, totalAnimes, numOfPages } = response.data;
       dispatch({
         type: ACTIONS.GET_ANIMES_SUCCESS,
         payload: {
@@ -307,19 +314,15 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
         payload: { msg: error.response?.data?.msg || "Error fetching animes" },
       });
     }
-  }, [state.page, state.search, state.searchStatus, state.searchType, state.searchStared, state.sort, token]);
+  }, [state.page, state.search, state.searchStatus, state.searchType, state.searchStared, state.sort, token, apiClient]);
 
   const deleteAnime = useCallback(
     async (animeId: string, playlistId: string) => {
       if (!token) return;
-      
+
       dispatch({ type: ACTIONS.DELETE_ANIME_BEGIN, payload: {} });
       try {
-        await axios.delete(`${API_BASE_URL}/animes/${animeId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await apiClient.delete(`/animes/${animeId}`);
         getAnimes(playlistId);
         toast.success("Anime Deleted!");
       } catch (error: any) {
@@ -329,7 +332,7 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
         });
       }
     },
-    [getAnimes, token]
+    [getAnimes, token, apiClient]
   );
 
   const clearFilters = useCallback(() => {

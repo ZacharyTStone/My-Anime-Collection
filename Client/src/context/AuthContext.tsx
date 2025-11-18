@@ -5,9 +5,9 @@ import React, {
   useMemo,
 } from "react";
 import { toast } from "react-toastify";
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import { ACTIONS } from "./actions";
-import { API_BASE_URL, TOKEN_KEY, USER_KEY } from "../utils/constants";
+import { TOKEN_KEY, USER_KEY } from "../utils/constants";
+import { createApiClient } from "../utils/api";
 
 // Types and Interfaces
 interface User {
@@ -95,12 +95,12 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       return {
         ...state,
         isLoading: false,
-        token: action.payload.token,
-        user: action.payload.user,
-        isAuthenticated: !!action.payload.token,
+        token: action.payload?.token || null,
+        user: action.payload?.user || null,
+        isAuthenticated: !!action.payload?.token,
         showAlert: true,
         alertType: "success",
-        alertText: action.payload.alertText,
+        alertText: action.payload?.alertText || "",
       };
     case ACTIONS.SETUP_USER_ERROR:
       return {
@@ -108,7 +108,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isLoading: false,
         showAlert: true,
         alertType: "danger",
-        alertText: action.payload.msg,
+        alertText: action.payload?.msg || "An error occurred",
       };
     case ACTIONS.LOGOUT_USER:
       return {
@@ -123,9 +123,9 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       return {
         ...state,
         isLoading: false,
-        token: action.payload.token || state.token,
-        user: action.payload.user || state.user,
-        isAuthenticated: !!(action.payload.token || state.token),
+        token: action.payload?.token || state.token,
+        user: action.payload?.user || state.user,
+        isAuthenticated: !!(action.payload?.token || state.token),
       };
     case ACTIONS.UPDATE_USER_ERROR:
       return {
@@ -145,12 +145,12 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isLoading: false,
         showAlert: true,
         alertType: "danger",
-        alertText: action.payload.msg,
+        alertText: action.payload?.msg || "Error deleting user",
       };
     case ACTIONS.UPDATE_AUTHENTICATION_STATUS:
       return {
         ...state,
-        isAuthenticated: action.payload.isAuthenticated,
+        isAuthenticated: action.payload?.isAuthenticated ?? state.isAuthenticated,
       };
     default:
       return state;
@@ -172,47 +172,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem(TOKEN_KEY);
   }, []);
 
-  // Create axios instance with interceptors
-  const createAxiosInstance = useCallback(
-    (token: string | null): AxiosInstance => {
-      const instance = axios.create({
-        baseURL: API_BASE_URL,
-      });
+  // Handle 401 unauthorized errors
+  const handleUnauthorized = useCallback(() => {
+    removeUserFromLocalStorage();
+    dispatch({ type: ACTIONS.LOGOUT_USER, payload: {} });
+  }, [removeUserFromLocalStorage, dispatch]);
 
-      instance.interceptors.request.use(
-        (config) => {
-          if (token && config.headers) {
-            config.headers.Authorization = `Bearer ${token}`;
-          }
-          return config;
-        },
-        (error: AxiosError) => {
-          return Promise.reject(error);
-        }
-      );
-
-      instance.interceptors.response.use(
-        (response: AxiosResponse) => {
-          return response;
-        },
-        (error: AxiosError) => {
-          if (error.response?.status === 401) {
-            removeUserFromLocalStorage();
-            dispatch({ type: ACTIONS.LOGOUT_USER, payload: {} });
-          }
-          return Promise.reject(error);
-        }
-      );
-
-      return instance;
-    },
-    [removeUserFromLocalStorage, dispatch]
-  );
-
-  // Memoized axios instance
+  // Memoized axios instance using centralized createApiClient
   const authFetch = useMemo(
-    () => createAxiosInstance(state.token),
-    [state.token, createAxiosInstance]
+    () => createApiClient(state.token, { onUnauthorized: handleUnauthorized }),
+    [state.token, handleUnauthorized]
   );
 
   // Utility functions

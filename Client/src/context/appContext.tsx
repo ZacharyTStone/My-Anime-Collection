@@ -6,11 +6,12 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import reducer from "./reducer";
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import { toast } from "react-toastify";
+import axios from "axios"; // For external API calls (Kitsu)
 
 import { ACTIONS } from "./actions";
-import { SORT_OPTIONS, API_BASE_URL, TOKEN_KEY, USER_KEY } from "../utils/constants";
+import { SORT_OPTIONS, TOKEN_KEY, USER_KEY } from "../utils/constants";
+import { createApiClient } from "../utils/api";
 
 // Types and Interfaces
 interface User {
@@ -174,48 +175,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const { i18n } = useTranslation();
   const [state, dispatch] = useReducer(reducer, getInitialState());
 
-  // Create axios instance with interceptors
-  const createAxiosInstance = useCallback(
-    (token: string | null): AxiosInstance => {
-      const instance = axios.create({
-        baseURL: API_BASE_URL,
-      });
-
-      instance.interceptors.request.use(
-        (config) => {
-          if (token && config.headers) {
-            config.headers.Authorization = `Bearer ${token}`;
-          }
-          return config;
-        },
-        (error: AxiosError) => {
-          return Promise.reject(error);
-        }
-      );
-
-      instance.interceptors.response.use(
-        (response: AxiosResponse) => {
-          return response;
-        },
-        (error: AxiosError) => {
-          if (error.response?.status === 401) {
-            logoutUser();
-          }
-          return Promise.reject(error);
-        }
-      );
-
-      return instance;
-    },
-    []
-  );
-
-  // Memoized axios instance
-  const authFetch = useMemo(
-    () => createAxiosInstance(state.token),
-    [state.token, createAxiosInstance]
-  );
-
   // Utility functions
   const addUserToLocalStorage = useCallback(
     ({ user, token }: { user: User; token: string }) => {
@@ -229,6 +188,18 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     localStorage.removeItem(USER_KEY);
     localStorage.removeItem(TOKEN_KEY);
   }, []);
+
+  // Handle 401 unauthorized errors
+  const handleUnauthorized = useCallback(() => {
+    dispatch({ type: ACTIONS.LOGOUT_USER, payload: {} });
+    removeUserFromLocalStorage();
+  }, [dispatch, removeUserFromLocalStorage]);
+
+  // Memoized axios instance using centralized createApiClient
+  const authFetch = useMemo(
+    () => createApiClient(state.token, { onUnauthorized: handleUnauthorized }),
+    [state.token, handleUnauthorized]
+  );
 
   // Alert functions
   const displayAlert = useCallback(() => {

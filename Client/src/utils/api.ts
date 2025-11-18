@@ -13,11 +13,26 @@ export interface ApiResponse<T> {
 }
 
 /**
+ * Options for creating an API client
+ */
+export interface CreateApiClientOptions {
+  /**
+   * Custom handler for 401 unauthorized errors
+   * If not provided, defaults to clearing localStorage and redirecting to /landing
+   */
+  onUnauthorized?: () => void;
+}
+
+/**
  * Creates an axios instance with authentication interceptors
  * @param token - Authentication token
+ * @param options - Optional configuration for custom error handling
  * @returns Configured axios instance
  */
-export const createApiClient = (token: string | null): AxiosInstance => {
+export const createApiClient = (
+  token: string | null,
+  options?: CreateApiClientOptions
+): AxiosInstance => {
   const instance = axios.create({
     baseURL: API_BASE_URL,
     headers: {
@@ -43,11 +58,15 @@ export const createApiClient = (token: string | null): AxiosInstance => {
     (response) => response,
     (error: AxiosError<ApiErrorResponse>) => {
       if (error.response?.status === 401) {
-        // Clear auth data on 401
-        localStorage.removeItem(TOKEN_KEY);
-        localStorage.removeItem(USER_KEY);
-        // Redirect to landing page
-        window.location.href = "/landing";
+        if (options?.onUnauthorized) {
+          // Use custom handler if provided
+          options.onUnauthorized();
+        } else {
+          // Default behavior: Clear auth data and redirect
+          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(USER_KEY);
+          window.location.href = "/landing";
+        }
       }
       return Promise.reject(error);
     }
@@ -79,15 +98,15 @@ export const handleApiError = (
 export class ApiService {
   private client: AxiosInstance;
 
-  constructor(token: string | null) {
-    this.client = createApiClient(token);
+  constructor(token: string | null, options?: CreateApiClientOptions) {
+    this.client = createApiClient(token, options);
   }
 
   /**
    * Update the authentication token
    */
-  setToken(token: string | null): void {
-    this.client = createApiClient(token);
+  setToken(token: string | null, options?: CreateApiClientOptions): void {
+    this.client = createApiClient(token, options);
   }
 
   /**
