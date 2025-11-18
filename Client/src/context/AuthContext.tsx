@@ -3,11 +3,11 @@ import React, {
   useContext,
   useCallback,
   useMemo,
-  useEffect,
 } from "react";
 import { toast } from "react-toastify";
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import { ACTIONS } from "./actions";
+import { API_BASE_URL, TOKEN_KEY, USER_KEY } from "../utils/constants";
 
 // Types and Interfaces
 interface User {
@@ -43,11 +43,6 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-// Constants
-const TOKEN_KEY = "token";
-const USER_KEY = "user";
-const API_BASE_URL = "/api/v1";
-
 // Initial state
 const getInitialAuthState = (): AuthState => {
   const token = localStorage.getItem(TOKEN_KEY);
@@ -67,7 +62,18 @@ const getInitialAuthState = (): AuthState => {
 export const initialAuthState = getInitialAuthState();
 
 // Auth reducer
-const authReducer = (state: AuthState, action: { type: string; payload: any }) => {
+interface AuthAction {
+  type: string;
+  payload?: {
+    token?: string;
+    user?: User;
+    alertText?: string;
+    msg?: string;
+    isAuthenticated?: boolean;
+  };
+}
+
+const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
     case ACTIONS.DISPLAY_ALERT:
       return {
@@ -251,11 +257,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
         toast.success(alertText);
       } catch (error: any) {
+        const errorMessage = error.response?.data?.msg || "An error occurred";
         dispatch({
           type: ACTIONS.SETUP_USER_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
@@ -279,12 +286,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
         toast.success("User Updated!");
       } catch (error: any) {
-        if (error.response.status !== 401) {
+        if (error.response?.status !== 401) {
+          const errorMessage = error.response?.data?.msg || "Error updating user";
           dispatch({
             type: ACTIONS.UPDATE_USER_ERROR,
-            payload: { msg: error.response.data.msg },
+            payload: { msg: errorMessage },
           });
-          toast.error(error.response.data.msg);
+          toast.error(errorMessage);
         }
       }
       clearAlert();
@@ -299,12 +307,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         logoutUser();
         toast.success("User Deleted!");
       } catch (error: any) {
-        if (error.response.status !== 401) {
+        if (error.response?.status !== 401) {
+          const errorMessage = error.response?.data?.msg || "Error deleting user";
           dispatch({
             type: ACTIONS.DELETE_USER_ERROR,
-            payload: { msg: error.response.data.msg },
+            payload: { msg: errorMessage },
           });
-          toast.error(error.response.data.msg);
+          toast.error(errorMessage);
         }
       }
       clearAlert();

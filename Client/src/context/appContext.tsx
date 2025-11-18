@@ -1,8 +1,6 @@
 import React, {
   useReducer,
   useContext,
-  useRef,
-  useEffect,
   useCallback,
   useMemo,
 } from "react";
@@ -12,7 +10,7 @@ import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import { toast } from "react-toastify";
 
 import { ACTIONS } from "./actions";
-import { SORT_OPTIONS } from "../utils/constants";
+import { SORT_OPTIONS, API_BASE_URL, TOKEN_KEY, USER_KEY } from "../utils/constants";
 
 // Types and Interfaces
 interface User {
@@ -121,11 +119,6 @@ interface AppContextType extends AppState {
 interface AppProviderProps {
   children: React.ReactNode;
 }
-
-// Constants
-const TOKEN_KEY = "token";
-const USER_KEY = "user";
-const API_BASE_URL = "/api/v1";
 
 // Initial state
 const getInitialState = (): AppState => {
@@ -270,11 +263,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success(alertText);
       } catch (error: any) {
+        const errorMessage = error.response?.data?.msg || "An error occurred";
         dispatch({
           type: ACTIONS.SETUP_USER_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
@@ -298,12 +292,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success("User Updated!");
       } catch (error: any) {
-        if (error.response.status !== 401) {
+        if (error.response?.status !== 401) {
+          const errorMessage = error.response?.data?.msg || "Error updating user";
           dispatch({
             type: ACTIONS.UPDATE_USER_ERROR,
-            payload: { msg: error.response.data.msg },
+            payload: { msg: errorMessage },
           });
-          toast.error(error.response.data.msg);
+          toast.error(errorMessage);
         }
       }
       clearAlert();
@@ -318,12 +313,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         logoutUser();
         toast.success("User Deleted!");
       } catch (error: any) {
-        if (error.response.status !== 401) {
+        if (error.response?.status !== 401) {
+          const errorMessage = error.response?.data?.msg || "Error deleting user";
           dispatch({
             type: ACTIONS.DELETE_USER_ERROR,
-            payload: { msg: error.response.data.msg },
+            payload: { msg: errorMessage },
           });
-          toast.error(error.response.data.msg);
+          toast.error(errorMessage);
         }
       }
       clearAlert();
@@ -365,12 +361,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success("Anime Created!");
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage = error.response?.data?.msg || "Error creating anime";
         dispatch({
           type: ACTIONS.CREATE_ANIME_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
@@ -393,8 +390,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
     dispatch({ type: ACTIONS.GET_ANIMES_BEGIN, payload: {} });
     try {
-      const { data } = await authFetch(url);
-      const { animes, totalAnimes, numOfPages } = data;
+      const response = await authFetch.get(url);
+      const { animes, totalAnimes, numOfPages } = response.data;
       dispatch({
         type: ACTIONS.GET_ANIMES_SUCCESS,
         payload: {
@@ -446,8 +443,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const getPlaylists = useCallback(async () => {
     dispatch({ type: ACTIONS.GET_PLAYLIST_BEGIN, payload: {} });
     try {
-      const { data } = await authFetch("/playlists");
-      const { playlists } = data;
+      const response = await authFetch.get("/playlists");
+      const { playlists } = response.data;
       dispatch({
         type: ACTIONS.GET_PLAYLIST_SUCCESS,
         payload: { playlists },
@@ -472,12 +469,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success("Playlist Created!");
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage = error.response?.data?.msg || "Error creating playlist";
         dispatch({
           type: ACTIONS.CREATE_PLAYLIST_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },
@@ -499,12 +497,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         toast.success("Playlist Updated!");
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage = error.response?.data?.msg || "Error updating playlist";
         dispatch({
           type: ACTIONS.UPDATE_PLAYLIST_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
       clearAlert();
     },

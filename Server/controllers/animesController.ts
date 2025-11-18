@@ -40,7 +40,10 @@ const createAnime = async (req: Request, res: Response) => {
 interface QueryObject {
   createdBy: string;
   playlistID: string;
-  title?: any;
+  title?: {
+    $regex: string;
+    $options: string;
+  };
 }
 
 const getAnimes = async (req: Request, res: Response) => {

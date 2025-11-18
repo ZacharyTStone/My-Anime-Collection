@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { ACTIONS } from "./actions";
 import { useAuthContext } from "./AuthContext";
-
+import { API_BASE_URL } from "../utils/constants";
 
 // Types and Interfaces
 interface Playlist {
@@ -37,9 +37,6 @@ interface PlaylistProviderProps {
   children: React.ReactNode;
 }
 
-// Constants
-const API_BASE_URL = "/api/v1";
-
 // Initial state
 const getInitialPlaylistState = (): PlaylistState => {
   return {
@@ -58,9 +55,20 @@ const getInitialPlaylistState = (): PlaylistState => {
 export const initialPlaylistState = getInitialPlaylistState();
 
 // Playlist reducer
-const playlistReducer = (state: PlaylistState, action: { type: string; payload: any }) => {
+interface PlaylistAction {
+  type: string;
+  payload?: {
+    playlist?: Playlist;
+    playlists?: Playlist[];
+    msg?: string;
+    id?: string;
+  };
+}
+
+const playlistReducer = (state: PlaylistState, action: PlaylistAction): PlaylistState => {
   switch (action.type) {
     case ACTIONS.HANDLE_PLAYLIST_CHANGE:
+      if (!action.payload?.playlist) return state;
       return {
         ...state,
         currentPlaylist: {
@@ -80,7 +88,7 @@ const playlistReducer = (state: PlaylistState, action: { type: string; payload: 
       return {
         ...state,
         loadingFetchPlaylists: false,
-        userPlaylists: action.payload.playlists,
+        userPlaylists: action.payload?.playlists || [],
       };
     case ACTIONS.GET_PLAYLIST_ERROR:
       return {
@@ -158,7 +166,7 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
 
   const getPlaylists = useCallback(async () => {
     if (!token) return;
-    
+
     dispatch({ type: ACTIONS.GET_PLAYLIST_BEGIN, payload: {} });
     try {
       const { data } = await axios.get(`${API_BASE_URL}/playlists`, {
@@ -182,7 +190,7 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
   const createPlaylist = useCallback(
     async (playlistTitle: string) => {
       if (!token) return;
-      
+
       dispatch({ type: ACTIONS.CREATE_PLAYLIST_BEGIN, payload: {} });
       try {
         const { data } = await axios.post(`${API_BASE_URL}/playlists`, {
@@ -201,12 +209,13 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
         // Refresh playlists after creation
         getPlaylists();
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage = error.response?.data?.msg || "Error creating playlist";
         dispatch({
           type: ACTIONS.CREATE_PLAYLIST_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
     },
     [getPlaylists, token]
@@ -215,7 +224,7 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
   const updatePlaylist = useCallback(
     async (playlist: Playlist) => {
       if (!token) return;
-      
+
       dispatch({ type: ACTIONS.UPDATE_PLAYLIST_BEGIN, payload: {} });
       try {
         const { data } = await axios.patch(
@@ -236,12 +245,13 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
         // Refresh playlists after update
         getPlaylists();
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage = error.response?.data?.msg || "Error updating playlist";
         dispatch({
           type: ACTIONS.UPDATE_PLAYLIST_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
     },
     [getPlaylists, token]
@@ -250,7 +260,7 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
   const deletePlaylist = useCallback(
     async (playlistId: string) => {
       if (!token) return;
-      
+
       dispatch({ type: ACTIONS.DELETE_PLAYLIST_BEGIN, payload: {} });
       try {
         await axios.delete(`${API_BASE_URL}/playlists/${playlistId}`, {
@@ -266,10 +276,12 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({ children }) 
         // Refresh playlists after deletion
         getPlaylists();
       } catch (error: any) {
+        const errorMessage = error.response?.data?.msg || "Error deleting playlist";
         dispatch({
           type: ACTIONS.DELETE_PLAYLIST_ERROR,
-          payload: { msg: error.response?.data?.msg || "Error deleting playlist" },
+          payload: { msg: errorMessage },
         });
+        toast.error(errorMessage);
       }
     },
     [getPlaylists, token]

@@ -80,3 +80,10 @@ export const SORT_OPTIONS = [
   { title: "Format", value: "format" },
   { title: "Date added", value: "date added" },
 ];
+
+// API Configuration
+export const API_BASE_URL = "/api/v1";
+
+// Local Storage Keys
+export const TOKEN_KEY = "token";
+export const USER_KEY = "user";

@@ -7,9 +7,8 @@ import React, {
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ACTIONS } from "./actions";
-import { SORT_OPTIONS } from "../utils/constants";
+import { SORT_OPTIONS, API_BASE_URL } from "../utils/constants";
 import { useAuthContext } from "./AuthContext";
-
 
 // Types and Interfaces
 interface LoadingData {
@@ -80,9 +79,6 @@ interface AnimeProviderProps {
   children: React.ReactNode;
 }
 
-// Constants
-const API_BASE_URL = "/api/v1";
-
 // Initial state
 const getInitialAnimeState = (): AnimeState => {
   return {
@@ -110,7 +106,22 @@ const getInitialAnimeState = (): AnimeState => {
 export const initialAnimeState = getInitialAnimeState();
 
 // Anime reducer
-const animeReducer = (state: AnimeState, action: { type: string; payload: any }) => {
+interface AnimeAction {
+  type: string;
+  payload?: {
+    name?: string;
+    value?: string;
+    animes?: Anime[];
+    totalAnimes?: number;
+    numOfPages?: number;
+    anime?: Anime;
+    id?: string;
+    page?: number;
+    msg?: string;
+  };
+}
+
+const animeReducer = (state: AnimeState, action: AnimeAction): AnimeState => {
   switch (action.type) {
     case ACTIONS.HANDLE_CHANGE:
       return {
@@ -245,12 +256,13 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
         });
         toast.success("Anime Created!");
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
+        const errorMessage = error.response?.data?.msg || "Error creating anime";
         dispatch({
           type: ACTIONS.CREATE_ANIME_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: errorMessage },
         });
-        toast.error(error.response.data.msg);
+        toast.error(errorMessage);
       }
     },
     [token]

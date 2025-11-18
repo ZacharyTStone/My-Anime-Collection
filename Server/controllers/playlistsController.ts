@@ -5,17 +5,18 @@ import Anime from "../models/Anime.js";
 import Playlist from "../models/Playlists.js";
 import { v4 as uuidv4 } from "uuid";
 import sanitize from "mongo-sanitize";
+import { Request, Response } from "express";
 
 // REST routes are defined in playlistRoutes.js
 
-const getPlaylists = async (req, res) => {
+const getPlaylists = async (req: Request, res: Response) => {
   // find all playlists with the userID of req.user.userId
   const playlists = await Playlist.find({ userID: req.user.userId });
 
   res.status(StatusCodes.OK).json({ playlists });
 };
 
-const createPlaylist = async (req, res) => {
+const createPlaylist = async (req: Request, res: Response) => {
   const user = await User.findOne({ _id: req.user.userId });
 
   const newPlaylistID = uuidv4();
@@ -34,7 +35,7 @@ const createPlaylist = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ playlist });
 };
 
-const updatePlaylist = async (req, res) => {
+const updatePlaylist = async (req: Request, res: Response) => {
   const playlist = await Playlist.findOne({
     id: req.params.id,
     userID: sanitize(req.user.userId),
@@ -50,7 +51,7 @@ const updatePlaylist = async (req, res) => {
   res.status(StatusCodes.OK).json({ playlist });
 };
 
-const deletePlaylist = async (req, res) => {
+const deletePlaylist = async (req: Request, res: Response) => {
   const playlist = await Playlist.findOne({
     id: req.params.id,
     userID: sanitize(req.user.userId),

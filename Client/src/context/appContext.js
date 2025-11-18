@@ -123,7 +123,6 @@ const AppProvider = ({ children }) => {
         currentUser
       );
       const { user, token } = data;
-      console.log(user);
       dispatch({
         type: ACTIONS.SETUP_USER_SUCCESS,
         payload: { user, token, alertText },

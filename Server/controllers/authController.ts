@@ -149,11 +149,12 @@ const deleteAssociatedRecords = async (
 ) => {
   const records = await model.find({ createdBy: userId });
 
-  const deletePromises = records.map(async (record: any) => {
+  const deletePromises = records.map(async (record: Document) => {
     try {
       await record.remove();
     } catch (error) {
-      console.error(`Error deleting ${model.modelName}: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.error(`Error deleting ${model.modelName}: ${errorMessage}`);
     }
   });
 

@@ -23,7 +23,7 @@ export const getRandomPokemon = async () => {
         pokemon.sprites.other.dream_world.front_default, // Include SVG here
     };
   } catch (error) {
-    console.error("Error fetching random pokemon:", error);
+    // Silently handle error - return null to indicate failure
     return null;
   }
 };
