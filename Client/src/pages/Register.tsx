@@ -113,7 +113,7 @@ const Register: React.FC = () => {
             className="btn btn-block btn-submit"
             disabled={isLoading}
           >
-            {t("register.submit")}
+            {values.existingUser ? t("login.submit") : t("register.submit")}
           </button>
           <p>
             {values.existingUser ? t("login.switch1") : t("register.switch1")}

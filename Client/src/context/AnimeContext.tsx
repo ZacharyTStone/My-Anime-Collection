@@ -210,7 +210,7 @@ const AnimeContext = React.createContext<AnimeContextType | undefined>(undefined
  */
 export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(animeReducer, getInitialAnimeState());
-  const { token } = useAuthContext();
+  const { token, user } = useAuthContext();
 
   // Form handling functions
   const handleChange = useCallback(
@@ -231,9 +231,41 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
       
       dispatch({ type: ACTIONS.CREATE_ANIME_BEGIN, payload: {} });
       try {
+        // Extract fields from anime object like the old appContext.js did
+        const creationDate = anime.attributes?.startDate;
+        const title =
+          anime.attributes?.titles?.en ||
+          anime.attributes?.titles?.en_jp ||
+          anime.attributes?.canonicalTitle ||
+          "Title N/A";
+        const id = anime.id || Math.random() * 100000;
+        const rating = anime.attributes?.averageRating || "N/A";
+        const format = anime.attributes?.subtype || "N/A";
+        const episodeCount = anime.attributes?.episodeCount ?? null;
+        const synopsis = anime.attributes?.synopsis || "N/A";
+        const coverImage = anime.attributes?.posterImage?.small || "N/A";
+        const youtubeVideoId = anime.attributes?.youtubeVideoId || "N/A";
+        const japanese_title =
+          anime.attributes?.titles?.ja_jp ||
+          anime.attributes?.titles?.en_jp ||
+          anime.attributes?.canonicalTitle ||
+          "Title N/A";
+
+        const isDemoAnime = (user as any)?.isDemo === true;
+
         const { data } = await axios.post(`${API_BASE_URL}/animes`, {
-          ...anime,
+          title,
+          id,
+          rating,
+          format,
+          episodeCount,
+          synopsis,
+          coverImage,
+          creationDate,
+          youtubeVideoId,
+          japanese_title,
           playlistID,
+          isDemoAnime,
         }, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -245,15 +277,15 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
         });
         toast.success("Anime Created!");
       } catch (error: any) {
-        if (error.response.status === 401) return;
+        if (error.response?.status === 401) return;
         dispatch({
           type: ACTIONS.CREATE_ANIME_ERROR,
-          payload: { msg: error.response.data.msg },
+          payload: { msg: error.response?.data?.msg || "An error occurred while adding the anime" },
         });
-        toast.error(error.response.data.msg);
+        toast.error(error.response?.data?.msg || "An error occurred while adding the anime");
       }
     },
-    [token]
+    [token, user]
   );
 
   const getAnimes = useCallback(async (playlistId: string) => {

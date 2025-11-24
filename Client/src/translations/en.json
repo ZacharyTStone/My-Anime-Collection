@@ -66,7 +66,7 @@
       "password": "Password",
       "switch1": "Don't have an account yet?",
       "switch2": "Register",
-      "submit": "Submit",
+      "submit": "Login",
       "alert_text": "Login Successful! Redirecting..."
     },
     "register": {

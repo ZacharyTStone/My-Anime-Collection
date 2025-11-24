@@ -23,6 +23,7 @@ const Profile = () => {
 
   const [name, setName] = useState<string>(user?.name || "");
   const [email, setEmail] = useState<User["email"]>(user?.email || "");
+  const isDemoUser = (user as any)?.isDemo === true;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,7 +31,8 @@ const Profile = () => {
       displayAlert();
       return;
     }
-    updateUser({ name, email, id: user?.id ?? "" });
+    const theme = (user as any)?.theme || "light";
+    updateUser({ name, email, id: user?.id ?? "", theme } as any);
   };
 
   const handleDelete = () => {
@@ -50,7 +52,7 @@ const Profile = () => {
         {showAlert && <Alert />}
         <div className="form-center">
           <FormRow
-            disabled={isLoading}
+            disabled={isLoading || isDemoUser}
             type="text"
             name="name"
             labelText={t("profile.name")}
@@ -58,7 +60,7 @@ const Profile = () => {
             handleChange={(e) => setName(e.target.value)}
           />
           <FormRow
-            disabled={isLoading}
+            disabled={isLoading || isDemoUser}
             type="email"
             name="email"
             labelText={t("profile.email")}
@@ -70,7 +72,7 @@ const Profile = () => {
             <button
               className="btn btn-submit"
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isDemoUser}
             >
               {isLoading ? t("profile.wait") : t("profile.save")}
             </button>

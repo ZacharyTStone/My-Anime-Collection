@@ -6,7 +6,6 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
@@ -136,35 +135,17 @@ const MUINavbar = () => {
             <FlagContainer />
 
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip
-                title="Other Settings"
-                className="nav-link"
-                arrow
-                placement="bottom"
-                sx={{
-                  "& .MuiTooltip-arrow": {
+              <UserIcon onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <FaUserCircle color="var(--grey-700)" />
+                <span
+                  style={{
                     color: "var(--grey-800)",
-                  },
-                  "& .MuiTooltip-tooltip": {
-                    backgroundColor: "var(--grey-800)",
-                    fontSize: "0.75rem",
-                    fontWeight: 500,
-                    letterSpacing: "0.5px",
-                  },
-                }}
-              >
-                <UserIcon onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <FaUserCircle color="var(--grey-700)" />
-                  <span
-                    style={{
-                      color: "var(--grey-800)",
-                    }}
-                  >
-                    {user?.name || "Guest"}
-                  </span>
-                  <FaCaretDown color="var(--primary-500)" />
-                </UserIcon>
-              </Tooltip>
+                  }}
+                >
+                  {user?.name || "Guest"}
+                </span>
+                <FaCaretDown color="var(--primary-500)" />
+              </UserIcon>
               <Menu
                 sx={{
                   mt: "45px",
