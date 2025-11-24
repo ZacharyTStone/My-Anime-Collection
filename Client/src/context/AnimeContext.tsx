@@ -300,7 +300,7 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
       sort,
     } = state;
     
-    let url = `${API_BASE_URL}/animes?page=${page}&status=${searchStatus}&type=${searchType}&stared=${searchStared}&sort=${sort}&playlistId=${playlistId}`;
+    let url = `${API_BASE_URL}/animes?page=${page}&status=${searchStatus}&type=${searchType}&stared=${searchStared}&sort=${sort}&currentPlaylistID=${playlistId}`;
     if (search) {
       url = url + `&search=${search}`;
     }

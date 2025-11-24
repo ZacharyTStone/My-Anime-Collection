@@ -387,7 +387,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       sort,
       currentPlaylist,
     } = state;
-    let url = `/animes?page=${page}&status=${searchStatus}&type=${searchType}&stared=${searchStared}&sort=${sort}&playlistId=${currentPlaylist.id}`;
+    let url = `/animes?page=${page}&status=${searchStatus}&type=${searchType}&stared=${searchStared}&sort=${sort}&currentPlaylistID=${currentPlaylist.id}`;
     if (search) {
       url = url + `&search=${search}`;
     }
