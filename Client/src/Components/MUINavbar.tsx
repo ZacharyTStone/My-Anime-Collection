@@ -61,9 +61,12 @@ const MUINavbar = () => {
         position="static"
         elevation={0}
         sx={{
-          backgroundColor: "var(--white)",
-          borderBottom: "1px solid var(--grey-200)",
-          boxShadow: "var(--shadow)",
+          background: "rgba(255, 255, 255, 0.7)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          borderBottom: "1px solid rgba(212, 54, 124, 0.15)",
+          boxShadow: "0 2px 10px rgba(212, 54, 124, 0.1)",
+          position: "relative",
         }}
       >
         <Container maxWidth="xl">
@@ -87,7 +90,8 @@ const MUINavbar = () => {
                 sx={{
                   color: "var(--primary-500)",
                   "&:hover": {
-                    backgroundColor: "var(--primary-50)",
+                    backgroundColor: "rgba(212, 54, 124, 0.1)",
+                    backdropFilter: "blur(5px)",
                   },
                 }}
               >
@@ -118,9 +122,12 @@ const MUINavbar = () => {
                   flexDirection: "column",
                   alignItems: "left",
                   "& .MuiPaper-root": {
-                    boxShadow: "var(--shadow-md)",
+                    background: "rgba(255, 255, 255, 0.9)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                    border: "1px solid rgba(212, 54, 124, 0.2)",
+                    boxShadow: "0 4px 20px rgba(212, 54, 124, 0.15)",
                     borderRadius: "var(--borderRadius)",
-                    border: "1px solid var(--grey-100)",
                     mt: 1.5,
                   },
                 }}
@@ -150,9 +157,12 @@ const MUINavbar = () => {
                 sx={{
                   mt: "45px",
                   "& .MuiPaper-root": {
-                    boxShadow: "var(--shadow-md)",
+                    background: "rgba(255, 255, 255, 0.9)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                    border: "1px solid rgba(212, 54, 124, 0.2)",
+                    boxShadow: "0 4px 20px rgba(212, 54, 124, 0.15)",
                     borderRadius: "var(--borderRadius)",
-                    border: "1px solid var(--grey-100)",
                   },
                 }}
                 id="menu-appbar"
@@ -173,8 +183,9 @@ const MUINavbar = () => {
                   key={1}
                   onClick={handleLogout}
                   sx={{
+                    padding: "0.75rem 1.5rem",
                     "&:hover": {
-                      backgroundColor: "var(--primary-50)",
+                      backgroundColor: "rgba(212, 54, 124, 0.1)",
                     },
                   }}
                 >
@@ -183,6 +194,7 @@ const MUINavbar = () => {
                     sx={{
                       color: "var(--grey-800)",
                       fontWeight: 500,
+                      width: "100%",
                     }}
                   >
                     {t("navbar.logout")}
@@ -200,11 +212,11 @@ const MUINavbar = () => {
 const Navbar = styled.nav`
   height: var(--nav-height);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   width: 100%;
-  background: var(--white);
-  box-shadow: var(--shadow);
+  background: transparent;
+  box-shadow: none;
 
   .toggle-btn {
     background: transparent;
@@ -236,8 +248,9 @@ const Navbar = styled.nav`
       left: 0;
       width: 100%;
       height: 2px;
-      background-color: var(--primary-500);
+      background: var(--gradient-primary);
       border-radius: 2px;
+      opacity: 0.6;
     }
   }
 
@@ -252,18 +265,30 @@ const UserIcon = styled(IconButton)`
   gap: 6px;
   padding: 6px 14px;
   border-radius: 24px;
-  transition: all 0.2s ease;
-  background-color: var(--grey-50);
-  border: 1px solid var(--grey-200);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: linear-gradient(135deg, var(--grey-50) 0%, var(--white) 100%);
+  border: 2px solid rgba(212, 54, 124, 0.2);
+  box-shadow: 0 2px 8px rgba(212, 54, 124, 0.1);
 
   &:hover {
-    background-color: var(--primary-50);
-    border-color: var(--primary-100);
+    background: var(--gradient-primary);
+    border-color: var(--primary-500);
+    box-shadow: var(--shadow-anime);
+    transform: translateY(-2px) scale(1.05);
+    
+    svg {
+      color: var(--white);
+    }
+    
+    span {
+      color: var(--white);
+    }
   }
 
   svg {
     font-size: 1.25rem;
-    color: var(--grey-700);
+    color: var(--primary-600);
+    transition: color 0.3s ease;
   }
 
   span {
@@ -271,6 +296,7 @@ const UserIcon = styled(IconButton)`
     font-weight: 500;
     font-size: 0.95rem;
     margin: 0 4px;
+    transition: color 0.3s ease;
   }
 `;
 

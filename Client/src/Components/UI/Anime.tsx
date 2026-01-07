@@ -167,18 +167,32 @@ const Anime: React.FC<AnimeCardProps> = ({
           color: "var(--textColor)",
           backgroundColor: "var(--white)",
           marginBottom: "1.5rem",
-          borderRadius: "var(--borderRadius)",
-          border: "1px solid var(--card-border-light)",
-          boxShadow: "var(--shadow)",
+          borderRadius: "calc(var(--borderRadius) * 1.5)",
+          border: "2px solid rgba(212, 54, 124, 0.2)",
+          boxShadow: "var(--shadow-anime)",
           overflow: "hidden",
           position: "relative",
+          background: "linear-gradient(135deg, var(--white) 0%, var(--primary-50) 100%)",
 
-          // improved hover effect
-          transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+          // Anime-style hover effect
+          transition: "all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: "-100%",
+            width: "100%",
+            height: "100%",
+            background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)",
+            transition: "left 0.5s",
+          },
           "&:hover": {
-            transform: "translateY(-4px)",
-            boxShadow: "var(--shadow-lg)",
-            borderColor: "var(--card-border-hover)",
+            transform: "translateY(-8px) scale(1.02)",
+            boxShadow: "var(--shadow-anime-hover)",
+            borderColor: "var(--primary-500)",
+            "&::before": {
+              left: "100%",
+            },
           },
         }}
       >
@@ -552,21 +566,36 @@ const Modal = styled.div<{ onClose: () => void }>`
 `;
 
 const ModalContent = styled.div`
-  background-color: var(--white);
+  background: linear-gradient(135deg, var(--white) 0%, var(--primary-50) 100%);
   padding: 2rem;
-  border-radius: var(--borderRadius);
-  box-shadow: var(--shadow-lg);
+  border-radius: calc(var(--borderRadius) * 1.5);
+  box-shadow: var(--shadow-anime-lg);
   max-width: 80%;
   max-height: 80%;
   overflow-y: auto;
-  border: 1px solid var(--grey-200);
+  border: 2px solid rgba(212, 54, 124, 0.3);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+  }
 
   h5 {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    color: var(--grey-900);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-weight: 600;
-    border-bottom: 1px solid var(--grey-200);
+    border-bottom: 2px solid rgba(212, 54, 124, 0.2);
     padding-bottom: 0.75rem;
   }
 

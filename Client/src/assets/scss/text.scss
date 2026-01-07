@@ -53,7 +53,24 @@ h5 {
 h1 span,
 h2 span,
 h3 span {
-  color: var(--primary-600);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  display: inline-block;
+  
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    opacity: 0.6;
+  }
 }
 
 small,
@@ -68,13 +85,83 @@ span {
 a {
   text-decoration: none;
   letter-spacing: var(--letterSpacing);
-  color: var(--primary-600);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-weight: 500;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  display: inline-block;
+  
+  /* Don't apply gradient text to buttons and navigation links */
+  &.btn,
+  &.btn-primary,
+  &.btn-submit {
+    -webkit-background-clip: border-box;
+    -webkit-text-fill-color: var(--white);
+    background: var(--gradient-primary);
+  }
+  
+  /* Outline buttons need primary color, not white */
+  &.btn-outline {
+    -webkit-background-clip: border-box;
+    -webkit-text-fill-color: var(--primary-600) !important;
+    background: none;
+    color: var(--primary-600) !important;
+  }
+  
+  /* Reset for navigation links */
+  &.nav-item {
+    -webkit-background-clip: border-box;
+    -webkit-text-fill-color: inherit;
+    background: none;
+    color: inherit;
+  }
+  
+  /* Reset for links inside buttons and nav */
+  .btn &,
+  .btn-outline &,
+  .nav-link &,
+  button & {
+    -webkit-background-clip: border-box;
+    -webkit-text-fill-color: inherit;
+    background: none;
+    color: inherit;
+  }
+  
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: width 0.3s ease;
+    border-radius: 1px;
+  }
 }
 
 a:hover {
-  color: var(--primary-700);
+  transform: translateY(-1px);
+  filter: brightness(1.2);
+  
+  &::after {
+    width: 100%;
+  }
+  
+  /* Don't apply hover transform to buttons and nav */
+  &.btn,
+  &.btn-outline,
+  &.btn-primary,
+  &.btn-submit,
+  &.nav-item,
+  .btn &,
+  .btn-outline & {
+    transform: none;
+    filter: none;
+  }
 }
 
 /* title */
@@ -85,12 +172,25 @@ a:hover {
 }
 
 .title-underline {
-  background: var(--primary-500);
+  background: var(--gradient-primary);
   width: 5rem;
-  height: 0.25rem;
+  height: 0.35rem;
   margin: 0 auto;
   margin-top: 0.5rem;
   border-radius: 1rem;
+  box-shadow: var(--glow-primary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleX(1.1);
+  }
 }
 
 @media (max-width: $tablet) {

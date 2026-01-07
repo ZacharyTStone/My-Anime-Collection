@@ -21,7 +21,7 @@ const LayoutContainer = styled.main`
   min-height: 100vh;
   width: 100%;
   background-color: var(--grey-50);
-  padding: 16px;
+
 `;
 
 const FallBackDiv = styled.div`

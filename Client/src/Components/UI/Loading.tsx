@@ -40,11 +40,39 @@ const LoadingSpinner = styled.div<{ center: boolean; size: string }>`
         return "6rem";
     }
   }};
-  border: ${BORDER_WIDTH} solid var(--grey-400);
+  border: ${BORDER_WIDTH} solid rgba(212, 54, 124, 0.2);
   border-radius: 50%;
   border-top-color: var(--primary-500);
+  border-right-color: var(--anime-pink);
+  border-bottom-color: var(--primary-600);
+  border-left-color: var(--anime-purple);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(212, 54, 124, 0.1) 90deg,
+    transparent 180deg
+  );
   animation: ${spin} ${SPIN_ANIMATION_DURATION} linear infinite;
+  box-shadow: var(--glow-primary);
+  position: relative;
   ${({ center }) => center && "margin: 0 auto;"}
+  
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(212, 54, 124, 0.1) 0%,
+      transparent 70%
+    );
+    animation: ${spin} ${SPIN_ANIMATION_DURATION} linear infinite reverse;
+  }
 `;
 
 /**

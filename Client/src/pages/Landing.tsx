@@ -292,7 +292,7 @@ const ContactLink = styled.a`
 
 const Wrapper = styled.main`
   overflow: hidden;
-  background-color: var(--white);
+  background-color: var(--backgroundColor);
 
   nav {
     width: var(--fluid-width);

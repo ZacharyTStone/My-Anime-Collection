@@ -122,19 +122,45 @@ const Wrapper = styled.section`
     display: flex;
     align-items: center;
     font-weight: 500;
-    color: var(--grey-600);
+    color: var(--grey-600) !important;
     text-transform: none;
     letter-spacing: 0;
     font-size: 0.95rem;
+    
+    /* Ensure text is visible */
+    &,
+    & *,
+    & .nav-text {
+      color: var(--grey-600) !important;
+      -webkit-text-fill-color: var(--grey-600) !important;
+    }
   }
 
   .nav-link.active {
     color: var(--primary-600) !important;
     font-weight: 600;
+    
+    &,
+    & *,
+    & .nav-text {
+      color: var(--primary-600) !important;
+      -webkit-text-fill-color: var(--primary-600) !important;
+    }
   }
 
   .nav-text {
     margin-top: 2px;
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+  }
+  
+  .nav-item {
+    &,
+    & * {
+      -webkit-text-fill-color: inherit !important;
+      background: none !important;
+      -webkit-background-clip: border-box !important;
+    }
   }
 
   @media (max-width: 768px) {

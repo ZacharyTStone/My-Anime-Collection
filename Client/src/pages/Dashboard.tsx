@@ -17,15 +17,19 @@ const TOAST_THEME = "light";
 
 // Styled Components
 const DashboardContainer = styled.div`
-  background-color: var(--grey-50);
+  background: var(--backgroundColor);
   min-height: 100vh;
+  position: relative;
 `;
 
 const DashboardWrapper = styled.section`
+  position: relative;
+  z-index: 1;
+  
   .dashboard {
     min-height: 100vh;
     height: 100%;
-    background-color: var(--grey-50);
+    background: transparent;
   }
 
   .dashboard-page {
@@ -33,6 +37,7 @@ const DashboardWrapper = styled.section`
     margin: 0 auto;
     padding: 2rem 1.5rem;
     max-width: 1240px;
+    position: relative;
   }
 
   @media (min-width: 992px) {

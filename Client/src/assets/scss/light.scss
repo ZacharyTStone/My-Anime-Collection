@@ -15,6 +15,25 @@
   --primary-800: #88204b;
   --primary-900: #661036;
 
+  /* Anime-inspired gradient colors */
+  --anime-pink: #ff6b9d;
+  --anime-purple: #c44569;
+  --anime-blue: #4ecdc4;
+  --anime-cyan: #44a3c4;
+  --anime-orange: #ff8c42;
+  --anime-yellow: #ffd93d;
+  
+  /* Gradient definitions */
+  --gradient-primary: linear-gradient(135deg, var(--primary-500) 0%, var(--anime-pink) 50%, var(--primary-600) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--anime-blue) 0%, var(--anime-cyan) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--anime-orange) 0%, var(--anime-yellow) 100%);
+  --gradient-background: linear-gradient(135deg, #fef0f6 0%, #fad8e8 25%, #fff8e6 50%, #fef0f6 75%, #fad8e8 100%);
+  
+  /* Glow effects */
+  --glow-primary: 0 0 20px rgba(212, 54, 124, 0.4), 0 0 40px rgba(212, 54, 124, 0.2);
+  --glow-secondary: 0 0 20px rgba(78, 205, 196, 0.4), 0 0 40px rgba(78, 205, 196, 0.2);
+  --glow-accent: 0 0 20px rgba(255, 140, 66, 0.4), 0 0 40px rgba(255, 140, 66, 0.2);
+
   /* grey - more balanced tones */
   --grey-50: #f9fafb;
   --grey-100: #f1f5f9;
@@ -63,6 +82,11 @@
     0 4px 6px -2px rgba(0, 0, 0, 0.02);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08),
     0 10px 10px -5px rgba(0, 0, 0, 0.01);
+  
+  /* Anime-inspired shadows with glow */
+  --shadow-anime: 0 4px 15px rgba(212, 54, 124, 0.3), 0 2px 5px rgba(212, 54, 124, 0.2);
+  --shadow-anime-lg: 0 10px 30px rgba(212, 54, 124, 0.4), 0 5px 10px rgba(212, 54, 124, 0.3);
+  --shadow-anime-hover: 0 8px 25px rgba(212, 54, 124, 0.5), 0 4px 10px rgba(212, 54, 124, 0.4);
 
   /* card border colors */
   --card-border-light: var(--grey-200);
