@@ -135,56 +135,130 @@ const Register: React.FC = () => {
 };
 
 const Wrapper = styled.section`
-  background-color: var(--grey-50);
+  min-height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    var(--grey-50) 0%,
+    var(--white) 50%,
+    rgba(212, 54, 124, 0.05) 100%
+  );
+  position: relative;
+  overflow: hidden;
+
+  /* Decorative background elements */
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+      circle,
+      rgba(212, 54, 124, 0.08) 0%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(
+      circle,
+      rgba(212, 54, 124, 0.06) 0%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
   .run {
     position: absolute;
     top: 80vh;
     left: 0;
     width: 100vw;
+    z-index: 1;
   }
-  display: grid;
-  align-items: center;
 
   .form {
+    position: relative;
+    z-index: 10;
+    width: 100%;
     max-width: 420px;
-    border-radius: var(--borderRadius);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--grey-200);
-    background-color: var(--white);
-    transition: var(--transition);
+    margin: 2rem;
+    padding: 2.5rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 4px 24px rgba(212, 54, 124, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(212, 54, 124, 0.1);
   }
 
   h3 {
     text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--grey-900);
+    margin-bottom: 2rem;
+    color: var(--grey-800);
+    font-size: 1.75rem;
+    font-weight: 600;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   p {
     margin: 0;
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
     text-align: center;
     color: var(--grey-600);
+    font-size: 0.95rem;
   }
 
   .btn {
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
     width: 100%;
-    font-weight: 500;
+    font-weight: 600;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
   }
 
   .existing-user-btn {
     background: transparent;
-    border: transparent;
-    color: var(--primary-600);
+    border: none;
+    color: var(--primary-500);
     cursor: pointer;
     letter-spacing: var(--letterSpacing);
-    font-weight: 500;
+    font-weight: 600;
     padding: 0 0.25rem;
-    transition: var(--transition);
+    transition: all 0.2s ease;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 
     &:hover {
-      color: var(--primary-700);
+      color: var(--primary-600);
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .form {
+      margin: 1rem;
+      padding: 2rem 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
     }
   }
 `;

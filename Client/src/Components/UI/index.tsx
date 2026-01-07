@@ -7,7 +7,6 @@ import NavLinks from "./NavLinks";
 
 import RunningImg from "./RunningImg";
 import Testimonial from "./Testimonial";
-import TwitterShare from "./TwitterShare";
 
 import SkeletonLoadingBlock from "./SkeletonLoadingBlock";
 
@@ -20,6 +19,5 @@ export {
   NavLinks,
   RunningImg,
   Testimonial,
-  TwitterShare,
   SkeletonLoadingBlock,
 };

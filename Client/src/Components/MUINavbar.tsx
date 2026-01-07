@@ -265,30 +265,13 @@ const UserIcon = styled(IconButton)`
   gap: 6px;
   padding: 6px 14px;
   border-radius: 24px;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   background: linear-gradient(135deg, var(--grey-50) 0%, var(--white) 100%);
   border: 2px solid rgba(212, 54, 124, 0.2);
   box-shadow: 0 2px 8px rgba(212, 54, 124, 0.1);
 
-  &:hover {
-    background: var(--gradient-primary);
-    border-color: var(--primary-500);
-    box-shadow: var(--shadow-anime);
-    transform: translateY(-2px) scale(1.05);
-    
-    svg {
-      color: var(--white);
-    }
-    
-    span {
-      color: var(--white);
-    }
-  }
-
   svg {
     font-size: 1.25rem;
     color: var(--primary-600);
-    transition: color 0.3s ease;
   }
 
   span {
@@ -296,7 +279,6 @@ const UserIcon = styled(IconButton)`
     font-weight: 500;
     font-size: 0.95rem;
     margin: 0 4px;
-    transition: color 0.3s ease;
   }
 `;
 

@@ -5,7 +5,6 @@ import { usePlaylistContext } from "../context/PlaylistContext";
 
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import TwitterShare from "./UI/TwitterShare";
 import { debounce } from "../utils/debounce";
 import { SkeletonLoadingBlock } from "./UI";
 import { useLoadingState } from "../utils/hooks";
@@ -170,8 +169,6 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
           </button>
         </div>
       </form>
-
-      <TwitterShare />
     </Wrapper>
   );
 };
@@ -182,7 +179,7 @@ const Wrapper = styled.section`
   .form {
     width: 100%;
     max-width: 100%;
-    padding: 8px;
+    padding: 16px;
     overflow: visible;
   }
   .form-row {

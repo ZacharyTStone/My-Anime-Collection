@@ -188,7 +188,7 @@ const Wrapper = styled.section`
     margin: 0;
     border-radius: 0;
     box-shadow: none;
-    padding: 8px;
+    padding: 16px;
     max-width: 100%;
     width: 100%;
   }

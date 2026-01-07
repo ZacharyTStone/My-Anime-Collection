@@ -1,10 +1,14 @@
+/* ==============================================
+   Base Button Styles
+   ============================================== */
+
 .btn,
 a.btn,
 button.btn {
   margin-right: 20px;
   margin-top: 20px;
   cursor: pointer;
-  color: var(--white) !important;
+  color: var(--white);
   background: var(--gradient-primary);
   background-color: var(--primary-500);
   border: transparent;
@@ -21,21 +25,16 @@ button.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  z-index: 0;
   text-decoration: none;
-  
-  /* Ensure all text content is visible - target all possible child elements */
+
   &,
   & > *,
   & span,
-  & svg,
-  &::after {
-    color: var(--white) !important;
-    fill: var(--white) !important;
-    position: relative;
-    z-index: 2;
+  & svg {
+    color: var(--white);
+    fill: var(--white);
   }
-  
+
   /* Anime-style shine effect */
   &::before {
     content: "";
@@ -54,116 +53,55 @@ button.btn {
     z-index: 1;
     pointer-events: none;
   }
-  
-  &:hover::before {
-    left: 100%;
+
+  &:hover {
+    transform: translateY(-3px);
+    text-decoration: none;
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow);
   }
 }
 
-.btn:hover,
-a.btn:hover,
-button.btn:hover {
-  background: var(--gradient-primary);
-  background-color: var(--primary-600);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--shadow-anime-hover);
-  color: var(--white) !important;
-  filter: brightness(1.1);
-  text-decoration: none;
-  
-  &,
-  & > *,
-  & span,
-  & svg {
-    color: var(--white) !important;
-    fill: var(--white) !important;
-  }
-}
-
-.btn:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow);
-}
+/* ==============================================
+   Outline Button Variant
+   ============================================== */
 
 .btn-outline,
 a.btn-outline,
 button.btn-outline {
-  color: var(--primary-600) !important;
   background: var(--outline-button-background);
-  background-color: var(--outline-button-background);
   border: 2px solid var(--primary-400);
-  position: relative;
-  z-index: 0;
   box-shadow: 0 0 10px rgba(212, 54, 124, 0.2);
-  text-decoration: none;
-  -webkit-text-fill-color: var(--primary-600) !important;
-  
-  /* Ensure text is visible - target all possible child elements */
-  &,
+  color: var(--primary-600);
+
   & > *,
   & span,
   & svg {
-    color: var(--primary-600) !important;
-    fill: var(--primary-600) !important;
-    -webkit-text-fill-color: var(--primary-600) !important;
-    position: relative;
-    z-index: 2;
-  }
-  
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--gradient-primary);
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 1;
-    border-radius: calc(var(--borderRadius) - 1px);
-    pointer-events: none;
+    color: var(--primary-600);
+    fill: var(--primary-600);
   }
 }
 
-.btn-outline:hover,
-a.btn-outline:hover,
-button.btn-outline:hover {
-  background-color: transparent;
-  border-color: var(--primary-500);
-  color: var(--white) !important;
-  box-shadow: var(--shadow-anime);
-  transform: translateY(-2px);
-  text-decoration: none;
-  -webkit-text-fill-color: var(--white) !important;
-  
-  &,
-  & > *,
-  & span,
-  & svg {
-    color: var(--white) !important;
-    fill: var(--white) !important;
-    -webkit-text-fill-color: var(--white) !important;
-  }
-  
-  &::after {
-    opacity: 1;
-  }
-}
-
-.btn-outline .span {
-  color: var(--primary-600) !important;
-}
-
-.btn-primary + .btn-outline {
-  font-size: 1rem;
-  padding: 0.625rem 1.5rem;
-}
+/* ==============================================
+   Button Size & Layout Variants
+   ============================================== */
 
 .btn-primary {
   font-size: 1rem;
   padding: 0.625rem 1.5rem;
   font-weight: 500;
+
+  & + .btn-outline {
+    font-size: 1rem;
+    padding: 0.625rem 1.5rem;
+  }
 }
 
 .btn-block {
@@ -173,64 +111,55 @@ button.btn-outline:hover {
   margin-right: 0;
 }
 
+/* ==============================================
+   Submit Button
+   ============================================== */
+
 .btn-submit,
 button.btn-submit {
-  color: var(--white) !important;
   background: var(--primary-500);
   border: none;
   box-shadow: var(--shadow);
-  
-  &,
-  & > *,
-  & span {
-    color: var(--white) !important;
-    position: relative;
-    z-index: 2;
+
+  &:hover {
+    background: var(--primary-600);
+    box-shadow: var(--shadow-md);
   }
 }
 
-.btn-submit:hover,
-button.btn-submit:hover {
-  background: var(--primary-600);
-  box-shadow: var(--shadow-md);
-  color: var(--white) !important;
-  
-  &,
-  & > *,
-  & span {
-    color: var(--white) !important;
-  }
-}
+/* ==============================================
+   Danger Button
+   ============================================== */
 
 .btn-danger {
   background: var(--grey-400);
-  background-color: var(--grey-400);
-  color: var(--white);
+
+  &:hover {
+    background: var(--red-dark);
+  }
 }
 
-.btn-danger:hover {
-  background: var(--red-dark);
-  color: var(--white);
-}
+/* ==============================================
+   Loading State
+   ============================================== */
 
-/* Add loading state styling */
 .btn-loading {
   position: relative;
   pointer-events: none;
   opacity: 0.85;
-}
 
-.btn-loading::after {
-  content: "";
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  top: calc(50% - 8px);
-  left: calc(50% - 8px);
-  border: 2px solid transparent;
-  border-top-color: currentColor;
-  border-radius: 50%;
-  animation: button-loading-spinner 0.7s linear infinite;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: calc(50% - 8px);
+    left: calc(50% - 8px);
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: button-loading-spinner 0.7s linear infinite;
+  }
 }
 
 @keyframes button-loading-spinner {
