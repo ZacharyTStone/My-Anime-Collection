@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { useInViewAnimation } from "../utils/hooks";
 
-
 // Images
 import { BackgroundAnimeCards } from "../Components";
 import aot from "../assets/images/aot.png";
@@ -45,19 +44,37 @@ const StyledLoginDiv = styled.div`
   gap: 1rem;
 `;
 
-const createAnimation = (
-  opacity: number,
-  y: number,
-  duration: number,
-  ease: string
-) => ({
-  hidden: { opacity, y },
+// Animation configurations
+const FADE_IN_ANIMATION = {
+  hidden: { opacity: 0, y: 0 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration, ease },
+    transition: { duration: 0.8, ease: "easeInOut" },
   },
-});
+};
+
+const IMAGE_ANIMATION = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 1, ease: "easeInOut" },
+  },
+};
+
+const LIST_ITEM_VARIANTS = {
+  hidden: { opacity: 0, x: -10 },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.3,
+      duration: 0.5,
+    },
+  }),
+};
+
+const FEATURE_POINTS = ["point1", "point2", "point3", "point4", "point5"];
 
 const Landing = () => {
   const { t } = useTranslation();
@@ -66,27 +83,6 @@ const Landing = () => {
   const { controls: controls2, ref: ref2 } = useInViewAnimation();
   const { controls: controls3, ref: ref3 } = useInViewAnimation();
   const { controls: controls4, ref: ref4 } = useInViewAnimation();
-
-  const fadeIn = createAnimation(0, 0, 0.8, "easeInOut");
-  const imageAnimation = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { duration: 1, ease: "easeInOut" },
-    },
-  };
-
-  const listItemVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: (i: number) => ({
-      opacity: 1,
-      x: 0,
-      transition: {
-        delay: i * 0.3,
-        duration: 0.5,
-      },
-    }),
-  };
 
   return (
     <div>
@@ -113,15 +109,14 @@ const Landing = () => {
           <Suspense fallback={<div>Loading...</div>}>
             <RunningImg img={narutoRun} />
           </Suspense>
-          <motion.div
+          <HeroSection
             className="container page"
-            style={{ height: "80vh" }}
             initial="hidden"
-            variants={fadeIn}
+            variants={FADE_IN_ANIMATION}
             animate={controls1}
             ref={ref1}
           >
-            <div>
+            <HeroContent>
               <h1>
                 <span>{t("landing.title")}</span>
               </h1>
@@ -134,128 +129,115 @@ const Landing = () => {
                   {t("landing.demo_button")}
                 </StyledButton>
               </StyledLoginDiv>
-            </div>
-            <div>
+            </HeroContent>
+            <ImageContainer>
               <motion.img
                 src={goku}
                 alt="anime character"
                 className="img main-img"
                 initial="hidden"
                 animate={controls1}
-                variants={imageAnimation}
+                variants={IMAGE_ANIMATION}
               />
-            </div>
-          </motion.div>
+            </ImageContainer>
+          </HeroSection>
 
-          <motion.div
+          <TestimonialsSection
             className="container page"
             initial="hidden"
             animate={controls2}
             ref={ref2}
-            variants={fadeIn}
+            variants={FADE_IN_ANIMATION}
           >
             <Testimonials />
-          </motion.div>
+          </TestimonialsSection>
 
-          <motion.div
+          <FeaturesSection
             className="container page"
-            style={{ height: "80vh" }}
             initial="hidden"
             animate={controls3}
             ref={ref3}
-            variants={fadeIn}
+            variants={FADE_IN_ANIMATION}
           >
-            <motion.img
-              src={aot}
-              alt="anime character"
-              loading="lazy"
-              className="img main-img oversized-img"
-              initial="hidden"
-              animate={controls3}
-              variants={imageAnimation}
-            />
+            <ImageContainer>
+              <motion.img
+                src={aot}
+                alt="anime character"
+                loading="lazy"
+                className="img main-img oversized-img"
+                initial="hidden"
+                animate={controls3}
+                variants={IMAGE_ANIMATION}
+              />
+            </ImageContainer>
 
-            <div>
+            <FeaturesContent>
               <h3>
                 <span>{t("landing.why.title")}</span>
               </h3>
               <motion.ul
                 initial="hidden"
                 animate="visible"
-                variants={listItemVariants}
+                variants={LIST_ITEM_VARIANTS}
               >
-                {["point1", "point2", "point3", "point4", "point5"].map(
-                  (point, index) => (
-                    <motion.li
-                      key={point}
-                      custom={index}
-                      variants={listItemVariants}
-                    >
-                      <FaCheck color="var(--primary-500)" />{" "}
-                      <span style={{ color: "var(--black)" }}>
-                        {t(`landing.why.${point}`)}
-                      </span>
-                    </motion.li>
-                  )
-                )}
+                {FEATURE_POINTS.map((point, index) => (
+                  <motion.li
+                    key={point}
+                    custom={index}
+                    variants={LIST_ITEM_VARIANTS}
+                  >
+                    <FaCheck color="var(--primary-500)" />
+                    <span>{t(`landing.why.${point}`)}</span>
+                  </motion.li>
+                ))}
               </motion.ul>
-            </div>
-          </motion.div>
+            </FeaturesContent>
+          </FeaturesSection>
 
-          <motion.div
-            className="container page"
+          <CallToActionSection
+            className="container page last-page"
             initial="hidden"
             animate={controls4}
             ref={ref4}
-            variants={fadeIn}
+            variants={FADE_IN_ANIMATION}
           >
-            <div>
-              <div>
-                <h3>{t("landing.call_to_action.title")}</h3>
-                <div className="login-div">
-                  <StyledButton to="/register" className="btn btn-primary">
-                    {t("landing.login_button")}
-                  </StyledButton>
-                  <StyledButton
-                    to="/register-demo"
-                    className="btn btn-primary btn-outline"
-                  >
-                    {t("landing.demo_button")}
-                  </StyledButton>
-                </div>
-                <h5
-                  style={{
-                    marginTop: "2rem",
-                  }}
+            <CallToActionContent>
+              <h3>{t("landing.call_to_action.title")}</h3>
+              <ButtonGroup>
+                <StyledButton to="/register" className="btn btn-primary">
+                  {t("landing.login_button")}
+                </StyledButton>
+                <StyledButton
+                  to="/register-demo"
+                  className="btn btn-primary btn-outline"
                 >
-                  {t("landing.call_to_action.contact_info")}{" "}
-                  <span>
-                    <a
-                      href="https://zstone.dev"
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{
-                        textDecoration: "underline",
-                        color: "var(--primary-500)",
-                      }}
-                    >
-                      ZStone.dev
-                    </a>
-                  </span>
-                </h5>
-              </div>
-            </div>
+                  {t("landing.demo_button")}
+                </StyledButton>
+              </ButtonGroup>
+              <ContactInfo>
+                {t("landing.call_to_action.contact_info")}{" "}
+                <ContactLink
+                  href="https://zstone.dev"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  ZStone.dev
+                </ContactLink>
+              </ContactInfo>
+            </CallToActionContent>
 
-            <motion.img
-              src={lucy}
-              alt="anime character"
-              loading="lazy"
-              className="img main-img"
-              initial="hidden"
-              animate={controls4}
-              variants={imageAnimation}
-            />
-          </motion.div>
+            <ImageContainer>
+              <motion.img
+                src={lucy}
+                alt="anime character"
+                loading="lazy"
+                className="img main-img"
+                initial="hidden"
+                animate={controls4}
+                variants={IMAGE_ANIMATION}
+              />
+            </ImageContainer>
+          </CallToActionSection>
           <BackgroundAnimeCards />
         </main>
       </Wrapper>
@@ -265,19 +247,50 @@ const Landing = () => {
 
 export default Landing;
 
-const Wrapper = styled.main`
-  @keyframes shimmerBorder {
-    0% {
-      border-color: var(--primary-200);
-    }
-    50% {
-      border-color: var(--primary-500);
-    }
-    100% {
-      border-color: var(--primary-200);
-    }
-  }
+// Styled Components
+const HeroSection = styled(motion.div)``;
 
+const HeroContent = styled.div``;
+
+const ImageContainer = styled.div``;
+
+const TestimonialsSection = styled(motion.div)``;
+
+const FeaturesSection = styled(motion.div)``;
+
+const FeaturesContent = styled.div``;
+
+const CallToActionSection = styled(motion.div)``;
+
+const CallToActionContent = styled.div``;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+`;
+
+const ContactInfo = styled.h5`
+  margin-top: 2.5rem;
+  font-weight: 400;
+  color: var(--grey-600);
+  font-size: 0.95rem;
+  line-height: 1.6;
+`;
+
+const ContactLink = styled.a`
+  text-decoration: underline;
+  color: var(--primary-500);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--primary-600);
+  }
+`;
+
+const Wrapper = styled.main`
   overflow: hidden;
   background-color: var(--white);
 
@@ -295,7 +308,17 @@ const Wrapper = styled.main`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 2rem auto;
+    margin: 3rem auto;
+    padding: 2rem 0;
+  }
+
+  .page.last-page {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  main {
+    padding-bottom: 0;
   }
 
   p {
@@ -303,6 +326,7 @@ const Wrapper = styled.main`
     color: var(--grey-600);
     font-size: 1.1rem;
     line-height: 1.7;
+    margin-bottom: 0;
 
     span {
       color: var(--primary-600);
@@ -327,6 +351,8 @@ const Wrapper = styled.main`
   h1 {
     font-weight: 700;
     letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
 
     span {
       color: var(--primary-600);
@@ -336,6 +362,7 @@ const Wrapper = styled.main`
   h3 {
     font-weight: 600;
     margin-bottom: 1.5rem;
+    line-height: 1.4;
 
     span {
       text-decoration: underline;
@@ -350,6 +377,8 @@ const Wrapper = styled.main`
     margin-bottom: 0.75rem;
     display: flex;
     align-items: center;
+    font-size: 1rem;
+    line-height: 1.6;
 
     svg {
       margin-right: 0.75rem;
@@ -358,6 +387,7 @@ const Wrapper = styled.main`
 
     span {
       font-weight: 400;
+      color: var(--black);
     }
   }
 
@@ -372,9 +402,21 @@ const Wrapper = styled.main`
     .page {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      column-gap: 4rem;
-      min-height: 90fvh;
+      column-gap: 5rem;
+      min-height: 90vh;
       position: relative;
+      margin: 4rem auto;
+      padding: 3rem 0;
+    }
+
+    .page.last-page {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      min-height: auto;
+    }
+
+    main {
+      padding-bottom: 0;
     }
 
     .main-img {
@@ -384,20 +426,45 @@ const Wrapper = styled.main`
       position: static;
       overflow: visible;
       overflow-x: hidden;
-      border-radius: 8px;
-      transition: none;
-      will-change: auto;
-
-      &:hover {
-        transform: none;
-        box-shadow: var(--shadow-md);
-      }
+      border-radius: 12px;
+      object-fit: cover;
     }
 
     .oversized-img {
       height: 110%;
       width: 110%;
       overflow: visible;
+    }
+
+    ${HeroContent}, ${FeaturesContent}, ${CallToActionContent} {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+
+    ${ButtonGroup} {
+      flex-wrap: nowrap;
+      margin-top: 2.5rem;
+    }
+
+    ${HeroContent} {
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+      }
+
+      p {
+        font-size: 1.2rem;
+        margin-bottom: 0;
+      }
+    }
+
+    ${FeaturesContent}, ${CallToActionContent} {
+      h3 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
     }
   }
 `;
