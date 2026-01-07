@@ -9,10 +9,9 @@
   background: var(--white);
   border-radius: calc(var(--borderRadius) * 1.5);
   box-shadow: var(--shadow-anime);
-  padding: 2rem 2.5rem;
+  padding: 8px;
   margin: 3rem auto;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border: 1px solid rgba(212, 54, 124, 0.1);
   position: relative;
   overflow: hidden;
   
@@ -33,15 +32,8 @@
   }
 }
 
-.form:hover {
-  box-shadow: var(--shadow-anime-hover);
-  transform: translateY(-2px);
-  border-color: rgba(212, 54, 124, 0.3);
-  
-  &::before {
-    left: 100%;
-  }
-}
+
+
 
 .form-label {
   color: var(--grey-700);

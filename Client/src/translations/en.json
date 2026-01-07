@@ -36,7 +36,7 @@
       "title": "Filter Your Playlist",
       "search": "Search",
       "sort": "Sort",
-      "clear_filters": "Clear Filters",
+      "clear_filters": "Reset Filters",
       "playlist": "Playlist To Add To",
       "current_playlist": "Current Playlist"
     },

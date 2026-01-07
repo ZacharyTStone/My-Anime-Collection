@@ -1,15 +1,13 @@
-import { motion } from "framer-motion";
 import React, { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { FaCheck } from "react-icons/fa";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
-import { useInViewAnimation } from "../utils/hooks";
-
-// Images
 import { BackgroundAnimeCards } from "../Components";
+import { useInViewAnimation } from "../utils/hooks";
 import aot from "../assets/images/aot.png";
 import goku from "../assets/images/goku.webp";
 import lucy from "../assets/images/lucy.webp";

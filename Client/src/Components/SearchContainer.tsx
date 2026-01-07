@@ -176,28 +176,14 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
   );
 };
 
-const ClearFiltersButton = styled.button`
-  align-self: end;
-  margin-top: 1rem;
-  background-color: var(--primary-400);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 
-  :hover {
-    background-color: var(--primary-500);
-  }
-
-  @media (min-width: 992px) {
-    margin-top: 0;
-  }
-`;
 
 const Wrapper = styled.section`
   .form {
     width: 100%;
     max-width: 100%;
+    padding: 8px;
+    overflow: visible;
   }
   .form-row {
     margin-bottom: 0;

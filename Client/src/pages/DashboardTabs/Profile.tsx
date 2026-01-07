@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { FormRow, Alert } from "../../Components/UI";
-
-import { useAuthContext } from "../../context/AuthContext";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { BiCoffeeTogo } from "react-icons/bi";
 import { FaBitcoin } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
+import { FormRow, Alert } from "../../Components/UI";
 import { Pokemon } from "../../Components";
+import { useAuthContext } from "../../context/AuthContext";
 import { User } from "../../utils/types";
 
 const Profile = () => {
@@ -23,7 +22,7 @@ const Profile = () => {
 
   const [name, setName] = useState<string>(user?.name || "");
   const [email, setEmail] = useState<User["email"]>(user?.email || "");
-  const isDemoUser = (user as any)?.isDemo === true;
+  const isDemoUser = Boolean((user as any)?.isDemo);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -79,59 +78,31 @@ const Profile = () => {
           </div>
         </div>
         <Pokemon />
-        <div className="bottom-half ">
+        <div className="bottom-half">
           <div>
-            <span
-              style={{
-                marginRight: "10px",
-              }}
-            >
-              {t("profile.enjoy")}
-            </span>
+            <EnjoyText>{t("profile.enjoy")}</EnjoyText>
             <ButtonDiv>
               <div>
-                <button className="btn btn-outline" type="button">
-                  <a
-                    href="https://www.buymeacoffee.com/zachinjapan"
-                    target={"_blank"}
-                    rel="noopener noreferrer"
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                      }}
-                    >
-                      <BiCoffeeTogo color="var(--primary-500)" />
-                      <span>{t("profile.buy_me_a_coffee")}</span>
-                    </div>
-                  </a>
-                </button>
-                <button className="btn btn-outline" type="button">
-                  <a
-                    href="https://commerce.coinbase.com/checkout/ae3c63d4-ddd8-485e-a6d9-8b1dce89ee42"
-                    target={"_blank"}
-                    rel="noopener noreferrer"
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                      }}
-                    >
-                      <FaBitcoin color="var(--primary-500)" />
-                      <span>{t("profile.crypto")}</span>
-                    </div>
-                    <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
-                  </a>
-                </button>
+                <DonationButton
+                  className="btn btn-outline"
+                  href="https://www.buymeacoffee.com/zachinjapan"
+                >
+                  <BiCoffeeTogo color="var(--primary-500)" />
+                  <span>{t("profile.buy_me_a_coffee")}</span>
+                </DonationButton>
+                <DonationButton
+                  className="btn btn-outline"
+                  href="https://commerce.coinbase.com/checkout/ae3c63d4-ddd8-485e-a6d9-8b1dce89ee42"
+                >
+                  <FaBitcoin color="var(--primary-500)" />
+                  <span>{t("profile.crypto")}</span>
+                  <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
+                </DonationButton>
               </div>
               <div>
                 <button
                   className="btn btn-danger"
-                  onClick={() => handleDelete()}
+                  onClick={handleDelete}
                 >
                   {t("profile.delete")}
                 </button>
@@ -149,6 +120,20 @@ const ButtonDiv = styled.div`
   justify-content: space-between;
 `;
 
+const EnjoyText = styled.span`
+  margin-right: 10px;
+`;
+
+const DonationButton = styled.a.attrs({
+  target: "_blank",
+  rel: "noopener noreferrer",
+})`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+`;
+
 const Wrapper = styled.section`
   .btn-submit {
     margin-top: 2rem !important;
@@ -161,11 +146,6 @@ const Wrapper = styled.section`
     grid-column: 1 / -1;
   }
 
-  .btn-outline:hover {
-    background-color: var(--primary-50);
-    color: var(--primary-700);
-    border-color: var(--primary-400);
-  }
 
   border-radius: var(--borderRadius);
   width: 100%;
@@ -208,7 +188,7 @@ const Wrapper = styled.section`
     margin: 0;
     border-radius: 0;
     box-shadow: none;
-    padding: 0;
+    padding: 8px;
     max-width: 100%;
     width: 100%;
   }

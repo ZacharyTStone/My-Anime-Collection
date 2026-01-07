@@ -4,7 +4,7 @@ import { AiFillDelete, AiOutlineArrowRight } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 
 import { usePlaylistContext } from "../../context/PlaylistContext";
-import { FormRow, Alert, SkeletonLoadingBlock } from "../../Components/UI";
+import { FormRow, SkeletonLoadingBlock } from "../../Components/UI";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 import { IPlaylist } from "../../utils/types";
 
@@ -235,7 +235,7 @@ const Wrapper = styled.section`
     margin: 0;
     border-radius: 0;
     box-shadow: none;
-    padding: 0;
+    padding: 8px;
     max-width: 100%;
     width: 100%;
   }

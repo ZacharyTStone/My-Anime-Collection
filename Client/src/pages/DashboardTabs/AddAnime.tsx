@@ -1,12 +1,10 @@
-import { FormRow, Alert, FormRowSelect } from "../../Components/UI";
-import { FetchedAnimesContainer } from "../../Components";
-
-import { usePlaylistContext } from "../../context/PlaylistContext";
-import styled from "styled-components";
-import React, { useState, useCallback, useEffect } from "react";
-import { SkeletonLoadingBlock } from "../../Components/UI";
-import { debounce } from "../../utils/debounce";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import { FormRow, FormRowSelect, SkeletonLoadingBlock } from "../../Components/UI";
+import { FetchedAnimesContainer } from "../../Components";
+import { usePlaylistContext } from "../../context/PlaylistContext";
+import { debounce } from "../../utils/debounce";
 
 const SORT_OPTIONS = [
   {
@@ -45,15 +43,15 @@ const AddAnime: React.FC = () => {
     loadingFetchPlaylists,
   } = usePlaylistContext();
   
-  const request = debounce((value: string) => {
+  const debouncedRequest = debounce((value: string) => {
     setSearchText(value);
   }, 500);
 
   const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    let api_value = value?.replace(/\s/g, "+");
+    const apiValue = value.replace(/\s/g, "+");
     setTextInput(value);
-    debouceRequest(api_value);
+    debouncedRequest(apiValue);
   };
 
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -70,8 +68,6 @@ const AddAnime: React.FC = () => {
     getPlaylists();
   }, [getPlaylists]);
 
-  const debouceRequest = useCallback((value: string) => request(value), []);
-
   return (
     <Wrapper>
       <main className="content full-page">
@@ -83,7 +79,6 @@ const AddAnime: React.FC = () => {
         >
           <h3>{t("add_anime.title")}</h3>
           <div className="form-center">
-            {/* title */}
             <FormRow
               type="text"
               name="title"
@@ -91,16 +86,15 @@ const AddAnime: React.FC = () => {
               value={textInput}
               handleChange={handleTextInput}
             />
-                            <FormRowSelect
-                  disabled={false}
-                  name="sort"
-                  value={sort}
-                  labelText={t("add_anime.sort")}
-                  handleChange={handleSort}
-                  list={SORT_OPTIONS}
-                />
-            {/* playlist */}
-            <form className="form-row">
+            <FormRowSelect
+              disabled={false}
+              name="sort"
+              value={sort}
+              labelText={t("add_anime.sort")}
+              handleChange={handleSort}
+              list={SORT_OPTIONS}
+            />
+            <div className="form-row">
               <label htmlFor="playlist" className="form-label">
                 {t("search_container.playlist")}
               </label>
@@ -117,27 +111,17 @@ const AddAnime: React.FC = () => {
                   onChange={handleLocalPlaylistChange}
                   className="form-select"
                 >
-                  {userPlaylists?.map(
-                    (
-                      playlist: {
-                        id: string;
-                        title: string;
-                      },
-                      index: number
-                    ) => {
-                      return (
-                        <option
-                          key={playlist?.title + index}
-                          value={playlist.id}
-                        >
-                          {playlist.title}
-                        </option>
-                      );
-                    }
-                  )}
+                  {userPlaylists?.map((playlist, index) => (
+                    <option
+                      key={`${playlist.id}-${index}`}
+                      value={playlist.id}
+                    >
+                      {playlist.title}
+                    </option>
+                  ))}
                 </select>
               )}
-            </form>
+            </div>
           </div>
         </form>
         <FetchedAnimesContainer
@@ -158,6 +142,7 @@ const Wrapper = styled.section`
   background: var(--white);
   padding: 3rem 2rem 4rem;
   box-shadow: var(--shadow-2);
+
   .form-checkbox {
     display: flex;
     align-items: center;
@@ -175,17 +160,20 @@ const Wrapper = styled.section`
     margin: 0;
     border-radius: 0;
     box-shadow: none;
-    padding: 0;
+    padding: 8px;
     max-width: 100%;
     width: 100%;
   }
+
   .form-row {
     margin-bottom: 0;
   }
+
   .form-center {
     display: grid;
     row-gap: 0.5rem;
   }
+
   .form-center button {
     align-self: end;
     height: 35px;

@@ -115,7 +115,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
                 Previous
               </Button>
               <TopInfo>
-                <h3>We found {totalFetchedAnimes} animes </h3>
+                <h3>Page {page.current} of {numOfFetchedAnimesPages}</h3>
               </TopInfo>
               <Button
                 onClick={() => handlePageClick(1)}
@@ -179,9 +179,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
           </AnimesGrid>
           {!onTrendingPage && (
             <PageInfo>
-              <h5>
-                Page {page.current} of {numOfFetchedAnimesPages}
-              </h5>
+              <h5>We found {totalFetchedAnimes} animes</h5>
             </PageInfo>
           )}
         </div>
