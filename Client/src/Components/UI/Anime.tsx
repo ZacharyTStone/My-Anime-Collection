@@ -43,6 +43,16 @@ const SKELETON_HEIGHT_DESKTOP = 600;
 const SKELETON_WIDTH = 300;
 const SKELETON_BORDER_RADIUS = 8;
 
+// Reusable CardMedia styles
+const cardMediaStyles = {
+  transition: "all 0.4s ease",
+  borderRadius: "var(--spacing-xs)",
+  boxShadow: "var(--shadow-sm)",
+  "&:hover": {
+    transform: "scale(1.02)",
+  },
+};
+
 /**
  * Anime component that displays anime information in a card format
  */
@@ -140,6 +150,68 @@ const Anime: React.FC<AnimeCardProps> = ({
     setState((prev) => ({ ...prev, failedToLoadYoutube: true }));
   }, []);
 
+  // Helper to get the image source
+  const imageSrc = coverImage ||
+    fetchedAnime?.attributes?.posterImage?.medium ||
+    fetchedAnime?.attributes?.posterImage?.small;
+
+  // Helper to render media content (video or image)
+  const renderMedia = useCallback(() => {
+    // Mobile: always show static image
+    if (onMobile) {
+      return (
+        <CardMedia
+          component="img"
+          className="anime-cover-image"
+          image={coverImage}
+          title={title}
+          sx={cardMediaStyles}
+        />
+      );
+    }
+
+    // Desktop hovering with valid YouTube: show video player
+    if (state.isHovering && hasYoutubeVideoId && !state.failedToLoadYoutube) {
+      return (
+        <ReactPlayer
+          url={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
+          width="100%"
+          controls
+          className="anime-cover-image"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "var(--spacing-xs)",
+            overflow: "hidden",
+            boxShadow: "var(--shadow-md)",
+          }}
+          fallback={
+            <CardMedia
+              component="img"
+              className="anime-cover-image"
+              image={imageSrc}
+              title={title}
+              sx={cardMediaStyles}
+            />
+          }
+          onError={onVideoError}
+        />
+      );
+    }
+
+    // Default: show static image
+    return (
+      <CardMedia
+        component="img"
+        className="anime-cover-image"
+        image={imageSrc}
+        title={title}
+        sx={cardMediaStyles}
+      />
+    );
+  }, [onMobile, coverImage, title, state.isHovering, hasYoutubeVideoId, state.failedToLoadYoutube, youtubeVideoId, fetchedAnime?.attributes?.youtubeVideoId, imageSrc, onVideoError]);
+
   // Render loading skeleton
   if (isCurrentlyLoading) {
     return (
@@ -168,7 +240,7 @@ const Anime: React.FC<AnimeCardProps> = ({
           backgroundColor: "var(--white)",
           marginBottom: "1.5rem",
           borderRadius: "calc(var(--borderRadius) * 1.5)",
-          border: "2px solid rgba(212, 54, 124, 0.2)",
+          border: "2px solid var(--primary-alpha-20)",
           boxShadow: "var(--shadow-anime)",
           overflow: "hidden",
           position: "relative",
@@ -230,103 +302,7 @@ const Anime: React.FC<AnimeCardProps> = ({
             </Typography>
             <div className="info-container">
               <ImageDiv onMobile={onMobile}>
-                {!!onMobile ? (
-                  <CardMedia
-                    component="img"
-                    className="anime-cover-image"
-                    image={coverImage}
-                    title={title}
-                    sx={{
-                      transition: "all 0.4s ease",
-                      borderRadius: "var(--spacing-xs)",
-                      boxShadow: "var(--shadow-sm)",
-                      "&:hover": {
-                        transform: "scale(1.02)",
-                      },
-                    }}
-                  />
-                ) : state.isHovering ? (
-                  <>
-                    {hasYoutubeVideoId && !state.failedToLoadYoutube ? (
-                      <ReactPlayer
-                        url={`https://www.youtube.com/watch?v=${
-                          youtubeVideoId ||
-                          fetchedAnime?.attributes?.youtubeVideoId
-                        }`}
-                        width={"100%"}
-                        controls={true}
-                        className={"anime-cover-image"}
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "var(--spacing-xs)",
-                          overflow: "hidden",
-                          boxShadow: "var(--shadow-md)",
-                        }}
-                        fallback={
-                          <CardMedia
-                            component="img"
-                            className="anime-cover-image"
-                            image={
-                              coverImage ||
-                              fetchedAnime?.attributes?.posterImage?.medium ||
-                              fetchedAnime?.attributes?.posterImage?.small
-                            }
-                            title={title}
-                            sx={{
-                              transition: "all 0.4s ease",
-                              borderRadius: "var(--spacing-xs)",
-                              boxShadow: "var(--shadow-sm)",
-                              "&:hover": {
-                                transform: "scale(1.02)",
-                              },
-                            }}
-                          />
-                        }
-                        onError={onVideoError}
-                      />
-                    ) : (
-                      <CardMedia
-                        component="img"
-                        className="anime-cover-image"
-                        image={
-                          coverImage ||
-                          fetchedAnime?.attributes?.posterImage?.medium ||
-                          fetchedAnime?.attributes?.posterImage?.small
-                        }
-                        title={title}
-                        sx={{
-                          transition: "all 0.4s ease",
-                          borderRadius: "var(--spacing-xs)",
-                          boxShadow: "var(--shadow-sm)",
-                          "&:hover": {
-                            transform: "scale(1.02)",
-                          },
-                        }}
-                      />
-                    )}
-                  </>
-                ) : (
-                  <CardMedia
-                    component="img"
-                    className="anime-cover-image"
-                    image={
-                      coverImage ||
-                      fetchedAnime?.attributes?.posterImage?.medium ||
-                      fetchedAnime?.attributes?.posterImage?.small
-                    }
-                    title={title}
-                    sx={{
-                      transition: "all 0.4s ease",
-                      borderRadius: "var(--spacing-xs)",
-                      boxShadow: "var(--shadow-sm)",
-                      "&:hover": {
-                        transform: "scale(1.02)",
-                      },
-                    }}
-                  />
-                )}
+                {renderMedia()}
               </ImageDiv>
               <Typography
                 sx={{
@@ -396,8 +372,9 @@ const Anime: React.FC<AnimeCardProps> = ({
                         youtubeVideoId ||
                         fetchedAnime?.attributes?.youtubeVideoId
                       }`}
-                      target={"_blank"}
+                      target="_blank"
                       rel="noreferrer"
+                      aria-label={`Watch ${title} trailer on YouTube`}
                     >
                       {" "}
                       <FaYoutube color="red" size={30} />{" "}
@@ -420,6 +397,7 @@ const Anime: React.FC<AnimeCardProps> = ({
               size="small"
               className="card-btn"
               onClick={handleModalOpen}
+              aria-label={t("anime.showSynopsis")}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -437,6 +415,7 @@ const Anime: React.FC<AnimeCardProps> = ({
               <button
                 type="button"
                 className="btn delete-btn"
+                aria-label={`${t("anime.delete")} ${title}`}
                 onClick={() => {
                   if (_id) deleteAnime(_id, currentPlaylist.id);
                 }}
@@ -449,6 +428,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                 className="card-btn add"
                 disabled={isLoading}
                 onClick={handleSubmit}
+                aria-label={`${t("anime.add")} ${title}`}
               >
                 {t("anime.add")}
               </Button>
@@ -484,8 +464,14 @@ const Anime: React.FC<AnimeCardProps> = ({
         </React.Fragment>
       </Card>
       {state.modalOpen && (
-        <Modal onClose={handleModalClose} onClick={handleModalClose}>
-          <ModalContent>
+        <Modal
+          onClose={handleModalClose}
+          onClick={handleModalClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Synopsis for ${title}`}
+        >
+          <ModalContent onClick={(e) => e.stopPropagation()}>
             <Typography variant="h5" gutterBottom>
               {siteLanguage === "en" ? title : japanese_title}
             </Typography>
@@ -563,6 +549,8 @@ const Modal = styled.div<{ onClose: () => void }>`
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
 `;
 
 const ModalContent = styled.div`
@@ -573,7 +561,7 @@ const ModalContent = styled.div`
   max-width: 80%;
   max-height: 80%;
   overflow-y: auto;
-  border: 2px solid rgba(212, 54, 124, 0.3);
+  border: 2px solid var(--primary-alpha-30);
   position: relative;
   overflow: hidden;
 
@@ -595,7 +583,7 @@ const ModalContent = styled.div`
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 600;
-    border-bottom: 2px solid rgba(212, 54, 124, 0.2);
+    border-bottom: 2px solid var(--primary-alpha-20);
     padding-bottom: 0.75rem;
   }
 

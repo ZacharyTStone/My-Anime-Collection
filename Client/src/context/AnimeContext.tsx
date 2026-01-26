@@ -9,6 +9,7 @@ import axios from "axios";
 import { ACTIONS } from "./actions";
 import { SORT_OPTIONS } from "../utils/constants";
 import { useAuthContext } from "./AuthContext";
+import { ExpectedFetchedAnimeResponse } from "../utils/types";
 
 
 // Types and Interfaces
@@ -28,7 +29,7 @@ interface Anime {
   type: string;
   japanese_title: string;
   youtubeVideoId: string;
-  fetchedAnime: any; // TODO: Define proper type
+  fetchedAnime: ExpectedFetchedAnimeResponse;
   __v: number;
 }
 
@@ -50,7 +51,7 @@ interface AnimeState {
   searchStared: string;
   searchType: string;
   sort: string;
-  sortOptions: any[];
+  sortOptions: { title: string; value: string }[];
   fetchedAnimes: FetchedAnime[];
   totalFetchedAnimes: number;
   numOfFetchedAnimesPages: number;
@@ -60,7 +61,7 @@ interface AnimeState {
 interface AnimeContextType extends AnimeState {
   handleChange: (params: { name: string; value: string }) => void;
   clearValues: () => void;
-  createAnime: (anime: any, playlistID: string) => Promise<void>;
+  createAnime: (anime: ExpectedFetchedAnimeResponse, playlistID: string) => Promise<void>;
   getAnimes: (playlistId: string) => Promise<void>;
   deleteAnime: (animeId: string, playlistId: string) => Promise<void>;
   clearFilters: () => void;
@@ -226,7 +227,7 @@ export const AnimeProvider: React.FC<AnimeProviderProps> = ({ children }) => {
 
   // Anime management functions
   const createAnime = useCallback(
-    async (anime: any, playlistID: string) => {
+    async (anime: ExpectedFetchedAnimeResponse, playlistID: string) => {
       if (!token) return;
       
       dispatch({ type: ACTIONS.CREATE_ANIME_BEGIN, payload: {} });

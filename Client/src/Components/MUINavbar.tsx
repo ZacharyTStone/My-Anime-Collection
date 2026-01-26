@@ -64,8 +64,8 @@ const MUINavbar = () => {
           background: "rgba(255, 255, 255, 0.7)",
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
-          borderBottom: "1px solid rgba(212, 54, 124, 0.15)",
-          boxShadow: "0 2px 10px rgba(212, 54, 124, 0.1)",
+          borderBottom: "1px solid var(--primary-alpha-15)",
+          boxShadow: "0 2px 10px var(--primary-alpha-10)",
           position: "relative",
         }}
       >
@@ -90,7 +90,7 @@ const MUINavbar = () => {
                 sx={{
                   color: "var(--primary-500)",
                   "&:hover": {
-                    backgroundColor: "rgba(212, 54, 124, 0.1)",
+                    backgroundColor: "var(--primary-alpha-10)",
                     backdropFilter: "blur(5px)",
                   },
                 }}
@@ -125,8 +125,8 @@ const MUINavbar = () => {
                     background: "rgba(255, 255, 255, 0.9)",
                     backdropFilter: "blur(10px)",
                     WebkitBackdropFilter: "blur(10px)",
-                    border: "1px solid rgba(212, 54, 124, 0.2)",
-                    boxShadow: "0 4px 20px rgba(212, 54, 124, 0.15)",
+                    border: "1px solid var(--primary-alpha-20)",
+                    boxShadow: "0 4px 20px var(--primary-alpha-15)",
                     borderRadius: "var(--borderRadius)",
                     mt: 1.5,
                   },
@@ -160,8 +160,8 @@ const MUINavbar = () => {
                     background: "rgba(255, 255, 255, 0.9)",
                     backdropFilter: "blur(10px)",
                     WebkitBackdropFilter: "blur(10px)",
-                    border: "1px solid rgba(212, 54, 124, 0.2)",
-                    boxShadow: "0 4px 20px rgba(212, 54, 124, 0.15)",
+                    border: "1px solid var(--primary-alpha-20)",
+                    boxShadow: "0 4px 20px var(--primary-alpha-15)",
                     borderRadius: "var(--borderRadius)",
                   },
                 }}
@@ -185,7 +185,7 @@ const MUINavbar = () => {
                   sx={{
                     padding: "0.75rem 1.5rem",
                     "&:hover": {
-                      backgroundColor: "rgba(212, 54, 124, 0.1)",
+                      backgroundColor: "var(--primary-alpha-10)",
                     },
                   }}
                 >
@@ -266,8 +266,8 @@ const UserIcon = styled(IconButton)`
   padding: 6px 14px;
   border-radius: 24px;
   background: linear-gradient(135deg, var(--grey-50) 0%, var(--white) 100%);
-  border: 2px solid rgba(212, 54, 124, 0.2);
-  box-shadow: 0 2px 8px rgba(212, 54, 124, 0.1);
+  border: 2px solid var(--primary-alpha-20);
+  box-shadow: 0 2px 8px var(--primary-alpha-10);
 
   svg {
     font-size: 1.25rem;

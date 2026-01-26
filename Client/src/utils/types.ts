@@ -5,6 +5,7 @@ export interface ExpectedFetchedAnimeResponse {
       en_jp?: string;
       ja_jp?: string;
     };
+    canonicalTitle?: string;
     posterImage?: {
       medium: string;
       small: string;

@@ -29,8 +29,16 @@
   --gradient-accent: linear-gradient(135deg, var(--anime-orange) 0%, var(--anime-yellow) 100%);
   --gradient-background: linear-gradient(135deg, #fef0f6 0%, #fad8e8 25%, #fff8e6 50%, #fef0f6 75%, #fad8e8 100%);
   
+  /* Primary color alpha variations (for consistent theming) */
+  --primary-alpha-10: rgba(212, 54, 124, 0.1);
+  --primary-alpha-15: rgba(212, 54, 124, 0.15);
+  --primary-alpha-20: rgba(212, 54, 124, 0.2);
+  --primary-alpha-30: rgba(212, 54, 124, 0.3);
+  --primary-alpha-40: rgba(212, 54, 124, 0.4);
+  --primary-alpha-50: rgba(212, 54, 124, 0.5);
+
   /* Glow effects */
-  --glow-primary: 0 0 20px rgba(212, 54, 124, 0.4), 0 0 40px rgba(212, 54, 124, 0.2);
+  --glow-primary: 0 0 20px var(--primary-alpha-40), 0 0 40px var(--primary-alpha-20);
   --glow-secondary: 0 0 20px rgba(78, 205, 196, 0.4), 0 0 40px rgba(78, 205, 196, 0.2);
   --glow-accent: 0 0 20px rgba(255, 140, 66, 0.4), 0 0 40px rgba(255, 140, 66, 0.2);
 
@@ -84,9 +92,9 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.01);
   
   /* Anime-inspired shadows with glow */
-  --shadow-anime: 0 4px 15px rgba(212, 54, 124, 0.3), 0 2px 5px rgba(212, 54, 124, 0.2);
-  --shadow-anime-lg: 0 10px 30px rgba(212, 54, 124, 0.4), 0 5px 10px rgba(212, 54, 124, 0.3);
-  --shadow-anime-hover: 0 8px 25px rgba(212, 54, 124, 0.5), 0 4px 10px rgba(212, 54, 124, 0.4);
+  --shadow-anime: 0 4px 15px var(--primary-alpha-30), 0 2px 5px var(--primary-alpha-20);
+  --shadow-anime-lg: 0 10px 30px var(--primary-alpha-40), 0 5px 10px var(--primary-alpha-30);
+  --shadow-anime-hover: 0 8px 25px var(--primary-alpha-50), 0 4px 10px var(--primary-alpha-40);
 
   /* card border colors */
   --card-border-light: var(--grey-200);
