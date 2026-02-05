@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { SkeletonLoadingBlock } from ".";
 
 export const getRandomPokemon = async () => {
-  const randomId = Math.floor(Math.random() * 1000) + 1;
+  const randomArray = new Uint16Array(1);
+  crypto.getRandomValues(randomArray);
+  const randomId = (randomArray[0] % 1000) + 1;
 
   try {
     const response = await axios.get(
@@ -22,8 +24,8 @@ export const getRandomPokemon = async () => {
         pokemon.sprites.back_shiny ||
         pokemon.sprites.other.dream_world.front_default, // Include SVG here
     };
-  } catch (error) {
-    console.error("Error fetching random pokemon:", error);
+  } catch {
+    // Failed to fetch random pokemon
     return null;
   }
 };

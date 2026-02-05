@@ -153,7 +153,7 @@ const deleteAssociatedRecords = async (
     try {
       await record.remove();
     } catch (error) {
-      console.error(`Error deleting ${model.modelName}: ${error.message}`);
+      console.error(`Error deleting ${model.modelName} record`);
     }
   });
 

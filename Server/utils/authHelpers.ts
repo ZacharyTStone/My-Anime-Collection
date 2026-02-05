@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import User from "../models/User.js";
 import Playlist from "../models/Playlists.js";
 import { DEFAULT_PLAYLISTS_EN, DEFAULT_PLAYLISTS_JP } from "./constants.js";
@@ -5,7 +6,7 @@ import { DEFAULT_PLAYLISTS_EN, DEFAULT_PLAYLISTS_JP } from "./constants.js";
 /** Generate a unique email for demo users. */
 export const generateDemoEmail = (): string => {
   const timestamp = Date.now();
-  const randomString = Math.random().toString(36).substring(2, 15);
+  const randomString = crypto.randomBytes(8).toString("hex");
   return `DemoUser${timestamp}-${randomString}@demo.com`;
 };
 

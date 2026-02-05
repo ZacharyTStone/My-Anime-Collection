@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../errors/index.js";
@@ -20,7 +21,7 @@ const createPlaylist = async (req, res) => {
 
   const newPlaylistID = uuidv4();
 
-  const randomTitle = Math.floor(Math.random() * 1000);
+  const randomTitle = crypto.randomInt(1000);
 
   const playlist: Playlist = {
     title: `Playlist ${randomTitle}`,

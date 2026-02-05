@@ -1,1 +1,3 @@
-export const generateRandomNumber = () => Math.floor(Math.random() * 100000);
+import crypto from "crypto";
+
+export const generateRandomNumber = () => crypto.randomInt(100000);

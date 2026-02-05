@@ -7,6 +7,13 @@ import { toast } from "react-toastify";
 import { ACTIONS } from "./actions";
 import { SORT_OPTIONS } from "../utils/constants";
 
+// Cryptographically secure random number generator
+const getSecureRandomInt = (max) => {
+  const randomArray = new Uint32Array(1);
+  crypto.getRandomValues(randomArray);
+  return randomArray[0] % max;
+};
+
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
 
@@ -123,7 +130,6 @@ const AppProvider = ({ children }) => {
         currentUser
       );
       const { user, token } = data;
-      console.log(user);
       dispatch({
         type: ACTIONS.SETUP_USER_SUCCESS,
         payload: { user, token, alertText },
@@ -230,7 +236,7 @@ const AppProvider = ({ children }) => {
         anime.attributes.titles.en_jp ||
         anime.attributes.canonicalTitle ||
         "Title N/A";
-      const id = anime.id || Math.random() * 100000;
+      const id = anime.id || getSecureRandomInt(100000);
       const rating = anime.attributes.averageRating || "N/A";
       const format = anime.attributes.subtype || "N/A";
       const episodeCount = anime.attributes.episodeCount ?? null;
@@ -359,7 +365,7 @@ const AppProvider = ({ children }) => {
     );
 
     if (playlist) {
-      playlistTitle += `${Math.floor(Math.random() * 100)}`;
+      playlistTitle += `${getSecureRandomInt(100)}`;
     }
 
     playlist = {
@@ -400,7 +406,7 @@ const AppProvider = ({ children }) => {
       (playlist) => playlist.title === playlistTitle
     );
     if (playlistToUpdate) {
-      playlist.title += `${Math.floor(Math.random() * 100)}`;
+      playlist.title += `${getSecureRandomInt(100)}`;
     }
     playlist.title = playlistTitle;
 
