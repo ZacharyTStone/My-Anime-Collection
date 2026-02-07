@@ -78,7 +78,7 @@ a.btn-outline,
 button.btn-outline {
   background: var(--outline-button-background);
   border: 2px solid var(--primary-400);
-  box-shadow: 0 0 10px rgba(212, 54, 124, 0.2);
+  box-shadow: 0 0 6px rgba(212, 54, 124, 0.1);
   color: var(--primary-600);
 
   & > *,

@@ -1,17 +1,15 @@
-import { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useAnimeContext } from "../../context/AnimeContext";
 import { usePlaylistContext } from "../../context/PlaylistContext";
 import { useLanguageContext } from "../../context/LanguageContext";
 
 import styled from "styled-components";
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
-import Collapse from "@mui/material/Collapse";
 
 import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 import { FaYoutube } from "react-icons/fa";
@@ -268,7 +266,7 @@ const Anime: React.FC<AnimeCardProps> = ({
           },
         }}
       >
-        <React.Fragment>
+        <>
           <CardContent
             sx={{
               backgroundColor: "var(--white)",
@@ -434,34 +432,7 @@ const Anime: React.FC<AnimeCardProps> = ({
               </Button>
             )}
           </CardActions>
-          <Collapse in={false} timeout="auto" unmountOnExit>
-            <CardContent
-              sx={{
-                backgroundColor: "var(--white)",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: 14,
-                  fontWeight: "bold",
-                  color: "var(--textColor)",
-                  backgroundColor: "var(--white)",
-                }}
-                color="var(--textColor)"
-                gutterBottom
-              >
-                <Button
-                  sx={{
-                    color: "var(--textColor)",
-                  }}
-                  onClick={handleModalOpen}
-                >
-                  {t("anime.showSynopsis")}
-                </Button>
-              </Typography>
-            </CardContent>
-          </Collapse>
-        </React.Fragment>
+        </>
       </Card>
       {state.modalOpen && (
         <Modal

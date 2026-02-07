@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { BackgroundAnimeCards } from "../Components";
 import { useInViewAnimation } from "../utils/hooks";
@@ -84,17 +82,6 @@ const Landing = () => {
 
   return (
     <div>
-      <ToastContainer
-        position="top-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <Wrapper>
         <nav>
           <Suspense fallback={<div>Loading...</div>}>

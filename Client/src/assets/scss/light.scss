@@ -37,10 +37,10 @@
   --primary-alpha-40: rgba(212, 54, 124, 0.4);
   --primary-alpha-50: rgba(212, 54, 124, 0.5);
 
-  /* Glow effects */
-  --glow-primary: 0 0 20px var(--primary-alpha-40), 0 0 40px var(--primary-alpha-20);
-  --glow-secondary: 0 0 20px rgba(78, 205, 196, 0.4), 0 0 40px rgba(78, 205, 196, 0.2);
-  --glow-accent: 0 0 20px rgba(255, 140, 66, 0.4), 0 0 40px rgba(255, 140, 66, 0.2);
+  /* Glow effects (subtle) */
+  --glow-primary: 0 0 8px var(--primary-alpha-15), 0 0 16px rgba(212, 54, 124, 0.08);
+  --glow-secondary: 0 0 8px rgba(78, 205, 196, 0.15), 0 0 16px rgba(78, 205, 196, 0.08);
+  --glow-accent: 0 0 8px rgba(255, 140, 66, 0.15), 0 0 16px rgba(255, 140, 66, 0.08);
 
   /* grey - more balanced tones */
   --grey-50: #f9fafb;
@@ -91,10 +91,10 @@
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08),
     0 10px 10px -5px rgba(0, 0, 0, 0.01);
   
-  /* Anime-inspired shadows with glow */
-  --shadow-anime: 0 4px 15px var(--primary-alpha-30), 0 2px 5px var(--primary-alpha-20);
-  --shadow-anime-lg: 0 10px 30px var(--primary-alpha-40), 0 5px 10px var(--primary-alpha-30);
-  --shadow-anime-hover: 0 8px 25px var(--primary-alpha-50), 0 4px 10px var(--primary-alpha-40);
+  /* Anime-inspired shadows with subtle glow */
+  --shadow-anime: 0 4px 15px var(--primary-alpha-15), 0 2px 5px var(--primary-alpha-10);
+  --shadow-anime-lg: 0 10px 30px var(--primary-alpha-20), 0 5px 10px var(--primary-alpha-15);
+  --shadow-anime-hover: 0 8px 25px var(--primary-alpha-30), 0 4px 10px var(--primary-alpha-20);
 
   /* card border colors */
   --card-border-light: var(--grey-200);

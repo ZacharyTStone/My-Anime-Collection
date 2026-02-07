@@ -65,9 +65,7 @@
 .form-select:focus {
   outline: none;
   border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgba(212, 54, 124, 0.15), var(--glow-primary);
-  transform: scale(1.01);
-  background: linear-gradient(to bottom, var(--white), var(--primary-50));
+  box-shadow: 0 0 0 3px rgba(212, 54, 124, 0.12);
 }
 
 .form-input,

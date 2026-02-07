@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes, Route, useRoutes } from "react-router-dom";
+import { BrowserRouter, useRoutes } from "react-router-dom";
 import { Suspense } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ErrorBoundary from "./pages/ErrorBoundary";
 import { LoadingLayout } from "./Components/Layout/MainLayout";
 import { routes } from "./routes";
@@ -20,6 +22,18 @@ function App() {
           <AuthProvider>
             <AnimeProvider>
               <PlaylistProvider>
+                <ToastContainer
+                  position="bottom-left"
+                  autoClose={2000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="light"
+                />
                 <Suspense fallback={<LoadingLayout />}>
                   <AppRoutes />
                 </Suspense>

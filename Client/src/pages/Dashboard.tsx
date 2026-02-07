@@ -1,6 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { MUINavbar } from "../Components";
 
@@ -9,11 +7,6 @@ import { MUINavbar } from "../Components";
 interface DashboardProps {
   className?: string;
 }
-
-// Constants
-const TOAST_POSITION = "bottom-left";
-const TOAST_AUTO_CLOSE = 2000;
-const TOAST_THEME = "light";
 
 // Styled Components
 const DashboardContainer = styled.div`
@@ -58,18 +51,6 @@ const DashboardWrapper = styled.section`
 const Dashboard: React.FC<DashboardProps> = ({ className }) => {
   return (
     <DashboardContainer className={className}>
-      <ToastContainer
-        position={TOAST_POSITION}
-        autoClose={TOAST_AUTO_CLOSE}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme={TOAST_THEME}
-      />
       <DashboardWrapper>
         <main className="dashboard">
           <MUINavbar />
