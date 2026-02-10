@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
 
-import { BsReverseLayoutTextWindowReverse, BsStars } from "react-icons/bs";
+import { BsReverseLayoutTextWindowReverse, BsStars, BsXLg } from "react-icons/bs";
 import { FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
@@ -529,7 +529,7 @@ const Anime: React.FC<AnimeCardProps> = ({
         </Modal>
       )}
       {aiState.open && (
-        <Modal
+        <AiModalOverlay
           onClose={handleAiModalClose}
           onClick={handleAiModalClose}
           role="dialog"
@@ -537,56 +537,73 @@ const Anime: React.FC<AnimeCardProps> = ({
           aria-label={t("anime.ai_suggestions")}
         >
           <AiModalContent onClick={(e) => e.stopPropagation()}>
-            <Typography variant="h5" gutterBottom>
-              <BsStars style={{ marginRight: "8px", verticalAlign: "middle" }} />
-              {t("anime.ai_suggestions")}
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              sx={{ color: "var(--grey-500)", mb: 2 }}
-            >
-              {siteLanguage === "en" ? title : japanese_title}
-            </Typography>
-            {aiState.loading && (
-              <AiLoadingContainer>
-                <ShimmerIcon style={{ fontSize: "2rem" }}>
-                  <BsStars size={32} />
+            <AiModalHeader>
+              <AiModalTitle>
+                <ShimmerIcon>
+                  <BsStars size={20} />
                 </ShimmerIcon>
-                <Typography variant="body2" sx={{ mt: 1, color: "var(--grey-600)" }}>
-                  {t("anime.ai_loading")}
+                {t("anime.ai_suggestions")}
+              </AiModalTitle>
+              <AiCloseButton onClick={handleAiModalClose} aria-label="Close">
+                <BsXLg />
+              </AiCloseButton>
+            </AiModalHeader>
+            <AiModalBody>
+              {aiState.loading && (
+                <AiLoadingContainer>
+                  <ShimmerIcon style={{ fontSize: "2rem" }}>
+                    <BsStars size={36} />
+                  </ShimmerIcon>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mt: 2,
+                      color: "var(--grey-400)",
+                      fontStyle: "italic",
+                      letterSpacing: "0.01em",
+                    }}
+                  >
+                    {t("anime.ai_loading")}
+                  </Typography>
+                </AiLoadingContainer>
+              )}
+              {aiState.error && (
+                <AiErrorMessage>
+                  {t("anime.ai_error")}
+                </AiErrorMessage>
+              )}
+              {!aiState.loading && !aiState.error && aiState.results.length === 0 && (
+                <Typography
+                  variant="body2"
+                  sx={{ textAlign: "center", py: 3, color: "var(--grey-400)" }}
+                >
+                  {t("anime.ai_no_results")}
                 </Typography>
-              </AiLoadingContainer>
-            )}
-            {aiState.error && (
-              <Typography variant="body1" sx={{ color: "var(--red-dark)", textAlign: "center", py: 2 }}>
-                {t("anime.ai_error")}
-              </Typography>
-            )}
-            {!aiState.loading && !aiState.error && aiState.results.length === 0 && (
-              <Typography variant="body1" sx={{ textAlign: "center", py: 2, color: "var(--grey-600)" }}>
-                {t("anime.ai_no_results")}
-              </Typography>
-            )}
-            {!aiState.loading && !aiState.error && aiState.results.length > 0 && (
-              <AiRecommendationList>
-                {aiState.results.map((rec, i) => (
-                  <AiRecommendationItem key={i}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: "var(--grey-800)" }}>
-                      {siteLanguage === "en" ? rec.title : rec.japanese_title}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: "var(--grey-500)", display: "block", mb: 0.5 }}>
-                      {siteLanguage === "en" ? rec.japanese_title : rec.title}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: "var(--grey-700)" }}>
-                      <strong>{t("anime.ai_reason")}:</strong>{" "}
-                      {siteLanguage === "en" ? rec.reason : rec.reason_jp}
-                    </Typography>
-                  </AiRecommendationItem>
-                ))}
-              </AiRecommendationList>
-            )}
+              )}
+              {!aiState.loading && !aiState.error && aiState.results.length > 0 && (
+                <AiRecommendationList>
+                  {aiState.results.map((rec, i) => (
+                    <AiRecommendationItem key={i}>
+                      <AiRecNumber>{i + 1}</AiRecNumber>
+                      <AiRecContent>
+                        <AiRecTitle>
+                          {siteLanguage === "en" ? rec.title : rec.japanese_title}
+                        </AiRecTitle>
+                        <AiRecSecondaryTitle>
+                          {siteLanguage === "en" ? rec.japanese_title : rec.title}
+                        </AiRecSecondaryTitle>
+                        <AiRecReason>
+                          <span>{t("anime.ai_reason")}:</span>{" "}
+                          {siteLanguage === "en" ? rec.reason : (rec.reason_jp || rec.reason)}
+                        </AiRecReason>
+                      </AiRecContent>
+                    </AiRecommendationItem>
+                  ))}
+                </AiRecommendationList>
+              )}
+            </AiModalBody>
           </AiModalContent>
-        </Modal>
+        </AiModalOverlay>
       )}
     </Wrapper>
   );
@@ -773,16 +790,29 @@ const ShimmerIcon = styled.span`
   }
 `;
 
+const AiModalOverlay = styled.div<{ onClose: () => void }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background: rgba(15, 20, 35, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+`;
+
 const AiModalContent = styled.div`
-  background: linear-gradient(135deg, var(--white) 0%, var(--primary-50) 50%, rgba(78, 205, 196, 0.05) 100%);
-  padding: 2rem;
-  border-radius: calc(var(--borderRadius) * 1.5);
-  box-shadow: var(--shadow-anime-lg);
-  max-width: 500px;
-  width: 90%;
-  max-height: 80vh;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  max-width: 520px;
+  width: 92%;
+  max-height: 85vh;
   overflow-y: auto;
-  border: 2px solid var(--primary-alpha-30);
   position: relative;
 
   &::before {
@@ -791,19 +821,94 @@ const AiModalContent = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--anime-purple), var(--anime-blue), var(--anime-pink));
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--anime-purple),
+      var(--anime-blue),
+      var(--anime-pink)
+    );
+    border-radius: 16px 16px 0 0;
   }
 
-  h5 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, var(--anime-purple), var(--anime-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 600;
+  &::-webkit-scrollbar {
+    width: 6px;
   }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--grey-200);
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--grey-300);
+  }
+`;
+
+const AiModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid var(--grey-100);
+`;
+
+const AiModalTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--anime-purple), var(--anime-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+`;
+
+const AiCloseButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--grey-200);
+  background: transparent;
+  color: var(--grey-400);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--grey-100);
+    border-color: var(--grey-300);
+    color: var(--grey-700);
+    transform: rotate(90deg);
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.92);
+  }
+
+  svg {
+    width: 13px;
+    height: 13px;
+  }
+`;
+
+const AiModalBody = styled.div`
+  padding: 1rem 1.75rem 1.75rem;
+`;
+
+
+const AiErrorMessage = styled.div`
+  text-align: center;
+  padding: 1.25rem;
+  color: var(--red-dark);
+  background: #fef2f2;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  border: 1px solid #fecaca;
 `;
 
 const AiLoadingContainer = styled.div`
@@ -811,25 +916,75 @@ const AiLoadingContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
+  padding: 3rem 0;
 `;
 
 const AiRecommendationList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 `;
 
 const AiRecommendationItem = styled.div`
-  padding: 1rem;
-  border-radius: var(--borderRadius);
-  background: var(--white);
-  border: 1px solid var(--grey-100);
+  display: flex;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
   transition: all 0.2s ease;
 
   &:hover {
+    background: #ffffff;
     border-color: var(--primary-alpha-30);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+`;
+
+const AiRecNumber = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--anime-purple), var(--anime-blue));
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 2px;
+`;
+
+const AiRecContent = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+const AiRecTitle = styled.p`
+  font-weight: 700;
+  color: var(--grey-900);
+  line-height: 1.3;
+  font-size: 0.95rem;
+  margin: 0 0 2px;
+`;
+
+const AiRecSecondaryTitle = styled.p`
+  color: var(--grey-400);
+  font-size: 0.75rem;
+  font-style: italic;
+  margin: 0 0 8px;
+`;
+
+const AiRecReason = styled.p`
+  color: var(--grey-600);
+  line-height: 1.55;
+  font-size: 0.8125rem;
+  margin: 0;
+
+  span {
+    color: var(--anime-purple);
+    font-weight: 600;
   }
 `;
 

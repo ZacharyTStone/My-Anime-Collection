@@ -20,7 +20,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/dompurify": "^3.2.0",
     "@types/react-scroll": "^1.8.10",
     "@types/styled-components": "^5.1.34",
     "nodemon": "^2.0.22",

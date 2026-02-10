@@ -11,6 +11,7 @@ const MODEL = "llama-3.3-70b-versatile";
 const MAX_RETRIES = 3;
 const BASE_DELAY_MS = 2000;
 const MAX_SYNOPSIS_LENGTH = 500;
+const FETCH_TIMEOUT_MS = 15_000; // 15 seconds
 
 // In-memory cache: anime title -> recommendations
 const cache = new Map<
@@ -33,9 +34,11 @@ Synopsis: ${cleanSynopsis}
 
 Return ONLY a JSON array with exactly 5 objects. Each object must have:
 - "title": English title
-- "japanese_title": Japanese title
-- "reason": 1-2 sentence explanation in English
-- "reason_jp": same explanation in Japanese
+- "japanese_title": Japanese title (日本語タイトル)
+- "reason": 1-2 sentence explanation in English why the user would enjoy this anime
+- "reason_jp": the same explanation translated into Japanese (必ず日本語で書いてください)
+
+IMPORTANT: "reason_jp" must be written in Japanese (日本語). Do not leave it empty or copy the English reason.
 
 Do not include the original anime. Only recommend real, existing anime.
 Return ONLY the raw JSON array.`;
@@ -47,9 +50,17 @@ function parseRecommendations(text: string): Recommendation[] {
     cleaned = cleaned.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
   }
 
-  const parsed = JSON.parse(cleaned);
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(cleaned);
+  } catch (err) {
+    console.error("Failed to parse Groq response as JSON:", (err as Error).message);
+    console.error("Raw response (first 500 chars):", cleaned.slice(0, 500));
+    return [];
+  }
 
   if (!Array.isArray(parsed)) {
+    console.error("Groq response is not an array:", typeof parsed);
     return [];
   }
 
@@ -85,14 +96,36 @@ async function callGroqWithRetry(
   };
 
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-    const response = await fetch(GROQ_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(requestBody),
-    });
+    let response: Response;
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+      response = await fetch(GROQ_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+    } catch (err) {
+      const message = (err as Error).name === "AbortError"
+        ? `Groq API timed out after ${FETCH_TIMEOUT_MS}ms`
+        : `Groq API network error: ${(err as Error).message}`;
+      console.error(`${message} (attempt ${attempt + 1}/${MAX_RETRIES})`);
+
+      if (attempt < MAX_RETRIES - 1) {
+        const delay = BASE_DELAY_MS * Math.pow(2, attempt);
+        await sleep(delay);
+        continue;
+      }
+      return [];
+    }
 
     if (response.status === 429) {
       const delay = BASE_DELAY_MS * Math.pow(2, attempt);
@@ -101,6 +134,11 @@ async function callGroqWithRetry(
       );
       await sleep(delay);
       continue;
+    }
+
+    if (response.status === 401) {
+      console.error("Groq API authentication failed — check your GROQ_API_KEY in .env");
+      return [];
     }
 
     if (!response.ok) {
@@ -125,7 +163,7 @@ async function callGroqWithRetry(
     return parseRecommendations(text);
   }
 
-  console.error("Groq API: max retries exceeded (429 rate limit)");
+  console.error("Groq API: max retries exceeded");
   return [];
 }
 
