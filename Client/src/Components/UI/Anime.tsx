@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
+import axios from "axios";
 import { useAnimeContext } from "../../context/AnimeContext";
 import { usePlaylistContext } from "../../context/PlaylistContext";
 import { useLanguageContext } from "../../context/LanguageContext";
 
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -11,7 +12,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
 
-import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
+import { BsReverseLayoutTextWindowReverse, BsStars } from "react-icons/bs";
 import { FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
@@ -21,6 +22,20 @@ import { SkeletonLoadingBlock } from ".";
 import pokeball from "../../assets/images/pokeball.png";
 import { useMobile } from "../../utils/hooks";
 import { ExpectedFetchedAnimeResponse, SavedAnime } from "../../utils/types";
+
+interface AiRecommendation {
+  title: string;
+  japanese_title: string;
+  reason: string;
+  reason_jp: string;
+}
+
+interface AiState {
+  open: boolean;
+  loading: boolean;
+  results: AiRecommendation[];
+  error: boolean;
+}
 
 // Types and Interfaces
 interface AnimeCardProps extends SavedAnime {
@@ -85,8 +100,16 @@ const Anime: React.FC<AnimeCardProps> = ({
   
   const { currentPlaylist } = usePlaylistContext();
     const { siteLanguage } = useLanguageContext();
-  
+
   const onMobile = useMobile();
+
+  const [aiState, setAiState] = useState<AiState>({
+    open: false,
+    loading: false,
+    results: [],
+    error: false,
+  });
+  const aiCacheRef = useRef<AiRecommendation[] | null>(null);
 
   // Memoized values
   const isCurrentlyLoading = useMemo(
@@ -146,6 +169,40 @@ const Anime: React.FC<AnimeCardProps> = ({
 
   const onVideoError = useCallback(() => {
     setState((prev) => ({ ...prev, failedToLoadYoutube: true }));
+  }, []);
+
+  const handleAiModalOpen = useCallback(async () => {
+    setAiState((prev) => ({ ...prev, open: true, loading: true, error: false }));
+
+    if (aiCacheRef.current) {
+      setAiState((prev) => ({
+        ...prev,
+        loading: false,
+        results: aiCacheRef.current!,
+      }));
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axios.post(
+        "/api/v1/animes/recommendations",
+        { title, synopsis },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      aiCacheRef.current = data.recommendations;
+      setAiState((prev) => ({
+        ...prev,
+        loading: false,
+        results: data.recommendations,
+      }));
+    } catch {
+      setAiState((prev) => ({ ...prev, loading: false, error: true }));
+    }
+  }, [title, synopsis]);
+
+  const handleAiModalClose = useCallback(() => {
+    setAiState((prev) => ({ ...prev, open: false }));
   }, []);
 
   // Helper to get the image source
@@ -409,6 +466,21 @@ const Anime: React.FC<AnimeCardProps> = ({
                 }}
               />
             </Button>
+            <Button
+              size="small"
+              className="card-btn"
+              onClick={handleAiModalOpen}
+              aria-label={t("anime.ai_suggestions")}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <ShimmerIcon>
+                <BsStars size={20} />
+              </ShimmerIcon>
+            </Button>
             {type === "delete" ? (
               <button
                 type="button"
@@ -448,6 +520,66 @@ const Anime: React.FC<AnimeCardProps> = ({
             </Typography>
             <Typography variant="body1">{synopsis}</Typography>
           </ModalContent>
+        </Modal>
+      )}
+      {aiState.open && (
+        <Modal
+          onClose={handleAiModalClose}
+          onClick={handleAiModalClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t("anime.ai_suggestions")}
+        >
+          <AiModalContent onClick={(e) => e.stopPropagation()}>
+            <Typography variant="h5" gutterBottom>
+              <BsStars style={{ marginRight: "8px", verticalAlign: "middle" }} />
+              {t("anime.ai_suggestions")}
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              sx={{ color: "var(--grey-500)", mb: 2 }}
+            >
+              {siteLanguage === "en" ? title : japanese_title}
+            </Typography>
+            {aiState.loading && (
+              <AiLoadingContainer>
+                <ShimmerIcon style={{ fontSize: "2rem" }}>
+                  <BsStars size={32} />
+                </ShimmerIcon>
+                <Typography variant="body2" sx={{ mt: 1, color: "var(--grey-600)" }}>
+                  {t("anime.ai_loading")}
+                </Typography>
+              </AiLoadingContainer>
+            )}
+            {aiState.error && (
+              <Typography variant="body1" sx={{ color: "var(--red-dark)", textAlign: "center", py: 2 }}>
+                {t("anime.ai_error")}
+              </Typography>
+            )}
+            {!aiState.loading && !aiState.error && aiState.results.length === 0 && (
+              <Typography variant="body1" sx={{ textAlign: "center", py: 2, color: "var(--grey-600)" }}>
+                {t("anime.ai_no_results")}
+              </Typography>
+            )}
+            {!aiState.loading && !aiState.error && aiState.results.length > 0 && (
+              <AiRecommendationList>
+                {aiState.results.map((rec, i) => (
+                  <AiRecommendationItem key={i}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: "var(--grey-800)" }}>
+                      {siteLanguage === "en" ? rec.title : rec.japanese_title}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: "var(--grey-500)", display: "block", mb: 0.5 }}>
+                      {siteLanguage === "en" ? rec.japanese_title : rec.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "var(--grey-700)" }}>
+                      <strong>{t("anime.ai_reason")}:</strong>{" "}
+                      {siteLanguage === "en" ? rec.reason : rec.reason_jp}
+                    </Typography>
+                  </AiRecommendationItem>
+                ))}
+              </AiRecommendationList>
+            )}
+          </AiModalContent>
         </Modal>
       )}
     </Wrapper>
@@ -562,6 +694,107 @@ const ModalContent = styled.div`
     font-size: 1rem;
     line-height: 1.6;
     color: var(--grey-700);
+  }
+`;
+
+// AI shimmer animation
+const shimmer = keyframes`
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+`;
+
+const aiGlow = keyframes`
+  0%, 100% {
+    filter: drop-shadow(0 0 3px rgba(196, 69, 105, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(78, 205, 196, 0.6));
+  }
+`;
+
+const ShimmerIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    90deg,
+    var(--anime-purple) 0%,
+    var(--anime-blue) 33%,
+    var(--anime-pink) 66%,
+    var(--anime-purple) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: ${shimmer} 3s linear infinite;
+
+  svg {
+    animation: ${aiGlow} 2.5s ease-in-out infinite;
+  }
+`;
+
+const AiModalContent = styled.div`
+  background: linear-gradient(135deg, var(--white) 0%, var(--primary-50) 50%, rgba(78, 205, 196, 0.05) 100%);
+  padding: 2rem;
+  border-radius: calc(var(--borderRadius) * 1.5);
+  box-shadow: var(--shadow-anime-lg);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 2px solid var(--primary-alpha-30);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--anime-purple), var(--anime-blue), var(--anime-pink));
+  }
+
+  h5 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--anime-purple), var(--anime-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+  }
+`;
+
+const AiLoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+`;
+
+const AiRecommendationList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const AiRecommendationItem = styled.div`
+  padding: 1rem;
+  border-radius: var(--borderRadius);
+  background: var(--white);
+  border: 1px solid var(--grey-100);
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--primary-alpha-30);
+    box-shadow: var(--shadow-sm);
   }
 `;
 

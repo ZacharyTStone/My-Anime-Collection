@@ -1,8 +1,9 @@
 import Anime from "../models/Anime.js";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { NotFoundError } from "../errors/index.js";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
+import { getAnimeRecommendations } from "../utils/gemini.js";
 
 // noSQL sanitization
 import sanitize from "mongo-sanitize";
@@ -95,4 +96,19 @@ const deleteAnime = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Anime removed" });
 };
 
-export { createAnime, deleteAnime, getAnimes };
+const getRecommendations = async (req: Request, res: Response) => {
+  const { title, synopsis } = req.body;
+
+  if (!title) {
+    throw new BadRequestError("Anime title is required");
+  }
+
+  const recommendations = await getAnimeRecommendations(
+    sanitize(title),
+    sanitize(synopsis || "")
+  );
+
+  res.status(StatusCodes.OK).json({ recommendations });
+};
+
+export { createAnime, deleteAnime, getAnimes, getRecommendations };

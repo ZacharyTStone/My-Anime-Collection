@@ -3,7 +3,12 @@
     "anime": {
       "episode": "EPISODES",
       "add": "Add To Playlist",
-      "delete": "Delete"
+      "delete": "Delete",
+      "ai_suggestions": "AI Suggestions",
+      "ai_loading": "Finding anime you'll love...",
+      "ai_error": "Couldn't get suggestions right now. Try again later.",
+      "ai_reason": "Why you'll like it",
+      "ai_no_results": "No suggestions found."
     },
     "profile": {
       "title": "Profile",
@@ -123,7 +128,8 @@
         "point2": "It's easy to use and intuitive.",
         "point3": "We take security very seriously and use advanced encyrption to protect your information from breaches, and hacking attempts.",
         "point4": "My Anime Collection does not use cookies to track you for advertising purposes and does not request personal data from any third parties.",
-        "point5": "We're always working on adding new features and improvements."
+        "point5": "We're always working on adding new features and improvements.",
+        "point6": "AI-powered anime suggestions help you discover your next favorite show."
       },
 
       "call_to_action": {

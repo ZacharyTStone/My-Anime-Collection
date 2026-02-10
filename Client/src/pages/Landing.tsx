@@ -70,7 +70,7 @@ const LIST_ITEM_VARIANTS = {
   }),
 };
 
-const FEATURE_POINTS = ["point1", "point2", "point3", "point4", "point5"];
+const FEATURE_POINTS = ["point1", "point2", "point3", "point4", "point5", "point6"];
 
 const Landing = () => {
   const { t } = useTranslation();

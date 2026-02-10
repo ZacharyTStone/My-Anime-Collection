@@ -5,14 +5,17 @@ import {
   createAnime,
   deleteAnime,
   getAnimes,
+  getRecommendations,
 } from "../controllers/animesController.js"; // Add .js extension
 
-import { apiLimiter500, apiLimiter2000 } from "../utils/rateLimiters.js";
+import { apiLimiter50, apiLimiter500, apiLimiter2000 } from "../utils/rateLimiters.js";
 
 router
   .route("/")
   .post(apiLimiter500, createAnime) // POST /api/v1/animes
   .get(apiLimiter2000, getAnimes); // GET /api/v1/animes
+
+router.route("/recommendations").post(apiLimiter50, getRecommendations); // POST /api/v1/animes/recommendations
 
 router.route("/:id").delete(apiLimiter500, deleteAnime); // DELETE /api/v1/animes/:id
 
