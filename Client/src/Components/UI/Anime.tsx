@@ -172,6 +172,12 @@ const Anime: React.FC<AnimeCardProps> = ({
   }, []);
 
   const handleAiModalOpen = useCallback(async () => {
+    // Prevent duplicate requests while loading
+    if (aiState.loading) {
+      setAiState((prev) => ({ ...prev, open: true }));
+      return;
+    }
+
     setAiState((prev) => ({ ...prev, open: true, loading: true, error: false }));
 
     if (aiCacheRef.current) {
@@ -199,7 +205,7 @@ const Anime: React.FC<AnimeCardProps> = ({
     } catch {
       setAiState((prev) => ({ ...prev, loading: false, error: true }));
     }
-  }, [title, synopsis]);
+  }, [title, synopsis, aiState.loading]);
 
   const handleAiModalClose = useCallback(() => {
     setAiState((prev) => ({ ...prev, open: false }));
@@ -709,10 +715,37 @@ const shimmer = keyframes`
 
 const aiGlow = keyframes`
   0%, 100% {
-    filter: drop-shadow(0 0 3px rgba(196, 69, 105, 0.4));
+    filter: drop-shadow(0 0 4px rgba(196, 69, 105, 0.5))
+            drop-shadow(0 0 8px rgba(78, 205, 196, 0.3));
   }
-  50% {
-    filter: drop-shadow(0 0 8px rgba(78, 205, 196, 0.6));
+  33% {
+    filter: drop-shadow(0 0 10px rgba(78, 205, 196, 0.7))
+            drop-shadow(0 0 20px rgba(78, 205, 196, 0.3));
+  }
+  66% {
+    filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.7))
+            drop-shadow(0 0 20px rgba(196, 69, 105, 0.3));
+  }
+`;
+
+const jiggle = keyframes`
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  15% {
+    transform: rotate(-8deg) scale(1.1);
+  }
+  30% {
+    transform: rotate(6deg) scale(1.05);
+  }
+  45% {
+    transform: rotate(-4deg) scale(1.1);
+  }
+  60% {
+    transform: rotate(3deg) scale(1.05);
+  }
+  75% {
+    transform: rotate(-1deg) scale(1.08);
   }
 `;
 
@@ -723,18 +756,20 @@ const ShimmerIcon = styled.span`
   background: linear-gradient(
     90deg,
     var(--anime-purple) 0%,
-    var(--anime-blue) 33%,
-    var(--anime-pink) 66%,
-    var(--anime-purple) 100%
+    var(--anime-pink) 20%,
+    var(--anime-blue) 40%,
+    var(--anime-pink) 60%,
+    var(--anime-purple) 80%,
+    var(--anime-blue) 100%
   );
-  background-size: 200% auto;
+  background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: ${shimmer} 3s linear infinite;
+  animation: ${shimmer} 2s linear infinite;
 
   svg {
-    animation: ${aiGlow} 2.5s ease-in-out infinite;
+    animation: ${aiGlow} 2s ease-in-out infinite, ${jiggle} 3s ease-in-out infinite;
   }
 `;
 
