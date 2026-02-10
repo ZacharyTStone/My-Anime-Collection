@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { BiCoffeeTogo } from "react-icons/bi";
-import { FaBitcoin } from "react-icons/fa";
 import { FormRow, Alert } from "../../Components/UI";
 import { Pokemon } from "../../Components";
 import { useAuthContext } from "../../context/AuthContext";
@@ -79,60 +77,17 @@ const Profile = () => {
         </div>
         <Pokemon />
         <div className="bottom-half">
-          <div>
-            <EnjoyText>{t("profile.enjoy")}</EnjoyText>
-            <ButtonDiv>
-              <div>
-                <DonationButton
-                  className="btn btn-outline"
-                  href="https://www.buymeacoffee.com/zachinjapan"
-                >
-                  <BiCoffeeTogo color="var(--primary-500)" />
-                  <span>{t("profile.buy_me_a_coffee")}</span>
-                </DonationButton>
-                <DonationButton
-                  className="btn btn-outline"
-                  href="https://commerce.coinbase.com/checkout/ae3c63d4-ddd8-485e-a6d9-8b1dce89ee42"
-                >
-                  <FaBitcoin color="var(--primary-500)" />
-                  <span>{t("profile.crypto")}</span>
-                  <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
-                </DonationButton>
-              </div>
-              <div>
-                <button
-                  className="btn btn-danger"
-                  onClick={handleDelete}
-                >
-                  {t("profile.delete")}
-                </button>
-              </div>
-            </ButtonDiv>
-          </div>
+          <button
+            className="btn btn-danger"
+            onClick={handleDelete}
+          >
+            {t("profile.delete")}
+          </button>
         </div>
       </form>
     </Wrapper>
   );
 };
-
-const ButtonDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const EnjoyText = styled.span`
-  margin-right: 10px;
-`;
-
-const DonationButton = styled.a.attrs({
-  target: "_blank",
-  rel: "noopener noreferrer",
-})`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-`;
 
 const Wrapper = styled.section`
   .btn-submit {

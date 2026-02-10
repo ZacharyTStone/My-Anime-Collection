@@ -5,21 +5,33 @@ export interface Recommendation {
   reason_jp: string;
 }
 
+// Use v1beta with gemini-1.5-flash (most stable free-tier model)
 const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
 const MAX_RETRIES = 3;
 const BASE_DELAY_MS = 2000;
+const MAX_SYNOPSIS_LENGTH = 500;
 
 // In-memory cache: anime title -> recommendations (avoids repeat Gemini calls)
 const cache = new Map<string, { recommendations: Recommendation[]; timestamp: number }>();
 const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
+function sanitizeText(text: string): string {
+  return text
+    .replace(/[\u0000-\u001F\u007F]/g, " ") // strip control characters
+    .replace(/\\/g, "\\\\") // escape backslashes
+    .trim();
+}
+
 function buildPrompt(animeName: string, synopsis: string): string {
+  const cleanName = sanitizeText(animeName);
+  const cleanSynopsis = sanitizeText(synopsis).slice(0, MAX_SYNOPSIS_LENGTH);
+
   return `You are an anime recommendation engine. Given the following anime, suggest 5 similar anime the user would enjoy.
 
-Anime: "${animeName}"
-Synopsis: "${synopsis}"
+Anime: ${cleanName}
+Synopsis: ${cleanSynopsis}
 
 Return ONLY a JSON array with exactly 5 objects. Each object must have these fields:
 - "title": English title of the recommended anime
@@ -65,21 +77,23 @@ async function callGeminiWithRetry(
   animeName: string,
   synopsis: string
 ): Promise<Recommendation[]> {
+  const requestBody = {
+    contents: [
+      {
+        parts: [{ text: buildPrompt(animeName, synopsis) }],
+      },
+    ],
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 1024,
+    },
+  };
+
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [{ text: buildPrompt(animeName, synopsis) }],
-          },
-        ],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 1024,
-        },
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (response.status === 429) {
@@ -90,7 +104,8 @@ async function callGeminiWithRetry(
     }
 
     if (!response.ok) {
-      console.error(`Gemini API error: ${response.status} ${response.statusText}`);
+      const errorBody = await response.text().catch(() => "unable to read body");
+      console.error(`Gemini API error ${response.status}: ${errorBody}`);
       return [];
     }
 
@@ -98,7 +113,7 @@ async function callGeminiWithRetry(
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
-      console.error("No text in Gemini response");
+      console.error("No text in Gemini response:", JSON.stringify(data).slice(0, 500));
       return [];
     }
 
@@ -129,7 +144,7 @@ export async function getAnimeRecommendations(
 
   const recommendations = await callGeminiWithRetry(apiKey, animeName, synopsis);
 
-  // Cache even empty results to prevent hammering the API
+  // Cache successful results to prevent hammering the API
   if (recommendations.length > 0) {
     cache.set(cacheKey, { recommendations, timestamp: Date.now() });
   }

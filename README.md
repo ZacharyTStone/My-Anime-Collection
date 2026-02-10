@@ -1,13 +1,13 @@
 # My Anime Collection (English/日本語）
 
 <p align="center">
- <img src="https://img.shields.io/github/languages/count/ZacharyTStone/My-Anime-Collection?style=plastic" alt="使用言語数" />
- <img src="https://img.shields.io/github/languages/top/ZacharyTStone/My-Anime-Collection?style=plastic&labelColor=yellow" alt="主要言語" />
- <img src="https://img.shields.io/github/languages/code-size/ZacharyTStone/My-Anime-Collection?style=plastic" alt="コードサイズ" />
- <img src="https://img.shields.io/github/repo-size/ZacharyTStone/My-Anime-Collection?style=plastic" alt="リポジトリサイズ" /> 
- <img src="https://img.shields.io/github/last-commit/ZacharyTStone/My-Anime-Collection?style=plastic" alt="最終コミット" /> 
- <img src="https://img.shields.io/github/issues/ZacharyTStone/My-Anime-Collection?style=plastic" alt="イシュー" /> 
- <img src="https://img.shields.io/github/followers/ZacharyTStone?style=social" alt="フォロワー" /> 
+ <img src="https://img.shields.io/github/languages/count/ZacharyTStone/My-Anime-Collection?style=plastic" alt="Languages Count" />
+ <img src="https://img.shields.io/github/languages/top/ZacharyTStone/My-Anime-Collection?style=plastic&labelColor=yellow" alt="Top Language" />
+ <img src="https://img.shields.io/github/languages/code-size/ZacharyTStone/My-Anime-Collection?style=plastic" alt="Code Size" />
+ <img src="https://img.shields.io/github/repo-size/ZacharyTStone/My-Anime-Collection?style=plastic" alt="Repo Size" /> 
+ <img src="https://img.shields.io/github/last-commit/ZacharyTStone/My-Anime-Collection?style=plastic" alt="Last Commit" /> 
+ <img src="https://img.shields.io/github/issues/ZacharyTStone/My-Anime-Collection?style=plastic" alt="Issues" /> 
+ <img src="https://img.shields.io/github/followers/ZacharyTStone?style=social" alt="Followers" /> 
 </p>
 
 ## Description
@@ -19,78 +19,85 @@ Welcome to My Anime Collection, a free anime tracker that allows users to explor
 #### Backend
 
 - **Node.js & Express** - Server framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling
+- **MongoDB & Mongoose** - NoSQL database and object modeling
 - **TypeScript** - Static typing
 - **JWT** - Authentication
+- **Gemini AI** - AI-powered anime recommendations
 - **Express Rate Limit** - API request limiting
 - **Helmet** - Security middleware
-- **XSS Clean** - Sanitize input
+- **Express Mongo Sanitize** - Input sanitization
 
 #### Frontend
 
-- **React** - UI library
+- **React 18** - UI library
 - **TypeScript** - Static typing
-- **Styled Components** - CSS-in-JS styling
+- **Styled Components & SASS** - Styling
 - **Material UI** - Component library
 - **React Router** - Navigation
 - **Axios** - HTTP client
+- **Framer Motion** - Animations
+- **react-i18next** - Internationalization (English/Japanese)
 - **React Toastify** - Notifications
-- **React Simply Carousel** - Image carousel
+- **DOMPurify** - XSS sanitization
+- **CRACO** - Create React App configuration override
+- **Playwright** - End-to-end testing
 
 ### Project Structure
 
-This project uses a mono repo structure with both the frontend and backend in a single repository.
+This project uses a monorepo structure with both the frontend and backend in a single repository.
 
 ```
 My-Anime-Collection/
 ├── Client/                      # Frontend React Application
 │   ├── public/                  # Static files
 │   ├── src/                     # Source code
-│   │   ├── assets/              # Images, styles, etc.
+│   │   ├── assets/              # Images, SCSS styles, etc.
 │   │   ├── Components/          # Reusable UI components
-│   │   ├── context/             # React Context API
-│   │   ├── pages/               # Page components
-│   │   ├── translations/        # Internationalization files
+│   │   ├── context/             # React Context API (Auth, Anime, Playlist, Language)
+│   │   ├── pages/               # Page components and dashboard tabs
+│   │   ├── routes/              # Route definitions
+│   │   ├── translations/        # i18n files (en.json, jp.json)
 │   │   ├── typings-custom/      # TypeScript type definitions
-│   │   ├── utils/               # Utility functions
+│   │   ├── utils/               # Utility functions, types, hooks
 │   │   ├── App.tsx              # Main app component
 │   │   └── index.tsx            # Entry point
-│   ├── tests/                   # Test files
+│   ├── craco.config.js          # CRACO configuration
+│   ├── playwright.config.ts     # Playwright test configuration
 │   └── package.json             # Frontend dependencies
 │
 ├── Server/                      # Backend Express Server
-│   ├── controllers/             # Request handlers
-│   ├── db/                      # Database configuration
-│   ├── errors/                  # Error handling
-│   ├── middleware/              # Express middleware
-│   ├── models/                  # MongoDB models
-│   ├── routes/                  # API routes
-│   ├── utils/                   # Utility functions
+│   ├── config/                  # Environment configuration
+│   ├── controllers/             # Request handlers (auth, animes, playlists)
+│   ├── db/                      # Database connection
+│   ├── errors/                  # Custom error classes
+│   ├── middleware/              # Auth, error handling, security
+│   ├── models/                  # MongoDB models (User, Anime, Playlists)
+│   ├── routes/                  # API route definitions
+│   ├── utils/                   # Helpers, Gemini AI, rate limiters
 │   └── server.ts                # Server entry point
 │
 ├── package.json                 # Root dependencies and scripts
 └── tsconfig.json                # TypeScript configuration
 ```
 
-The app utilizes Concurrently to run both the backend and frontend simultaneously from the same repository. While this structure simplifies local development, it does increase deployment complexity. The frontend fetches anime data from the Kitsu.io API, while the backend manages user data and playlists in MongoDB.
+The app utilizes Concurrently to run both the backend and frontend simultaneously from the same repository. The frontend fetches anime data from the Kitsu.io API, while the backend manages user data, playlists, and AI-powered recommendations via Google's Gemini API.
 
 ### Key Features
 
-- User authentication (register, login, profile)
-- Anime search and discovery
-- Custom playlist creation
-- Anime details and information
+- User authentication (register, login, profile management)
+- Anime search and discovery via Kitsu.io API
+- Custom playlist creation and management
+- AI-powered anime recommendations (Gemini)
 - Responsive design for mobile and desktop
 - Dark/Light theme support
-- Multiple language support (English/Japanese)
+- Bilingual support (English/Japanese)
 
 ### Application Pages
 
-- **Landing Page** - Introduction to the application with login/register options
+- **Landing Page** - Introduction with testimonials, feature highlights, and login/register options
 - **Dashboard** - Main interface with anime search and playlist management
-- **Custom Dashboard Tabs** - Organized access to different app features
-- **Register/Login** - User authentication screens
+- **Dashboard Tabs** - Add Anime, My Animes, Top Animes, Edit Playlists, Profile
+- **Register/Login** - User authentication screens (includes demo mode)
 - **Error Pages** - Custom error handling screens
 
 ## Table of Contents
@@ -98,7 +105,6 @@ The app utilizes Concurrently to run both the backend and frontend simultaneousl
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
-- [Deployment](#deployment)
 - [Links](#links)
 - [License](#license)
 - [Contributions](#contributions)
@@ -116,10 +122,11 @@ git clone https://github.com/ZacharyTStone/My-Anime-Collection.git
 npm run install-dependencies
 
 # Set up environment variables (create .env file in root directory)
-# Example .env variables:
-# MONGO_URI=your_mongodb_connection_string
+# Required .env variables:
+# MONGO_URL=your_mongodb_connection_string
 # JWT_SECRET=your_jwt_secret
 # JWT_LIFETIME=1d
+# GEMINI_API_KEY=your_gemini_api_key
 
 # Start the development server
 npm start
@@ -134,26 +141,26 @@ After installation, the application will be running at:
 
 ### API Endpoints
 
-The backend provides several RESTful endpoints:
+#### Auth
 
 - `POST /api/v1/auth/register` - Register a new user
 - `POST /api/v1/auth/login` - Authenticate a user
-- `GET /api/v1/user/me` - Get current user profile
-- `GET /api/v1/playlists` - Get user's anime playlists
-- `POST /api/v1/playlists` - Create a new playlist
-- `PUT /api/v1/playlists/:id` - Update a playlist
-- `DELETE /api/v1/playlists/:id` - Delete a playlist
+- `PATCH /api/v1/auth/updateUser` - Update user profile (authenticated)
+- `DELETE /api/v1/auth/deleteUser` - Delete user account (authenticated)
 
-## Deployment
+#### Animes
 
-This application is deployed on Heroku. To deploy your own instance:
+- `GET /api/v1/animes` - Get user's saved animes (authenticated)
+- `POST /api/v1/animes` - Save an anime (authenticated)
+- `DELETE /api/v1/animes/:id` - Delete a saved anime (authenticated)
+- `POST /api/v1/animes/recommendations` - Get AI-powered anime recommendations (authenticated)
 
-1. Create a Heroku account and install the Heroku CLI
-2. Set up the required environment variables in Heroku
-3. Connect your GitHub repository to Heroku for automatic deployment
-4. Set the build configuration according to the `heroku-postbuild` script in package.json
+#### Playlists
 
-**Note:** The current engine specifications in package.json are Node.js v20.12.1 and npm 10.2.3. Your local development environment may use different versions.
+- `GET /api/v1/playlists` - Get user's playlists (authenticated)
+- `POST /api/v1/playlists` - Create a new playlist (authenticated)
+- `PUT /api/v1/playlists/:id` - Update a playlist (authenticated)
+- `DELETE /api/v1/playlists/:id` - Delete a playlist (authenticated)
 
 ## Links
 
@@ -188,24 +195,28 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 #### バックエンド
 
 - **Node.js & Express** - サーバーフレームワーク
-- **MongoDB** - NoSQL データベース
-- **Mongoose** - MongoDB オブジェクトモデリング
+- **MongoDB & Mongoose** - NoSQL データベースとオブジェクトモデリング
 - **TypeScript** - 静的型付け
 - **JWT** - 認証
+- **Gemini AI** - AI によるアニメおすすめ機能
 - **Express Rate Limit** - API リクエスト制限
 - **Helmet** - セキュリティミドルウェア
-- **XSS Clean** - 入力サニタイズ
+- **Express Mongo Sanitize** - 入力サニタイズ
 
 #### フロントエンド
 
-- **React** - UI ライブラリ
+- **React 18** - UI ライブラリ
 - **TypeScript** - 静的型付け
-- **Styled Components** - CSS-in-JS スタイリング
+- **Styled Components & SASS** - スタイリング
 - **Material UI** - コンポーネントライブラリ
 - **React Router** - ナビゲーション
 - **Axios** - HTTP クライアント
+- **Framer Motion** - アニメーション
+- **react-i18next** - 国際化（英語/日本語）
 - **React Toastify** - 通知
-- **React Simply Carousel** - 画像カルーセル
+- **DOMPurify** - XSS サニタイズ
+- **CRACO** - Create React App 設定のカスタマイズ
+- **Playwright** - E2E テスト
 
 ### プロジェクト構造
 
@@ -216,50 +227,53 @@ My-Anime-Collection/
 ├── Client/                      # フロントエンドReactアプリケーション
 │   ├── public/                  # 静的ファイル
 │   ├── src/                     # ソースコード
-│   │   ├── assets/              # 画像、スタイルなど
+│   │   ├── assets/              # 画像、SCSSスタイルなど
 │   │   ├── Components/          # 再利用可能なUIコンポーネント
-│   │   ├── context/             # React Context API
-│   │   ├── pages/               # ページコンポーネント
-│   │   ├── translations/        # 国際化ファイル
+│   │   ├── context/             # React Context API（Auth, Anime, Playlist, Language）
+│   │   ├── pages/               # ページコンポーネントとダッシュボードタブ
+│   │   ├── routes/              # ルート定義
+│   │   ├── translations/        # i18nファイル（en.json, jp.json）
 │   │   ├── typings-custom/      # TypeScript型定義
-│   │   ├── utils/               # ユーティリティ関数
+│   │   ├── utils/               # ユーティリティ関数、型、フック
 │   │   ├── App.tsx              # メインアプリコンポーネント
 │   │   └── index.tsx            # エントリーポイント
-│   ├── tests/                   # テストファイル
+│   ├── craco.config.js          # CRACO設定
+│   ├── playwright.config.ts     # Playwrightテスト設定
 │   └── package.json             # フロントエンド依存関係
 │
 ├── Server/                      # バックエンドExpressサーバー
-│   ├── controllers/             # リクエストハンドラー
-│   ├── db/                      # データベース設定
-│   ├── errors/                  # エラー処理
-│   ├── middleware/              # Expressミドルウェア
-│   ├── models/                  # MongoDBモデル
-│   ├── routes/                  # APIルート
-│   ├── utils/                   # ユーティリティ関数
+│   ├── config/                  # 環境設定
+│   ├── controllers/             # リクエストハンドラー（auth, animes, playlists）
+│   ├── db/                      # データベース接続
+│   ├── errors/                  # カスタムエラークラス
+│   ├── middleware/              # 認証、エラー処理、セキュリティ
+│   ├── models/                  # MongoDBモデル（User, Anime, Playlists）
+│   ├── routes/                  # APIルート定義
+│   ├── utils/                   # ヘルパー、Gemini AI、レートリミッター
 │   └── server.ts                # サーバーエントリーポイント
 │
 ├── package.json                 # ルート依存関係とスクリプト
 └── tsconfig.json                # TypeScript設定
 ```
 
-このアプリは Concurrently を使用して、同じリポジトリからバックエンドとフロントエンドを同時に実行します。この構造はローカル開発を簡素化しますが、デプロイの複雑さは増します。フロントエンドは Kitsu.io API からアニメデータを取得し、バックエンドは MongoDB でユーザーデータとプレイリストを管理します。
+このアプリは Concurrently を使用して、同じリポジトリからバックエンドとフロントエンドを同時に実行します。フロントエンドは Kitsu.io API からアニメデータを取得し、バックエンドは MongoDB でユーザーデータとプレイリストを管理し、Google Gemini API で AI おすすめ機能を提供します。
 
 ### 主な機能
 
-- ユーザー認証（登録、ログイン、プロフィール）
-- アニメ検索と発見
-- カスタムプレイリスト作成
-- アニメ詳細情報
+- ユーザー認証（登録、ログイン、プロフィール管理）
+- Kitsu.io API によるアニメ検索と発見
+- カスタムプレイリスト作成と管理
+- AI によるアニメおすすめ機能（Gemini）
 - モバイルとデスクトップ向けのレスポンシブデザイン
 - ダーク/ライトテーマ対応
-- 複数言語サポート（英語/日本語）
+- 二言語対応（英語/日本語）
 
 ### アプリケーションページ
 
-- **ランディングページ** - ログイン/登録オプション付きのアプリケーション紹介
+- **ランディングページ** - お客様の声、機能紹介、ログイン/登録オプション付きの紹介ページ
 - **ダッシュボード** - アニメ検索とプレイリスト管理のメインインターフェース
-- **カスタムダッシュボードタブ** - アプリ機能への整理されたアクセス
-- **登録/ログイン** - ユーザー認証画面
+- **ダッシュボードタブ** - アニメ追加、マイアニメ、トップアニメ、プレイリスト編集、プロフィール
+- **登録/ログイン** - ユーザー認証画面（デモモード含む）
 - **エラーページ** - カスタムエラー処理画面
 
 ## 目次
@@ -267,7 +281,6 @@ My-Anime-Collection/
 - [インストール方法](#インストール方法)
 - [使用方法](#使用方法)
 - [API エンドポイント](#api-エンドポイント)
-- [デプロイメント](#デプロイメント)
 - [リンク](#リンク)
 - [ライセンス](#ライセンス)
 - [貢献](#貢献)
@@ -285,10 +298,11 @@ git clone https://github.com/ZacharyTStone/My-Anime-Collection.git
 npm run install-dependencies
 
 # 環境変数を設定（ルートディレクトリに.envファイルを作成）
-# .envファイルの例：
-# MONGO_URI=your_mongodb_connection_string
+# 必要な.env変数：
+# MONGO_URL=your_mongodb_connection_string
 # JWT_SECRET=your_jwt_secret
 # JWT_LIFETIME=1d
+# GEMINI_API_KEY=your_gemini_api_key
 
 # 開発サーバーを起動
 npm start
@@ -303,30 +317,30 @@ npm start
 
 ### API エンドポイント
 
-バックエンドは以下の RESTful エンドポイントを提供します：
+#### 認証
 
 - `POST /api/v1/auth/register` - 新規ユーザー登録
 - `POST /api/v1/auth/login` - ユーザー認証
-- `GET /api/v1/user/me` - 現在のユーザープロフィール取得
-- `GET /api/v1/playlists` - ユーザーのアニメプレイリスト取得
-- `POST /api/v1/playlists` - 新規プレイリスト作成
-- `PUT /api/v1/playlists/:id` - プレイリスト更新
-- `DELETE /api/v1/playlists/:id` - プレイリスト削除
+- `PATCH /api/v1/auth/updateUser` - ユーザープロフィール更新（認証必須）
+- `DELETE /api/v1/auth/deleteUser` - ユーザーアカウント削除（認証必須）
 
-## デプロイメント
+#### アニメ
 
-このアプリケーションは Heroku にデプロイされています。独自のインスタンスをデプロイするには：
+- `GET /api/v1/animes` - 保存済みアニメ取得（認証必須）
+- `POST /api/v1/animes` - アニメ保存（認証必須）
+- `DELETE /api/v1/animes/:id` - 保存済みアニメ削除（認証必須）
+- `POST /api/v1/animes/recommendations` - AI おすすめアニメ取得（認証必須）
 
-1. Heroku アカウントを作成し、Heroku CLI をインストール
-2. Heroku で必要な環境変数を設定
-3. GitHub リポジトリを Heroku に接続して自動デプロイを設定
-4. package.json の`heroku-postbuild`スクリプトに従ってビルド構成を設定
+#### プレイリスト
 
-**注：** package.json の現在のエンジン仕様は Node.js v20.12.1 と npm 10.2.3 です。ローカル開発環境では異なるバージョンを使用している場合があります。
+- `GET /api/v1/playlists` - ユーザーのプレイリスト取得（認証必須）
+- `POST /api/v1/playlists` - 新規プレイリスト作成（認証必須）
+- `PUT /api/v1/playlists/:id` - プレイリスト更新（認証必須）
+- `DELETE /api/v1/playlists/:id` - プレイリスト削除（認証必須）
 
 ## リンク
 
-- **サイト：** [My Anime Collection](https://www.my-anime-collection.com](https://my-anime-collection.onrender.com)
+- **サイト：** [My Anime Collection](https://www.my-anime-collection.com)
 - **GitHub リポジトリ：** [My Anime Collection on GitHub](https://github.com/ZacharyTStone/My-Anime-Collection)
 
 ## ライセンス
