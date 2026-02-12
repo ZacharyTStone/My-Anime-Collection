@@ -20,7 +20,7 @@ const Profile = () => {
 
   const [name, setName] = useState<string>(user?.name || "");
   const [email, setEmail] = useState<User["email"]>(user?.email || "");
-  const isDemoUser = Boolean((user as any)?.isDemo);
+  const isDemoUser = Boolean(user?.isDemo);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,8 +28,8 @@ const Profile = () => {
       displayAlert();
       return;
     }
-    const theme = (user as any)?.theme || "light";
-    updateUser({ name, email, id: user?.id ?? "", theme } as any);
+    const theme = user?.theme || "light";
+    updateUser({ name, email, id: user?.id ?? "", theme });
   };
 
   const handleDelete = () => {

@@ -151,7 +151,7 @@ const deleteAssociatedRecords = async (
 
   const deletePromises = records.map(async (record: any) => {
     try {
-      await record.remove();
+      await record.deleteOne();
     } catch (error) {
       console.error(`Error deleting ${model.modelName} record`);
     }
@@ -163,7 +163,7 @@ const deleteAssociatedRecords = async (
 const deleteUser = async (req: Request, res: Response) => {
   // Delete user
   const user = await User.findOne({ _id: req.user.userId });
-  await user.remove();
+  await user.deleteOne();
   res.status(StatusCodes.OK).json({ message: "User deleted" });
 
   // Delete all associated animes

@@ -14,6 +14,8 @@ interface User {
   id: string;
   name: string;
   email: string;
+  isDemo?: boolean;
+  theme?: string;
 }
 
 interface AuthState {
@@ -30,7 +32,7 @@ interface AuthContextType extends AuthState {
   displayAlert: () => void;
   clearAlert: () => void;
   setupUser: (params: {
-    currentUser: User;
+    currentUser: Partial<User>;
     endPoint: string;
     alertText: string;
   }) => Promise<void>;
@@ -237,7 +239,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       endPoint,
       alertText,
     }: {
-      currentUser: User;
+      currentUser: Partial<User>;
       endPoint: string;
       alertText: string;
     }) => {

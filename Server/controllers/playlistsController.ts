@@ -71,14 +71,14 @@ const deletePlaylist = async (req, res) => {
     playlistID: sanitize(req.params.id),
   });
 
-  animes.forEach((anime) => {
+  for (const anime of animes) {
     if (anime.playlistID.includes(playlist.id)) {
-      anime.remove();
+      await anime.deleteOne();
     }
-  });
+  }
 
   // Remove playlist
-  await playlist.remove();
+  await playlist.deleteOne();
 
   res.status(StatusCodes.OK).json({ message: "Playlist deleted" });
 };

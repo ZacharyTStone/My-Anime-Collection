@@ -32,7 +32,7 @@ const Register = () => {
     };
 
     setupUser({
-      currentUser: currentUser as any,
+      currentUser,
       endPoint: "register",
       alertText: t("register.alert_text"),
     });

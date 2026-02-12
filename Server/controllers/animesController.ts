@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
-import { getAnimeRecommendations } from "../utils/gemini.js";
+import { getAnimeRecommendations } from "../utils/groq.js";
 
 // noSQL sanitization
 import sanitize from "mongo-sanitize";
@@ -91,7 +91,7 @@ const deleteAnime = async (req: Request, res: Response) => {
 
   checkPermissions(req.user, anime?.createdBy.toString()); // Convert createdBy to string
 
-  await anime.remove();
+  await anime.deleteOne();
 
   res.status(StatusCodes.OK).json({ msg: "Success! Anime removed" });
 };
