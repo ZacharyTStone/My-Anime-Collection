@@ -31,7 +31,7 @@
     "react-intersection-observer": "^10.0.2",
     "react-player": "^2.13.0",
     "react-responsive": "^10.0.1",
-    "react-router-dom": "^6.30.3",
+    "react-router": "^7.13.0",
     "react-scripts": "5.0.1",
     "react-simply-carousel": "^9.1.13",
     "react-toastify": "^11.0.5",

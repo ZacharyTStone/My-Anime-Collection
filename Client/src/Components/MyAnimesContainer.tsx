@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import styled from "styled-components";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { useAnimeContext } from "./../context/AnimeContext";

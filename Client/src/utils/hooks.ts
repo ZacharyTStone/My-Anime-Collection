@@ -3,7 +3,7 @@ import { useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useMediaQuery } from "react-responsive";
 import { DESKTOP, LARGE_DESKTOP, TABLET } from "./constants";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const useInViewAnimation = (threshold = 0.5) => {
   const controls = useAnimation();

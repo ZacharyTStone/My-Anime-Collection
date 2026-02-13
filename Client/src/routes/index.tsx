@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { RouteObject } from "react-router-dom";
+import { RouteObject } from "react-router";
 import { Landing, Error } from "../pages";
 import MainLayout from "../Components/Layout/MainLayout";
 import ProtectedRoute from "../Components/ProtectedRoute";

@@ -9,7 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { FaCaretDown, FaUserCircle } from "react-icons/fa";
 import styled from "styled-components";
 import { useAuthContext } from "./../context/AuthContext";

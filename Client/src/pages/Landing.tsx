@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { FaCheck } from "react-icons/fa";
 import styled from "styled-components";
 import { BackgroundAnimeCards } from "../Components";
