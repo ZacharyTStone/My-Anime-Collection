@@ -21,7 +21,9 @@ const cache = new Map<
 const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
 function buildSystemPrompt(): string {
-  return `You are an anime recommendation engine. You return ONLY valid JSON arrays with no extra text, no markdown, no code blocks.`;
+  return `You are a bilingual (English/Japanese) anime recommendation engine. You return ONLY valid JSON arrays with no extra text, no markdown, no code blocks.
+
+CRITICAL LANGUAGE RULE: Every response MUST contain both English AND Japanese text in the designated fields. The input anime title may be in English — this does NOT mean you should respond only in English. You must ALWAYS provide Japanese translations regardless of the input language.`;
 }
 
 function buildUserPrompt(animeName: string, synopsis: string): string {
@@ -32,16 +34,26 @@ function buildUserPrompt(animeName: string, synopsis: string): string {
 Anime: ${animeName}
 Synopsis: ${cleanSynopsis}
 
-Return ONLY a JSON array with exactly 5 objects. Each object must have:
-- "title": English title
-- "japanese_title": Japanese title (日本語タイトル)
+Return ONLY a JSON array with exactly 5 objects. Each object must have these 4 fields:
+- "title": The anime's English title (e.g. "Attack on Titan")
+- "japanese_title": The anime's official Japanese title written in Japanese script (e.g. "進撃の巨人"). This MUST use Japanese characters (kanji/hiragana/katakana), NEVER romaji or English.
 - "reason": 1-2 sentence explanation in English why the user would enjoy this anime
-- "reason_jp": the same explanation translated into Japanese (必ず日本語で書いてください)
+- "reason_jp": The SAME explanation as "reason" but written ENTIRELY in Japanese (日本語で書くこと). This field MUST be in Japanese using Japanese script — not English, not romaji.
 
-IMPORTANT: "reason_jp" must be written in Japanese (日本語). Do not leave it empty or copy the English reason.
+⚠ STRICT LANGUAGE RULES — VIOLATIONS WILL BE REJECTED:
+1. "japanese_title" MUST contain Japanese characters (漢字・ひらがな・カタカナ). Never copy the English title here.
+2. "reason_jp" MUST be written entirely in Japanese (日本語). Even if the input anime title is in English, you MUST still write reason_jp in Japanese. Never leave it in English. Never use romaji.
+3. "title" and "reason" MUST be in English.
+4. Every object must have all 4 fields with the correct language.
 
 Do not include the original anime. Only recommend real, existing anime.
 Return ONLY the raw JSON array.`;
+}
+
+/** Returns true if the string contains at least one CJK / Hiragana / Katakana character. */
+function containsJapanese(str: string): boolean {
+  // Hiragana: \u3040-\u309F, Katakana: \u30A0-\u30FF, CJK Unified: \u4E00-\u9FFF
+  return /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]/.test(str);
 }
 
 function parseRecommendations(text: string): Recommendation[] {
@@ -65,14 +77,32 @@ function parseRecommendations(text: string): Recommendation[] {
   }
 
   return parsed
-    .filter(
-      (item: any) =>
-        item &&
-        typeof item.title === "string" &&
-        typeof item.japanese_title === "string" &&
-        typeof item.reason === "string" &&
-        typeof item.reason_jp === "string"
-    )
+    .filter((item: any) => {
+      if (
+        !item ||
+        typeof item.title !== "string" ||
+        typeof item.japanese_title !== "string" ||
+        typeof item.reason !== "string" ||
+        typeof item.reason_jp !== "string"
+      ) {
+        return false;
+      }
+
+      // Warn (but still include) if Japanese fields lack Japanese characters.
+      // This helps us track if the LLM is still misbehaving.
+      if (!containsJapanese(item.japanese_title)) {
+        console.warn(
+          `Recommendation "${item.title}" has non-Japanese japanese_title: "${item.japanese_title}"`
+        );
+      }
+      if (!containsJapanese(item.reason_jp)) {
+        console.warn(
+          `Recommendation "${item.title}" has non-Japanese reason_jp: "${item.reason_jp}"`
+        );
+      }
+
+      return true;
+    })
     .slice(0, 5);
 }
 
@@ -91,7 +121,7 @@ async function callGroqWithRetry(
       { role: "system", content: buildSystemPrompt() },
       { role: "user", content: buildUserPrompt(animeName, synopsis) },
     ],
-    temperature: 0.7,
+    temperature: 0.5,
     max_tokens: 1024,
   };
 
