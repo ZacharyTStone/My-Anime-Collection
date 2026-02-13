@@ -3,7 +3,8 @@ import axios from "axios";
 import { useAnimeStore } from "../../stores/animeStore";
 import { usePlaylistStore } from "../../stores/playlistStore";
 import { useShallow } from "zustand/react/shallow";
-import { useLanguageStore } from "../../stores/languageStore";
+import { useAtomValue } from "jotai";
+import { siteLanguageAtom } from "../../atoms/languageAtom";
 
 import styled, { keyframes } from "styled-components";
 import Card from "@mui/material/Card";
@@ -107,7 +108,7 @@ const Anime: React.FC<AnimeCardProps> = ({
   );
 
   const currentPlaylist = usePlaylistStore((s) => s.currentPlaylist);
-    const siteLanguage = useLanguageStore((s) => s.siteLanguage);
+  const siteLanguage = useAtomValue(siteLanguageAtom);
 
   const onMobile = useMobile();
 

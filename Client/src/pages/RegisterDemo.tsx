@@ -5,7 +5,8 @@ import styled from "styled-components";
 import { Alert, FormRow, Logo } from "../Components/UI";
 import { useAuthStore } from "../stores/authStore";
 import { useShallow } from "zustand/react/shallow";
-import { useLanguageStore } from "../stores/languageStore";
+import { useAtomValue } from "jotai";
+import { siteLanguageAtom } from "../atoms/languageAtom";
 import { User } from "../utils/types";
 
 const initialState = {
@@ -23,7 +24,7 @@ const Register = () => {
   const { user, showAlert, setupUser } = useAuthStore(
     useShallow((s) => ({ user: s.user, showAlert: s.showAlert, setupUser: s.setupUser }))
   );
-  const siteLanguage = useLanguageStore((s) => s.siteLanguage);
+  const siteLanguage = useAtomValue(siteLanguageAtom);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });

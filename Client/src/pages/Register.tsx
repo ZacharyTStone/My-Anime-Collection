@@ -6,7 +6,8 @@ import { Alert, FormRow, Logo, RunningImg } from "../Components/UI";
 import narutoRun from "../assets/images/narutoRun.gif";
 import { useAuthStore } from "../stores/authStore";
 import { useShallow } from "zustand/react/shallow";
-import { useLanguageStore } from "../stores/languageStore";
+import { useAtomValue } from "jotai";
+import { siteLanguageAtom } from "../atoms/languageAtom";
 import { User } from "../utils/types";
 
 interface FormValues extends Partial<User> {
@@ -30,7 +31,7 @@ const Register: React.FC = () => {
   const { user, isLoading, showAlert, displayAlert, setupUser } = useAuthStore(
     useShallow((s) => ({ user: s.user, isLoading: s.isLoading, showAlert: s.showAlert, displayAlert: s.displayAlert, setupUser: s.setupUser }))
   );
-  const siteLanguage = useLanguageStore((s) => s.siteLanguage);
+  const siteLanguage = useAtomValue(siteLanguageAtom);
 
   const toggleExistingUser = () => {
     setValues({ ...values, existingUser: !values.existingUser });
