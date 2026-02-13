@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { FormRow, Alert } from "../../Components/UI";
 import { Pokemon } from "../../Components";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthStore } from "../../stores/authStore";
+import { useShallow } from "zustand/react/shallow";
 import { User } from "../../utils/types";
 
 const Profile = () => {
@@ -16,7 +17,17 @@ const Profile = () => {
     isLoading,
     deleteUser,
     logoutUser,
-  } = useAuthContext();
+  } = useAuthStore(
+    useShallow((s) => ({
+      user: s.user,
+      showAlert: s.showAlert,
+      displayAlert: s.displayAlert,
+      updateUser: s.updateUser,
+      isLoading: s.isLoading,
+      deleteUser: s.deleteUser,
+      logoutUser: s.logoutUser,
+    }))
+  );
 
   const [name, setName] = useState<string>(user?.name || "");
   const [email, setEmail] = useState<User["email"]>(user?.email || "");

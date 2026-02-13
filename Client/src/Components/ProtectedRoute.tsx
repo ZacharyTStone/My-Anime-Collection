@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Navigate, useLocation } from "react-router";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthStore } from "../stores/authStore";
+import { useShallow } from "zustand/react/shallow";
 import styled from "styled-components";
 
 // Types and Interfaces
@@ -29,7 +30,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   fallback,
   className,
 }) => {
-  const { user, isAuthenticated } = useAuthContext();
+  const { user, isAuthenticated } = useAuthStore(
+    useShallow((s) => ({ user: s.user, isAuthenticated: s.isAuthenticated }))
+  );
   const location = useLocation();
 
   // Show fallback while checking authentication

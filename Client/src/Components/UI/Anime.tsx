@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useMemo, useRef } from "react";
 import axios from "axios";
-import { useAnimeContext } from "../../context/AnimeContext";
-import { usePlaylistContext } from "../../context/PlaylistContext";
-import { useLanguageContext } from "../../context/LanguageContext";
+import { useAnimeStore } from "../../stores/animeStore";
+import { usePlaylistStore } from "../../stores/playlistStore";
+import { useShallow } from "zustand/react/shallow";
+import { useLanguageStore } from "../../stores/languageStore";
 
 import styled, { keyframes } from "styled-components";
 import Card from "@mui/material/Card";
@@ -96,10 +97,17 @@ const Anime: React.FC<AnimeCardProps> = ({
     deleteAnime,
     isLoading,
     loadingData,
-  } = useAnimeContext();
-  
-  const { currentPlaylist } = usePlaylistContext();
-    const { siteLanguage } = useLanguageContext();
+  } = useAnimeStore(
+    useShallow((s) => ({
+      createAnime: s.createAnime,
+      deleteAnime: s.deleteAnime,
+      isLoading: s.isLoading,
+      loadingData: s.loadingData,
+    }))
+  );
+
+  const currentPlaylist = usePlaylistStore((s) => s.currentPlaylist);
+    const siteLanguage = useLanguageStore((s) => s.siteLanguage);
 
   const onMobile = useMobile();
 

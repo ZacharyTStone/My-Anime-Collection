@@ -1,12 +1,12 @@
 import IconButton from "@mui/material/IconButton";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { useLanguageContext } from "../context/LanguageContext";
+import { useLanguageStore } from "../stores/languageStore";
 import america from "./../assets/images/america-big.png";
 import japan from "./../assets/images/japan-big.png";
 
 const FlagContainer: React.FC = () => {
-  const { changeSiteLanguage } = useLanguageContext();
+  const changeSiteLanguage = useLanguageStore((s) => s.changeSiteLanguage);
   const { i18n } = useTranslation();
 
   return (

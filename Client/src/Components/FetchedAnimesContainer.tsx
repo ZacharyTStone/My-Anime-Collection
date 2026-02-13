@@ -3,7 +3,8 @@ import { Button } from "@mui/material";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Anime } from "../Components";
-import { useAnimeContext } from "../context/AnimeContext";
+import { useAnimeStore } from "../stores/animeStore";
+import { useShallow } from "zustand/react/shallow";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
@@ -35,7 +36,17 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
     numOfFetchedAnimesPages,
     resetFetchedAnimes,
     loadingFetchAnimes,
-  } = useAnimeContext();
+  } = useAnimeStore(
+    useShallow((s) => ({
+      fetchAnimes: s.fetchAnimes,
+      isLoading: s.isLoading,
+      fetchedAnimes: s.fetchedAnimes,
+      totalFetchedAnimes: s.totalFetchedAnimes,
+      numOfFetchedAnimesPages: s.numOfFetchedAnimesPages,
+      resetFetchedAnimes: s.resetFetchedAnimes,
+      loadingFetchAnimes: s.loadingFetchAnimes,
+    }))
+  );
 
   useEffect(() => {
     // Reset page to 1 whenever searchText or sort changes

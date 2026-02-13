@@ -12,7 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { FaCaretDown, FaUserCircle } from "react-icons/fa";
 import styled from "styled-components";
-import { useAuthContext } from "./../context/AuthContext";
+import { useAuthStore } from "../stores/authStore";
+import { useShallow } from "zustand/react/shallow";
 import FlagContainer from "./FlagContainer";
 import Logo from "./UI/Logo";
 import NavLinks from "./UI/NavLinks";
@@ -20,7 +21,9 @@ import NavLinks from "./UI/NavLinks";
 const MUINavbar = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { logoutUser, user } = useAuthContext();
+  const { logoutUser, user } = useAuthStore(
+    useShallow((s) => ({ logoutUser: s.logoutUser, user: s.user }))
+  );
 
   const [anchorElNav, setAnchorElNav] = React.useState<HTMLElement | null>(
     null

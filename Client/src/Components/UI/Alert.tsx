@@ -1,4 +1,5 @@
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthStore } from "../../stores/authStore";
+import { useShallow } from "zustand/react/shallow";
 import styled from "styled-components";
 
 // Types and Interfaces
@@ -44,7 +45,9 @@ const AlertContainer = styled.div<{ alertType: string }>`
  * Used primarily for authentication feedback
  */
 const Alert: React.FC<AlertProps> = ({ className }) => {
-  const { alertType, alertText, showAlert } = useAuthContext();
+  const { alertType, alertText, showAlert } = useAuthStore(
+    useShallow((s) => ({ alertType: s.alertType, alertText: s.alertText, showAlert: s.showAlert }))
+  );
 
   if (!showAlert || !alertText) {
     return null;

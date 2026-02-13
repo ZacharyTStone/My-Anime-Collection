@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import styled from "styled-components";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
-import { useAnimeContext } from "./../context/AnimeContext";
-import { usePlaylistContext } from "./../context/PlaylistContext";
+import { useAnimeStore } from "../stores/animeStore";
+import { usePlaylistStore } from "../stores/playlistStore";
+import { useShallow } from "zustand/react/shallow";
 import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/Anime";
@@ -40,9 +41,23 @@ const MyAnimesContainer = () => {
     searchStared,
     sort,
     numOfPages,
-  } = useAnimeContext();
-  
-  const { currentPlaylist } = usePlaylistContext();
+  } = useAnimeStore(
+    useShallow((s) => ({
+      getAnimes: s.getAnimes,
+      animes: s.animes,
+      isLoading: s.isLoading,
+      page: s.page,
+      totalAnimes: s.totalAnimes,
+      search: s.search,
+      searchStatus: s.searchStatus,
+      searchType: s.searchType,
+      searchStared: s.searchStared,
+      sort: s.sort,
+      numOfPages: s.numOfPages,
+    }))
+  );
+
+  const currentPlaylist = usePlaylistStore((s) => s.currentPlaylist);
 
   useEffect(() => {
     if (currentPlaylist.id) {

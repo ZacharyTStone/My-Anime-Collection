@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { FormRow, FormRowSelect } from "./UI";
-import { useAnimeContext } from "../context/AnimeContext";
-import { usePlaylistContext } from "../context/PlaylistContext";
+import { useAnimeStore } from "../stores/animeStore";
+import { usePlaylistStore } from "../stores/playlistStore";
+import { useShallow } from "zustand/react/shallow";
 
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
@@ -37,15 +38,32 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
     sortOptions,
     handleChange,
     clearFilters,
-  } = useAnimeContext();
-  
+  } = useAnimeStore(
+    useShallow((s) => ({
+      isLoading: s.isLoading,
+      search: s.search,
+      sort: s.sort,
+      sortOptions: s.sortOptions,
+      handleChange: s.handleChange,
+      clearFilters: s.clearFilters,
+    }))
+  );
+
   const {
     handlePlaylistChange,
     getPlaylists,
     currentPlaylist,
     userPlaylists,
     loadingFetchPlaylists,
-  } = usePlaylistContext();
+  } = usePlaylistStore(
+    useShallow((s) => ({
+      handlePlaylistChange: s.handlePlaylistChange,
+      getPlaylists: s.getPlaylists,
+      currentPlaylist: s.currentPlaylist,
+      userPlaylists: s.userPlaylists,
+      loadingFetchPlaylists: s.loadingFetchPlaylists,
+    }))
+  );
   
   const [localSearch, setLocalSearch] = useState(search ?? "");
 

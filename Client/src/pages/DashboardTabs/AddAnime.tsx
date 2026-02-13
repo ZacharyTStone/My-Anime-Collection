@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { FormRow, FormRowSelect, SkeletonLoadingBlock } from "../../Components/UI";
 import { FetchedAnimesContainer } from "../../Components";
-import { usePlaylistContext } from "../../context/PlaylistContext";
+import { usePlaylistStore } from "../../stores/playlistStore";
+import { useShallow } from "zustand/react/shallow";
 import { debounce } from "../../utils/debounce";
 
 const SORT_OPTIONS = [
@@ -41,7 +42,15 @@ const AddAnime: React.FC = () => {
     userPlaylists,
     handlePlaylistChange,
     loadingFetchPlaylists,
-  } = usePlaylistContext();
+  } = usePlaylistStore(
+    useShallow((s) => ({
+      getPlaylists: s.getPlaylists,
+      currentPlaylist: s.currentPlaylist,
+      userPlaylists: s.userPlaylists,
+      handlePlaylistChange: s.handlePlaylistChange,
+      loadingFetchPlaylists: s.loadingFetchPlaylists,
+    }))
+  );
   
   const debouncedRequest = debounce((value: string) => {
     setSearchText(value);

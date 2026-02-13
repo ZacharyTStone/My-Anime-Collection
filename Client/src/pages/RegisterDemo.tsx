@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { Alert, FormRow, Logo } from "../Components/UI";
-import { useAuthContext } from "../context/AuthContext";
-import { useLanguageContext } from "../context/LanguageContext";
+import { useAuthStore } from "../stores/authStore";
+import { useShallow } from "zustand/react/shallow";
+import { useLanguageStore } from "../stores/languageStore";
 import { User } from "../utils/types";
 
 const initialState = {
@@ -19,8 +20,10 @@ const Register = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  const { user, showAlert, setupUser } = useAuthContext();
-  const { siteLanguage } = useLanguageContext();
+  const { user, showAlert, setupUser } = useAuthStore(
+    useShallow((s) => ({ user: s.user, showAlert: s.showAlert, setupUser: s.setupUser }))
+  );
+  const siteLanguage = useLanguageStore((s) => s.siteLanguage);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });

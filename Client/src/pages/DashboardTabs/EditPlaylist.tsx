@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { AiFillDelete, AiOutlineArrowRight } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 
-import { usePlaylistContext } from "../../context/PlaylistContext";
+import { usePlaylistStore } from "../../stores/playlistStore";
+import { useShallow } from "zustand/react/shallow";
 import { FormRow, SkeletonLoadingBlock } from "../../Components/UI";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 import { IPlaylist } from "../../utils/types";
@@ -19,7 +20,18 @@ const Profile: React.FC = () => {
     currentPlaylist,
     handlePlaylistChange,
     loadingFetchPlaylists,
-  } = usePlaylistContext();
+  } = usePlaylistStore(
+    useShallow((s) => ({
+      getPlaylists: s.getPlaylists,
+      updatePlaylist: s.updatePlaylist,
+      deletePlaylist: s.deletePlaylist,
+      createPlaylist: s.createPlaylist,
+      userPlaylists: s.userPlaylists,
+      currentPlaylist: s.currentPlaylist,
+      handlePlaylistChange: s.handlePlaylistChange,
+      loadingFetchPlaylists: s.loadingFetchPlaylists,
+    }))
+  );
   
   const [newTitle, setNewTitle] = useState("");
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<
