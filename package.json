@@ -11,10 +11,9 @@
     "install-dependencies": "npm run install-Client && npm run install-Server",
     "heroku-postbuild": "npm run install-dependencies && npm run build-Client && tsc",
     "start-heroku-server": "node dist/server.js",
-    "watch-scss": "sass --watch Client/src/assets/scss:Client/src/assets/css",
     "Server-local": "tsc && nodemon dist/server.js",
     "Client-local": "npm start --prefix Client",
-    "start": "concurrently \"npm run Server-local\" \"npm run Client-local\" \"npm run watch-scss\""
+    "start": "concurrently \"npm run Server-local\" \"npm run Client-local\""
   },
   "keywords": [],
   "author": "",

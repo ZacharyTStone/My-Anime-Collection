@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import "normalize.css";
-import "./assets/css/index.css";
+import "./assets/scss/index.scss";
 import App from "./App";
 import "./translations/i18n";
 const root = ReactDOM.createRoot(

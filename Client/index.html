@@ -2,16 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="Anime tracker application"
       content="An anime tracker applciation made by Zach Stone"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/thumb1.png" />
-    <meta itemprop="image" content="%PUBLIC_URL%/thumb1.png" />
-    <meta name="image" content="%PUBLIC_URL%/thumb1.png" />
+    <link rel="apple-touch-icon" href="/thumb1.png" />
+    <meta itemprop="image" content="/thumb1.png" />
+    <meta name="image" content="/thumb1.png" />
     <!-- HTML Meta Tags -->
     <title>M.A.C.</title>
     <meta
@@ -24,8 +24,8 @@
       itemprop="description"
       content="An anime tracker applciation made by Zach Stone"
     />
-    <meta itemprop="image" content="%PUBLIC_URL%/thumb1.png" />
-    <meta name="image" property="og:image" content="%PUBLIC_URL%/thumb1.png" />
+    <meta itemprop="image" content="/thumb1.png" />
+    <meta name="image" property="og:image" content="/thumb1.png" />
 
     <!-- Facebook Meta Tags -->
     <meta
@@ -38,7 +38,7 @@
       property="og:description"
       content="An anime tracker applciation made by Zach Stone"
     />
-    <meta property="og:image" content="%PUBLIC_URL%/thumb1.png" />
+    <meta property="og:image" content="/thumb1.png" />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -47,7 +47,7 @@
       name="twitter:description"
       content="An anime tracker applciation made by Zach Stone"
     />
-    <meta name="twitter:image" content="%PUBLIC_URL%/thumb1.png" />
+    <meta name="twitter:image" content="/thumb1.png" />
     <meta name="keywords" content="Anime, Japan, Tracker" />
     <meta name="robots" content="index, follow" />
     <meta name="application-name" content="My Anime Collection" />
@@ -56,7 +56,7 @@
       content="An app to keep track of your favorite anime."
     />
     <meta name="copyright" content="Zach Stone" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
     <meta
       http-equiv="Content-Security-Policy"
       content="
@@ -66,32 +66,14 @@
     object-src 'none';
     upgrade-insecure-requests;
     block-all-mixed-content;
-    script-src 'self' https://www.youtube.com; 
+    script-src 'self' https://www.youtube.com;
   "
     />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>Jonah</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>
