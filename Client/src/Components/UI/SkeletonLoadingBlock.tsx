@@ -1,4 +1,4 @@
-import styled, { Keyframes, css, keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 interface SkeletonLoadingBlockProps {
   width: string | number;
@@ -12,7 +12,7 @@ interface SkeletonLoadingBlockProps {
 const createPulseAnimation = (
   darkColor: string,
   lightColor: string
-): Keyframes =>
+): ReturnType<typeof keyframes> =>
   keyframes`
     0% {
       background-color: ${lightColor};

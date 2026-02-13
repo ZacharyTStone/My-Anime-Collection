@@ -46,7 +46,7 @@ const FADE_IN_ANIMATION = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: "easeInOut" },
+    transition: { duration: 0.8, ease: "easeInOut" as const },
   },
 };
 
@@ -54,7 +54,7 @@ const IMAGE_ANIMATION = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 1, ease: "easeInOut" },
+    transition: { duration: 1, ease: "easeInOut" as const },
   },
 };
 
