@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import "express-async-errors";
-// import morgan from "morgan";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";

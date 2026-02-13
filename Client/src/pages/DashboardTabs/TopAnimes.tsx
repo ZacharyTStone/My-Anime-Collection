@@ -8,7 +8,7 @@ import { SkeletonLoadingBlock } from "../../Components/UI";
 import { Alert } from "../../Components/UI";
 import { IPlaylist } from "../../utils/types";
 
-const MyAnimes = () => {
+const TopAnimes = () => {
   const { t } = useTranslation();
 
   const {
@@ -101,4 +101,4 @@ const MyAnimes = () => {
   );
 };
 
-export default MyAnimes;
+export default TopAnimes;

@@ -22,24 +22,27 @@ Welcome to My Anime Collection, a free anime tracker that allows users to explor
 - **MongoDB & Mongoose** - NoSQL database and object modeling
 - **TypeScript** - Static typing
 - **JWT** - Authentication
-- **Gemini AI** - AI-powered anime recommendations
-- **Express Rate Limit** - API request limiting
+- **Groq AI** (Llama 3.3 70B) - AI-powered anime recommendations
+- **Express Rate Limit** - API request limiting (multi-tier)
 - **Helmet** - Security middleware
 - **Express Mongo Sanitize** - Input sanitization
+- **XSS Clean** - XSS protection
 
 #### Frontend
 
-- **React 18** - UI library
+- **React 18** with **React Compiler** - UI library with automatic optimizations
+- **Vite 7** - Build tool and dev server
 - **TypeScript** - Static typing
+- **Zustand** - Global state management (auth, anime, playlist stores)
+- **Jotai** - Lightweight atomic state (language)
 - **Styled Components & SASS** - Styling
 - **Material UI** - Component library
-- **React Router** - Navigation
+- **React Router 7** - Navigation with lazy-loaded routes
 - **Axios** - HTTP client
 - **Framer Motion** - Animations
 - **react-i18next** - Internationalization (English/Japanese)
 - **React Toastify** - Notifications
 - **DOMPurify** - XSS sanitization
-- **CRACO** - Create React App configuration override
 - **Playwright** - End-to-end testing
 
 ### Project Structure
@@ -48,20 +51,23 @@ This project uses a monorepo structure with both the frontend and backend in a s
 
 ```
 My-Anime-Collection/
-├── Client/                      # Frontend React Application
+├── Client/                      # Frontend React Application (Vite)
 │   ├── public/                  # Static files
 │   ├── src/                     # Source code
-│   │   ├── assets/              # Images, SCSS styles, etc.
+│   │   ├── assets/              # Images, SCSS styles
+│   │   ├── atoms/               # Jotai atoms (language state)
 │   │   ├── Components/          # Reusable UI components
-│   │   ├── context/             # React Context API (Auth, Anime, Playlist, Language)
-│   │   ├── pages/               # Page components and dashboard tabs
-│   │   ├── routes/              # Route definitions
+│   │   │   ├── UI/              # Core UI components (Anime, Alert, Loading, etc.)
+│   │   │   └── Layout/          # Layout components
+│   │   ├── pages/               # Page components
+│   │   │   └── DashboardTabs/   # Dashboard sub-pages
+│   │   ├── routes/              # React Router configuration
+│   │   ├── stores/              # Zustand stores (auth, anime, playlist)
 │   │   ├── translations/        # i18n files (en.json, jp.json)
-│   │   ├── typings-custom/      # TypeScript type definitions
 │   │   ├── utils/               # Utility functions, types, hooks
 │   │   ├── App.tsx              # Main app component
 │   │   └── index.tsx            # Entry point
-│   ├── craco.config.js          # CRACO configuration
+│   ├── vite.config.ts           # Vite configuration
 │   ├── playwright.config.ts     # Playwright test configuration
 │   └── package.json             # Frontend dependencies
 │
@@ -73,32 +79,39 @@ My-Anime-Collection/
 │   ├── middleware/              # Auth, error handling, security
 │   ├── models/                  # MongoDB models (User, Anime, Playlists)
 │   ├── routes/                  # API route definitions
-│   ├── utils/                   # Helpers, Gemini AI, rate limiters
+│   ├── utils/                   # Helpers, Groq AI, rate limiters
 │   └── server.ts                # Server entry point
 │
 ├── package.json                 # Root dependencies and scripts
 └── tsconfig.json                # TypeScript configuration
 ```
 
-The app utilizes Concurrently to run both the backend and frontend simultaneously from the same repository. The frontend fetches anime data from the Kitsu.io API, while the backend manages user data, playlists, and AI-powered recommendations via Google's Gemini API.
+The app utilizes Concurrently to run both the backend and frontend simultaneously from the same repository. The frontend fetches anime data from the Kitsu.io API, while the backend manages user data, playlists, and AI-powered recommendations via the Groq API.
 
 ### Key Features
 
 - User authentication (register, login, profile management)
+- Demo account system with auto-expiration (30-day TTL)
 - Anime search and discovery via Kitsu.io API
 - Custom playlist creation and management
-- AI-powered anime recommendations (Gemini)
+- AI-powered anime recommendations (Groq / Llama 3.3)
 - Responsive design for mobile and desktop
 - Dark/Light theme support
 - Bilingual support (English/Japanese)
+- Lazy-loaded routes for performance
+- Multi-tier API rate limiting
 
 ### Application Pages
 
 - **Landing Page** - Introduction with testimonials, feature highlights, and login/register options
-- **Dashboard** - Main interface with anime search and playlist management
-- **Dashboard Tabs** - Add Anime, My Animes, Top Animes, Edit Playlists, Profile
+- **Dashboard** - Main interface with navbar and lazy-loaded child routes
+- **My Animes** - View saved animes with search, filter, sort, and pagination
+- **Add Anime** - Search the Kitsu.io API with debounced search and add to playlists
+- **Top Animes** - Browse trending anime from Kitsu.io
+- **Edit Playlists** - Create, edit, and delete custom playlists
+- **Profile** - Update user info or delete account
 - **Register/Login** - User authentication screens (includes demo mode)
-- **Error Pages** - Custom error handling screens
+- **Error Pages** - Custom 404 and error handling screens
 
 ## Table of Contents
 
@@ -126,7 +139,7 @@ npm run install-dependencies
 # MONGO_URL=your_mongodb_connection_string
 # JWT_SECRET=your_jwt_secret
 # JWT_LIFETIME=1d
-# GEMINI_API_KEY=your_gemini_api_key
+# GROQ_API_KEY=your_groq_api_key
 
 # Start the development server
 npm start
@@ -198,24 +211,27 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 - **MongoDB & Mongoose** - NoSQL データベースとオブジェクトモデリング
 - **TypeScript** - 静的型付け
 - **JWT** - 認証
-- **Gemini AI** - AI によるアニメおすすめ機能
-- **Express Rate Limit** - API リクエスト制限
+- **Groq AI**（Llama 3.3 70B）- AI によるアニメおすすめ機能
+- **Express Rate Limit** - API リクエスト制限（多段階）
 - **Helmet** - セキュリティミドルウェア
 - **Express Mongo Sanitize** - 入力サニタイズ
+- **XSS Clean** - XSS 保護
 
 #### フロントエンド
 
-- **React 18** - UI ライブラリ
+- **React 18** と **React Compiler** - 自動最適化付き UI ライブラリ
+- **Vite 7** - ビルドツールと開発サーバー
 - **TypeScript** - 静的型付け
+- **Zustand** - グローバル状態管理（auth、anime、playlist ストア）
+- **Jotai** - 軽量アトミック状態（言語設定）
 - **Styled Components & SASS** - スタイリング
 - **Material UI** - コンポーネントライブラリ
-- **React Router** - ナビゲーション
+- **React Router 7** - 遅延読み込みルート付きナビゲーション
 - **Axios** - HTTP クライアント
 - **Framer Motion** - アニメーション
 - **react-i18next** - 国際化（英語/日本語）
 - **React Toastify** - 通知
 - **DOMPurify** - XSS サニタイズ
-- **CRACO** - Create React App 設定のカスタマイズ
 - **Playwright** - E2E テスト
 
 ### プロジェクト構造
@@ -224,20 +240,23 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 
 ```
 My-Anime-Collection/
-├── Client/                      # フロントエンドReactアプリケーション
+├── Client/                      # フロントエンドReactアプリケーション（Vite）
 │   ├── public/                  # 静的ファイル
 │   ├── src/                     # ソースコード
-│   │   ├── assets/              # 画像、SCSSスタイルなど
+│   │   ├── assets/              # 画像、SCSSスタイル
+│   │   ├── atoms/               # Jotaiアトム（言語状態）
 │   │   ├── Components/          # 再利用可能なUIコンポーネント
-│   │   ├── context/             # React Context API（Auth, Anime, Playlist, Language）
-│   │   ├── pages/               # ページコンポーネントとダッシュボードタブ
-│   │   ├── routes/              # ルート定義
+│   │   │   ├── UI/              # コアUIコンポーネント
+│   │   │   └── Layout/          # レイアウトコンポーネント
+│   │   ├── pages/               # ページコンポーネント
+│   │   │   └── DashboardTabs/   # ダッシュボードサブページ
+│   │   ├── routes/              # React Routerの設定
+│   │   ├── stores/              # Zustandストア（auth、anime、playlist）
 │   │   ├── translations/        # i18nファイル（en.json, jp.json）
-│   │   ├── typings-custom/      # TypeScript型定義
 │   │   ├── utils/               # ユーティリティ関数、型、フック
 │   │   ├── App.tsx              # メインアプリコンポーネント
 │   │   └── index.tsx            # エントリーポイント
-│   ├── craco.config.js          # CRACO設定
+│   ├── vite.config.ts           # Vite設定
 │   ├── playwright.config.ts     # Playwrightテスト設定
 │   └── package.json             # フロントエンド依存関係
 │
@@ -249,32 +268,39 @@ My-Anime-Collection/
 │   ├── middleware/              # 認証、エラー処理、セキュリティ
 │   ├── models/                  # MongoDBモデル（User, Anime, Playlists）
 │   ├── routes/                  # APIルート定義
-│   ├── utils/                   # ヘルパー、Gemini AI、レートリミッター
+│   ├── utils/                   # ヘルパー、Groq AI、レートリミッター
 │   └── server.ts                # サーバーエントリーポイント
 │
 ├── package.json                 # ルート依存関係とスクリプト
 └── tsconfig.json                # TypeScript設定
 ```
 
-このアプリは Concurrently を使用して、同じリポジトリからバックエンドとフロントエンドを同時に実行します。フロントエンドは Kitsu.io API からアニメデータを取得し、バックエンドは MongoDB でユーザーデータとプレイリストを管理し、Google Gemini API で AI おすすめ機能を提供します。
+このアプリは Concurrently を使用して、同じリポジトリからバックエンドとフロントエンドを同時に実行します。フロントエンドは Kitsu.io API からアニメデータを取得し、バックエンドは MongoDB でユーザーデータとプレイリストを管理し、Groq API で AI おすすめ機能を提供します。
 
 ### 主な機能
 
 - ユーザー認証（登録、ログイン、プロフィール管理）
+- デモアカウントシステムと自動期限切れ（30日TTL）
 - Kitsu.io API によるアニメ検索と発見
 - カスタムプレイリスト作成と管理
-- AI によるアニメおすすめ機能（Gemini）
+- AI によるアニメおすすめ機能（Groq / Llama 3.3）
 - モバイルとデスクトップ向けのレスポンシブデザイン
 - ダーク/ライトテーマ対応
 - 二言語対応（英語/日本語）
+- パフォーマンスのための遅延読み込みルート
+- 多段階API レート制限
 
 ### アプリケーションページ
 
 - **ランディングページ** - お客様の声、機能紹介、ログイン/登録オプション付きの紹介ページ
-- **ダッシュボード** - アニメ検索とプレイリスト管理のメインインターフェース
-- **ダッシュボードタブ** - アニメ追加、マイアニメ、トップアニメ、プレイリスト編集、プロフィール
+- **ダッシュボード** - ナビバーと遅延読み込みの子ルート付きメインインターフェース
+- **マイアニメ** - 検索、フィルタ、ソート、ページネーション付きの保存済みアニメ表示
+- **アニメ追加** - Kitsu.io API のデバウンス検索とプレイリストへの追加
+- **トップアニメ** - Kitsu.io のトレンドアニメ閲覧
+- **プレイリスト編集** - カスタムプレイリストの作成、編集、削除
+- **プロフィール** - ユーザー情報の更新またはアカウント削除
 - **登録/ログイン** - ユーザー認証画面（デモモード含む）
-- **エラーページ** - カスタムエラー処理画面
+- **エラーページ** - カスタム404とエラー処理画面
 
 ## 目次
 
@@ -302,7 +328,7 @@ npm run install-dependencies
 # MONGO_URL=your_mongodb_connection_string
 # JWT_SECRET=your_jwt_secret
 # JWT_LIFETIME=1d
-# GEMINI_API_KEY=your_gemini_api_key
+# GROQ_API_KEY=your_groq_api_key
 
 # 開発サーバーを起動
 npm start
