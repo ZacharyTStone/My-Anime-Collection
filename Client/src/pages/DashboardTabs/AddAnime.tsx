@@ -82,13 +82,13 @@ const AddAnime: React.FC = () => {
     <Wrapper>
       <main className="content full-page">
         <form
-          className="form"
+          className="form form-embedded"
           onSubmit={(e) => {
             e.preventDefault();
           }}
         >
           <h3>{t("add_anime.title")}</h3>
-          <div className="form-center">
+          <div className="form-center form-grid">
             <FormRow
               type="text"
               name="title"
@@ -153,54 +153,13 @@ const Wrapper = styled.section`
   padding: 3rem 2rem 4rem;
   box-shadow: var(--shadow-2);
 
-  .form-checkbox {
-    display: flex;
-    align-items: center;
-    margin-top: 50px;
-    margin-right: 0.5rem;
-  }
-
-  .form-checkbox-input {
-    margin-right: 40px;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
-  .form {
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 16px;
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .form-row {
-    margin-bottom: 0;
-  }
-
-  .form-center {
-    display: grid;
-    row-gap: 0.5rem;
-  }
-
   .form-center button {
     align-self: end;
     height: 35px;
     margin-top: 1rem;
   }
 
-  @media (min-width: 992px) {
-    .form-center {
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      column-gap: 1rem;
-    }
-  }
   @media (min-width: 1120px) {
-    .form-center {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
     .form-center button {
       margin-top: 20px;
     }

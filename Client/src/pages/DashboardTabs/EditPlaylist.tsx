@@ -134,7 +134,7 @@ const EditPlaylist: React.FC = () => {
       {currentPlaylist.id &&
         !!selectedPlaylistId &&
         !DEFAULT_PLAYLIST_IDS.includes(selectedPlaylistId) && (
-          <form className="form" onSubmit={handlePlaylistEdit}>
+          <form className="form form-embedded" onSubmit={handlePlaylistEdit}>
             <div className="form-center">
               <FormRow
                 type="text"
@@ -210,12 +210,11 @@ const Wrapper = styled.section`
 
   ul {
     margin-bottom: 1.5rem;
-    padding: 0;
+    padding: 0.5rem;
     max-height: 300px;
     overflow-y: auto;
     border: 1px solid var(--grey-200);
     border-radius: var(--borderRadius);
-    padding: 0.5rem;
     background-color: var(--white);
     box-shadow: var(--shadow-sm) inset;
   }
@@ -238,19 +237,6 @@ const Wrapper = styled.section`
       opacity: 1;
       transform: scale(1.1);
     }
-  }
-
-  .form {
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 16px;
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .form-row {
-    margin-bottom: 0;
   }
 
   .form-center {
@@ -300,12 +286,6 @@ const Wrapper = styled.section`
       grid-template-columns: 1fr auto;
       align-items: end;
       column-gap: 1rem;
-    }
-  }
-
-  @media (min-width: 1120px) {
-    .form-center {
-      grid-template-columns: 1fr auto;
     }
   }
 `;

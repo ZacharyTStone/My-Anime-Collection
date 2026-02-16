@@ -4,7 +4,6 @@ import { useAnimeStore } from "../stores/animeStore";
 import { usePlaylistStore } from "../stores/playlistStore";
 import { useShallow } from "zustand/react/shallow";
 
-import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { debounce } from "../utils/debounce";
 import { SkeletonLoadingBlock } from "./UI";
@@ -113,17 +112,17 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
 
   if (loadingFetchPlaylists) {
     return (
-      <Wrapper className={className}>
+      <section className={className}>
         <SkeletonLoadingBlock height={200} width="100%" borderRadius={8} />
-      </Wrapper>
+      </section>
     );
   }
 
   return (
-    <Wrapper className={className}>
-      <form className="form" onSubmit={handleFormSubmit}>
+    <section className={className}>
+      <form className="form form-embedded" onSubmit={handleFormSubmit}>
         <h4>{t("search_container.title")}</h4>
-        <div className="form-center">
+        <div className="form-center form-grid">
           <FormRow
             type="text"
             name="search"
@@ -166,42 +165,8 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
           </button>
         </div>
       </form>
-    </Wrapper>
+    </section>
   );
 };
-
-
-
-const Wrapper = styled.section`
-  .form {
-    width: 100%;
-    max-width: 100%;
-    padding: 16px;
-    overflow: visible;
-  }
-  .form-row {
-    margin-bottom: 0;
-  }
-  .form-center {
-    display: grid;
-    grid-template-columns: 1fr;
-    column-gap: 2rem;
-    row-gap: 0.5rem;
-  }
-  h5 {
-    font-weight: 700;
-  }
-
-  @media (min-width: 768px) {
-    .form-center {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  @media (min-width: 992px) {
-    .form-center {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-  }
-`;
 
 export default SearchContainer;

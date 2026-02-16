@@ -55,10 +55,10 @@ const Profile = () => {
 
   return (
     <Wrapper>
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form form-embedded" onSubmit={handleSubmit}>
         <h3>{t("profile.title")}</h3>
         {showAlert && <Alert />}
-        <div className="form-center">
+        <div className="form-center form-grid">
           <FormRow
             disabled={isLoading || isDemoUser}
             type="text"
@@ -101,18 +101,6 @@ const Profile = () => {
 };
 
 const Wrapper = styled.section`
-  .btn-submit {
-    margin-top: 2rem !important;
-  }
-
-  .btn-container {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 1rem;
-    grid-column: 1 / -1;
-  }
-
-
   border-radius: var(--borderRadius);
   width: 100%;
   background: var(--white);
@@ -138,6 +126,17 @@ const Wrapper = styled.section`
     }
   }
 
+  .btn-submit {
+    margin-top: 2rem !important;
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    grid-column: 1 / -1;
+  }
+
   .btn-danger {
     position: relative;
     background-color: var(--grey-300);
@@ -150,56 +149,15 @@ const Wrapper = styled.section`
     }
   }
 
-  .form {
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 16px;
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .form-row {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-center {
-    display: grid;
-    row-gap: 1rem;
-  }
-
-  .form-center button {
-    align-self: end;
-    height: 42px;
-    margin-top: 1.5rem;
-  }
-
   .bottom-half {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid var(--grey-200);
   }
 
-  .bottom-half span {
-    color: var(--grey-700);
-    font-weight: 500;
-  }
-
-  @media (min-width: 992px) {
-    .form-center {
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      column-gap: 1.5rem;
-    }
-  }
-
   @media (min-width: 1120px) {
-    .form-center {
+    .form-grid {
       grid-template-columns: 1fr 1fr;
-    }
-
-    .form-center button {
-      margin-top: 0;
     }
   }
 `;

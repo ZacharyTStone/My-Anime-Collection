@@ -317,20 +317,6 @@ const Wrapper = styled.main`
     }
   }
 
-  .gallery {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .icon-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
-    margin-top: 4rem;
-    margin-bottom: 2rem;
-  }
-
   h1 {
     font-weight: 700;
     letter-spacing: -0.03em;
@@ -396,10 +382,6 @@ const Wrapper = styled.main`
       margin-bottom: 0;
       padding-bottom: 0;
       min-height: auto;
-    }
-
-    main {
-      padding-bottom: 0;
     }
 
     .main-img {

@@ -7,35 +7,18 @@ export const Wrapper = styled.article`
   justify-content: center;
   align-items: center;
 
-  .anime {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-  }
-
-  header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--grey-100);
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    h5 {
-      letter-spacing: 0;
-    }
-  }
-
   .delete-btn {
     letter-spacing: var(--letterSpacing);
     cursor: pointer;
     height: 30px;
-    margin: 10px 10px 10px 10px;
+    margin: 10px;
     color: var(--red-dark);
     background: var(--red-light);
     align-self: center;
   }
 
   .anime-cover-image {
-    width: "100%";
+    width: 100%;
     cursor: url(${pokeball}) 4 4, pointer !important;
   }
 
