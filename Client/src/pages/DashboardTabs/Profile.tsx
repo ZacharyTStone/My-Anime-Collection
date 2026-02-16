@@ -48,7 +48,7 @@ const Profile = () => {
       return;
     }
     if (user) {
-      deleteUser(user);
+      deleteUser();
       logoutUser();
     }
   };

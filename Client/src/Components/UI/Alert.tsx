@@ -2,12 +2,10 @@ import { useAuthStore } from "../../stores/authStore";
 import { useShallow } from "zustand/react/shallow";
 import styled from "styled-components";
 
-// Types and Interfaces
 interface AlertProps {
   className?: string;
 }
 
-// Styled Components
 const AlertContainer = styled.div<{ alertType: string }>`
   padding: 0.75rem 1rem;
   margin: 1rem 0;
@@ -40,10 +38,6 @@ const AlertContainer = styled.div<{ alertType: string }>`
   }}
 `;
 
-/**
- * Alert component that displays contextual feedback messages
- * Used primarily for authentication feedback
- */
 const Alert: React.FC<AlertProps> = ({ className }) => {
   const { alertType, alertText, showAlert } = useAuthStore(
     useShallow((s) => ({ alertType: s.alertType, alertText: s.alertText, showAlert: s.showAlert }))

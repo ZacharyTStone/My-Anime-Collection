@@ -55,3 +55,15 @@ export interface User {
   isDemo?: boolean;
   theme?: string;
 }
+
+export interface AiRecommendation {
+  title: string;
+  japanese_title: string;
+  reason: string;
+  reason_jp: string;
+}
+
+export interface SelectOption {
+  title: string;
+  value: string;
+}

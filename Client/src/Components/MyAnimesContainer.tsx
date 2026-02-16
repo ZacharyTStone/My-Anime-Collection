@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import styled from "styled-components";
@@ -7,11 +7,11 @@ import { usePlaylistStore } from "../stores/playlistStore";
 import { useShallow } from "zustand/react/shallow";
 import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
-import Anime from "./UI/Anime";
+import Anime from "./UI/AnimeCard";
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const isFirstLoad = useRef(true);
   const {
     getAnimes,
     animes,
@@ -45,22 +45,10 @@ const MyAnimesContainer = () => {
   useEffect(() => {
     if (currentPlaylist.id) {
       getAnimes(currentPlaylist.id).then(() => {
-        if (isFirstLoad) {
-          setIsFirstLoad(false);
-        }
+        isFirstLoad.current = false;
       });
     }
-  }, [
-    page,
-    search,
-    searchStatus,
-    searchStared,
-    searchType,
-    sort,
-    currentPlaylist,
-    getAnimes,
-    isFirstLoad,
-  ]);
+  }, [page, search, searchStatus, searchStared, searchType, sort, currentPlaylist, getAnimes]);
 
   const noAnimesInPlaylist = animes.length === 0 && search?.length === 0;
 

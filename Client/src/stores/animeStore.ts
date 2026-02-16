@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuthStore } from "./authStore";
 import { SORT_OPTIONS } from "../utils/constants";
-import { ExpectedFetchedAnimeResponse } from "../utils/types";
+import { ExpectedFetchedAnimeResponse, AiRecommendation } from "../utils/types";
 import { apiClient } from "../utils/api";
 import { handleApiError } from "../utils/handleApiError";
 
@@ -31,13 +31,6 @@ export interface Anime {
 interface FetchedAnime {
   id: string;
   title: string;
-}
-
-interface AiRecommendation {
-  title: string;
-  japanese_title: string;
-  reason: string;
-  reason_jp: string;
 }
 
 interface AnimeStore {
@@ -68,7 +61,7 @@ interface AnimeStore {
   fetchAnimes: (params: {
     page: number;
     baseURL: string;
-    filter: string;
+    filter: boolean;
     searchText: string;
     pagination: boolean;
     sort: string;
@@ -214,8 +207,7 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
     });
   },
 
-  // External Kitsu API — uses bare axios (no auth needed)
-  fetchAnimes: async ({ page, baseURL, filter: _filter, searchText, pagination: _pagination, sort }) => {
+  fetchAnimes: async ({ page, baseURL, searchText, sort }) => {
     set({ isLoading: true, loadingFetchAnimes: true });
     try {
       const limit = 18;

@@ -10,15 +10,15 @@ import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
 import DOMPurify from "dompurify";
 
-interface AnimeContainerProps {
+interface FetchedAnimesContainerProps {
   searchText: string;
   baseURL: string;
-  filter: string;
-  pagination: string;
+  filter: boolean;
+  pagination: boolean;
   sort: string;
 }
 
-const AnimeContainer: React.FC<AnimeContainerProps> = ({
+const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
   searchText,
   baseURL,
   filter,
@@ -49,38 +49,34 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
   );
 
   useEffect(() => {
-    // Reset page to 1 whenever searchText or sort changes
     page.current = 1;
 
-    // Fetch animes when searchText is present or on trending page
     if (!!searchText || onTrendingPage) {
       fetchAnimes({
         page: page.current,
         baseURL,
         filter,
         searchText,
-        pagination: pagination === "true",
+        pagination,
         sort,
       });
     }
   }, [searchText, sort]);
 
   useEffect(() => {
-    // Cleanup fetchedAnimes on component unmount
     return () => {
       resetFetchedAnimes();
     };
   }, []);
 
   const handlePageClick = (increment: number) => {
-    // Increment or decrement the page based on the button clicked
     page.current += increment;
 
     fetchAnimes({
       baseURL,
       searchText,
       filter,
-      pagination: pagination === "true",
+      pagination,
       sort,
       page: page.current,
     });
@@ -114,7 +110,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
     <Container>
       {fetchedAnimes?.length > 0 ? (
         <div>
-          {pagination === "true" && (
+          {pagination && (
             <ButtonContainer>
               <Button
                 onClick={() => handlePageClick(-1)}
@@ -173,7 +169,7 @@ const AnimeContainer: React.FC<AnimeContainerProps> = ({
               />
             ))}
 
-            {pagination === "true" && fetchedAnimes?.length === 0 && (
+            {pagination && fetchedAnimes?.length === 0 && (
               <Button
                 onClick={() => handlePageClick(1)}
                 color="primary"
@@ -237,4 +233,4 @@ const PageInfo = styled.div`
   align-items: center;
 `;
 
-export default AnimeContainer;
+export default FetchedAnimesContainer;

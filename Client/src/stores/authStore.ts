@@ -27,7 +27,6 @@ const removeUserFromLocalStorage = () => {
 };
 
 interface AuthStore {
-  // State
   isLoading: boolean;
   showAlert: boolean;
   alertText: string;
@@ -35,7 +34,6 @@ interface AuthStore {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  // Actions
   displayAlert: () => void;
   clearAlert: () => void;
   setupUser: (params: {
@@ -45,11 +43,10 @@ interface AuthStore {
   }) => Promise<void>;
   logoutUser: () => void;
   updateUser: (currentUser: User) => Promise<void>;
-  deleteUser: (currentUser: User) => Promise<void>;
+  deleteUser: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>((set, get) => ({
-  // Initial state
   isLoading: false,
   showAlert: false,
   alertText: "",
@@ -126,7 +123,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  deleteUser: async (_currentUser: User) => {
+  deleteUser: async () => {
     set({ isLoading: true });
     try {
       await apiClient.delete("/auth/deleteUser");

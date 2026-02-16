@@ -9,7 +9,7 @@ import { FormRow, SkeletonLoadingBlock } from "../../Components/UI";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 import { IPlaylist } from "../../utils/types";
 
-const Profile: React.FC = () => {
+const EditPlaylist: React.FC = () => {
   const { t } = useTranslation();
   const {
     getPlaylists,
@@ -133,7 +133,6 @@ const Profile: React.FC = () => {
       </div>
       {currentPlaylist.id &&
         !!selectedPlaylistId &&
-        // not default playlist
         !DEFAULT_PLAYLIST_IDS.includes(selectedPlaylistId) && (
           <form className="form" onSubmit={handlePlaylistEdit}>
             <div className="form-center">
@@ -311,4 +310,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default Profile;
+export default EditPlaylist;

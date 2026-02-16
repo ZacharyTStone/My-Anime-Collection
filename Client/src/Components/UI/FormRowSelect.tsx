@@ -1,22 +1,23 @@
-interface selectType {
-  title: string;
+import { SelectOption } from "../../utils/types";
+
+export type { SelectOption };
+
+interface FormRowSelectProps {
+  labelText: string;
+  disabled: boolean;
+  name: string;
   value: string;
+  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  list: SelectOption[];
 }
 
-const FormRowSelect = ({
+const FormRowSelect: React.FC<FormRowSelectProps> = ({
   labelText,
   disabled,
   name,
   value,
   handleChange,
   list,
-}: {
-  labelText: string;
-  disabled: boolean;
-  name: string;
-  value: string;
-  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  list: string[] | selectType[];
 }) => {
   return (
     <div className="form-row">
@@ -30,7 +31,7 @@ const FormRowSelect = ({
         onChange={handleChange}
         className="form-select"
       >
-        {list?.map((itemValue: any, index: number) => {
+        {list?.map((itemValue: SelectOption, index: number) => {
           return (
             <option key={index} value={itemValue.value}>
               {itemValue.title}

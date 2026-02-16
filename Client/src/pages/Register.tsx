@@ -75,64 +75,59 @@ const Register: React.FC = () => {
   }, [user, navigate]);
 
   return (
-    <div>
-      <Wrapper className="full-page">
-        <form className="form" onSubmit={onSubmit}>
-          <Logo />
-          <h3>
-            {values.existingUser ? t("login.title") : t("register.title")}
-          </h3>
-          {showAlert && <Alert />}
-          {/* name input */}
-          {!values.existingUser && (
-            <FormRow
-              type="text"
-              name="name"
-              labelText={t("register.name")}
-              value={values.name || ""}
-              handleChange={handleChange}
-            />
-          )}
+    <Wrapper className="full-page">
+      <form className="form" onSubmit={onSubmit}>
+        <Logo />
+        <h3>
+          {values.existingUser ? t("login.title") : t("register.title")}
+        </h3>
+        {showAlert && <Alert />}
+        {!values.existingUser && (
+          <FormRow
+            type="text"
+            name="name"
+            labelText={t("register.name")}
+            value={values.name || ""}
+            handleChange={handleChange}
+          />
+        )}
 
-          {/* email input */}
-          <FormRow
-            type="email"
-            name="email"
-            labelText={t("register.email")}
-            value={values.email || ""}
-            handleChange={handleChange}
-          />
-          {/* password input */}
-          <FormRow
-            type="password"
-            name="password"
-            labelText={t("register.password")}
-            value={values.password || ""}
-            handleChange={handleChange}
-          />
+        <FormRow
+          type="email"
+          name="email"
+          labelText={t("register.email")}
+          value={values.email || ""}
+          handleChange={handleChange}
+        />
+        <FormRow
+          type="password"
+          name="password"
+          labelText={t("register.password")}
+          value={values.password || ""}
+          handleChange={handleChange}
+        />
+        <button
+          type="submit"
+          className="btn btn-block btn-submit"
+          disabled={isLoading}
+        >
+          {values.existingUser ? t("login.submit") : t("register.submit")}
+        </button>
+        <p>
+          {values.existingUser ? t("login.switch1") : t("register.switch1")}
           <button
-            type="submit"
-            className="btn btn-block btn-submit"
-            disabled={isLoading}
+            type="button"
+            onClick={toggleExistingUser}
+            className="existing-user-btn"
           >
-            {values.existingUser ? t("login.submit") : t("register.submit")}
+            {values.existingUser ? t("login.switch2") : t("register.switch2")}
           </button>
-          <p>
-            {values.existingUser ? t("login.switch1") : t("register.switch1")}
-            <button
-              type="button"
-              onClick={toggleExistingUser}
-              className="existing-user-btn"
-            >
-              {values.existingUser ? t("login.switch2") : t("register.switch2")}
-            </button>
-          </p>
-        </form>
-        <div className="run">
-          <RunningImg img={narutoRun} />
-        </div>
-      </Wrapper>
-    </div>
+        </p>
+      </form>
+      <div className="run">
+        <RunningImg img={narutoRun} />
+      </div>
+    </Wrapper>
   );
 };
 

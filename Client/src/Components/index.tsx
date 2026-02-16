@@ -1,4 +1,4 @@
-import Anime from "./UI/Anime";
+import Anime from "./UI/AnimeCard";
 import FlagContainer from "./FlagContainer";
 import PageBtnContainer from "./PageBtnContainer";
 import SearchContainer from "./SearchContainer";

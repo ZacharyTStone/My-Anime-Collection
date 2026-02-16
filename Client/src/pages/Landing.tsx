@@ -81,8 +81,7 @@ const Landing = () => {
   const { controls: controls4, ref: ref4 } = useInViewAnimation();
 
   return (
-    <div>
-      <Wrapper>
+    <Wrapper>
         <nav>
           <Suspense fallback={<div>Loading...</div>}>
             <StyledFlagContainer>
@@ -225,8 +224,7 @@ const Landing = () => {
           </CallToActionSection>
           <BackgroundAnimeCards />
         </main>
-      </Wrapper>
-    </div>
+    </Wrapper>
   );
 };
 

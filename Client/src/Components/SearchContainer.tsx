@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next";
 import { debounce } from "../utils/debounce";
 import { SkeletonLoadingBlock } from "./UI";
 
-// Types and Interfaces
 interface SearchContainerProps {
   className?: string;
 }
@@ -22,12 +21,8 @@ interface FormEvent {
   preventDefault?: () => void;
 }
 
-// Constants
 const DEBOUNCE_DELAY = 300;
 
-/**
- * SearchContainer component that handles search and filtering functionality
- */
 const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
   const { t } = useTranslation();
   const {
@@ -63,21 +58,18 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
       loadingFetchPlaylists: s.loadingFetchPlaylists,
     }))
   );
-  
+
   const [localSearch, setLocalSearch] = useState(search ?? "");
 
-  // Effects
   useEffect(() => {
-    getPlaylists(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    getPlaylists();
   }, [getPlaylists]);
 
-  // Memoized values
   const isFormDisabled = useMemo(
     () => isLoading || loadingFetchPlaylists,
     [isLoading, loadingFetchPlaylists]
   );
 
-  // Callbacks
   const handleSearch = useCallback(
     (e: FormEvent) => {
       handleChange({ name: e.target.name, value: e.target.value });
@@ -102,25 +94,23 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
     [clearFilters]
   );
 
+  const debouncedHandleSearch = useMemo(
+    () => debounce(handleSearch, DEBOUNCE_DELAY),
+    [handleSearch]
+  );
+
   const handleLocalSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setLocalSearch(e.target.value);
       debouncedHandleSearch(e);
     },
-    []
+    [debouncedHandleSearch]
   );
 
   const handleFormSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
   }, []);
 
-  // Debounced search handler
-  const debouncedHandleSearch = useMemo(
-    () => debounce(handleSearch, DEBOUNCE_DELAY),
-    [handleSearch]
-  );
-
-  // Render loading skeleton
   if (loadingFetchPlaylists) {
     return (
       <Wrapper className={className}>
@@ -143,7 +133,6 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
             disabled={isFormDisabled}
           />
 
-          {/* Sort */}
           <FormRowSelect
             disabled={isFormDisabled}
             name="sort"
@@ -153,7 +142,6 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
             list={sortOptions}
           />
 
-          {/* Playlist */}
           <FormRowSelect
             disabled={isFormDisabled}
             name="playlist"

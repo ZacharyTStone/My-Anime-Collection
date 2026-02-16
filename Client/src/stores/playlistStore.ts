@@ -4,7 +4,6 @@ import { useAuthStore } from "./authStore";
 import { apiClient } from "../utils/api";
 import { handleApiError } from "../utils/handleApiError";
 
-// Types and Interfaces
 interface Playlist {
   id: string;
   title: string;

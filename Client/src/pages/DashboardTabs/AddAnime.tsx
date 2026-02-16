@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { FormRow, FormRowSelect, SkeletonLoadingBlock } from "../../Components/UI";
@@ -52,9 +52,10 @@ const AddAnime: React.FC = () => {
     }))
   );
   
-  const debouncedRequest = debounce((value: string) => {
-    setSearchText(value);
-  }, 500);
+  const debouncedRequest = useMemo(
+    () => debounce((value: string) => setSearchText(value), 500),
+    []
+  );
 
   const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -136,8 +137,8 @@ const AddAnime: React.FC = () => {
         <FetchedAnimesContainer
           searchText={searchText}
           baseURL="https://kitsu.io/api/edge/anime"
-          filter={"true"}
-          pagination={"true"}
+          filter={true}
+          pagination={true}
           sort={sort}
         />
       </main>
