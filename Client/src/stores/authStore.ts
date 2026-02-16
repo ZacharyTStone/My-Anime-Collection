@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { User } from "../utils/types";
+import { apiClient, registerLogoutHandler } from "../utils/api";
+import { handleApiError } from "../utils/handleApiError";
 
 const TOKEN_KEY = "token";
 const USER_KEY = "user";
-const API_BASE_URL = "/api/v1";
 
 const getStoredUser = (): User | null => {
   const user = localStorage.getItem(USER_KEY);
@@ -48,33 +48,6 @@ interface AuthStore {
   deleteUser: (currentUser: User) => Promise<void>;
 }
 
-const createAuthFetch = (token: string | null, logout: () => void): AxiosInstance => {
-  const instance = axios.create({ baseURL: API_BASE_URL });
-
-  instance.interceptors.request.use(
-    (config) => {
-      if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error: AxiosError) => Promise.reject(error)
-  );
-
-  instance.interceptors.response.use(
-    (response: AxiosResponse) => response,
-    (error: AxiosError) => {
-      if (error.response?.status === 401) {
-        removeUserFromLocalStorage();
-        logout();
-      }
-      return Promise.reject(error);
-    }
-  );
-
-  return instance;
-};
-
 export const useAuthStore = create<AuthStore>((set, get) => ({
   // Initial state
   isLoading: false,
@@ -100,9 +73,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   setupUser: async ({ currentUser, endPoint, alertText }) => {
     set({ isLoading: true });
-    const authFetch = createAuthFetch(get().token, get().logoutUser);
     try {
-      const { data } = await authFetch.post(`/auth/${endPoint}`, currentUser);
+      const { data } = await apiClient.post(`/auth/${endPoint}`, currentUser);
       const { user, token } = data;
       addUserToLocalStorage(user, token);
       set({
@@ -115,14 +87,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         alertText,
       });
       toast.success(alertText);
-    } catch (error: any) {
-      set({
-        isLoading: false,
-        showAlert: true,
-        alertType: "danger",
-        alertText: error.response.data.msg,
-      });
-      toast.error(error.response.data.msg);
+    } catch (error: unknown) {
+      set({ isLoading: false });
+      handleApiError(error, "Authentication failed");
     }
     get().clearAlert();
   },
@@ -142,9 +109,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   updateUser: async (currentUser: User) => {
     set({ isLoading: true });
-    const authFetch = createAuthFetch(get().token, get().logoutUser);
     try {
-      const { data } = await authFetch.patch("/auth/updateUser", currentUser);
+      const { data } = await apiClient.patch("/auth/updateUser", currentUser);
       const { user, token } = data;
       addUserToLocalStorage(user, token);
       set({
@@ -154,26 +120,24 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         isAuthenticated: true,
       });
       toast.success("User Updated!");
-    } catch (error: any) {
+    } catch (error: unknown) {
       set({ isLoading: false });
-      if (error.response?.status !== 401) {
-        toast.error(error.response.data.msg);
-      }
+      handleApiError(error, "Failed to update user");
     }
   },
 
   deleteUser: async (_currentUser: User) => {
     set({ isLoading: true });
-    const authFetch = createAuthFetch(get().token, get().logoutUser);
     try {
-      await authFetch.delete("/auth/deleteUser");
+      await apiClient.delete("/auth/deleteUser");
       get().logoutUser();
       toast.success("User Deleted!");
-    } catch (error: any) {
+    } catch (error: unknown) {
       set({ isLoading: false });
-      if (error.response?.status !== 401) {
-        toast.error(error.response.data.msg);
-      }
+      handleApiError(error, "Failed to delete user");
     }
   },
 }));
+
+// Wire up the 401 interceptor to call logoutUser
+registerLogoutHandler(() => useAuthStore.getState().logoutUser());

@@ -16,7 +16,6 @@
     "framer-motion": "^12.34.0",
     "i18next": "^25.8.6",
     "jotai": "^2.17.1",
-    "moment": "^2.29.4",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-compiler-runtime": "^19.0.0-beta-e552027-20250112",

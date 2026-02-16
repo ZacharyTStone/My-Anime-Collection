@@ -121,7 +121,6 @@ const Profile: React.FC = () => {
                       <button
               className="btn"
               onClick={handleNewPlaylistSubmit}
-              disabled={false}
             >
               {t("edit_playlist.new_playlist")}
             </button>
@@ -148,7 +147,6 @@ const Profile: React.FC = () => {
               <button
                 className="btn btn-block"
                 type="submit"
-                disabled={false}
               >
                                   {t("profile.save")}
               </button>

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useMediaQuery } from "react-responsive";
 import { DESKTOP, LARGE_DESKTOP, TABLET } from "./constants";
-import { useNavigate } from "react-router";
 
 const useInViewAnimation = (threshold = 0.5) => {
   const controls = useAnimation();
@@ -15,46 +14,6 @@ const useInViewAnimation = (threshold = 0.5) => {
   }, [controls, inView]);
 
   return { controls, ref };
-};
-
-const useRedirectOnAuth = (
-  user: any,
-  redirectSuccessPath: string,
-  redirectFailurePath: string
-) => {
-  const navigate = useNavigate();
-
-  const redirectOnUserState = () => {
-    if (!user) {
-      navigate(redirectFailurePath);
-    }
-  };
-
-  const redirectOnSuccessfulLogin = () => {
-    if (user && window.location.pathname === "/") {
-      navigate(redirectSuccessPath);
-    }
-  };
-
-  useEffect(() => {
-    redirectOnUserState();
-    redirectOnSuccessfulLogin();
-  }, [user, navigate, redirectSuccessPath, redirectFailurePath]);
-};
-
-const useLoadingState = (isLoading: boolean) => {
-  const [loading, setLoading] = useState(isLoading);
-
-  const withLoading =
-    (callback: Function) =>
-    (...args: any[]) => {
-      if (loading) return;
-      setLoading(true);
-      callback(...args);
-      setLoading(false);
-    };
-
-  return { isLoading: loading, withLoading };
 };
 
 const useMobile = () => {
@@ -83,10 +42,8 @@ const useLargeDesktop = () => {
 
 export {
   useInViewAnimation,
-  useRedirectOnAuth,
   useMobile,
   useTablet,
   useDesktop,
   useLargeDesktop,
-  useLoadingState,
 };

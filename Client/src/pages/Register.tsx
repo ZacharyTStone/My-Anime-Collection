@@ -44,8 +44,6 @@ const Register: React.FC = () => {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, email, password, existingUser } = values;
-    const isDemo = false;
-    const theme = "light";
 
     if (!email || !password || (!existingUser && !name)) {
       displayAlert();

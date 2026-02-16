@@ -2,29 +2,12 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import styled from "styled-components";
-import { ExpectedFetchedAnimeResponse } from "../utils/types";
-import { useAnimeStore } from "../stores/animeStore";
+import { useAnimeStore, Anime as IAnime } from "../stores/animeStore";
 import { usePlaylistStore } from "../stores/playlistStore";
 import { useShallow } from "zustand/react/shallow";
 import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/Anime";
-
-interface IAnime {
-  _id: string;
-  title: string;
-  rating: number;
-  episodeCount: number;
-  format: string;
-  creationDate: string;
-  synopsis: string;
-  coverImage: string;
-  type: string;
-  japanese_title: string;
-  youtubeVideoId: string;
-  fetchedAnime: ExpectedFetchedAnimeResponse;
-  __v: number;
-}
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();

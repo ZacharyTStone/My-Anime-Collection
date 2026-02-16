@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useMemo, useRef } from "react";
-import axios from "axios";
 import { useAnimeStore } from "../../stores/animeStore";
 import { usePlaylistStore } from "../../stores/playlistStore";
 import { useShallow } from "zustand/react/shallow";
@@ -98,12 +97,14 @@ const Anime: React.FC<AnimeCardProps> = ({
     deleteAnime,
     isLoading,
     loadingData,
+    getAiRecommendations,
   } = useAnimeStore(
     useShallow((s) => ({
       createAnime: s.createAnime,
       deleteAnime: s.deleteAnime,
       isLoading: s.isLoading,
       loadingData: s.loadingData,
+      getAiRecommendations: s.getAiRecommendations,
     }))
   );
 
@@ -199,22 +200,17 @@ const Anime: React.FC<AnimeCardProps> = ({
     }
 
     try {
-      const token = localStorage.getItem("token");
-      const { data } = await axios.post(
-        "/api/v1/animes/recommendations",
-        { title, synopsis },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      aiCacheRef.current = data.recommendations;
+      const recommendations = await getAiRecommendations(title || "", synopsis || "");
+      aiCacheRef.current = recommendations;
       setAiState((prev) => ({
         ...prev,
         loading: false,
-        results: data.recommendations,
+        results: recommendations,
       }));
     } catch {
       setAiState((prev) => ({ ...prev, loading: false, error: true }));
     }
-  }, [title, synopsis, aiState.loading]);
+  }, [title, synopsis, aiState.loading, getAiRecommendations]);
 
   const handleAiModalClose = useCallback(() => {
     setAiState((prev) => ({ ...prev, open: false }));

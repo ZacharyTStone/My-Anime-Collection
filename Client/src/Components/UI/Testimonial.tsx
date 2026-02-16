@@ -24,11 +24,10 @@ const TestimonialImg = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 10px solid var(--mainColor);
+  border: 1px solid var(--primary-500);
   transform: translateY(-80%);
   z-index: 1;
   position: absolute;
-  border: 1px solid var(--primary-500);
 `;
 
 const TestimonialDiv = styled.div`

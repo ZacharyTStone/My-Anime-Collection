@@ -4,13 +4,15 @@ import axios from "axios";
 import { useAuthStore } from "./authStore";
 import { SORT_OPTIONS } from "../utils/constants";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
+import { apiClient } from "../utils/api";
+import { handleApiError } from "../utils/handleApiError";
 
 // Types
 interface LoadingData {
   anime_id: string;
 }
 
-interface Anime {
+export interface Anime {
   _id: string;
   title: string;
   rating: number;
@@ -29,6 +31,13 @@ interface Anime {
 interface FetchedAnime {
   id: string;
   title: string;
+}
+
+interface AiRecommendation {
+  title: string;
+  japanese_title: string;
+  reason: string;
+  reason_jp: string;
 }
 
 interface AnimeStore {
@@ -64,9 +73,8 @@ interface AnimeStore {
     pagination: boolean;
     sort: string;
   }) => Promise<void>;
+  getAiRecommendations: (title: string, synopsis: string) => Promise<AiRecommendation[]>;
 }
-
-const API_BASE_URL = "/api/v1";
 
 export const useAnimeStore = create<AnimeStore>((set, get) => ({
   isLoading: false,
@@ -102,8 +110,8 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
   },
 
   createAnime: async (anime, playlistID) => {
-    const { token, user } = useAuthStore.getState();
-    if (!token) return;
+    const { user } = useAuthStore.getState();
+    if (!useAuthStore.getState().token) return;
 
     set({ isLoading: true, loadingData: { anime_id: anime.id || "" } });
     try {
@@ -125,66 +133,63 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
         anime.attributes?.titles?.en_jp ||
         anime.attributes?.canonicalTitle ||
         "Title N/A";
-      const isDemoAnime = (user as any)?.isDemo === true;
+      const isDemoAnime = user?.isDemo === true;
 
-      await axios.post(
-        `${API_BASE_URL}/animes`,
-        {
-          title, id, rating, format, episodeCount, synopsis,
-          coverImage, creationDate, youtubeVideoId, japanese_title,
-          playlistID, isDemoAnime,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await apiClient.post("/animes", {
+        title, id, rating, format, episodeCount, synopsis,
+        coverImage, creationDate, youtubeVideoId, japanese_title,
+        playlistID, isDemoAnime,
+      });
       set({ isLoading: false });
       toast.success("Anime Created!");
-    } catch (error: any) {
+    } catch (error: unknown) {
       set({ isLoading: false });
-      if (error.response?.status === 401) return;
-      toast.error(error.response?.data?.msg || "An error occurred while adding the anime");
+      handleApiError(error, "An error occurred while adding the anime");
     }
   },
 
   getAnimes: async (playlistId) => {
-    const { token } = useAuthStore.getState();
-    if (!token) return;
+    if (!useAuthStore.getState().token) return;
 
     const { page, search, searchStatus, searchType, searchStared, sort } = get();
-    let url = `${API_BASE_URL}/animes?page=${page}&status=${searchStatus}&type=${searchType}&stared=${searchStared}&sort=${sort}&currentPlaylistID=${playlistId}`;
+    const params = new URLSearchParams();
+    params.set("page", String(page));
+    params.set("status", searchStatus);
+    params.set("type", searchType);
+    params.set("stared", searchStared);
+    params.set("sort", sort);
+    params.set("currentPlaylistID", playlistId);
     if (search) {
-      url = url + `&search=${search}`;
+      params.set("search", search);
     }
 
     set({ isLoading: true });
     try {
-      const { data } = await axios.get(url, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await apiClient.get(`/animes?${params.toString()}`);
       set({
         isLoading: false,
         animes: data.animes,
         totalAnimes: data.totalAnimes,
         numOfPages: data.numOfPages,
       });
-    } catch {
+    } catch (error: unknown) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch animes");
     }
   },
 
   deleteAnime: async (animeId, playlistId) => {
-    const { token } = useAuthStore.getState();
-    if (!token) return;
+    if (!useAuthStore.getState().token) return;
 
     set({ isLoading: true });
     try {
-      await axios.delete(`${API_BASE_URL}/animes/${animeId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await apiClient.delete(`/animes/${animeId}`);
       set({ isLoading: false });
       toast.success("Anime Deleted!");
       get().getAnimes(playlistId);
-    } catch {
+    } catch (error: unknown) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to delete anime");
     }
   },
 
@@ -209,6 +214,7 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
     });
   },
 
+  // External Kitsu API — uses bare axios (no auth needed)
   fetchAnimes: async ({ page, baseURL, filter: _filter, searchText, pagination: _pagination, sort }) => {
     set({ isLoading: true, loadingFetchAnimes: true });
     try {
@@ -246,8 +252,14 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
         totalFetchedAnimes: totalAnimes,
         numOfFetchedAnimesPages: numOfPages,
       });
-    } catch {
+    } catch (error: unknown) {
       set({ isLoading: false, loadingFetchAnimes: false });
+      handleApiError(error, "Failed to fetch animes");
     }
+  },
+
+  getAiRecommendations: async (title, synopsis) => {
+    const { data } = await apiClient.post("/animes/recommendations", { title, synopsis });
+    return data.recommendations as AiRecommendation[];
   },
 }));

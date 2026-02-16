@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useAuthStore } from "./authStore";
+import { apiClient } from "../utils/api";
+import { handleApiError } from "../utils/handleApiError";
 
 // Types and Interfaces
 interface Playlist {
@@ -23,19 +24,12 @@ interface PlaylistStore {
   deletePlaylist: (playlistId: string) => Promise<void>;
 }
 
-const API_BASE_URL = "/api/v1";
-
 const DEFAULT_PLAYLIST: Playlist = {
   id: "2",
   title: "",
   userId: "",
   createdAt: "",
   updatedAt: "",
-};
-
-const getAuthHeader = () => {
-  const token = useAuthStore.getState().token;
-  return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
 export const usePlaylistStore = create<PlaylistStore>((set, get) => ({
@@ -51,74 +45,57 @@ export const usePlaylistStore = create<PlaylistStore>((set, get) => ({
   },
 
   getPlaylists: async () => {
-    const token = useAuthStore.getState().token;
-    if (!token) return;
+    if (!useAuthStore.getState().token) return;
 
     set({ loadingFetchPlaylists: true });
     try {
-      const { data } = await axios.get(`${API_BASE_URL}/playlists`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await apiClient.get("/playlists");
       set({
         loadingFetchPlaylists: false,
         userPlaylists: data.playlists,
       });
-    } catch {
+    } catch (error: unknown) {
       set({ loadingFetchPlaylists: false });
+      handleApiError(error, "Failed to fetch playlists");
     }
   },
 
   createPlaylist: async (playlistTitle: string) => {
-    const token = useAuthStore.getState().token;
-    if (!token) return;
+    if (!useAuthStore.getState().token) return;
 
     set({ loadingFetchPlaylists: true });
     try {
-      await axios.post(
-        `${API_BASE_URL}/playlists`,
-        { title: playlistTitle },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await apiClient.post("/playlists", { title: playlistTitle });
       set({ loadingFetchPlaylists: false });
       toast.success("Playlist Created!");
       get().getPlaylists();
-    } catch (error: any) {
+    } catch (error: unknown) {
       set({ loadingFetchPlaylists: false });
-      if (error.response?.status === 401) return;
-      toast.error(error.response?.data?.msg);
+      handleApiError(error, "Failed to create playlist");
     }
   },
 
   updatePlaylist: async (playlist: Playlist) => {
-    const token = useAuthStore.getState().token;
-    if (!token) return;
+    if (!useAuthStore.getState().token) return;
 
     set({ loadingFetchPlaylists: true });
     try {
-      await axios.patch(
-        `${API_BASE_URL}/playlists/${playlist.id}`,
-        playlist,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await apiClient.patch(`/playlists/${playlist.id}`, playlist);
       set({ loadingFetchPlaylists: false });
       toast.success("Playlist Updated!");
       get().getPlaylists();
-    } catch (error: any) {
+    } catch (error: unknown) {
       set({ loadingFetchPlaylists: false });
-      if (error.response?.status === 401) return;
-      toast.error(error.response?.data?.msg);
+      handleApiError(error, "Failed to update playlist");
     }
   },
 
   deletePlaylist: async (playlistId: string) => {
-    const token = useAuthStore.getState().token;
-    if (!token) return;
+    if (!useAuthStore.getState().token) return;
 
     set({ loadingFetchPlaylists: true });
     try {
-      await axios.delete(`${API_BASE_URL}/playlists/${playlistId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await apiClient.delete(`/playlists/${playlistId}`);
       const { userPlaylists } = get();
       set({
         loadingFetchPlaylists: false,
@@ -126,8 +103,9 @@ export const usePlaylistStore = create<PlaylistStore>((set, get) => ({
       });
       toast.success("Playlist Deleted!");
       get().getPlaylists();
-    } catch (error: any) {
+    } catch (error: unknown) {
       set({ loadingFetchPlaylists: false });
+      handleApiError(error, "Failed to delete playlist");
     }
   },
 }));

@@ -8,6 +8,8 @@ import {
   erwin,
 } from "../assets/images/testimonials/index";
 
+export const API_BASE_URL = "/api/v1";
+
 export const SMALL_MOBILE = 320;
 export const MEDIUM_MOBILE = 375;
 export const LARGE_MOBILE = 425;

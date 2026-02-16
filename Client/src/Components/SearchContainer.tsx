@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { debounce } from "../utils/debounce";
 import { SkeletonLoadingBlock } from "./UI";
-import { useLoadingState } from "../utils/hooks";
 
 // Types and Interfaces
 interface SearchContainerProps {
@@ -67,14 +66,6 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
   
   const [localSearch, setLocalSearch] = useState(search ?? "");
 
-  // Loading states
-  const { isLoading: isLoadingSearch, withLoading: withLoadingSearch } =
-    useLoadingState(isLoading);
-  const {
-    isLoading: isLoadingPlaylistChange,
-    withLoading: withLoadingPlaylistChange,
-  } = useLoadingState(isLoading);
-
   // Effects
   useEffect(() => {
     getPlaylists(); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,18 +79,18 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
 
   // Callbacks
   const handleSearch = useCallback(
-    withLoadingSearch((e: FormEvent) => {
+    (e: FormEvent) => {
       handleChange({ name: e.target.name, value: e.target.value });
-    }),
-    [withLoadingSearch, handleChange]
+    },
+    [handleChange]
   );
 
   const handleLocalPlaylistChange = useCallback(
-    withLoadingPlaylistChange((e: React.ChangeEvent<HTMLSelectElement>) => {
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
       e.preventDefault();
       handlePlaylistChange({ value: e.target.value });
-    }),
-    [withLoadingPlaylistChange, handlePlaylistChange]
+    },
+    [handlePlaylistChange]
   );
 
   const handleResetFilters = useCallback(
