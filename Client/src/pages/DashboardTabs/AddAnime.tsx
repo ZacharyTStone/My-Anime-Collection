@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "styled-components";
 import { FormRow, FormRowSelect, SkeletonLoadingBlock } from "../../Components/UI";
 import { FetchedAnimesContainer } from "../../Components";
 import { usePlaylistStore } from "../../stores/playlistStore";
 import { useShallow } from "zustand/react/shallow";
 import { debounce } from "../../utils/debounce";
+import { cn } from "../../utils/cn";
 
 const SORT_OPTIONS = [
   {
@@ -51,7 +51,7 @@ const AddAnime: React.FC = () => {
       loadingFetchPlaylists: s.loadingFetchPlaylists,
     }))
   );
-  
+
   const debouncedRequest = useMemo(
     () => debounce((value: string) => setSearchText(value), 500),
     []
@@ -79,16 +79,16 @@ const AddAnime: React.FC = () => {
   }, [getPlaylists]);
 
   return (
-    <Wrapper>
+    <section className="rounded-default w-full bg-white px-8 pt-12 pb-16 shadow-md">
       <main className="content full-page">
         <form
-          className="form form-embedded"
+          className="w-full p-4"
           onSubmit={(e) => {
             e.preventDefault();
           }}
         >
           <h3>{t("add_anime.title")}</h3>
-          <div className="form-center form-grid">
+          <div className="grid gap-y-4 lg:grid-cols-2 lg:items-center lg:gap-x-4 xl:grid-cols-3">
             <FormRow
               type="text"
               name="title"
@@ -104,8 +104,11 @@ const AddAnime: React.FC = () => {
               handleChange={handleSort}
               list={SORT_OPTIONS}
             />
-            <div className="form-row">
-              <label htmlFor="playlist" className="form-label">
+            <div>
+              <label
+                htmlFor="playlist"
+                className="block text-sm mb-2 font-medium tracking-wide text-grey-700"
+              >
                 {t("search_container.playlist")}
               </label>
               {loadingFetchPlaylists ? (
@@ -119,7 +122,11 @@ const AddAnime: React.FC = () => {
                   name="playlist"
                   value={currentPlaylist.id}
                   onChange={handleLocalPlaylistChange}
-                  className="form-select"
+                  className={cn(
+                    "w-full px-3 py-2.5 rounded-default bg-white border border-grey-300",
+                    "text-grey-900 text-[0.95rem] min-h-[42px] appearance-none transition-all",
+                    "focus:outline-none focus:border-primary-500 focus:ring-3 focus:ring-primary-500/12"
+                  )}
                 >
                   {userPlaylists?.map((playlist, index) => (
                     <option
@@ -142,28 +149,8 @@ const AddAnime: React.FC = () => {
           sort={sort}
         />
       </main>
-    </Wrapper>
+    </section>
   );
 };
-
-const Wrapper = styled.section`
-  border-radius: var(--borderRadius);
-  width: 100%;
-  background: var(--white);
-  padding: 3rem 2rem 4rem;
-  box-shadow: var(--shadow-2);
-
-  .form-center button {
-    align-self: end;
-    height: 35px;
-    margin-top: 1rem;
-  }
-
-  @media (min-width: 1120px) {
-    .form-center button {
-      margin-top: 20px;
-    }
-  }
-`;
 
 export default AddAnime;

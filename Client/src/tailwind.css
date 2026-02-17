@@ -1,0 +1,266 @@
+@import "tailwindcss";
+
+/* ==============================================
+   Button Components
+   ============================================== */
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center relative overflow-hidden
+           cursor-pointer rounded-default text-white text-[0.95rem] font-medium
+           capitalize no-underline
+           px-5 py-2.5 tracking-[0.5px];
+    background: var(--gradient-primary);
+    background-color: var(--primary-500);
+    border: transparent;
+    box-shadow: var(--shadow-anime);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .btn,
+  .btn > *,
+  .btn span,
+  .btn svg {
+    color: var(--white);
+    fill: var(--white);
+  }
+
+  /* Anime-style shine effect */
+  .btn::before {
+    content: "";
+    @apply absolute top-0 -left-full w-full h-full z-[1] pointer-events-none;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn:hover {
+    @apply -translate-y-[3px] no-underline;
+  }
+
+  .btn:hover::before {
+    left: 100%;
+  }
+
+  .btn:active {
+    @apply translate-y-0;
+    box-shadow: var(--shadow);
+  }
+
+  /* Outline variant */
+  .btn-outline {
+    background: var(--outline-button-background);
+    border: 2px solid var(--primary-400);
+    box-shadow: 0 0 6px rgba(212, 54, 124, 0.1);
+    color: var(--primary-600);
+  }
+
+  .btn-outline > *,
+  .btn-outline span,
+  .btn-outline svg {
+    color: var(--primary-600);
+    fill: var(--primary-600);
+  }
+
+  /* Primary size */
+  .btn-primary {
+    @apply text-base px-6 py-2.5 font-medium;
+  }
+
+  .btn-primary + .btn-outline {
+    @apply text-base px-6 py-2.5;
+  }
+
+  /* Block (full width) */
+  .btn-block {
+    @apply w-full min-h-[42px] h-max mr-0;
+  }
+
+  /* Submit */
+  .btn-submit {
+    background: var(--primary-500);
+    border: none;
+    box-shadow: var(--shadow);
+  }
+
+  .btn-submit:hover {
+    background: var(--primary-600);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Danger */
+  .btn-danger {
+    @apply bg-grey-400;
+  }
+
+  .btn-danger:hover {
+    @apply bg-red-dark;
+  }
+
+  /* Loading state */
+  .btn-loading {
+    @apply relative pointer-events-none opacity-85;
+  }
+
+  .btn-loading::after {
+    content: "";
+    @apply absolute w-4 h-4 border-2 border-transparent border-t-current rounded-full;
+    top: calc(50% - 8px);
+    left: calc(50% - 8px);
+    animation: button-loading-spinner 0.7s linear infinite;
+  }
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes run {
+  from {
+    left: -100px;
+  }
+  to {
+    left: 93%;
+  }
+}
+
+@keyframes shimmerBorder {
+  0% {
+    border-color: var(--primary-200);
+  }
+  50% {
+    border-color: var(--primary-500);
+  }
+  100% {
+    border-color: var(--primary-200);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes anime-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes aiGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(196, 69, 105, 0.5))
+            drop-shadow(0 0 8px rgba(78, 205, 196, 0.3));
+  }
+  33% {
+    filter: drop-shadow(0 0 10px rgba(78, 205, 196, 0.7))
+            drop-shadow(0 0 20px rgba(78, 205, 196, 0.3));
+  }
+  66% {
+    filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.7))
+            drop-shadow(0 0 20px rgba(196, 69, 105, 0.3));
+  }
+}
+
+@keyframes jiggle {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  15% {
+    transform: rotate(-8deg) scale(1.1);
+  }
+  30% {
+    transform: rotate(6deg) scale(1.05);
+  }
+  45% {
+    transform: rotate(-4deg) scale(1.1);
+  }
+  60% {
+    transform: rotate(3deg) scale(1.05);
+  }
+  75% {
+    transform: rotate(-1deg) scale(1.08);
+  }
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    background-color: var(--skeleton-light, var(--grey-50));
+  }
+  50% {
+    background-color: var(--skeleton-dark, var(--grey-100));
+  }
+  100% {
+    background-color: var(--skeleton-light, var(--grey-50));
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@theme {
+  /* Primary colors */
+  --color-primary-50: #fef0f6;
+  --color-primary-100: #fad8e8;
+  --color-primary-200: #f7b9d7;
+  --color-primary-300: #ef91be;
+  --color-primary-400: #e6699f;
+  --color-primary-500: #d4367c;
+  --color-primary-600: #c12d6d;
+  --color-primary-700: #a8255e;
+  --color-primary-800: #88204b;
+  --color-primary-900: #661036;
+
+  /* Grey */
+  --color-grey-50: #f9fafb;
+  --color-grey-100: #f1f5f9;
+  --color-grey-200: #e2e8f0;
+  --color-grey-300: #cbd5e1;
+  --color-grey-400: #94a3b8;
+  --color-grey-500: #64748b;
+  --color-grey-600: #475569;
+  --color-grey-700: #334155;
+  --color-grey-800: #1e293b;
+  --color-grey-900: #0f172a;
+
+  /* Semantic colors */
+  --color-red-light: #fee2e2;
+  --color-red-dark: #b91c1c;
+  --color-green-50: #ecfdf5;
+  --color-green-500: #10b981;
+
+  /* Anime-inspired */
+  --color-anime-pink: #ff6b9d;
+  --color-anime-purple: #c44569;
+  --color-anime-blue: #4ecdc4;
+  --color-anime-cyan: #44a3c4;
+  --color-anime-orange: #ff8c42;
+  --color-anime-yellow: #ffd93d;
+
+  /* Fonts */
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Border radius */
+  --radius-default: 0.5rem;
+}

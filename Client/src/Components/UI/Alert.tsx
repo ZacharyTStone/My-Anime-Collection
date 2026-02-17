@@ -1,42 +1,16 @@
 import { useAuthStore } from "../../stores/authStore";
 import { useShallow } from "zustand/react/shallow";
-import styled from "styled-components";
+import { cn } from "../../utils/cn";
 
 interface AlertProps {
   className?: string;
 }
 
-const AlertContainer = styled.div<{ alertType: string }>`
-  padding: 0.75rem 1rem;
-  margin: 1rem 0;
-  border-radius: var(--borderRadius);
-  font-weight: 500;
-  text-align: center;
-  transition: all 0.3s ease;
-
-  ${({ alertType }) => {
-    switch (alertType) {
-      case "danger":
-        return `
-          background-color: var(--red-light);
-          color: var(--red-dark);
-          border: 1px solid var(--red-light);
-        `;
-      case "success":
-        return `
-          background-color: var(--green-light);
-          color: var(--green-dark);
-          border: 1px solid var(--green-light);
-        `;
-      default:
-        return `
-          background-color: var(--yellow-light);
-          color: var(--yellow-dark);
-          border: 1px solid var(--yellow-light);
-        `;
-    }
-  }}
-`;
+const alertStyles: Record<string, string> = {
+  danger: "bg-red-light text-red-dark border border-red-light",
+  success: "bg-green-50 text-green-500 border border-green-50",
+  default: "bg-[var(--yellow-light)] text-[var(--yellow-dark)] border border-[var(--yellow-light)]",
+};
 
 const Alert: React.FC<AlertProps> = ({ className }) => {
   const { alertType, alertText, showAlert } = useAuthStore(
@@ -48,14 +22,17 @@ const Alert: React.FC<AlertProps> = ({ className }) => {
   }
 
   return (
-    <AlertContainer
-      alertType={alertType}
-      className={className}
+    <div
+      className={cn(
+        "py-3 px-4 my-4 rounded-default font-medium text-center transition-all duration-300",
+        alertStyles[alertType] || alertStyles.default,
+        className
+      )}
       role="alert"
       aria-live="polite"
     >
       {alertText}
-    </AlertContainer>
+    </div>
   );
 };
 

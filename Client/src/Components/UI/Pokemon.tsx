@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { SkeletonLoadingBlock } from ".";
 
 export const getRandomPokemon = async () => {
@@ -22,21 +21,20 @@ export const getRandomPokemon = async () => {
         pokemon.sprites.back_default ||
         pokemon.sprites.front_shiny ||
         pokemon.sprites.back_shiny ||
-        pokemon.sprites.other.dream_world.front_default, // Include SVG here
+        pokemon.sprites.other.dream_world.front_default,
     };
   } catch {
-    // Failed to fetch random pokemon
     return null;
   }
 };
 
-interface Pokemon {
+interface PokemonData {
   name: string;
   image: string;
 }
 
 const Pokemon = () => {
-  const [pokemon, setPokemon] = useState<Pokemon>({
+  const [pokemon, setPokemon] = useState<PokemonData>({
     name: "",
     image: "",
   });
@@ -59,126 +57,42 @@ const Pokemon = () => {
 
   if (loading || !pokemon.image.length || !pokemon.name.length) {
     return (
-      <PokemonDiv>
-        <div className="pokemon-container loading">
+      <div className="flex justify-center mt-8">
+        <div className="w-full max-w-[400px] flex flex-col items-center bg-white rounded-2xl p-6 shadow border border-grey-200 transition-all duration-300 min-h-[250px] justify-center">
           <SkeletonLoadingBlock
             width={150}
             height={150}
             borderRadius={75}
-            className="pokemon-img"
           />
         </div>
-      </PokemonDiv>
+      </div>
     );
   }
 
   return (
-    <PokemonDiv>
-      <div className="pokemon-container">
-        <div className="pokemon-image-wrapper">
+    <div className="flex justify-center mt-8">
+      <div className="w-full max-w-[400px] flex flex-col items-center bg-white rounded-2xl p-6 shadow border border-grey-200 transition-all duration-300 hover:-translate-y-[5px] hover:shadow-md hover:border-primary-200">
+        <div
+          className="w-[160px] h-[160px] rounded-full flex items-center justify-center mb-4 p-2 border-2 border-primary-100 shadow-sm lg:max-w-[992px]:w-[140px] lg:max-w-[992px]:h-[140px]"
+          style={{
+            background: "linear-gradient(135deg, rgba(212, 54, 124, 0.1), rgba(212, 54, 124, 0.05))",
+          }}
+        >
           <img
             src={pokemon.image}
             alt={`pokemon: ${pokemon.name}`}
-            className="pokemon_img"
+            className="w-[130px] h-[130px] object-contain max-[992px]:w-[110px] max-[992px]:h-[110px]"
           />
         </div>
-        <div className="pokemon-info">
-          <span className="pokemon-title">Your Random Pokémon</span>
-          <span className="pokemon-name">{pokemon.name}</span>
+        <div className="flex flex-col items-center w-full text-center">
+          <span className="text-[0.9rem] text-grey-500 mb-1">Your Random Pokémon</span>
+          <span className="text-grey-900 font-semibold capitalize text-[1.25rem] border-b-2 border-primary-200 pb-1">
+            {pokemon.name}
+          </span>
         </div>
       </div>
-    </PokemonDiv>
+    </div>
   );
 };
-
-const PokemonDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-
-  .pokemon-container {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--grey-200);
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--primary-200);
-    }
-
-    &.loading {
-      min-height: 250px;
-      justify-content: center;
-    }
-  }
-
-  .pokemon-image-wrapper {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    background: linear-gradient(
-      135deg,
-      rgba(212, 54, 124, 0.1),
-      rgba(212, 54, 124, 0.05)
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border: 2px solid var(--primary-100);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .pokemon_img {
-    width: 130px;
-    height: 130px;
-    object-fit: contain;
-  }
-
-  .pokemon-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    text-align: center;
-  }
-
-  .pokemon-title {
-    font-size: 0.9rem;
-    color: var(--grey-500);
-    margin-bottom: 0.25rem;
-  }
-
-  .pokemon-name {
-    color: var(--grey-900);
-    font-weight: 600;
-    text-transform: capitalize;
-    font-size: 1.25rem;
-    border-bottom: 2px solid var(--primary-200);
-    padding-bottom: 0.25rem;
-  }
-
-  @media (max-width: 992px) {
-    .pokemon-image-wrapper {
-      width: 140px;
-      height: 140px;
-    }
-
-    .pokemon_img {
-      width: 110px;
-      height: 110px;
-    }
-  }
-`;
 
 export default Pokemon;

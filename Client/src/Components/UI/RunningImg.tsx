@@ -1,45 +1,13 @@
-import styled from "styled-components";
-
 const RunningImg = ({ img }: { img: string }) => {
   return (
-    <Wrapper>
-      <NarutoImg src={img} alt="Naruto running" />
-    </Wrapper>
+    <div className="relative overflow-hidden w-full">
+      <img
+        src={img}
+        alt="Naruto running"
+        className="hidden lg:block w-[100px] absolute top-[94%] animate-[run_5s_linear_infinite] min-[1200px]:top-[73%]"
+      />
+    </div>
   );
 };
-
-const NarutoImg = styled.img`
-  display: none;
-
-  @media (min-width: 992px) {
-    display: block;
-    width: 100px;
-    position: absolute;
-    animation-name: run;
-    animation-duration: 5s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    top: 94%;
-
-    @keyframes run {
-      from {
-        left: -100px;
-      }
-      to {
-        left: 93%;
-      }
-    }
-
-    @media (min-height: 1200px) {
-      top: 73%;
-    }
-  }
-`;
-
-const Wrapper = styled.div`
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-`;
 
 export default RunningImg;

@@ -2,9 +2,7 @@ import * as React from "react";
 import { Navigate, useLocation } from "react-router";
 import { useAuthStore } from "../stores/authStore";
 import { useShallow } from "zustand/react/shallow";
-import styled from "styled-components";
 
-// Types and Interfaces
 interface ProtectedRouteProps {
   children: React.ReactNode;
   redirectTo?: string;
@@ -12,18 +10,8 @@ interface ProtectedRouteProps {
   className?: string;
 }
 
-// Constants
 const DEFAULT_REDIRECT_PATH = "/landing";
 
-// Styled Components
-const ProtectedRouteContainer = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-/**
- * ProtectedRoute component that guards routes requiring authentication
- */
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   redirectTo = DEFAULT_REDIRECT_PATH,
@@ -35,24 +23,22 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   );
   const location = useLocation();
 
-  // Show fallback while checking authentication
   if (fallback && !isAuthenticated) {
     return (
-      <ProtectedRouteContainer className={className}>
+      <div className={`w-full h-full ${className || ""}`}>
         {fallback}
-      </ProtectedRouteContainer>
+      </div>
     );
   }
 
-  // Redirect to login if not authenticated
   if (!user) {
     return <Navigate to={redirectTo} replace state={{ from: location }} />;
   }
 
   return (
-    <ProtectedRouteContainer className={className}>
+    <div className={`w-full h-full ${className || ""}`}>
       {children}
-    </ProtectedRouteContainer>
+    </div>
   );
 };
 

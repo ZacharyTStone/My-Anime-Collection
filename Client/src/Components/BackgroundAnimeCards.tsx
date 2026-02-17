@@ -1,169 +1,33 @@
-import styled, { keyframes } from "styled-components";
 import { sampleAnimes } from "../assets/images/sampleAnimes";
 
 const BackgroundAnimeCards = () => {
   return (
     <>
-      <AnimesLeft>
+      <div className="h-[90%] hidden flex-col absolute top-0 left-0 animate-[fadeIn_2s_ease-in-out] min-[1440px]:flex min-[1680px]:left-[0%]">
         {sampleAnimes.slice(0, 3).map((anime, index) => (
-          <AnimeCard
+          <img
             key={index}
             src={anime}
             alt="anime character"
-            className="animeCard left"
+            className="scale-[0.4] border border-primary-200 mb-[300px] -rotate-[5deg] transition-all duration-1000 ease-out animate-[shimmerBorder_1.5s_infinite_linear,fadeIn_2s_ease-in-out] hover:origin-center hover:scale-[0.7] hover:rotate-0 hover:translate-x-[70px]"
             loading="lazy"
           />
         ))}
-      </AnimesLeft>
+      </div>
 
-      <AnimesRight>
+      <div className="h-[90%] hidden flex-col absolute top-0 right-0 animate-[fadeIn_2s_ease-in-out] min-[1440px]:flex min-[1680px]:right-[0%]">
         {sampleAnimes.slice(4, 8).map((anime, index) => (
-          <AnimeCard
+          <img
             key={index}
             src={anime}
             alt="anime character"
-            className="animeCard right"
+            className="scale-[0.4] border border-primary-200 mb-[300px] rotate-[5deg] transition-all duration-1000 ease-out animate-[shimmerBorder_1.5s_infinite_linear,fadeIn_2s_ease-in-out] hover:origin-center hover:scale-[0.7] hover:rotate-0 hover:-translate-x-[70px]"
             loading="lazy"
           />
         ))}
-      </AnimesRight>
+      </div>
     </>
   );
 };
-
-const AnimesLeft = styled.div`
-  height: 90%;
-  display: none;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  left: 0;
-  animation: fadeIn 2s ease-in-out;
-
-  .animeCard {
-    transform: scale(0.4);
-    border: 1px solid var(--primary-200);
-    margin-bottom: 300px;
-  }
-
-  .animeCard.left {
-    // rotate slight left
-    transform: rotate(-5deg) scale(0.4);
-    transition: 1s ease-out;
-  }
-
-  .animeCard.left:hover {
-    transform-origin: center;
-    transform: scale(0.7) rotate(0deg) translateX(70px);
-    transition: 1s ease-out;
-  }
-
-  @media (min-width: 1574px) {
-    display: flex;
-    left: 0%;
-    animation: fadeIn 2s ease-in-out;
-
-    @media (min-width: 1800px) {
-      left: 5%;
-    }
-  }
-`;
-
-const AnimesRight = styled.div`
-  height: 90%;
-  width: min-content;
-  padding: 0px;
-  margin: 0px;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  position: absolute;
-  top: 0;
-  right: 0;
-  animation: fadeIn 2s ease-in-out;
-
-  .animeCard {
-    transform: scale(0.4);
-    border: 1px solid var(--primary-200);
-    margin-bottom: 300px;
-  }
-
-  .animeCard.right {
-    // rotate slight right
-    transform: rotate(5deg) scale(0.4);
-    transition: 1s ease-out;
-  }
-
-  .animeCard.right:hover {
-    transform-origin: center;
-    // slow down the animation
-    transition: 1s ease-out;
-    // move the slightly closer to the center
-    transform: scale(0.7) rotate(0deg) translateX(-70px);
-  }
-
-  @media (min-width: 1574px) {
-    display: flex;
-    right: 0%;
-    animation: fadeIn 2s ease-in-out;
-
-    @media (min-width: 1800px) {
-      right: 5%;
-    }
-  }
-`;
-
-const shimmerBorder = keyframes`
-  0% {
-    border: 1px solid var(--primary-200);
-  }
-  50% {
-    border: 1px solid var(--primary-500);
-  }
-  100% {
-    border: 1px solid var(--primary-200);
-  }
-`;
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
-const AnimeCard = styled.img`
-  transform: scale(0.4);
-  border: 1px solid var(--primary-200);
-  animation: ${shimmerBorder} 1.5s infinite linear, ${fadeIn} 2s ease-in-out;
-
-  &.left {
-    transform: rotate(-5deg) scale(0.4);
-    transition: 1s ease-out;
-
-    &:hover {
-      transform-origin: center;
-      transform: scale(0.7) rotate(0deg) translateX(70px);
-      transition: 1s ease-out;
-    }
-  }
-
-  &.right {
-    transform: rotate(5deg) scale(0.4);
-    transition: 1s ease-out;
-
-    &:hover {
-      transform-origin: center;
-      transition: 1s ease-out;
-      transform: scale(0.7) rotate(0deg) translateX(-70px);
-    }
-  }
-`;
 
 export default BackgroundAnimeCards;

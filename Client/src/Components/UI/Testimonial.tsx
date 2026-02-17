@@ -1,65 +1,26 @@
-import styled from "styled-components";
-
-interface testimonailProps {
+interface TestimonialProps {
   name: string;
   img: string;
   text: string;
 }
 
-const Testimonial = ({ name, img, text }: testimonailProps) => {
+const Testimonial = ({ name, img, text }: TestimonialProps) => {
   return (
-    <Wrapper>
-      <TestimonialDiv>
-        <TestimonialImg src={img} alt="testimonial" loading="lazy" />
-        <TestimonialText>
-          <Review>{text}</Review>
-          <Name>{name}</Name>
-        </TestimonialText>
-      </TestimonialDiv>
-    </Wrapper>
+    <section className="mt-[50px]">
+      <div className="flex flex-col items-center justify-start text-center my-5 ml-5 border border-primary-500 min-w-[140px] w-[200px] h-fit p-2.5">
+        <img
+          src={img}
+          alt="testimonial"
+          loading="lazy"
+          className="w-[100px] h-[100px] rounded-full border border-primary-500 -translate-y-[80%] z-[1] absolute"
+        />
+        <div className="mt-5 p-[5px]">
+          <p className="text-base min-h-[125px]">{text}</p>
+          <h3 className="text-[1.1rem]">{name}</h3>
+        </div>
+      </div>
+    </section>
   );
 };
 
-const TestimonialImg = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 1px solid var(--primary-500);
-  transform: translateY(-80%);
-  z-index: 1;
-  position: absolute;
-`;
-
-const TestimonialDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: center;
-  margin: 20px 0 20px 20px;
-  border: 1px solid var(--primary-500);
-  min-width: 140px;
-  width: 200px;
-  height: fit-content;
-  padding: 10px;
-`;
-
-const TestimonialText = styled.div`
-  margin-top: 20px;
-  padding: 5px;
-`;
-
-const Wrapper = styled.section`
-  margin-top: 50px;
-`;
-
-const Review = styled.p`
-  font-size: 1rem;
-
-  min-height: 125px;
-`;
-
-const Name = styled.h3`
-  font-size: 1.1rem;
-`;
 export default Testimonial;

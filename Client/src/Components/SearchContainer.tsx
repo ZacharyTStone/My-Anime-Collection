@@ -120,9 +120,9 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
 
   return (
     <section className={className}>
-      <form className="form form-embedded" onSubmit={handleFormSubmit}>
+      <form className="w-full p-4 overflow-visible" onSubmit={handleFormSubmit}>
         <h4>{t("search_container.title")}</h4>
-        <div className="form-center form-grid">
+        <div className="grid gap-y-4 lg:grid-cols-2 lg:items-center lg:gap-x-4 xl:grid-cols-3">
           <FormRow
             type="text"
             name="search"

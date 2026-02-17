@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from "react-router";
 import { Button } from "@mui/material";
-import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { CgProfile } from "react-icons/cg";
 import { BsFillCollectionFill } from "react-icons/bs";
@@ -54,8 +53,8 @@ const NavLinks = () => {
   ];
 
   return (
-    <Wrapper>
-      <div className="nav-links">
+    <nav className="navlinks-wrapper">
+      <div className="nav-links flex gap-2 max-[768px]:flex-col max-[768px]:w-full max-[768px]:p-2">
         {LINKS.map((link: Link) => {
           const { text, path, id, icon } = link;
           const isActive = location.pathname.includes(path);
@@ -64,9 +63,7 @@ const NavLinks = () => {
             <NavLink
               to={path}
               key={id}
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
+              className="nav-item no-underline"
             >
               <Button
                 className={isActive ? "nav-link active" : "nav-link"}
@@ -81,6 +78,31 @@ const NavLinks = () => {
                     backgroundColor: isActive
                       ? "rgba(212, 54, 124, 0.12)"
                       : "rgba(212, 54, 124, 0.05)",
+                  },
+                  "& .icon": {
+                    display: "flex",
+                    alignItems: "center",
+                    marginRight: "6px",
+                  },
+                  "& .nav-text": {
+                    marginTop: "2px",
+                  },
+                  "&, & *": {
+                    color: isActive ? "var(--primary-600)" : "var(--grey-600)",
+                    WebkitTextFillColor: isActive ? "var(--primary-600)" : "var(--grey-600)",
+                    background: "none",
+                    WebkitBackgroundClip: "border-box",
+                  },
+                  display: "flex",
+                  alignItems: "center",
+                  fontWeight: isActive ? 600 : 500,
+                  textTransform: "none",
+                  letterSpacing: 0,
+                  fontSize: "0.95rem",
+                  "@media (max-width: 768px)": {
+                    width: "100%",
+                    justifyContent: "flex-start",
+                    padding: "0.75rem 1rem",
                   },
                 }}
               >
@@ -98,84 +120,8 @@ const NavLinks = () => {
           );
         })}
       </div>
-    </Wrapper>
+    </nav>
   );
 };
-
-const Wrapper = styled.section`
-  .nav-links {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .nav-item {
-    text-decoration: none;
-  }
-
-  .icon {
-    display: flex;
-    align-items: center;
-    margin-right: 6px;
-  }
-
-  .nav-link {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    color: var(--grey-600) !important;
-    text-transform: none;
-    letter-spacing: 0;
-    font-size: 0.95rem;
-    
-    /* Ensure text is visible */
-    &,
-    & *,
-    & .nav-text {
-      color: var(--grey-600) !important;
-      -webkit-text-fill-color: var(--grey-600) !important;
-    }
-  }
-
-  .nav-link.active {
-    color: var(--primary-600) !important;
-    font-weight: 600;
-    
-    &,
-    & *,
-    & .nav-text {
-      color: var(--primary-600) !important;
-      -webkit-text-fill-color: var(--primary-600) !important;
-    }
-  }
-
-  .nav-text {
-    margin-top: 2px;
-    color: inherit !important;
-    -webkit-text-fill-color: inherit !important;
-  }
-  
-  .nav-item {
-    &,
-    & * {
-      -webkit-text-fill-color: inherit !important;
-      background: none !important;
-      -webkit-background-clip: border-box !important;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .nav-links {
-      flex-direction: column;
-      width: 100%;
-      padding: 0.5rem;
-    }
-
-    .nav-link {
-      width: 100%;
-      justify-content: flex-start;
-      padding: 0.75rem 1rem;
-    }
-  }
-`;
 
 export default NavLinks;

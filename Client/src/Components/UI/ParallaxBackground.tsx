@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const ParallaxBackground = () => {
@@ -6,31 +5,16 @@ const ParallaxBackground = () => {
   const y = useTransform(scrollY, [0, 1000], [0, 300]);
 
   return (
-    <BackgroundWrapper>
-      <motion.div className="parallax-bg" style={{ y }} />
-    </BackgroundWrapper>
+    <div className="fixed top-0 left-0 w-full h-full -z-[1] overflow-hidden">
+      <motion.div
+        className="w-full h-[120%] opacity-15"
+        style={{
+          y,
+          background: "linear-gradient(to bottom, var(--primary-800), var(--primary-900))",
+        }}
+      />
+    </div>
   );
 };
-
-const BackgroundWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  overflow: hidden;
-
-  .parallax-bg {
-    width: 100%;
-    height: 120%;
-    background: linear-gradient(
-      to bottom,
-      var(--primary-800),
-      var(--primary-900)
-    );
-    opacity: 0.15;
-  }
-`;
 
 export default ParallaxBackground;

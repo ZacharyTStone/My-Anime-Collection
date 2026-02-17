@@ -2,7 +2,7 @@ import * as React from "react";
 import { useAnimeStore } from "../stores/animeStore";
 import { useShallow } from "zustand/react/shallow";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
-import styled from "styled-components";
+import { cn } from "../utils/cn";
 
 const PageBtnContainer: React.FC = () => {
   const { numOfPages, page, changePage } = useAnimeStore(
@@ -16,7 +16,10 @@ const PageBtnContainer: React.FC = () => {
   const renderPageButton = (pageNumber: number) => (
     <button
       type="button"
-      className={`pageBtn ${pageNumber === page ? "active" : ""}`}
+      className={cn(
+        "bg-transparent border-transparent w-[50px] h-[40px] font-bold text-[1.25rem] text-primary-500 transition-all rounded-default cursor-pointer",
+        pageNumber === page && "bg-primary-500 text-white"
+      )}
       key={pageNumber}
       onClick={() => handlePageChange(pageNumber)}
     >
@@ -25,77 +28,28 @@ const PageBtnContainer: React.FC = () => {
   );
 
   return (
-    <Wrapper>
-      <button className="prev-btn" onClick={() => handlePageChange(page - 1)}>
+    <section className="h-24 m-8 flex items-center justify-center flex-wrap gap-4 mt-[50px]">
+      <button
+        className="w-[100px] h-[40px] bg-white border-transparent rounded-default text-primary-500 capitalize tracking-[0.5px] flex items-center justify-center gap-2 cursor-pointer transition-all hover:bg-primary-500 hover:text-white"
+        onClick={() => handlePageChange(page - 1)}
+      >
         <HiChevronDoubleLeft />
         prev
       </button>
-      <ButtonContainer>
+      <div className="bg-primary-100 rounded-default">
         {Array.from({ length: numOfPages }, (_, index) =>
           renderPageButton(index + 1)
         )}
-      </ButtonContainer>
-      <button className="next-btn" onClick={() => handlePageChange(page + 1)}>
+      </div>
+      <button
+        className="w-[100px] h-[40px] bg-white border-transparent rounded-default text-primary-500 capitalize tracking-[0.5px] flex items-center justify-center gap-2 cursor-pointer transition-all hover:bg-primary-500 hover:text-white"
+        onClick={() => handlePageChange(page + 1)}
+      >
         next
         <HiChevronDoubleRight />
       </button>
-    </Wrapper>
+    </section>
   );
 };
-
-const ButtonContainer = styled.div`
-  background: var(--primary-100);
-  border-radius: var(--borderRadius);
-`;
-
-const Wrapper = styled.section`
-  height: 6rem;
-  margin: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 50px;
-
-  .pageBtn {
-    background: transparent;
-    border-color: transparent;
-    width: 50px;
-    height: 40px;
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--primary-500);
-    transition: var(--transition);
-    border-radius: var(--borderRadius);
-    cursor: pointer;
-  }
-  .active {
-    background: var(--primary-500);
-    color: var(--white);
-  }
-  .prev-btn,
-  .next-btn {
-    width: 100px;
-    height: 40px;
-    background: var(--white);
-    border-color: transparent;
-    border-radius: var(--borderRadius);
-    color: var(--primary-500);
-    text-transform: capitalize;
-    letter-spacing: var(--letterSpacing);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    transition: var(--transition);
-  }
-  .prev-btn:hover,
-  .next-btn:hover {
-    background: var(--primary-500);
-    color: var(--white);
-  }
-`;
 
 export default PageBtnContainer;

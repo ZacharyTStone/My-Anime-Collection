@@ -275,7 +275,7 @@ const Anime: React.FC<AnimeCardProps> = ({
         variant="outlined"
         sx={{
           height: "100%",
-          width: 300,
+          width: { xs: "100%", sm: 300 },
           color: "var(--textColor)",
           backgroundColor: "var(--white)",
           marginBottom: "1.5rem",

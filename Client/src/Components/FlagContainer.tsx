@@ -1,6 +1,4 @@
-import IconButton from "@mui/material/IconButton";
 import { useTranslation } from "react-i18next";
-import styled from "styled-components";
 import { useSetAtom } from "jotai";
 import { changeSiteLanguageAtom } from "../atoms/languageAtom";
 import america from "./../assets/images/america-big.png";
@@ -11,68 +9,34 @@ const FlagContainer: React.FC = () => {
   const { i18n } = useTranslation();
 
   return (
-    <FlagContainerDiv className="flag-div-holder">
+    <div className="flag-div-holder flex items-center justify-center mr-3">
       {i18n.language === "en" ? (
-        <FlagButton
+        <button
           onClick={() => changeSiteLanguage("jp")}
           title="Switch to Japanese"
+          className="flex items-center justify-center h-10 w-10 p-1 rounded-full overflow-hidden transition-all duration-200 bg-white border border-grey-200 shadow-sm cursor-pointer hover:bg-[rgba(212,54,124,0.05)] hover:-translate-y-0.5 hover:shadow hover:border-primary-200 active:scale-[0.96]"
         >
-          <FlagImg className="flag" src={japan} alt="Japan Flag" />
-        </FlagButton>
+          <img
+            className="flag w-7 h-5 rounded border border-grey-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 object-cover"
+            src={japan}
+            alt="Japan Flag"
+          />
+        </button>
       ) : (
-        <FlagButton
+        <button
           onClick={() => changeSiteLanguage("en")}
           title="Switch to English"
+          className="flex items-center justify-center h-10 w-10 p-1 rounded-full overflow-hidden transition-all duration-200 bg-white border border-grey-200 shadow-sm cursor-pointer hover:bg-[rgba(212,54,124,0.05)] hover:-translate-y-0.5 hover:shadow hover:border-primary-200 active:scale-[0.96]"
         >
-          <FlagImg className="flag" src={america} alt="America Flag" />
-        </FlagButton>
+          <img
+            className="flag w-7 h-5 rounded border border-grey-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 object-cover"
+            src={america}
+            alt="America Flag"
+          />
+        </button>
       )}
-    </FlagContainerDiv>
+    </div>
   );
 };
-
-const FlagContainerDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-`;
-
-const FlagButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  width: 40px;
-  padding: 4px;
-  border-radius: 50%;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  background-color: var(--white);
-  border: 1px solid var(--grey-200);
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-
-  &:hover {
-    background: rgba(212, 54, 124, 0.05);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-    border-color: var(--primary-200);
-  }
-
-  &:active {
-    transform: scale(0.96);
-  }
-`;
-
-const FlagImg = styled.img`
-  width: 28px;
-  height: 20px;
-  border-radius: 4px;
-  border: 1px solid var(--grey-200);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-  object-fit: cover;
-`;
 
 export default FlagContainer;

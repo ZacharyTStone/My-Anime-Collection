@@ -11,7 +11,6 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { FaCaretDown, FaUserCircle } from "react-icons/fa";
-import styled from "styled-components";
 import { useAuthStore } from "../stores/authStore";
 import { useShallow } from "zustand/react/shallow";
 import FlagContainer from "./FlagContainer";
@@ -59,7 +58,7 @@ const MUINavbar = () => {
   };
 
   return (
-    <Navbar>
+    <nav className="h-[var(--nav-height)] flex items-start justify-center w-full bg-transparent shadow-none">
       <AppBar
         position="static"
         elevation={0}
@@ -145,7 +144,30 @@ const MUINavbar = () => {
             <FlagContainer />
 
             <Box sx={{ flexGrow: 0 }}>
-              <UserIcon onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{
+                  p: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 14px",
+                  borderRadius: "24px",
+                  background: "linear-gradient(135deg, var(--grey-50) 0%, var(--white) 100%)",
+                  border: "2px solid var(--primary-alpha-20)",
+                  boxShadow: "0 2px 8px var(--primary-alpha-10)",
+                  "& svg": {
+                    fontSize: "1.25rem",
+                    color: "var(--primary-600)",
+                  },
+                  "& span": {
+                    color: "var(--grey-800)",
+                    fontWeight: 500,
+                    fontSize: "0.95rem",
+                    margin: "0 4px",
+                  },
+                }}
+              >
                 <FaUserCircle color="var(--grey-700)" />
                 <span
                   style={{
@@ -155,7 +177,7 @@ const MUINavbar = () => {
                   {user?.name || "Guest"}
                 </span>
                 <FaCaretDown color="var(--primary-500)" />
-              </UserIcon>
+              </IconButton>
               <Menu
                 sx={{
                   mt: "45px",
@@ -208,81 +230,8 @@ const MUINavbar = () => {
           </Toolbar>
         </Container>
       </AppBar>
-    </Navbar>
+    </nav>
   );
 };
-
-const Navbar = styled.nav`
-  height: var(--nav-height);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  width: 100%;
-  background: transparent;
-  box-shadow: none;
-
-  .toggle-btn {
-    background: transparent;
-    border-color: transparent;
-    font-size: 1.75rem;
-    color: var(--primary-500);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
-
-  .btn button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0 0.5rem;
-    position: relative;
-  }
-
-  .active {
-    color: var(--primary-600);
-    font-weight: 600;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--gradient-primary);
-      border-radius: 2px;
-      opacity: 0.6;
-    }
-  }
-
-  .active .icon {
-    color: var(--primary-600);
-  }
-`;
-
-const UserIcon = styled(IconButton)`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, var(--grey-50) 0%, var(--white) 100%);
-  border: 2px solid var(--primary-alpha-20);
-  box-shadow: 0 2px 8px var(--primary-alpha-10);
-
-  svg {
-    font-size: 1.25rem;
-    color: var(--primary-600);
-  }
-
-  span {
-    color: var(--grey-800);
-    font-weight: 500;
-    font-size: 0.95rem;
-    margin: 0 4px;
-  }
-`;
 
 export default MUINavbar;

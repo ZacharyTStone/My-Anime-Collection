@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { AiFillDelete, AiOutlineArrowRight } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 
@@ -8,6 +7,7 @@ import { useShallow } from "zustand/react/shallow";
 import { FormRow, SkeletonLoadingBlock } from "../../Components/UI";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 import { IPlaylist } from "../../utils/types";
+import { cn } from "../../utils/cn";
 
 const EditPlaylist: React.FC = () => {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ const EditPlaylist: React.FC = () => {
       loadingFetchPlaylists: s.loadingFetchPlaylists,
     }))
   );
-  
+
   const [newTitle, setNewTitle] = useState("");
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<
     undefined | string
@@ -89,53 +89,56 @@ const EditPlaylist: React.FC = () => {
   }
 
   return (
-    <Wrapper>
-      <div className="profile-container">
-
-        <h3>{t("edit_playlist.title")}</h3>
-        <div className="form-left">
-          <ul>
+    <section className="rounded-default w-full bg-white px-8 pt-12 pb-16 shadow">
+      <div className="mb-8">
+        <h3 className="relative mt-0 mb-8 font-semibold text-grey-900 after:content-[''] after:absolute after:bottom-[-0.75rem] after:left-0 after:w-16 after:h-[3px] after:bg-primary-500 after:rounded-sm">
+          {t("edit_playlist.title")}
+        </h3>
+        <div>
+          <ul className="mb-6 p-2 max-h-[300px] overflow-y-auto border border-grey-200 rounded-default bg-white shadow-[inset_var(--shadow-sm)]">
             {userPlaylists.map((playlist: IPlaylist) => (
-              <li key={playlist.id}>
+              <li key={playlist.id} className="list-none">
                 <span
                   onClick={() => handleClickOnPlaylist(playlist.id)}
-                  className="playlist-title"
+                  className="text-[1.1rem] cursor-pointer flex items-center gap-3 py-3 px-4 mb-2 rounded-default transition-all duration-200 border border-transparent hover:bg-grey-50 hover:border-grey-200"
                 >
                   {playlist.id === currentPlaylist.id && (
-                    <AiOutlineArrowRight size={20} className="arrow-icon" />
+                    <AiOutlineArrowRight
+                      size={20}
+                      className="text-primary-500 text-[1.25rem]"
+                    />
                   )}
                   {playlist.title}
                   {!DEFAULT_PLAYLIST_IDS.includes(currentPlaylist.id) &&
                     playlist.id === currentPlaylist.id && (
                       <span
-                        className="delete-icon"
+                        className="inline-flex text-red-dark text-[1.25rem] cursor-pointer ml-auto opacity-70 transition-all duration-200 hover:opacity-100 hover:scale-110"
                         onClick={() => handleDeletePlaylist(playlist.id)}
                       >
-                        <AiFillDelete size={20} className="delete-icon" />
+                        <AiFillDelete size={20} />
                       </span>
                     )}
                 </span>
               </li>
             ))}
           </ul>
-                      <button
-              className="btn"
-              onClick={handleNewPlaylistSubmit}
-            >
-              {t("edit_playlist.new_playlist")}
-            </button>
+          <button className="btn" onClick={handleNewPlaylistSubmit}>
+            {t("edit_playlist.new_playlist")}
+          </button>
         </div>
       </div>
-      <hr />
+      <hr className="h-px bg-grey-200 border-none my-6" />
 
-      <div className="form-left">
-        <p className="helper-text">{t("edit_playlist.cta")}</p>
+      <div>
+        <p className="text-[0.9rem]! text-grey-600 mb-4 italic no-underline! relative inline-block after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-px after:bg-grey-300">
+          {t("edit_playlist.cta")}
+        </p>
       </div>
       {currentPlaylist.id &&
         !!selectedPlaylistId &&
         !DEFAULT_PLAYLIST_IDS.includes(selectedPlaylistId) && (
-          <form className="form form-embedded" onSubmit={handlePlaylistEdit}>
-            <div className="form-center">
+          <form className="w-full p-4" onSubmit={handlePlaylistEdit}>
+            <div className="grid gap-y-4 bg-grey-50 p-6 rounded-default border border-grey-200 mt-6 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-x-4">
               <FormRow
                 type="text"
                 name="title"
@@ -144,150 +147,16 @@ const EditPlaylist: React.FC = () => {
                 handleChange={(e) => setNewTitle(e.target.value)}
               />
               <button
-                className="btn btn-block"
+                className={cn("btn btn-block self-end h-[42px] mt-4")}
                 type="submit"
               >
-                                  {t("profile.save")}
+                {t("profile.save")}
               </button>
             </div>
           </form>
         )}
-    </Wrapper>
+    </section>
   );
 };
-
-const Wrapper = styled.section`
-  border-radius: var(--borderRadius);
-  width: 100%;
-  background: var(--white);
-  padding: 3rem 2rem 4rem;
-  box-shadow: var(--shadow);
-
-  h3 {
-    margin-top: 0;
-    margin-bottom: 2rem;
-    font-weight: 600;
-    color: var(--grey-900);
-    position: relative;
-
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: -0.75rem;
-      left: 0;
-      width: 4rem;
-      height: 3px;
-      background-color: var(--primary-500);
-      border-radius: 2px;
-    }
-  }
-
-  .profile-container {
-    margin-bottom: 2rem;
-  }
-
-  .playlist-title {
-    font-size: 1.1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.5rem;
-    border-radius: var(--borderRadius);
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-
-    &:hover {
-      background-color: var(--grey-50);
-      border-color: var(--grey-200);
-    }
-  }
-
-  li {
-    list-style: none;
-  }
-
-  ul {
-    margin-bottom: 1.5rem;
-    padding: 0.5rem;
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid var(--grey-200);
-    border-radius: var(--borderRadius);
-    background-color: var(--white);
-    box-shadow: var(--shadow-sm) inset;
-  }
-
-  .arrow-icon {
-    color: var(--primary-500);
-    font-size: 1.25rem;
-  }
-
-  .delete-icon {
-    display: inline-flex;
-    color: var(--red-dark);
-    font-size: 1.25rem;
-    cursor: pointer;
-    margin-left: auto;
-    opacity: 0.7;
-    transition: all 0.2s ease;
-
-    &:hover {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-  }
-
-  .form-center {
-    display: grid;
-    row-gap: 0.5rem;
-    background-color: var(--grey-50);
-    padding: 1.5rem;
-    border-radius: var(--borderRadius);
-    border: 1px solid var(--grey-200);
-    margin-top: 1.5rem;
-  }
-
-  .form-center button {
-    align-self: end;
-    height: 42px;
-    margin-top: 1rem;
-  }
-
-  hr {
-    border: none;
-    border-top: 1px solid var(--grey-200);
-    margin: 1.5rem 0;
-  }
-
-  .form-left p {
-    font-size: 0.9rem !important;
-    color: var(--grey-600);
-    margin-bottom: 1rem;
-    font-style: italic;
-    text-decoration: none !important;
-    position: relative;
-    display: inline-block;
-
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: var(--grey-300);
-    }
-  }
-
-  @media (min-width: 992px) {
-    .form-center {
-      grid-template-columns: 1fr auto;
-      align-items: end;
-      column-gap: 1rem;
-    }
-  }
-`;
 
 export default EditPlaylist;

@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { FetchedAnimesContainer } from "../../Components";
-import styled from "styled-components";
 
 import { usePlaylistStore } from "../../stores/playlistStore";
 import { useShallow } from "zustand/react/shallow";
 import { useEffect } from "react";
 import { SkeletonLoadingBlock } from "../../Components/UI";
 import { IPlaylist } from "../../utils/types";
+import { cn } from "../../utils/cn";
 
 const TopAnimes = () => {
   const { t } = useTranslation();
@@ -49,9 +49,12 @@ const TopAnimes = () => {
         {t("top_animes.title")}
       </h1>
 
-      <PlaylistSection>
-        <form className="form-row">
-          <label htmlFor="playlist" className="form-label">
+      <div className="flex flex-wrap justify-center items-center mx-auto">
+        <form className="mb-0">
+          <label
+            htmlFor="playlist"
+            className="block text-sm mb-2 font-medium tracking-wide text-grey-700"
+          >
             {t("search_container.playlist")}
           </label>
           {loadingFetchPlaylists ? (
@@ -61,7 +64,11 @@ const TopAnimes = () => {
               name="playlist"
               value={currentPlaylist.id}
               onChange={handleLocalPlaylistChange}
-              className="form-select"
+              className={cn(
+                "w-full px-3 py-2.5 rounded-default bg-white border border-grey-300",
+                "text-grey-900 text-[0.95rem] min-h-[42px] appearance-none transition-all",
+                "focus:outline-none focus:border-primary-500 focus:ring-3 focus:ring-primary-500/12"
+              )}
             >
               {userPlaylists.map((playlist: IPlaylist, index: number) => {
                 return (
@@ -73,7 +80,7 @@ const TopAnimes = () => {
             </select>
           )}
         </form>
-      </PlaylistSection>
+      </div>
       <FetchedAnimesContainer
         searchText={""}
         baseURL={"https://kitsu.io/api/edge/trending/anime"}
@@ -84,14 +91,5 @@ const TopAnimes = () => {
     </main>
   );
 };
-
-const PlaylistSection = styled.div`
-  display: flex;
-  margin: 0 auto;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default TopAnimes;

@@ -1,7 +1,5 @@
-import styled from "styled-components";
 import logo from "../../assets/images/logo.svg";
 
-// Types and Interfaces
 interface LogoProps {
   width?: string;
   height?: string;
@@ -9,34 +7,19 @@ interface LogoProps {
   onClick?: () => void;
 }
 
-// Constants
 const DEFAULT_LOGO_WIDTH = "100px";
 const DEFAULT_LOGO_HEIGHT = "auto";
 
-// Styled Components
-const StyledLogo = styled.img<{ customWidth?: string; customHeight?: string }>`
-  width: ${({ customWidth }) => customWidth || DEFAULT_LOGO_WIDTH};
-  height: ${({ customHeight }) => customHeight || DEFAULT_LOGO_HEIGHT};
-  margin: 0 auto;
-  display: block;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
-
-/**
- * Logo component that displays the application logo
- */
 const Logo: React.FC<LogoProps> = ({ width, height, className, onClick }) => {
   return (
-    <StyledLogo
+    <img
       src={logo}
       alt="My Anime Collection"
-      customWidth={width}
-      customHeight={height}
-      className={className}
+      className={`block mx-auto transition-transform duration-300 hover:scale-105 ${className || ""}`}
+      style={{
+        width: width || DEFAULT_LOGO_WIDTH,
+        height: height || DEFAULT_LOGO_HEIGHT,
+      }}
       onClick={onClick}
       role={onClick ? "button" : "img"}
       tabIndex={onClick ? 0 : undefined}

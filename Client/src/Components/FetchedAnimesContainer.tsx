@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button } from "@mui/material";
 import { useEffect, useRef } from "react";
-import styled from "styled-components";
 import { Anime } from "../Components";
 import { useAnimeStore } from "../stores/animeStore";
 import { useShallow } from "zustand/react/shallow";
@@ -85,11 +84,11 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
   const onMobile = useMobile();
 
   const LoadingUI = () => (
-    <Container>
-      <ButtonContainer>
+    <section className="mt-16">
+      <div className="flex justify-between items-center mb-8">
         <SkeletonLoadingBlock height={50} width={"100%"} borderRadius={8} />
-      </ButtonContainer>
-      <AnimesGrid>
+      </div>
+      <div className="flex flex-row flex-wrap justify-evenly items-center" style={{ color: "var(--textColor)" }}>
         {[...Array(onMobile ? 6 : 3)].map((_, index) => (
           <SkeletonLoadingBlock
             key={index}
@@ -98,8 +97,8 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
             borderRadius={8}
           />
         ))}
-      </AnimesGrid>
-    </Container>
+      </div>
+    </section>
   );
 
   if (loadingFetchAnimes) {
@@ -107,11 +106,11 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
   }
 
   return (
-    <Container>
+    <section className="mt-16">
       {fetchedAnimes?.length > 0 ? (
         <div>
           {pagination && (
-            <ButtonContainer>
+            <div className="flex justify-between items-center mb-8">
               <Button
                 onClick={() => handlePageClick(-1)}
                 color="primary"
@@ -121,9 +120,9 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
               >
                 Previous
               </Button>
-              <TopInfo>
+              <div className="text-center">
                 <h3>Page {page.current} of {numOfFetchedAnimesPages}</h3>
-              </TopInfo>
+              </div>
               <Button
                 onClick={() => handlePageClick(1)}
                 color="primary"
@@ -133,9 +132,9 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
               >
                 Next
               </Button>
-            </ButtonContainer>
+            </div>
           )}
-          <AnimesGrid>
+          <div className="flex flex-row flex-wrap justify-evenly items-center" style={{ color: "var(--textColor)" }}>
             {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => (
               <Anime
                 key={anime.id}
@@ -183,54 +182,18 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
                 Load next page
               </Button>
             )}
-          </AnimesGrid>
+          </div>
           {!onTrendingPage && (
-            <PageInfo>
+            <div className="mt-8 mb-4 flex justify-center items-center">
               <h5>We found {totalFetchedAnimes} animes</h5>
-            </PageInfo>
+            </div>
           )}
         </div>
       ) : (
         <div>{searchText && !isLoading && <h2>No animes found.</h2>}</div>
       )}
-    </Container>
+    </section>
   );
 };
-
-const Container = styled.section`
-  margin-top: 4rem;
-
-  h2 {
-    text-transform: none;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-`;
-
-const TopInfo = styled.div`
-  text-align: center;
-`;
-
-const AnimesGrid = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  color: var(--textColor);
-`;
-
-const PageInfo = styled.div`
-  margin-top: 32px;
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default FetchedAnimesContainer;

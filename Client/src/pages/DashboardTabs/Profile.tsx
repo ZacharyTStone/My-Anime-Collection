@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "styled-components";
 import { FormRow, Alert } from "../../Components/UI";
 import { Pokemon } from "../../Components";
 import { useAuthStore } from "../../stores/authStore";
@@ -54,11 +53,13 @@ const Profile = () => {
   };
 
   return (
-    <Wrapper>
-      <form className="form form-embedded" onSubmit={handleSubmit}>
-        <h3>{t("profile.title")}</h3>
+    <section className="rounded-default w-full bg-white p-10 shadow">
+      <form className="w-full p-4" onSubmit={handleSubmit}>
+        <h3 className="relative mt-0 mb-8 font-semibold text-grey-900 after:content-[''] after:absolute after:bottom-[-0.75rem] after:left-0 after:w-16 after:h-[3px] after:bg-primary-500 after:rounded-sm">
+          {t("profile.title")}
+        </h3>
         {showAlert && <Alert />}
-        <div className="form-center form-grid">
+        <div className="grid gap-y-4 lg:grid-cols-2 lg:items-center lg:gap-x-6">
           <FormRow
             disabled={isLoading || isDemoUser}
             type="text"
@@ -76,9 +77,9 @@ const Profile = () => {
             handleChange={(e) => setEmail(e.target.value)}
           />
 
-          <div className="btn-container">
+          <div className="flex justify-start mt-4 col-span-full">
             <button
-              className="btn btn-submit"
+              className="btn btn-submit mt-8!"
               type="submit"
               disabled={isLoading || isDemoUser}
             >
@@ -87,79 +88,17 @@ const Profile = () => {
           </div>
         </div>
         <Pokemon />
-        <div className="bottom-half">
+        <div className="mt-12 pt-8 border-t border-grey-200">
           <button
-            className="btn btn-danger"
+            className="btn btn-danger relative bg-grey-300 text-grey-700 transition-all duration-200 hover:bg-red-dark hover:text-white"
             onClick={handleDelete}
           >
             {t("profile.delete")}
           </button>
         </div>
       </form>
-    </Wrapper>
+    </section>
   );
 };
-
-const Wrapper = styled.section`
-  border-radius: var(--borderRadius);
-  width: 100%;
-  background: var(--white);
-  padding: 2.5rem;
-  box-shadow: var(--shadow);
-
-  h3 {
-    margin-top: 0;
-    margin-bottom: 2rem;
-    font-weight: 600;
-    color: var(--grey-900);
-    position: relative;
-
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: -0.75rem;
-      left: 0;
-      width: 4rem;
-      height: 3px;
-      background-color: var(--primary-500);
-      border-radius: 2px;
-    }
-  }
-
-  .btn-submit {
-    margin-top: 2rem !important;
-  }
-
-  .btn-container {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 1rem;
-    grid-column: 1 / -1;
-  }
-
-  .btn-danger {
-    position: relative;
-    background-color: var(--grey-300);
-    color: var(--grey-700);
-    transition: all 0.2s ease;
-
-    :hover {
-      background-color: var(--red-dark);
-      color: white;
-    }
-  }
-
-  .bottom-half {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--grey-200);
-  }
-
-  @media (min-width: 1120px) {
-    .form-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-`;
 
 export default Profile;

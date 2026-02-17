@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import styled from "styled-components";
 import { Alert, FormRow, Logo } from "../Components/UI";
 import { useAuthStore } from "../stores/authStore";
 import { useShallow } from "zustand/react/shallow";
 import { useAtomValue } from "jotai";
 import { siteLanguageAtom } from "../atoms/languageAtom";
-import { User } from "../utils/types";
 
 const initialState = {
   name: "",
@@ -55,155 +53,64 @@ const Register = () => {
   }, []);
 
   return (
-    <div>
-      <Wrapper className="full-page">
-        <form className="form" onSubmit={onSubmit}>
-          <Logo />
-          <h3>
-            {values.existingUser ? t("login.title") : t("register.title")}
-          </h3>
-          {showAlert && <Alert />}
-          {/* name input */}
-          {!values.existingUser && (
-            <FormRow
-              type="text"
-              name="name"
-              labelText={t("register.name")}
-              value={values.name}
-              handleChange={handleChange}
-              disabled={true}
-            />
-          )}
+    <section
+      className="full-page min-h-screen grid items-center justify-center relative overflow-hidden before:content-[''] before:absolute before:top-[-50%] before:right-[-20%] before:w-[600px] before:h-[600px] before:rounded-full before:pointer-events-none before:bg-[radial-gradient(circle,rgba(212,54,124,0.08)_0%,transparent_70%)] after:content-[''] after:absolute after:bottom-[-30%] after:left-[-10%] after:w-[400px] after:h-[400px] after:rounded-full after:pointer-events-none after:bg-[radial-gradient(circle,rgba(212,54,124,0.06)_0%,transparent_70%)]"
+      style={{
+        background: "linear-gradient(135deg, var(--grey-50) 0%, var(--white) 50%, rgba(212, 54, 124, 0.05) 100%)",
+      }}
+    >
+      <form
+        className="relative z-10 w-full max-w-[420px] m-8 p-10 rounded-2xl bg-white/95 backdrop-blur-[10px] border border-primary-500/10 max-[480px]:m-4 max-[480px]:px-6 max-[480px]:py-8"
+        style={{
+          boxShadow: "0 4px 24px rgba(212, 54, 124, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05)",
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
+      >
+        <Logo />
+        <h3 className="text-center mb-8 text-grey-800 text-[1.75rem] font-semibold bg-[linear-gradient(135deg,var(--primary-500)_0%,var(--anime-pink)_50%,var(--primary-600)_100%)] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] max-[480px]:text-2xl">
+          {values.existingUser ? t("login.title") : t("register.title")}
+        </h3>
+        {showAlert && <Alert />}
+        {!values.existingUser && (
+          <FormRow
+            type="text"
+            name="name"
+            labelText={t("register.name")}
+            value={values.name}
+            handleChange={handleChange}
+            disabled={true}
+          />
+        )}
 
-          {/* email input */}
-          <FormRow
-            type="email"
-            name="email"
-            labelText={t("register.email")}
-            value={values.email}
-            handleChange={handleChange}
-            disabled={true}
-          />
-          {/* password input */}
-          <FormRow
-            type="password"
-            name="password"
-            labelText={t("register.password")}
-            value={values.password}
-            handleChange={handleChange}
-            disabled={true}
-          />
-          <button type="submit" className="btn btn-block" disabled={true}>
-            {t("register.submit")}
-          </button>
-        </form>
-      </Wrapper>
-    </div>
+        <FormRow
+          type="email"
+          name="email"
+          labelText={t("register.email")}
+          value={values.email}
+          handleChange={handleChange}
+          disabled={true}
+        />
+        <FormRow
+          type="password"
+          name="password"
+          labelText={t("register.password")}
+          value={values.password}
+          handleChange={handleChange}
+          disabled={true}
+        />
+        <button
+          type="submit"
+          className="btn btn-block mt-7 w-full font-semibold py-3.5 px-6 text-base opacity-60"
+          disabled={true}
+        >
+          {t("register.submit")}
+        </button>
+      </form>
+    </section>
   );
 };
-
-const Wrapper = styled.section`
-  min-height: 100vh;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(
-    135deg,
-    var(--grey-50) 0%,
-    var(--white) 50%,
-    rgba(212, 54, 124, 0.05) 100%
-  );
-  position: relative;
-  overflow: hidden;
-
-  /* Decorative background elements */
-  &::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(
-      circle,
-      rgba(212, 54, 124, 0.08) 0%,
-      transparent 70%
-    );
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -30%;
-    left: -10%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(
-      circle,
-      rgba(212, 54, 124, 0.06) 0%,
-      transparent 70%
-    );
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  .form {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 420px;
-    margin: 2rem;
-    padding: 2.5rem;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    box-shadow:
-      0 4px 24px rgba(212, 54, 124, 0.1),
-      0 1px 3px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(212, 54, 124, 0.1);
-  }
-
-  h3 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--grey-800);
-    font-size: 1.75rem;
-    font-weight: 600;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  p {
-    margin: 0;
-    margin-top: 1.75rem;
-    text-align: center;
-    color: var(--grey-600);
-    font-size: 0.95rem;
-  }
-
-  .btn {
-    margin-top: 1.75rem;
-    width: 100%;
-    font-weight: 600;
-    padding: 0.875rem 1.5rem;
-    font-size: 1rem;
-    opacity: 0.6;
-  }
-
-  @media (max-width: 480px) {
-    .form {
-      margin: 1rem;
-      padding: 2rem 1.5rem;
-    }
-
-    h3 {
-      font-size: 1.5rem;
-    }
-  }
-`;
 
 export default Register;
