@@ -9,8 +9,8 @@
     "@mui/material": "^5.4.2",
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^18.6.3",
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.14",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^5.1.4",
     "axios": "^1.13.5",
     "clsx": "^2.1.1",
@@ -19,9 +19,8 @@
     "i18next": "^25.8.6",
     "jotai": "^2.17.1",
     "normalize.css": "^8.0.1",
-    "react": "^18.2.0",
-    "react-compiler-runtime": "^19.0.0-beta-e552027-20250112",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-i18next": "^16.5.4",
     "react-icons": "^4.12.0",
     "react-intersection-observer": "^10.0.2",
@@ -46,7 +45,7 @@
   "devDependencies": {
     "@playwright/test": "^1.49.1",
     "@types/dompurify": "^3.0.5",
-    "babel-plugin-react-compiler": "^19.0.0-beta-e552027-20250112",
-    "eslint-plugin-react-compiler": "^19.0.0-beta-e552027-20250112"
+    "babel-plugin-react-compiler": "latest",
+    "eslint-plugin-react-compiler": "latest"
   }
 }

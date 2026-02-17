@@ -1,3 +1,4 @@
+import React from "react";
 import { NavLink, useLocation } from "react-router";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -16,7 +17,7 @@ const NavLinks = () => {
     id: number;
     text: string;
     path: string;
-    icon: JSX.Element;
+    icon: React.JSX.Element;
   }
 
   const LINKS: Link[] = [
