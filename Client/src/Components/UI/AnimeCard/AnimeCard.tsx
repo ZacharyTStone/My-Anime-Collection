@@ -203,8 +203,9 @@ const Anime = ({
     if (state.isHovering && hasYoutubeVideoId && !state.failedToLoadYoutube) {
       return (
         <ReactPlayer
-          url={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
+          src={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
           width="100%"
+          height="360px"
           controls
           className="anime-cover-image"
           style={{
@@ -308,7 +309,7 @@ const Anime = ({
             sx={{
               fontSize: "1.125rem",
               fontWeight: "600",
-              color: "var(--grey-800)",
+              color: "var(--textColor)",
               backgroundColor: "var(--white)",
               minHeight: "60px",
               textAlign: "center",
@@ -319,7 +320,6 @@ const Anime = ({
               alignItems: "center",
               justifyContent: "center",
             }}
-            color="var(--textColor)"
             gutterBottom
           >
             {siteLanguage === "en" ? title : japanese_title}
@@ -331,7 +331,7 @@ const Anime = ({
             <Typography
               sx={{
                 mb: 1.5,
-                color: "var(--grey-700)",
+                color: "var(--textColor)",
                 fontSize: "0.875rem",
                 fontWeight: 500,
                 display: "flex",
@@ -345,7 +345,6 @@ const Anime = ({
                   padding: "4px 8px",
                 },
               }}
-              color="var(--textColor)"
             >
               <Button
                 sx={{

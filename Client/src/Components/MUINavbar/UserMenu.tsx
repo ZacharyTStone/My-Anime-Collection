@@ -102,8 +102,8 @@ const UserMenu = () => {
           }}
         >
           <Typography
-            textAlign="center"
             sx={{
+              textAlign: "center",
               color: "var(--grey-800)",
               fontWeight: 500,
               width: "100%",
