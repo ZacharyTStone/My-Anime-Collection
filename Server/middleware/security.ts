@@ -24,8 +24,9 @@ export const configureSecurity = (app: Express) => {
         directives: {
           defaultSrc: ["'self'"],
           scriptSrc: ["'self'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          imgSrc: ["'self'", "data:", "https://media.kitsu.io"],
+          styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+          fontSrc: ["'self'", "https://fonts.gstatic.com"],
+          imgSrc: ["'self'", "data:", "https://media.kitsu.io", "https://media.kitsu.app"],
           connectSrc: ["'self'", KITSU_API],
           frameSrc: ["'self'", "https://www.youtube.com"],
           mediaSrc: ["'self'", "https://www.youtube.com"],
