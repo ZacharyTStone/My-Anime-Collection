@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { AiFillDelete, AiOutlineArrowRight } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 
-import { usePlaylistStore } from "../../stores/playlistStore";
-import { useShallow } from "zustand/react/shallow";
+import { usePlaylistSelector } from "../../stores/hooks";
 import { FormRow, SkeletonLoadingBlock } from "../../Components/UI";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 import { IPlaylist } from "../../utils/types";
 import { cn } from "../../utils/cn";
 
-const EditPlaylist: React.FC = () => {
+const EditPlaylist = () => {
   const { t } = useTranslation();
   const {
     getPlaylists,
@@ -20,18 +19,16 @@ const EditPlaylist: React.FC = () => {
     currentPlaylist,
     handlePlaylistChange,
     loadingFetchPlaylists,
-  } = usePlaylistStore(
-    useShallow((s) => ({
-      getPlaylists: s.getPlaylists,
-      updatePlaylist: s.updatePlaylist,
-      deletePlaylist: s.deletePlaylist,
-      createPlaylist: s.createPlaylist,
-      userPlaylists: s.userPlaylists,
-      currentPlaylist: s.currentPlaylist,
-      handlePlaylistChange: s.handlePlaylistChange,
-      loadingFetchPlaylists: s.loadingFetchPlaylists,
-    }))
-  );
+  } = usePlaylistSelector((s) => ({
+    getPlaylists: s.getPlaylists,
+    updatePlaylist: s.updatePlaylist,
+    deletePlaylist: s.deletePlaylist,
+    createPlaylist: s.createPlaylist,
+    userPlaylists: s.userPlaylists,
+    currentPlaylist: s.currentPlaylist,
+    handlePlaylistChange: s.handlePlaylistChange,
+    loadingFetchPlaylists: s.loadingFetchPlaylists,
+  }));
 
   const [newTitle, setNewTitle] = useState("");
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<
@@ -55,7 +52,7 @@ const EditPlaylist: React.FC = () => {
     setSelectedPlaylistId(currentPlaylist.id);
   }, [getPlaylists, currentPlaylist.id]);
 
-  const handleNewPlaylistSubmit = async (e: React.FormEvent) => {
+  const handleNewPlaylistSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const numberOfPlaylists = userPlaylists.length - 1;
     await createPlaylist(`New Playlist #`);
@@ -63,7 +60,7 @@ const EditPlaylist: React.FC = () => {
     setSelectedPlaylistId(userPlaylists[numberOfPlaylists].id);
   };
 
-  const handlePlaylistEdit = async (e: React.FormEvent) => {
+  const handlePlaylistEdit = async (e: FormEvent) => {
     e.preventDefault();
     if (selectedPlaylistId) {
       const playlist = userPlaylists.find((p) => p.id === selectedPlaylistId);

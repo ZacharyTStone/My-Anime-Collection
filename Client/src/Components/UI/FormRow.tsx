@@ -1,22 +1,23 @@
+import type { ChangeEvent } from "react";
 import { cn } from "../../utils/cn";
 
 interface FormRowProps {
   type: string;
   name: string;
   value: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   labelText: string;
   disabled?: boolean;
 }
 
-const FormRow: React.FC<FormRowProps> = ({
+const FormRow = ({
   type,
   name,
   value,
   handleChange,
   labelText,
   disabled,
-}) => {
+}: FormRowProps) => {
   return (
     <div className="mb-4">
       <label

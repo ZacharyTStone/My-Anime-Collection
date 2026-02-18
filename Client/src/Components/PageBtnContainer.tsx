@@ -1,13 +1,13 @@
-import * as React from "react";
-import { useAnimeStore } from "../stores/animeStore";
-import { useShallow } from "zustand/react/shallow";
+import { useAnimeSelector } from "../stores/hooks";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import { cn } from "../utils/cn";
 
-const PageBtnContainer: React.FC = () => {
-  const { numOfPages, page, changePage } = useAnimeStore(
-    useShallow((s) => ({ numOfPages: s.numOfPages, page: s.page, changePage: s.changePage }))
-  );
+const PageBtnContainer = () => {
+  const { numOfPages, page, changePage } = useAnimeSelector((s) => ({
+    numOfPages: s.numOfPages,
+    page: s.page,
+    changePage: s.changePage,
+  }));
 
   const handlePageChange = (newPage: number) => {
     changePage(((newPage + numOfPages - 1) % numOfPages) + 1);

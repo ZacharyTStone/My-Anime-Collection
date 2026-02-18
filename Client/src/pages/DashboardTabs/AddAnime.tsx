@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useMemo, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { FormRow, FormRowSelect, SkeletonLoadingBlock } from "../../Components/UI";
+import { FormRow, FormRowSelect, PlaylistSelector } from "../../Components/UI";
 import { FetchedAnimesContainer } from "../../Components";
-import { usePlaylistStore } from "../../stores/playlistStore";
-import { useShallow } from "zustand/react/shallow";
 import { debounce } from "../../utils/debounce";
-import { cn } from "../../utils/cn";
 
 const SORT_OPTIONS = [
   {
@@ -30,53 +27,27 @@ const SORT_OPTIONS = [
   },
 ];
 
-const AddAnime: React.FC = () => {
+const AddAnime = () => {
   const { t } = useTranslation();
   const [textInput, setTextInput] = useState<string>("");
   const [sort, setSort] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
-
-  const {
-    getPlaylists,
-    currentPlaylist,
-    userPlaylists,
-    handlePlaylistChange,
-    loadingFetchPlaylists,
-  } = usePlaylistStore(
-    useShallow((s) => ({
-      getPlaylists: s.getPlaylists,
-      currentPlaylist: s.currentPlaylist,
-      userPlaylists: s.userPlaylists,
-      handlePlaylistChange: s.handlePlaylistChange,
-      loadingFetchPlaylists: s.loadingFetchPlaylists,
-    }))
-  );
 
   const debouncedRequest = useMemo(
     () => debounce((value: string) => setSearchText(value), 500),
     []
   );
 
-  const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTextInput = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const apiValue = value.replace(/\s/g, "+");
     setTextInput(value);
     debouncedRequest(apiValue);
   };
 
-  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value);
   };
-
-  const handleLocalPlaylistChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    handlePlaylistChange({ value: e.target.value });
-  };
-
-  useEffect(() => {
-    getPlaylists();
-  }, [getPlaylists]);
 
   return (
     <section className="rounded-default w-full bg-white px-8 pt-12 pb-16 shadow-md">
@@ -104,41 +75,7 @@ const AddAnime: React.FC = () => {
               handleChange={handleSort}
               list={SORT_OPTIONS}
             />
-            <div>
-              <label
-                htmlFor="playlist"
-                className="block text-sm mb-2 font-medium tracking-wide text-grey-700"
-              >
-                {t("search_container.playlist")}
-              </label>
-              {loadingFetchPlaylists ? (
-                <SkeletonLoadingBlock
-                  height={40}
-                  width={240}
-                  borderRadius={6}
-                />
-              ) : (
-                <select
-                  name="playlist"
-                  value={currentPlaylist.id}
-                  onChange={handleLocalPlaylistChange}
-                  className={cn(
-                    "w-full px-3 py-2.5 rounded-default bg-white border border-grey-300",
-                    "text-grey-900 text-[0.95rem] min-h-[42px] appearance-none transition-all",
-                    "focus:outline-none focus:border-primary-500 focus:ring-3 focus:ring-primary-500/12"
-                  )}
-                >
-                  {userPlaylists?.map((playlist, index) => (
-                    <option
-                      key={`${playlist.id}-${index}`}
-                      value={playlist.id}
-                    >
-                      {playlist.title}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </div>
+            <PlaylistSelector />
           </div>
         </form>
         <FetchedAnimesContainer

@@ -4,7 +4,7 @@ import { changeSiteLanguageAtom } from "../atoms/languageAtom";
 import america from "./../assets/images/america-big.png";
 import japan from "./../assets/images/japan-big.png";
 
-const FlagContainer: React.FC = () => {
+const FlagContainer = () => {
   const changeSiteLanguage = useSetAtom(changeSiteLanguageAtom);
   const { i18n } = useTranslation();
 

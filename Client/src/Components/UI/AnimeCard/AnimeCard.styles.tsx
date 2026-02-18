@@ -1,13 +1,13 @@
-import React from "react";
+import type React from "react";
 import pokeball from "../../../assets/images/pokeball.png";
 import { cn } from "../../../utils/cn";
 
 // Wrapper - article container for the anime card
-export const Wrapper: React.FC<React.HTMLAttributes<HTMLElement>> = ({
+export const Wrapper = ({
   className,
   children,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLElement>) => (
   <article
     className={cn(
       "flex flex-col justify-center items-center",
@@ -36,9 +36,7 @@ export const Wrapper: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 );
 
 // ImageDiv - container for card image with dynamic min-height
-export const ImageDiv: React.FC<
-  React.HTMLAttributes<HTMLDivElement> & { $onMobile?: boolean }
-> = ({ $onMobile, className, style, ...props }) => (
+export const ImageDiv = ({ $onMobile, className, style, ...props }: React.HTMLAttributes<HTMLDivElement> & { $onMobile?: boolean }) => (
   <div
     className={className}
     style={{
@@ -50,10 +48,10 @@ export const ImageDiv: React.FC<
 );
 
 // Modal - fixed overlay for synopsis
-export const Modal: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const Modal = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "fixed inset-0 flex items-center justify-center z-[9999]",
@@ -65,11 +63,11 @@ export const Modal: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 );
 
 // ModalContent - content container inside modal
-export const ModalContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const ModalContent = ({
   className,
   children,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "p-8 rounded-[calc(var(--borderRadius)*1.5)] max-w-[80%] max-h-[80%] overflow-y-auto relative overflow-hidden",
@@ -91,10 +89,10 @@ export const ModalContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 );
 
 // ShimmerIcon - animated gradient icon wrapper
-export const ShimmerIcon: React.FC<React.HTMLAttributes<HTMLSpanElement>> = ({
+export const ShimmerIcon = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLSpanElement>) => (
   <span
     className={cn(
       "inline-flex items-center justify-center bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]",
@@ -114,10 +112,10 @@ export const ShimmerIcon: React.FC<React.HTMLAttributes<HTMLSpanElement>> = ({
 );
 
 // AI Modal components
-export const AiModalOverlay: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiModalOverlay = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "fixed inset-0 flex items-center justify-center z-[9999]",
@@ -128,11 +126,11 @@ export const AiModalOverlay: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   />
 );
 
-export const AiModalContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiModalContent = ({
   className,
   children,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "bg-white rounded-2xl max-w-[520px] w-[92%] max-h-[85vh] overflow-y-auto relative",
@@ -155,10 +153,10 @@ export const AiModalContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   </div>
 );
 
-export const AiModalHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiModalHeader = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "flex items-center justify-between px-7 py-6 border-b border-grey-100",
@@ -168,10 +166,10 @@ export const AiModalHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   />
 );
 
-export const AiModalTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiModalTitle = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "flex items-center gap-2.5 text-[1.2rem] font-bold bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]",
@@ -187,10 +185,10 @@ export const AiModalTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   />
 );
 
-export const AiCloseButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
+export const AiCloseButton = ({
   className,
   ...props
-}) => (
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
     className={cn(
       "flex items-center justify-center w-9 h-9 rounded-full",
@@ -205,17 +203,17 @@ export const AiCloseButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElemen
   />
 );
 
-export const AiModalBody: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiModalBody = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn("px-7 pt-4 pb-7", className)} {...props} />
 );
 
-export const AiErrorMessage: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiErrorMessage = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "text-center p-5 text-red-dark bg-[#fef2f2] rounded-[10px] text-[0.875rem] border border-[#fecaca]",
@@ -225,27 +223,27 @@ export const AiErrorMessage: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   />
 );
 
-export const AiLoadingContainer: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiLoadingContainer = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn("flex flex-col items-center justify-center py-12", className)}
     {...props}
   />
 );
 
-export const AiRecommendationList: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiRecommendationList = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn("flex flex-col gap-3", className)} {...props} />
 );
 
-export const AiRecommendationItem: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiRecommendationItem = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "flex gap-3.5 p-4 rounded-xl bg-[#f9fafb] border border-[#f3f4f6]",
@@ -257,10 +255,10 @@ export const AiRecommendationItem: React.FC<React.HTMLAttributes<HTMLDivElement>
   />
 );
 
-export const AiRecNumber: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiRecNumber = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       "flex items-center justify-center w-[26px] h-[26px] min-w-[26px] rounded-full",
@@ -274,38 +272,38 @@ export const AiRecNumber: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   />
 );
 
-export const AiRecContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+export const AiRecContent = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn("flex-1 min-w-0", className)} {...props} />
 );
 
-export const AiRecTitle: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
+export const AiRecTitle = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLParagraphElement>) => (
   <p
     className={cn("font-bold text-grey-900 leading-[1.3] text-[0.95rem] m-0 mb-0.5", className)}
     {...props}
   />
 );
 
-export const AiRecSecondaryTitle: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
+export const AiRecSecondaryTitle = ({
   className,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLParagraphElement>) => (
   <p
     className={cn("text-grey-400 text-[0.75rem] italic m-0 mb-2", className)}
     {...props}
   />
 );
 
-export const AiRecReason: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
+export const AiRecReason = ({
   className,
   children,
   ...props
-}) => (
+}: React.HTMLAttributes<HTMLParagraphElement>) => (
   <p
     className={cn("text-grey-600 leading-[1.55] text-[0.8125rem] m-0 [&_span]:text-[var(--anime-purple)] [&_span]:font-semibold", className)}
     {...props}

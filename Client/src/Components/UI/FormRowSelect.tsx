@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import { SelectOption } from "../../utils/types";
 import { cn } from "../../utils/cn";
 
@@ -8,18 +9,18 @@ interface FormRowSelectProps {
   disabled: boolean;
   name: string;
   value: string;
-  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   list: SelectOption[];
 }
 
-const FormRowSelect: React.FC<FormRowSelectProps> = ({
+const FormRowSelect = ({
   labelText,
   disabled,
   name,
   value,
   handleChange,
   list,
-}) => {
+}: FormRowSelectProps) => {
   return (
     <div className="mb-4">
       <label

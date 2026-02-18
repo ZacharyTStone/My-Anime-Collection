@@ -1,5 +1,4 @@
-import { useAuthStore } from "../../stores/authStore";
-import { useShallow } from "zustand/react/shallow";
+import { useAuthSelector } from "../../stores/hooks";
 import { cn } from "../../utils/cn";
 
 interface AlertProps {
@@ -12,10 +11,12 @@ const alertStyles: Record<string, string> = {
   default: "bg-[var(--yellow-light)] text-[var(--yellow-dark)] border border-[var(--yellow-light)]",
 };
 
-const Alert: React.FC<AlertProps> = ({ className }) => {
-  const { alertType, alertText, showAlert } = useAuthStore(
-    useShallow((s) => ({ alertType: s.alertType, alertText: s.alertText, showAlert: s.showAlert }))
-  );
+const Alert = ({ className }: AlertProps) => {
+  const { alertType, alertText, showAlert } = useAuthSelector((s) => ({
+    alertType: s.alertType,
+    alertText: s.alertText,
+    showAlert: s.showAlert,
+  }));
 
   if (!showAlert || !alertText) {
     return null;

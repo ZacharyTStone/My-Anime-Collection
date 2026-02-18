@@ -9,7 +9,7 @@ const resources = {
 };
 
 const browserLanguageSettings =
-  (navigator as any).userLanguage || navigator.language;
+  (navigator as unknown as { userLanguage?: string }).userLanguage || navigator.language;
 
 const language = browserLanguageSettings.split(/[-_]/)[0].toLowerCase();
 

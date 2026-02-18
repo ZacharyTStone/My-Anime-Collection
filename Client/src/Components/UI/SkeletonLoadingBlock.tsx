@@ -7,14 +7,14 @@ interface SkeletonLoadingBlockProps {
   lightPulseStateColor?: string;
 }
 
-const SkeletonLoadingBlock: React.FC<SkeletonLoadingBlockProps> = ({
+const SkeletonLoadingBlock = ({
   width,
   height,
   borderRadius,
   className,
   darkPulseStateColor,
   lightPulseStateColor,
-}) => {
+}: SkeletonLoadingBlockProps) => {
   const darkColor = darkPulseStateColor || "var(--grey-100)";
   const lightColor = lightPulseStateColor || "var(--grey-50)";
 

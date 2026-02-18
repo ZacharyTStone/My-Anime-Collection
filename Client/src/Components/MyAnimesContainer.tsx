@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
-import { useAnimeStore, Anime as IAnime } from "../stores/animeStore";
-import { usePlaylistStore } from "../stores/playlistStore";
-import { useShallow } from "zustand/react/shallow";
+import { Anime as IAnime } from "../stores/animeStore";
+import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
 import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/AnimeCard";
@@ -23,23 +22,23 @@ const MyAnimesContainer = () => {
     searchStared,
     sort,
     numOfPages,
-  } = useAnimeStore(
-    useShallow((s) => ({
-      getAnimes: s.getAnimes,
-      animes: s.animes,
-      isLoading: s.isLoading,
-      page: s.page,
-      totalAnimes: s.totalAnimes,
-      search: s.search,
-      searchStatus: s.searchStatus,
-      searchType: s.searchType,
-      searchStared: s.searchStared,
-      sort: s.sort,
-      numOfPages: s.numOfPages,
-    }))
-  );
+  } = useAnimeSelector((s) => ({
+    getAnimes: s.getAnimes,
+    animes: s.animes,
+    isLoading: s.isLoading,
+    page: s.page,
+    totalAnimes: s.totalAnimes,
+    search: s.search,
+    searchStatus: s.searchStatus,
+    searchType: s.searchType,
+    searchStared: s.searchStared,
+    sort: s.sort,
+    numOfPages: s.numOfPages,
+  }));
 
-  const currentPlaylist = usePlaylistStore((s) => s.currentPlaylist);
+  const { currentPlaylist } = usePlaylistSelector((s) => ({
+    currentPlaylist: s.currentPlaylist,
+  }));
 
   useEffect(() => {
     if (currentPlaylist.id) {
@@ -84,7 +83,7 @@ const MyAnimesContainer = () => {
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
       {numOfPages > 1 && <PageBtnContainer />}
-      <div className="grid grid-cols-1 gap-y-8 lg:flex lg:flex-row lg:flex-wrap lg:justify-evenly lg:items-center" style={{ color: "var(--textColor)" }}>
+      <div className="grid grid-cols-1 gap-y-8 lg:flex lg:flex-row lg:flex-wrap lg:justify-evenly lg:items-center text-[var(--textColor)]">
         {animes?.map((anime: IAnime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}

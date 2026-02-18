@@ -1,10 +1,9 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { Alert, FormRow, Logo, RunningImg } from "../Components/UI";
 import narutoRun from "../assets/images/narutoRun.gif";
-import { useAuthStore } from "../stores/authStore";
-import { useShallow } from "zustand/react/shallow";
+import { useAuthSelector } from "../stores/hooks";
 import { useAtomValue } from "jotai";
 import { siteLanguageAtom } from "../atoms/languageAtom";
 import { User } from "../utils/types";
@@ -22,14 +21,18 @@ const initialState: FormValues = {
   existingUser: false,
 };
 
-const Register: React.FC = () => {
+const Register = () => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
   const [values, setValues] = useState<FormValues>(initialState);
-  const { user, isLoading, showAlert, displayAlert, setupUser } = useAuthStore(
-    useShallow((s) => ({ user: s.user, isLoading: s.isLoading, showAlert: s.showAlert, displayAlert: s.displayAlert, setupUser: s.setupUser }))
-  );
+  const { user, isLoading, showAlert, displayAlert, setupUser } = useAuthSelector((s) => ({
+    user: s.user,
+    isLoading: s.isLoading,
+    showAlert: s.showAlert,
+    displayAlert: s.displayAlert,
+    setupUser: s.setupUser,
+  }));
   const siteLanguage = useAtomValue(siteLanguageAtom);
 
   const toggleExistingUser = () => {

@@ -1,30 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { Alert, FormRow, Logo } from "../Components/UI";
-import { useAuthStore } from "../stores/authStore";
-import { useShallow } from "zustand/react/shallow";
-import { useAtomValue } from "jotai";
-import { siteLanguageAtom } from "../atoms/languageAtom";
+import { useAuthSelector } from "../stores/hooks";
 
 const initialState = {
   name: "",
   email: "",
   password: "",
   existingUser: true,
-  theme: "light",
 };
 
 const Register = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  const { user, showAlert, setupUser } = useAuthStore(
-    useShallow((s) => ({ user: s.user, showAlert: s.showAlert, setupUser: s.setupUser }))
-  );
-  const siteLanguage = useAtomValue(siteLanguageAtom);
+  const { user, showAlert, setupUser } = useAuthSelector((s) => ({
+    user: s.user,
+    showAlert: s.showAlert,
+    setupUser: s.setupUser,
+  }));
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 

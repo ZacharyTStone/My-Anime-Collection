@@ -5,7 +5,7 @@ interface DashboardProps {
   className?: string;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ className }) => {
+const Dashboard = ({ className }: DashboardProps) => {
   return (
     <div
       className={`min-h-screen relative ${className || ""}`}

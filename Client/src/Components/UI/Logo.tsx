@@ -10,7 +10,7 @@ interface LogoProps {
 const DEFAULT_LOGO_WIDTH = "100px";
 const DEFAULT_LOGO_HEIGHT = "auto";
 
-const Logo: React.FC<LogoProps> = ({ width, height, className, onClick }) => {
+const Logo = ({ width, height, className, onClick }: LogoProps) => {
   return (
     <img
       src={logo}

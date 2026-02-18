@@ -1,9 +1,7 @@
-import * as React from "react";
 import { Button } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { Anime } from "../Components";
-import { useAnimeStore } from "../stores/animeStore";
-import { useShallow } from "zustand/react/shallow";
+import { useAnimeSelector } from "../stores/hooks";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
@@ -17,13 +15,13 @@ interface FetchedAnimesContainerProps {
   sort: string;
 }
 
-const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
+const FetchedAnimesContainer = ({
   searchText,
   baseURL,
   filter,
   pagination,
   sort,
-}) => {
+}: FetchedAnimesContainerProps) => {
   const onTrendingPage = baseURL.includes("trending");
   const page = useRef(1);
 
@@ -35,17 +33,15 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
     numOfFetchedAnimesPages,
     resetFetchedAnimes,
     loadingFetchAnimes,
-  } = useAnimeStore(
-    useShallow((s) => ({
-      fetchAnimes: s.fetchAnimes,
-      isLoading: s.isLoading,
-      fetchedAnimes: s.fetchedAnimes,
-      totalFetchedAnimes: s.totalFetchedAnimes,
-      numOfFetchedAnimesPages: s.numOfFetchedAnimesPages,
-      resetFetchedAnimes: s.resetFetchedAnimes,
-      loadingFetchAnimes: s.loadingFetchAnimes,
-    }))
-  );
+  } = useAnimeSelector((s) => ({
+    fetchAnimes: s.fetchAnimes,
+    isLoading: s.isLoading,
+    fetchedAnimes: s.fetchedAnimes,
+    totalFetchedAnimes: s.totalFetchedAnimes,
+    numOfFetchedAnimesPages: s.numOfFetchedAnimesPages,
+    resetFetchedAnimes: s.resetFetchedAnimes,
+    loadingFetchAnimes: s.loadingFetchAnimes,
+  }));
 
   useEffect(() => {
     page.current = 1;
@@ -88,7 +84,7 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
       <div className="flex justify-between items-center mb-8">
         <SkeletonLoadingBlock height={50} width={"100%"} borderRadius={8} />
       </div>
-      <div className="flex flex-row flex-wrap justify-evenly items-center" style={{ color: "var(--textColor)" }}>
+      <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">
         {[...Array(onMobile ? 6 : 3)].map((_, index) => (
           <SkeletonLoadingBlock
             key={index}
@@ -134,7 +130,7 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
               </Button>
             </div>
           )}
-          <div className="flex flex-row flex-wrap justify-evenly items-center" style={{ color: "var(--textColor)" }}>
+          <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">
             {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => (
               <Anime
                 key={anime.id}
@@ -167,21 +163,6 @@ const FetchedAnimesContainer: React.FC<FetchedAnimesContainerProps> = ({
                 youtubeVideoId={anime?.attributes?.youtubeVideoId}
               />
             ))}
-
-            {pagination && fetchedAnimes?.length === 0 && (
-              <Button
-                onClick={() => handlePageClick(1)}
-                color="primary"
-                disabled={fetchedAnimes.length === 0}
-                className={
-                  fetchedAnimes.length === 0
-                    ? "hidden"
-                    : "btn btn-block btn-load-more"
-                }
-              >
-                Load next page
-              </Button>
-            )}
           </div>
           {!onTrendingPage && (
             <div className="mt-8 mb-4 flex justify-center items-center">

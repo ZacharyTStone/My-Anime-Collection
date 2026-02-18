@@ -12,12 +12,12 @@ const DEFAULT_TITLE = "Ohh! page not found";
 const DEFAULT_MESSAGE = "We can't seem to find the page you're looking for";
 const DEFAULT_HOME_LINK = "/my-animes";
 
-const Error: React.FC<ErrorProps> = ({
+const Error = ({
   className,
   title = DEFAULT_TITLE,
   message = DEFAULT_MESSAGE,
   homeLink = DEFAULT_HOME_LINK,
-}) => {
+}: ErrorProps) => {
   return (
     <main
       className={`text-center flex items-center justify-center h-screen bg-cover bg-center ${className || ""}`}

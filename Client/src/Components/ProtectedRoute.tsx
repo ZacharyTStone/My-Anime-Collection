@@ -1,7 +1,6 @@
-import * as React from "react";
+import type React from "react";
 import { Navigate, useLocation } from "react-router";
-import { useAuthStore } from "../stores/authStore";
-import { useShallow } from "zustand/react/shallow";
+import { useAuthSelector } from "../stores/hooks";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,15 +11,16 @@ interface ProtectedRouteProps {
 
 const DEFAULT_REDIRECT_PATH = "/landing";
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+const ProtectedRoute = ({
   children,
   redirectTo = DEFAULT_REDIRECT_PATH,
   fallback,
   className,
-}) => {
-  const { user, isAuthenticated } = useAuthStore(
-    useShallow((s) => ({ user: s.user, isAuthenticated: s.isAuthenticated }))
-  );
+}: ProtectedRouteProps) => {
+  const { user, isAuthenticated } = useAuthSelector((s) => ({
+    user: s.user,
+    isAuthenticated: s.isAuthenticated,
+  }));
   const location = useLocation();
 
   if (fallback && !isAuthenticated) {

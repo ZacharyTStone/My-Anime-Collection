@@ -30,12 +30,12 @@ interface AiRecommendationsModalProps {
   onClose: () => void;
 }
 
-const AiRecommendationsModal: React.FC<AiRecommendationsModalProps> = ({
+const AiRecommendationsModal = ({
   loading,
   error,
   results,
   onClose,
-}) => {
+}: AiRecommendationsModalProps) => {
   const { t } = useTranslation();
   const siteLanguage = useAtomValue(siteLanguageAtom);
 
@@ -61,7 +61,7 @@ const AiRecommendationsModal: React.FC<AiRecommendationsModalProps> = ({
         <AiModalBody>
           {loading && (
             <AiLoadingContainer>
-              <ShimmerIcon style={{ fontSize: "2rem" }}>
+              <ShimmerIcon className="text-[2rem]">
                 <BsStars size={36} />
               </ShimmerIcon>
               <Typography

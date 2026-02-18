@@ -12,11 +12,11 @@ const sizeMap = {
   large: "w-32 h-32",
 };
 
-const Loading: React.FC<LoadingProps> = ({
+const Loading = ({
   center = true,
   size = "medium",
   className,
-}) => {
+}: LoadingProps) => {
   return (
     <div
       className={cn(

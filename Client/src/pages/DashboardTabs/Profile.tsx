@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { FormRow, Alert } from "../../Components/UI";
 import { Pokemon } from "../../Components";
-import { useAuthStore } from "../../stores/authStore";
-import { useShallow } from "zustand/react/shallow";
+import { useAuthSelector } from "../../stores/hooks";
 import { User } from "../../utils/types";
 
 const Profile = () => {
@@ -16,23 +15,21 @@ const Profile = () => {
     isLoading,
     deleteUser,
     logoutUser,
-  } = useAuthStore(
-    useShallow((s) => ({
-      user: s.user,
-      showAlert: s.showAlert,
-      displayAlert: s.displayAlert,
-      updateUser: s.updateUser,
-      isLoading: s.isLoading,
-      deleteUser: s.deleteUser,
-      logoutUser: s.logoutUser,
-    }))
-  );
+  } = useAuthSelector((s) => ({
+    user: s.user,
+    showAlert: s.showAlert,
+    displayAlert: s.displayAlert,
+    updateUser: s.updateUser,
+    isLoading: s.isLoading,
+    deleteUser: s.deleteUser,
+    logoutUser: s.logoutUser,
+  }));
 
   const [name, setName] = useState<string>(user?.name || "");
   const [email, setEmail] = useState<User["email"]>(user?.email || "");
   const isDemoUser = Boolean(user?.isDemo);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name || !email) {
       displayAlert();

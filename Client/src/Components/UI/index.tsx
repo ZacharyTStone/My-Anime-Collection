@@ -9,6 +9,7 @@ import RunningImg from "./RunningImg";
 import Testimonial from "./Testimonial";
 
 import SkeletonLoadingBlock from "./SkeletonLoadingBlock";
+import PlaylistSelector from "./PlaylistSelector";
 
 export {
   Alert,
@@ -17,6 +18,7 @@ export {
   Loading,
   Logo,
   NavLinks,
+  PlaylistSelector,
   RunningImg,
   Testimonial,
   SkeletonLoadingBlock,

@@ -1,28 +1,17 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { FormRow, FormRowSelect } from "./UI";
-import { useAnimeStore } from "../stores/animeStore";
-import { usePlaylistStore } from "../stores/playlistStore";
-import { useShallow } from "zustand/react/shallow";
+import { useState, useMemo, type ChangeEvent, type MouseEvent, type FormEvent } from "react";
+import { FormRow, FormRowSelect, PlaylistSelector, SkeletonLoadingBlock } from "./UI";
+import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
 
 import { useTranslation } from "react-i18next";
 import { debounce } from "../utils/debounce";
-import { SkeletonLoadingBlock } from "./UI";
 
 interface SearchContainerProps {
   className?: string;
 }
 
-interface FormEvent {
-  target: {
-    name: string;
-    value: string;
-  };
-  preventDefault?: () => void;
-}
-
 const DEBOUNCE_DELAY = 300;
 
-const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
+const SearchContainer = ({ className }: SearchContainerProps) => {
   const { t } = useTranslation();
   const {
     isLoading,
@@ -31,84 +20,47 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
     sortOptions,
     handleChange,
     clearFilters,
-  } = useAnimeStore(
-    useShallow((s) => ({
-      isLoading: s.isLoading,
-      search: s.search,
-      sort: s.sort,
-      sortOptions: s.sortOptions,
-      handleChange: s.handleChange,
-      clearFilters: s.clearFilters,
-    }))
-  );
+  } = useAnimeSelector((s) => ({
+    isLoading: s.isLoading,
+    search: s.search,
+    sort: s.sort,
+    sortOptions: s.sortOptions,
+    handleChange: s.handleChange,
+    clearFilters: s.clearFilters,
+  }));
 
-  const {
-    handlePlaylistChange,
-    getPlaylists,
-    currentPlaylist,
-    userPlaylists,
-    loadingFetchPlaylists,
-  } = usePlaylistStore(
-    useShallow((s) => ({
-      handlePlaylistChange: s.handlePlaylistChange,
-      getPlaylists: s.getPlaylists,
-      currentPlaylist: s.currentPlaylist,
-      userPlaylists: s.userPlaylists,
-      loadingFetchPlaylists: s.loadingFetchPlaylists,
-    }))
-  );
+  const { loadingFetchPlaylists } = usePlaylistSelector((s) => ({
+    loadingFetchPlaylists: s.loadingFetchPlaylists,
+  }));
 
   const [localSearch, setLocalSearch] = useState(search ?? "");
 
-  useEffect(() => {
-    getPlaylists();
-  }, [getPlaylists]);
+  const isFormDisabled = isLoading || loadingFetchPlaylists;
 
-  const isFormDisabled = useMemo(
-    () => isLoading || loadingFetchPlaylists,
-    [isLoading, loadingFetchPlaylists]
-  );
+  const handleSearch = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    handleChange({ name: e.target.name, value: e.target.value });
+  };
 
-  const handleSearch = useCallback(
-    (e: FormEvent) => {
-      handleChange({ name: e.target.name, value: e.target.value });
-    },
-    [handleChange]
-  );
+  const handleResetFilters = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setLocalSearch("");
+    clearFilters();
+  };
 
-  const handleLocalPlaylistChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      e.preventDefault();
-      handlePlaylistChange({ value: e.target.value });
-    },
-    [handlePlaylistChange]
-  );
-
-  const handleResetFilters = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setLocalSearch("");
-      clearFilters();
-    },
-    [clearFilters]
-  );
-
+  // Keep useMemo: creates a debounce instance that must be stable
   const debouncedHandleSearch = useMemo(
     () => debounce(handleSearch, DEBOUNCE_DELAY),
     [handleSearch]
   );
 
-  const handleLocalSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLocalSearch(e.target.value);
-      debouncedHandleSearch(e);
-    },
-    [debouncedHandleSearch]
-  );
+  const handleLocalSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLocalSearch(e.target.value);
+    debouncedHandleSearch(e);
+  };
 
-  const handleFormSubmit = useCallback((e: React.FormEvent) => {
+  const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
-  }, []);
+  };
 
   if (loadingFetchPlaylists) {
     return (
@@ -141,19 +93,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className }) => {
             list={sortOptions}
           />
 
-          <FormRowSelect
-            disabled={isFormDisabled}
-            name="playlist"
-            value={currentPlaylist.id}
-            labelText={t("search_container.playlist")}
-            handleChange={handleLocalPlaylistChange}
-            list={userPlaylists.map(
-              (playlist: { id: string; title: string }) => ({
-                value: playlist.id,
-                title: playlist.title,
-              })
-            )}
-          />
+          <PlaylistSelector disabled={isFormDisabled} />
 
           <button
             type="button"

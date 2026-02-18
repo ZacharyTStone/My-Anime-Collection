@@ -10,12 +10,12 @@ interface SynopsisModalProps {
   onClose: () => void;
 }
 
-const SynopsisModal: React.FC<SynopsisModalProps> = ({
+const SynopsisModal = ({
   title,
   japanese_title,
   synopsis,
   onClose,
-}) => {
+}: SynopsisModalProps) => {
   const siteLanguage = useAtomValue(siteLanguageAtom);
 
   return (

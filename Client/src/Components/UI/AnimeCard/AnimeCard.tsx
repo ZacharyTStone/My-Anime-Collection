@@ -1,7 +1,5 @@
-import React, { useState, useCallback, useMemo, useRef } from "react";
-import { useAnimeStore } from "../../../stores/animeStore";
-import { usePlaylistStore } from "../../../stores/playlistStore";
-import { useShallow } from "zustand/react/shallow";
+import { useState, useRef } from "react";
+import { useAnimeSelector, usePlaylistSelector } from "../../../stores/hooks";
 import { useAtomValue } from "jotai";
 import { siteLanguageAtom } from "../../../atoms/languageAtom";
 
@@ -59,7 +57,7 @@ const cardMediaStyles = {
   },
 };
 
-const Anime: React.FC<AnimeCardProps> = ({
+const Anime = ({
   _id,
   title,
   rating,
@@ -73,7 +71,7 @@ const Anime: React.FC<AnimeCardProps> = ({
   japanese_title,
   youtubeVideoId,
   className,
-}) => {
+}: AnimeCardProps) => {
   const { t } = useTranslation();
   const [state, setState] = useState<AnimeCardState>({
     modalOpen: false,
@@ -87,17 +85,17 @@ const Anime: React.FC<AnimeCardProps> = ({
     isLoading,
     loadingData,
     getAiRecommendations,
-  } = useAnimeStore(
-    useShallow((s) => ({
-      createAnime: s.createAnime,
-      deleteAnime: s.deleteAnime,
-      isLoading: s.isLoading,
-      loadingData: s.loadingData,
-      getAiRecommendations: s.getAiRecommendations,
-    }))
-  );
+  } = useAnimeSelector((s) => ({
+    createAnime: s.createAnime,
+    deleteAnime: s.deleteAnime,
+    isLoading: s.isLoading,
+    loadingData: s.loadingData,
+    getAiRecommendations: s.getAiRecommendations,
+  }));
 
-  const currentPlaylist = usePlaylistStore((s) => s.currentPlaylist);
+  const { currentPlaylist } = usePlaylistSelector((s) => ({
+    currentPlaylist: s.currentPlaylist,
+  }));
   const siteLanguage = useAtomValue(siteLanguageAtom);
 
   const onMobile = useMobile();
@@ -110,35 +108,32 @@ const Anime: React.FC<AnimeCardProps> = ({
   });
   const aiCacheRef = useRef<AiRecommendation[] | null>(null);
 
-  const isCurrentlyLoading = useMemo(
-    () =>
-      isLoading &&
-      (loadingData?.anime_id === _id ||
-        loadingData?.anime_id === fetchedAnime?.id),
-    [isLoading, loadingData?.anime_id, _id, fetchedAnime?.id]
-  );
+  const isCurrentlyLoading =
+    isLoading &&
+    (loadingData?.anime_id === _id ||
+      loadingData?.anime_id === fetchedAnime?.id);
 
   const hasYoutubeVideoId = Boolean(youtubeVideoId);
 
   const skeletonHeight = onMobile ? SKELETON_HEIGHT_MOBILE : SKELETON_HEIGHT_DESKTOP;
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = () => {
     setState((prev) => ({ ...prev, isHovering: true }));
-  }, []);
+  };
 
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = () => {
     setState((prev) => ({ ...prev, isHovering: false }));
-  }, []);
+  };
 
-  const handleModalOpen = useCallback(() => {
+  const handleModalOpen = () => {
     setState((prev) => ({ ...prev, modalOpen: true }));
-  }, []);
+  };
 
-  const handleModalClose = useCallback(() => {
+  const handleModalClose = () => {
     setState((prev) => ({ ...prev, modalOpen: false }));
-  }, []);
+  };
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     if (isLoading) return;
 
     if (type === "add") {
@@ -148,21 +143,13 @@ const Anime: React.FC<AnimeCardProps> = ({
         deleteAnime(_id, currentPlaylist.id);
       }
     }
-  }, [
-    isLoading,
-    type,
-    createAnime,
-    fetchedAnime,
-    currentPlaylist.id,
-    deleteAnime,
-    _id,
-  ]);
+  };
 
-  const onVideoError = useCallback(() => {
+  const onVideoError = () => {
     setState((prev) => ({ ...prev, failedToLoadYoutube: true }));
-  }, []);
+  };
 
-  const handleAiModalOpen = useCallback(async () => {
+  const handleAiModalOpen = async () => {
     if (aiState.loading) {
       setAiState((prev) => ({ ...prev, open: true }));
       return;
@@ -190,17 +177,17 @@ const Anime: React.FC<AnimeCardProps> = ({
     } catch {
       setAiState((prev) => ({ ...prev, loading: false, error: true }));
     }
-  }, [title, synopsis, aiState.loading, getAiRecommendations]);
+  };
 
-  const handleAiModalClose = useCallback(() => {
+  const handleAiModalClose = () => {
     setAiState((prev) => ({ ...prev, open: false }));
-  }, []);
+  };
 
   const imageSrc = coverImage ||
     fetchedAnime?.attributes?.posterImage?.medium ||
     fetchedAnime?.attributes?.posterImage?.small;
 
-  const renderMedia = useCallback(() => {
+  const renderMedia = () => {
     if (onMobile) {
       return (
         <CardMedia
@@ -251,7 +238,7 @@ const Anime: React.FC<AnimeCardProps> = ({
         sx={cardMediaStyles}
       />
     );
-  }, [onMobile, coverImage, title, state.isHovering, hasYoutubeVideoId, state.failedToLoadYoutube, youtubeVideoId, fetchedAnime?.attributes?.youtubeVideoId, imageSrc, onVideoError]);
+  };
 
   if (isCurrentlyLoading) {
     return (
@@ -366,11 +353,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                 }}
               >
                 {rating}
-                <span
-                  style={{
-                    color: "var(--grey-500)",
-                  }}
-                >
+                <span className="text-[var(--grey-500)]">
                   /100
                 </span>
               </Button>
@@ -394,7 +377,7 @@ const Anime: React.FC<AnimeCardProps> = ({
                 }}
               >
                 <span>{episodeCount ?? "N/A"}</span>
-                <span style={{ marginLeft: "5px" }}>
+                <span className="ml-[5px]">
                   {t("anime.episode")}
                 </span>
               </Button>
@@ -432,14 +415,9 @@ const Anime: React.FC<AnimeCardProps> = ({
         >
           <Button
             size="small"
-            className="card-btn"
+            className="card-btn flex items-center gap-2"
             onClick={handleModalOpen}
             aria-label={t("anime.showSynopsis")}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
           >
             <BsReverseLayoutTextWindowReverse
               size={20}
@@ -450,14 +428,9 @@ const Anime: React.FC<AnimeCardProps> = ({
           </Button>
           <Button
             size="small"
-            className="card-btn"
+            className="card-btn flex items-center gap-2"
             onClick={handleAiModalOpen}
             aria-label={t("anime.ai_suggestions")}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
           >
             <ShimmerIcon>
               <BsStars size={20} />

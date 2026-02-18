@@ -1,10 +1,10 @@
 import { Alert } from "../../Components/UI";
 import { SearchContainer } from "../../Components";
 import { MyAnimesContainer } from "../../Components";
-import { useAuthStore } from "../../stores/authStore";
+import { useAuthSelector } from "../../stores/hooks";
 
 const MyAnimes = () => {
-  const showAlert = useAuthStore((s) => s.showAlert);
+  const { showAlert } = useAuthSelector((s) => ({ showAlert: s.showAlert }));
   return (
     <main className="content full-page">
       {showAlert && <Alert />}

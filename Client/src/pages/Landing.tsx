@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
@@ -10,9 +10,9 @@ import goku from "../assets/images/goku.webp";
 import lucy from "../assets/images/lucy.webp";
 import narutoRun from "../assets/images/narutoRun.gif";
 
-const Testimonials = React.lazy(() => import("../Components/Testimonials"));
-const FlagContainer = React.lazy(() => import("../Components/FlagContainer"));
-const RunningImg = React.lazy(() => import("../Components/UI/RunningImg"));
+const Testimonials = lazy(() => import("../Components/Testimonials"));
+const FlagContainer = lazy(() => import("../Components/FlagContainer"));
+const RunningImg = lazy(() => import("../Components/UI/RunningImg"));
 
 const FADE_IN_ANIMATION = {
   hidden: { opacity: 0, y: 0 },
