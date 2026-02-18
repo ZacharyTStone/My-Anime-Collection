@@ -1,5 +1,5 @@
 import { useState, useMemo, type ChangeEvent, type MouseEvent, type FormEvent } from "react";
-import { FormRow, FormRowSelect, PlaylistSelector, SkeletonLoadingBlock } from "./UI";
+import { FormRow, FormRowSelect, PlaylistSelector } from "./UI";
 import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
 
 import { useTranslation } from "react-i18next";
@@ -37,6 +37,10 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
 
   const isFormDisabled = isLoading || loadingFetchPlaylists;
 
+  // Do not early-return on loadingFetchPlaylists: that unmounts PlaylistSelector,
+  // which remounts when fetch completes and triggers getPlaylists() again → infinite loop.
+  // Let the form render; PlaylistSelector shows its own skeleton when loading.
+
   const handleSearch = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     handleChange({ name: e.target.name, value: e.target.value });
   };
@@ -61,14 +65,6 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
-
-  if (loadingFetchPlaylists) {
-    return (
-      <section className={className}>
-        <SkeletonLoadingBlock height={200} width="100%" borderRadius={8} />
-      </section>
-    );
-  }
 
   return (
     <section className={className}>
