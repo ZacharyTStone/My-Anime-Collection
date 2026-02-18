@@ -23,10 +23,10 @@ export const configureSecurity = (app: Express) => {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'"],
+          scriptSrc: ["'self'", "https://www.youtube.com", "https://s.ytimg.com"],
           styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
           fontSrc: ["'self'", "https://fonts.gstatic.com"],
-          imgSrc: ["'self'", "data:", "https://media.kitsu.io", "https://media.kitsu.app"],
+          imgSrc: ["'self'", "data:", "https://media.kitsu.io", "https://media.kitsu.app", "https://i.ytimg.com"],
           connectSrc: ["'self'", KITSU_API],
           frameSrc: ["'self'", "https://www.youtube.com"],
           mediaSrc: ["'self'", "https://www.youtube.com"],
