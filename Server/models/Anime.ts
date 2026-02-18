@@ -1,10 +1,10 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 // Define the Anime schema
 const AnimeSchema = new Schema<AnimeDocument>(
   {
     createdBy: {
-      type: Types.ObjectId as any,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: [true, "Please provide user"],
     },
@@ -22,7 +22,7 @@ const AnimeSchema = new Schema<AnimeDocument>(
     },
     japanese_title: {
       type: String,
-      required: [false, "Please provide japanese title"],
+      required: false,
     },
     rating: {
       type: Number,
@@ -33,8 +33,9 @@ const AnimeSchema = new Schema<AnimeDocument>(
       required: false,
     },
     episodeCount: {
-      type: Number || null,
+      type: Number,
       required: false,
+      default: null,
     },
     synopsis: {
       type: String,
@@ -62,7 +63,7 @@ const AnimeSchema = new Schema<AnimeDocument>(
 
 // Define the Anime document interface
 export interface AnimeDocument extends Document {
-  createdBy: Types.ObjectId;
+  createdBy: mongoose.Types.ObjectId;
   // to do switch back to just Date
   creationDate?: Date | string;
   id: number;

@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useMediaQuery } from "react-responsive";
 import { TABLET } from "./constants";
 
 const useInViewAnimation = (threshold = 0.5) => {
@@ -16,11 +15,17 @@ const useInViewAnimation = (threshold = 0.5) => {
   return { controls, ref };
 };
 
-const useMobile = () => {
-  return useMediaQuery({
-    query: `(max-width: ${TABLET}px)`,
-  });
+const mobileQuery = `(max-width: ${TABLET}px)`;
+const subscribe = (cb: () => void) => {
+  const mql = window.matchMedia(mobileQuery);
+  mql.addEventListener("change", cb);
+  return () => mql.removeEventListener("change", cb);
 };
+const getSnapshot = () => window.matchMedia(mobileQuery).matches;
+const getServerSnapshot = () => false;
+
+const useMobile = () =>
+  useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
 export {
   useInViewAnimation,

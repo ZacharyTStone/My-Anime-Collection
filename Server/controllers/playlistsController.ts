@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../errors/index.js";
@@ -19,11 +18,14 @@ const getPlaylists = async (req, res) => {
 const createPlaylist = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
 
-  const newPlaylistID = uuidv4();
+  if (!user) {
+    throw new BadRequestError("User not found");
+  }
 
+  const newPlaylistID = uuidv4();
   const randomTitle = crypto.randomInt(1000);
 
-  const playlist: Playlist = {
+  const playlist = {
     title: `Playlist ${randomTitle}`,
     id: `${newPlaylistID}`,
     userID: sanitize(req.user.userId),
@@ -65,19 +67,11 @@ const deletePlaylist = async (req, res) => {
     throw new BadRequestError("You cannot delete " + playlist.title);
   }
 
-  // Delete all user's animes in the playlist
-  const animes = await Anime.find({
+  await Anime.deleteMany({
     createdBy: sanitize(req.user.userId),
     playlistID: sanitize(req.params.id),
   });
 
-  for (const anime of animes) {
-    if (anime.playlistID.includes(playlist.id)) {
-      await anime.deleteOne();
-    }
-  }
-
-  // Remove playlist
   await playlist.deleteOne();
 
   res.status(StatusCodes.OK).json({ message: "Playlist deleted" });

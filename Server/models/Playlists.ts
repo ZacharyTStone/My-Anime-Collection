@@ -1,30 +1,27 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-// Define the Playlist interface
 interface Playlist {
   title: string;
   id: string;
-  userID: Types.ObjectId;
+  userID: mongoose.Types.ObjectId;
   isDemoUserPlaylist: boolean;
 }
 
-// Create a schema for the playlist
 const playlistSchema = new Schema<Playlist>({
   title: String,
   id: String,
   userID: {
-    type: Types.ObjectId as any,
+    type: Schema.Types.ObjectId,
     ref: "User",
     required: [true, "Please provide user"],
   },
   isDemoUserPlaylist: Boolean,
 });
 
-// Create a document interface for the user
-export interface PlaylisDocument extends Document {
+export interface PlaylistDocument extends Document {
   title: string;
   id: string;
-  userID: Types.ObjectId;
+  userID: mongoose.Types.ObjectId;
   isDemoUserPlaylist: boolean;
 }
 // Create a TTL index on the demo field with a expireAfterSeconds option (in this case, 30 days)
@@ -38,5 +35,5 @@ playlistSchema.index(
 );
 
 // Create and export the User model
-const Playlist = mongoose.model<PlaylisDocument>("Playlist", playlistSchema);
+const Playlist = mongoose.model<PlaylistDocument>("Playlist", playlistSchema);
 export default Playlist;

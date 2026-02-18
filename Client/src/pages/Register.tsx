@@ -4,8 +4,6 @@ import { useNavigate } from "react-router";
 import { Alert, FormRow, Logo, RunningImg } from "../Components/UI";
 import narutoRun from "../assets/images/narutoRun.gif";
 import { useAuthSelector } from "../stores/hooks";
-import { useAtomValue } from "jotai";
-import { siteLanguageAtom } from "../atoms/languageAtom";
 import { User } from "../utils/types";
 
 interface FormValues extends Partial<User> {
@@ -33,8 +31,6 @@ const Register = () => {
     displayAlert: s.displayAlert,
     setupUser: s.setupUser,
   }));
-  const siteLanguage = useAtomValue(siteLanguageAtom);
-
   const toggleExistingUser = () => {
     setValues({ ...values, existingUser: !values.existingUser });
   };

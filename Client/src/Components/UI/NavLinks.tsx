@@ -1,6 +1,5 @@
 import type { JSX } from "react";
 import { NavLink, useLocation } from "react-router";
-import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { CgProfile } from "react-icons/cg";
 import { BsFillCollectionFill } from "react-icons/bs";
@@ -8,6 +7,7 @@ import { MdPlaylistAdd } from "react-icons/md";
 import { RiAddFill } from "react-icons/ri";
 import { AiFillGold } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import { cn } from "../../utils/cn";
 
 const NavLinks = () => {
   const { t } = useTranslation();
@@ -66,46 +66,16 @@ const NavLinks = () => {
               key={id}
               className="nav-item no-underline"
             >
-              <Button
-                className={isActive ? "nav-link active" : "nav-link"}
-                sx={{
-                  borderRadius: "8px",
-                  padding: "6px 12px",
-                  transition: "all 0.2s ease",
-                  backgroundColor: isActive
-                    ? "rgba(212, 54, 124, 0.08)"
-                    : "transparent",
-                  "&:hover": {
-                    backgroundColor: isActive
-                      ? "rgba(212, 54, 124, 0.12)"
-                      : "rgba(212, 54, 124, 0.05)",
-                  },
-                  "& .icon": {
-                    display: "flex",
-                    alignItems: "center",
-                    marginRight: "6px",
-                  },
-                  "& .nav-text": {
-                    marginTop: "2px",
-                  },
-                  "&, & *": {
-                    color: isActive ? "var(--primary-600)" : "var(--grey-600)",
-                    WebkitTextFillColor: isActive ? "var(--primary-600)" : "var(--grey-600)",
-                    background: "none",
-                    WebkitBackgroundClip: "border-box",
-                  },
-                  display: "flex",
-                  alignItems: "center",
-                  fontWeight: isActive ? 600 : 500,
-                  textTransform: "none",
-                  letterSpacing: 0,
-                  fontSize: "0.95rem",
-                  "@media (max-width: 768px)": {
-                    width: "100%",
-                    justifyContent: "flex-start",
-                    padding: "0.75rem 1rem",
-                  },
-                }}
+              <button
+                type="button"
+                className={cn(
+                  "flex items-center rounded-lg py-1.5 px-3 transition-all duration-200 bg-transparent border-none cursor-pointer",
+                  "text-[0.95rem] tracking-normal normal-case",
+                  "max-[768px]:w-full max-[768px]:justify-start max-[768px]:py-3 max-[768px]:px-4",
+                  isActive
+                    ? "bg-[rgba(212,54,124,0.08)] font-semibold text-[var(--primary-600)] hover:bg-[rgba(212,54,124,0.12)]"
+                    : "font-medium text-[var(--grey-600)] hover:bg-[rgba(212,54,124,0.05)]"
+                )}
               >
                 <IconContext.Provider
                   value={{
@@ -113,10 +83,10 @@ const NavLinks = () => {
                     color: isActive ? "var(--primary-600)" : "var(--grey-600)",
                   }}
                 >
-                  <span className="icon">{icon}</span>
+                  <span className="flex items-center mr-1.5">{icon}</span>
                 </IconContext.Provider>
-                <span className="nav-text">{text}</span>
-              </Button>
+                <span className="mt-0.5">{text}</span>
+              </button>
             </NavLink>
           );
         })}

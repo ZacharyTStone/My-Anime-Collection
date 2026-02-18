@@ -59,6 +59,10 @@ const updateUser = async (req: Request, res: Response) => {
 
   const user = await User.findOne({ _id: req.user.userId });
 
+  if (!user) {
+    throw new UnAuthenticatedError("User not found");
+  }
+
   user.email = email;
   user.name = name;
   user.theme = theme;
@@ -147,30 +151,21 @@ const deleteAssociatedRecords = async (
   model: Model<Document>,
   userId: string
 ) => {
-  const records = await model.find({ createdBy: userId });
-
-  const deletePromises = records.map(async (record: any) => {
-    try {
-      await record.deleteOne();
-    } catch (error) {
-      console.error(`Error deleting ${model.modelName} record`);
-    }
-  });
-
-  await Promise.all(deletePromises);
+  await model.deleteMany({ createdBy: userId });
 };
 
 const deleteUser = async (req: Request, res: Response) => {
-  // Delete user
   const user = await User.findOne({ _id: req.user.userId });
-  await user.deleteOne();
-  res.status(StatusCodes.OK).json({ message: "User deleted" });
 
-  // Delete all associated animes
+  if (!user) {
+    throw new UnAuthenticatedError("User not found");
+  }
+
   await deleteAssociatedRecords(Anime, req.user.userId);
-
-  // Delete all associated playlists
   await deleteAssociatedRecords(Playlist, req.user.userId);
+  await user.deleteOne();
+
+  res.status(StatusCodes.OK).json({ message: "User deleted" });
 };
 
 export { register, login, updateUser, deleteUser };

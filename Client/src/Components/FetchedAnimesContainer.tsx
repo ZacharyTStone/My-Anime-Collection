@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { Anime } from "../Components";
 import { useAnimeSelector } from "../stores/hooks";
@@ -6,6 +5,7 @@ import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
 import DOMPurify from "dompurify";
+import { cn } from "../utils/cn";
 
 interface FetchedAnimesContainerProps {
   searchText: string;
@@ -101,33 +101,38 @@ const FetchedAnimesContainer = ({
     return <LoadingUI />;
   }
 
+  const paginationBtnClasses = cn(
+    "py-2 px-4 m-2 rounded-lg font-medium text-sm cursor-pointer transition-colors",
+    "bg-[var(--primary-500)] text-white border-none",
+    "hover:bg-[var(--primary-600)]",
+    "disabled:opacity-50 disabled:cursor-not-allowed"
+  );
+
   return (
     <section className="mt-16">
       {fetchedAnimes?.length > 0 ? (
         <div>
           {pagination && (
             <div className="flex justify-between items-center mb-8">
-              <Button
+              <button
+                type="button"
                 onClick={() => handlePageClick(-1)}
-                color="primary"
-                variant="contained"
                 disabled={page.current === 1}
-                sx={{ m: 2, display: { xs: "flex", md: "flex" } }}
+                className={paginationBtnClasses}
               >
                 Previous
-              </Button>
+              </button>
               <div className="text-center">
                 <h3>Page {page.current} of {numOfFetchedAnimesPages}</h3>
               </div>
-              <Button
+              <button
+                type="button"
                 onClick={() => handlePageClick(1)}
-                color="primary"
                 disabled={page.current === numOfFetchedAnimesPages}
-                variant="contained"
-                sx={{ m: 2, display: { xs: "flex", md: "flex" } }}
+                className={paginationBtnClasses}
               >
                 Next
-              </Button>
+              </button>
             </div>
           )}
           <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">

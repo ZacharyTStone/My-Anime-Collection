@@ -1,4 +1,4 @@
-import { useState, useMemo, type ChangeEvent, type MouseEvent, type FormEvent } from "react";
+import { useState, useCallback, useMemo, type ChangeEvent, type MouseEvent, type FormEvent } from "react";
 import { FormRow, FormRowSelect, PlaylistSelector } from "./UI";
 import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
 
@@ -37,13 +37,12 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
 
   const isFormDisabled = isLoading || loadingFetchPlaylists;
 
-  // Do not early-return on loadingFetchPlaylists: that unmounts PlaylistSelector,
-  // which remounts when fetch completes and triggers getPlaylists() again → infinite loop.
-  // Let the form render; PlaylistSelector shows its own skeleton when loading.
-
-  const handleSearch = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-    handleChange({ name: e.target.name, value: e.target.value });
-  };
+  const handleSearch = useCallback(
+    (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+      handleChange({ name: e.target.name, value: e.target.value });
+    },
+    [handleChange]
+  );
 
   const handleResetFilters = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -51,7 +50,6 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
     clearFilters();
   };
 
-  // Keep useMemo: creates a debounce instance that must be stable
   const debouncedHandleSearch = useMemo(
     () => debounce(handleSearch, DEBOUNCE_DELAY),
     [handleSearch]

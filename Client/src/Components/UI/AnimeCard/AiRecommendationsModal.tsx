@@ -1,8 +1,6 @@
-import Typography from "@mui/material/Typography";
 import { BsStars, BsXLg } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
-import { useAtomValue } from "jotai";
-import { siteLanguageAtom } from "../../../atoms/languageAtom";
+import { useLanguageSelector } from "../../../stores/hooks";
 import { AiRecommendation } from "../../../utils/types";
 import {
   AiModalOverlay,
@@ -37,7 +35,7 @@ const AiRecommendationsModal = ({
   onClose,
 }: AiRecommendationsModalProps) => {
   const { t } = useTranslation();
-  const siteLanguage = useAtomValue(siteLanguageAtom);
+  const siteLanguage = useLanguageSelector((s) => s.siteLanguage);
 
   return (
     <AiModalOverlay
@@ -64,17 +62,9 @@ const AiRecommendationsModal = ({
               <ShimmerIcon className="text-[2rem]">
                 <BsStars size={36} />
               </ShimmerIcon>
-              <Typography
-                variant="body2"
-                sx={{
-                  mt: 2,
-                  color: "var(--grey-400)",
-                  fontStyle: "italic",
-                  letterSpacing: "0.01em",
-                }}
-              >
+              <p className="mt-2 text-sm text-[var(--grey-400)] italic tracking-wide">
                 {t("anime.ai_loading")}
-              </Typography>
+              </p>
             </AiLoadingContainer>
           )}
           {error && (
@@ -83,12 +73,9 @@ const AiRecommendationsModal = ({
             </AiErrorMessage>
           )}
           {!loading && !error && results.length === 0 && (
-            <Typography
-              variant="body2"
-              sx={{ textAlign: "center", py: 3, color: "var(--grey-400)" }}
-            >
+            <p className="text-center py-3 text-sm text-[var(--grey-400)]">
               {t("anime.ai_no_results")}
-            </Typography>
+            </p>
           )}
           {!loading && !error && results.length > 0 && (
             <AiRecommendationList>

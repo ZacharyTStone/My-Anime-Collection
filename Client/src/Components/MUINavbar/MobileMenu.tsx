@@ -1,78 +1,60 @@
-import { useState, type MouseEvent } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
+import { useState, useRef, useEffect, type MouseEvent } from "react";
+import { HiMenu } from "react-icons/hi";
 import NavLinks from "../UI/NavLinks";
 
 const MobileMenu = () => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const handleOpen = (event: MouseEvent<HTMLElement, globalThis.MouseEvent>) => {
-    setAnchorEl(event.currentTarget);
+  const handleOpen = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setOpen((prev) => !prev);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onClickOutside = (e: globalThis.MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [open]);
 
   return (
-    <Box sx={{ flexGrow: 1, display: { md: "none" } }}>
-      <IconButton
-        size="large"
-        aria-label="account of current user"
-        aria-controls="menu-appbar"
+    <div className="grow md:hidden relative" ref={menuRef}>
+      <button
+        type="button"
+        aria-label="Open navigation menu"
+        aria-controls="mobile-menu"
         aria-haspopup="true"
+        aria-expanded={open}
         onClick={handleOpen}
-        color="inherit"
-        sx={{
-          color: "var(--primary-500)",
-          "&:hover": {
-            backgroundColor: "var(--primary-alpha-10)",
-            backdropFilter: "blur(5px)",
-          },
-        }}
+        className="p-2 rounded-lg text-[var(--primary-500)] cursor-pointer bg-transparent border-none transition-colors hover:bg-[var(--primary-alpha-10)]"
       >
-        <MenuIcon
-          sx={{
-            fontSize: "1.75rem",
-            cursor: "pointer",
-            color: "var(--primary-500)",
-          }}
-        />
-      </IconButton>
-      <Menu
-        id="menu-appbar"
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        sx={{
-          display: { xs: "flex", md: "none" },
-          flexDirection: "column",
-          alignItems: "left",
-          "& .MuiPaper-root": {
-            background: "rgba(255, 255, 255, 0.9)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            border: "1px solid var(--primary-alpha-20)",
-            boxShadow: "0 4px 20px var(--primary-alpha-15)",
-            borderRadius: "var(--borderRadius)",
-            mt: 1.5,
-          },
-        }}
-      >
-        <NavLinks />
-      </Menu>
-    </Box>
+        <HiMenu size={28} />
+      </button>
+      {open && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={handleClose} />
+          <div
+            id="mobile-menu"
+            className="absolute left-0 top-full mt-1.5 z-50 flex flex-col items-start rounded-[var(--borderRadius)] border border-[var(--primary-alpha-20)]"
+            style={{
+              background: "rgba(255, 255, 255, 0.9)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              boxShadow: "0 4px 20px var(--primary-alpha-15)",
+            }}
+          >
+            <NavLinks />
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

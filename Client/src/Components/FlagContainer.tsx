@@ -1,11 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { useSetAtom } from "jotai";
-import { changeSiteLanguageAtom } from "../atoms/languageAtom";
+import { useLanguageSelector } from "../stores/hooks";
 import america from "./../assets/images/america-big.png";
 import japan from "./../assets/images/japan-big.png";
 
 const FlagContainer = () => {
-  const changeSiteLanguage = useSetAtom(changeSiteLanguageAtom);
+  const changeSiteLanguage = useLanguageSelector((s) => s.changeSiteLanguage);
   const { i18n } = useTranslation();
 
   return (

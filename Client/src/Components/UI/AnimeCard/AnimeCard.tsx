@@ -1,14 +1,6 @@
 import { useState, useRef } from "react";
 import { useAnimeSelector, usePlaylistSelector } from "../../../stores/hooks";
-import { useAtomValue } from "jotai";
-import { siteLanguageAtom } from "../../../atoms/languageAtom";
-
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { CardMedia } from "@mui/material";
+import { useLanguageSelector } from "../../../stores/hooks";
 
 import { BsReverseLayoutTextWindowReverse, BsStars } from "react-icons/bs";
 import { FaYoutube } from "react-icons/fa";
@@ -19,6 +11,7 @@ import { SkeletonLoadingBlock } from "..";
 
 import { useMobile } from "../../../utils/hooks";
 import { ExpectedFetchedAnimeResponse, SavedAnime, AiRecommendation } from "../../../utils/types";
+import { cn } from "../../../utils/cn";
 
 import { Wrapper, ImageDiv, ShimmerIcon } from "./AnimeCard.styles";
 import SynopsisModal from "./SynopsisModal";
@@ -47,15 +40,6 @@ const SKELETON_HEIGHT_MOBILE = 300;
 const SKELETON_HEIGHT_DESKTOP = 600;
 const SKELETON_WIDTH = 300;
 const SKELETON_BORDER_RADIUS = 8;
-
-const cardMediaStyles = {
-  transition: "all 0.4s ease",
-  borderRadius: "var(--spacing-xs)",
-  boxShadow: "var(--shadow-sm)",
-  "&:hover": {
-    transform: "scale(1.02)",
-  },
-};
 
 const Anime = ({
   _id,
@@ -96,7 +80,7 @@ const Anime = ({
   const { currentPlaylist } = usePlaylistSelector((s) => ({
     currentPlaylist: s.currentPlaylist,
   }));
-  const siteLanguage = useAtomValue(siteLanguageAtom);
+  const siteLanguage = useLanguageSelector((s) => s.siteLanguage);
 
   const onMobile = useMobile();
 
@@ -187,15 +171,15 @@ const Anime = ({
     fetchedAnime?.attributes?.posterImage?.medium ||
     fetchedAnime?.attributes?.posterImage?.small;
 
+  const imgClasses = "anime-cover-image w-full transition-all duration-400 rounded-[var(--spacing-xs)] shadow-sm hover:scale-[1.02]";
+
   const renderMedia = () => {
     if (onMobile) {
       return (
-        <CardMedia
-          component="img"
-          className="anime-cover-image"
-          image={coverImage}
-          title={title}
-          sx={cardMediaStyles}
+        <img
+          className={imgClasses}
+          src={coverImage}
+          alt={title}
         />
       );
     }
@@ -217,12 +201,10 @@ const Anime = ({
             boxShadow: "var(--shadow-md)",
           }}
           fallback={
-            <CardMedia
-              component="img"
-              className="anime-cover-image"
-              image={imageSrc}
-              title={title}
-              sx={cardMediaStyles}
+            <img
+              className={imgClasses}
+              src={imageSrc}
+              alt={title}
             />
           }
           onError={onVideoError}
@@ -231,12 +213,10 @@ const Anime = ({
     }
 
     return (
-      <CardMedia
-        component="img"
-        className="anime-cover-image"
-        image={imageSrc}
-        title={title}
-        sx={cardMediaStyles}
+      <img
+        className={imgClasses}
+        src={imageSrc}
+        alt={title}
       />
     );
   };
@@ -259,133 +239,49 @@ const Anime = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Card
-        variant="outlined"
-        sx={{
-          height: "100%",
-          width: { xs: "100%", sm: 300 },
-          color: "var(--textColor)",
-          backgroundColor: "var(--white)",
-          marginBottom: "1.5rem",
-          borderRadius: "calc(var(--borderRadius) * 1.5)",
-          border: "2px solid var(--primary-alpha-20)",
-          boxShadow: "var(--shadow-anime)",
-          overflow: "hidden",
-          position: "relative",
+      <article
+        className={cn(
+          "h-full w-full sm:w-[300px] text-[var(--textColor)] mb-6 overflow-hidden relative",
+          "rounded-[calc(var(--borderRadius)*1.5)] border-2 border-[var(--primary-alpha-20)]",
+          "transition-all duration-400 ease-[cubic-bezier(0.25,0.8,0.25,1)]",
+          "before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full",
+          "before:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)] before:transition-[left] before:duration-500",
+          "hover:-translate-y-2 hover:scale-[1.02] hover:border-[var(--primary-500)]",
+          "hover:before:left-full"
+        )}
+        style={{
           background: "linear-gradient(135deg, var(--white) 0%, var(--primary-50) 100%)",
-          transition: "all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: "-100%",
-            width: "100%",
-            height: "100%",
-            background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)",
-            transition: "left 0.5s",
-          },
-          "&:hover": {
-            transform: "translateY(-8px) scale(1.02)",
-            boxShadow: "var(--shadow-anime-hover)",
-            borderColor: "var(--primary-500)",
-            "&::before": {
-              left: "100%",
-            },
-          },
+          boxShadow: "var(--shadow-anime)",
         }}
       >
-        <CardContent
-          sx={{
-            backgroundColor: "var(--white)",
-            margin: 0,
-            padding: "var(--spacing-md)",
-            paddingBottom: "var(--spacing-sm)",
-            "&:last-child": {
-              paddingBottom: "var(--spacing-sm)",
-            },
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: "1.125rem",
-              fontWeight: "600",
-              color: "var(--textColor)",
-              backgroundColor: "var(--white)",
-              minHeight: "60px",
-              textAlign: "center",
-              letterSpacing: "-0.01em",
-              lineHeight: 1.4,
-              marginBottom: "var(--spacing-md)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            gutterBottom
-          >
+        {/* CardContent */}
+        <div className="bg-[var(--white)] m-0 p-[var(--spacing-md)] pb-[var(--spacing-sm)]">
+          <p className="text-lg font-semibold text-[var(--textColor)] bg-[var(--white)] min-h-[60px] text-center tracking-tight leading-snug mb-[var(--spacing-md)] flex items-center justify-center">
             {siteLanguage === "en" ? title : japanese_title}
-          </Typography>
+          </p>
           <div className="info-container">
             <ImageDiv $onMobile={onMobile}>
               {renderMedia()}
             </ImageDiv>
-            <Typography
-              sx={{
-                mb: 1.5,
-                color: "var(--textColor)",
-                fontSize: "0.875rem",
-                fontWeight: 500,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "var(--spacing-xs)",
-                margin: "var(--spacing-sm) 0 0",
-                flexWrap: "wrap",
-                "& .MuiButton-root": {
-                  minWidth: "auto",
-                  padding: "4px 8px",
-                },
-              }}
-            >
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
+            <div className="mb-1.5 text-[var(--textColor)] text-sm font-medium flex items-center justify-center gap-[var(--spacing-xs)] mt-[var(--spacing-sm)] flex-wrap">
+              <span className="text-[var(--textColor)] px-2 py-1">
                 {rating}
-                <span className="text-[var(--grey-500)]">
-                  /100
-                </span>
-              </Button>
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
+                <span className="text-[var(--grey-500)]">/100</span>
+              </span>
+              <span className="text-[var(--textColor)] px-2 py-1">
                 {format}
-              </Button>
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
+              </span>
+              <span className="text-[var(--textColor)] px-2 py-1">
                 {creationDate?.slice(0, 4)}
-              </Button>
-              <Button
-                sx={{
-                  color: "var(--textColor)",
-                }}
-              >
+              </span>
+              <span className="text-[var(--textColor)] px-2 py-1">
                 <span>{episodeCount ?? "N/A"}</span>
                 <span className="ml-[5px]">
                   {t("anime.episode")}
                 </span>
-              </Button>
+              </span>
               {hasYoutubeVideoId ? (
-                <Button
-                  sx={{
-                    color: "var(--textColor)",
-                  }}
-                >
+                <span className="text-[var(--textColor)] px-2 py-1">
                   <a
                     href={`https://www.youtube.com/watch?v=${
                       youtubeVideoId ||
@@ -398,43 +294,34 @@ const Anime = ({
                     {" "}
                     <FaYoutube color="red" size={30} />{" "}
                   </a>
-                </Button>
+                </span>
               ) : null}
-            </Typography>
+            </div>
           </div>
-        </CardContent>
-        <CardActions
-          sx={{
-            padding: "var(--spacing-md)",
-            justifyContent: "center",
-            borderTop: "1px solid var(--grey-100)",
-            backgroundColor: "var(--grey-50)",
-            gap: "var(--spacing-md)",
-          }}
-        >
-          <Button
-            size="small"
-            className="card-btn flex items-center gap-2"
+        </div>
+        {/* CardActions */}
+        <div className="p-[var(--spacing-md)] flex justify-center border-t border-[var(--grey-100)] bg-[var(--grey-50)] gap-[var(--spacing-md)]">
+          <button
+            type="button"
+            className="card-btn flex items-center gap-2 bg-transparent border-none cursor-pointer p-2"
             onClick={handleModalOpen}
             aria-label={t("anime.showSynopsis")}
           >
             <BsReverseLayoutTextWindowReverse
               size={20}
-              style={{
-                color: "var(--primary-500)",
-              }}
+              style={{ color: "var(--primary-500)" }}
             />
-          </Button>
-          <Button
-            size="small"
-            className="card-btn flex items-center gap-2"
+          </button>
+          <button
+            type="button"
+            className="card-btn flex items-center gap-2 bg-transparent border-none cursor-pointer p-2"
             onClick={handleAiModalOpen}
             aria-label={t("anime.ai_suggestions")}
           >
             <ShimmerIcon>
               <BsStars size={20} />
             </ShimmerIcon>
-          </Button>
+          </button>
           {type === "delete" ? (
             <button
               type="button"
@@ -447,18 +334,18 @@ const Anime = ({
               {t("anime.delete")}
             </button>
           ) : (
-            <Button
-              size="small"
-              className="card-btn add"
+            <button
+              type="button"
+              className="card-btn add bg-transparent border-none cursor-pointer p-2 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isLoading}
               onClick={handleSubmit}
               aria-label={`${t("anime.add")} ${title}`}
             >
               {t("anime.add")}
-            </Button>
+            </button>
           )}
-        </CardActions>
-      </Card>
+        </div>
+      </article>
       {state.modalOpen && (
         <SynopsisModal
           title={title}

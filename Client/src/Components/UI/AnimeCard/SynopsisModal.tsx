@@ -1,6 +1,4 @@
-import Typography from "@mui/material/Typography";
-import { useAtomValue } from "jotai";
-import { siteLanguageAtom } from "../../../atoms/languageAtom";
+import { useLanguageSelector } from "../../../stores/hooks";
 import { Modal, ModalContent } from "./AnimeCard.styles";
 
 interface SynopsisModalProps {
@@ -16,7 +14,7 @@ const SynopsisModal = ({
   synopsis,
   onClose,
 }: SynopsisModalProps) => {
-  const siteLanguage = useAtomValue(siteLanguageAtom);
+  const siteLanguage = useLanguageSelector((s) => s.siteLanguage);
 
   return (
     <Modal
@@ -26,10 +24,10 @@ const SynopsisModal = ({
       aria-label={`Synopsis for ${title}`}
     >
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <Typography variant="h5" gutterBottom>
+        <h2 className="text-xl font-semibold mb-4">
           {siteLanguage === "en" ? title : japanese_title}
-        </Typography>
-        <Typography variant="body1">{synopsis}</Typography>
+        </h2>
+        <div className="text-base leading-relaxed text-grey-700">{synopsis}</div>
       </ModalContent>
     </Modal>
   );
