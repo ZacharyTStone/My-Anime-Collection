@@ -13,7 +13,7 @@ const MyAnimesContainer = () => {
   const {
     getAnimes,
     animes,
-    isLoading,
+    loadingMyAnimes,
     page,
     totalAnimes,
     search,
@@ -25,7 +25,7 @@ const MyAnimesContainer = () => {
   } = useAnimeSelector((s) => ({
     getAnimes: s.getAnimes,
     animes: s.animes,
-    isLoading: s.isLoading,
+    loadingMyAnimes: s.loadingMyAnimes,
     page: s.page,
     totalAnimes: s.totalAnimes,
     search: s.search,
@@ -62,9 +62,9 @@ const MyAnimesContainer = () => {
     );
   };
 
-  if (isLoading) return <PageLoader />;
+  if (loadingMyAnimes) return <PageLoader />;
 
-  if (noAnimesInPlaylist && !isLoading) {
+  if (noAnimesInPlaylist && !loadingMyAnimes) {
     return (
       <section className="mt-16 p-10">
         <h5 className="text-center">

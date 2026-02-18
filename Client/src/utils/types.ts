@@ -34,16 +34,12 @@ export interface IPlaylist {
 export interface SavedAnime {
   _id?: string;
   title?: string;
-  image?: string;
   synopsis?: string;
   rating?: number | string;
-  startDate?: string;
   episodeCount?: number | null;
   format?: string;
-  subtype?: string;
   youtubeVideoId?: string;
   creationDate?: string;
-  type?: string;
   coverImage?: string;
   japanese_title?: string;
 }
@@ -53,8 +49,10 @@ export interface User {
   name: string;
   email: string;
   isDemo?: boolean;
-  theme?: string;
+  theme?: "light" | "dark";
 }
+
+export type SiteLanguage = "en" | "jp";
 
 export interface AiRecommendation {
   title: string;

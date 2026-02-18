@@ -66,14 +66,12 @@ const Anime = ({
   const {
     createAnime,
     deleteAnime,
-    isLoading,
-    loadingData,
+    isItemLoading,
     getAiRecommendations,
   } = useAnimeSelector((s) => ({
     createAnime: s.createAnime,
     deleteAnime: s.deleteAnime,
-    isLoading: s.isLoading,
-    loadingData: s.loadingData,
+    isItemLoading: s.isItemLoading,
     getAiRecommendations: s.getAiRecommendations,
   }));
 
@@ -92,10 +90,8 @@ const Anime = ({
   });
   const aiCacheRef = useRef<AiRecommendation[] | null>(null);
 
-  const isCurrentlyLoading =
-    isLoading &&
-    (loadingData?.anime_id === _id ||
-      loadingData?.anime_id === fetchedAnime?.id);
+  const itemId = _id || fetchedAnime?.id || "";
+  const isCurrentlyLoading = isItemLoading(itemId);
 
   const hasYoutubeVideoId = Boolean(youtubeVideoId);
 
@@ -118,7 +114,7 @@ const Anime = ({
   };
 
   const handleSubmit = () => {
-    if (isLoading) return;
+    if (isCurrentlyLoading) return;
 
     if (type === "add") {
       createAnime(fetchedAnime, currentPlaylist.id);
@@ -337,7 +333,7 @@ const Anime = ({
             <button
               type="button"
               className="card-btn add bg-transparent border-none cursor-pointer p-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isLoading}
+              disabled={isCurrentlyLoading}
               onClick={handleSubmit}
               aria-label={`${t("anime.add")} ${title}`}
             >

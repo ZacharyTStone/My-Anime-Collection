@@ -69,11 +69,13 @@ UserSchema.pre("save", async function (this: UserDocument) {
 
 // Generate JWT
 UserSchema.methods.createJWT = function (this: UserDocument) {
-  const secret = process.env.JWT_SECRET || "default-secret";
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET must be defined in environment variables");
+  }
   const options: SignOptions = {
     expiresIn: "30d",
   };
-  return jwt.sign({ userId: this._id }, secret, options);
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, options);
 };
 
 // Compare the entered password with the hashed password

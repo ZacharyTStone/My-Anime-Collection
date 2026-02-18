@@ -8,8 +8,14 @@ const TOKEN_KEY = "token";
 const USER_KEY = "user";
 
 const getStoredUser = (): User | null => {
-  const user = localStorage.getItem(USER_KEY);
-  return user ? JSON.parse(user) : null;
+  const raw = localStorage.getItem(USER_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as User;
+  } catch {
+    localStorage.removeItem(USER_KEY);
+    return null;
+  }
 };
 
 const getStoredToken = (): string | null => {
@@ -28,14 +34,9 @@ const removeUserFromLocalStorage = () => {
 
 interface AuthStore {
   isLoading: boolean;
-  showAlert: boolean;
-  alertText: string;
-  alertType: string;
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  displayAlert: () => void;
-  clearAlert: () => void;
   setupUser: (params: {
     currentUser: Partial<User>;
     endPoint: string;
@@ -48,25 +49,9 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>((set, get) => ({
   isLoading: false,
-  showAlert: false,
-  alertText: "",
-  alertType: "",
   user: getStoredUser(),
   token: getStoredToken(),
   isAuthenticated: !!getStoredToken(),
-
-  displayAlert: () => {
-    set({ showAlert: true, alertType: "danger", alertText: "Please provide all values!" });
-    setTimeout(() => {
-      set({ showAlert: false, alertType: "", alertText: "" });
-    }, 3000);
-  },
-
-  clearAlert: () => {
-    setTimeout(() => {
-      set({ showAlert: false, alertType: "", alertText: "" });
-    }, 3000);
-  },
 
   setupUser: async ({ currentUser, endPoint, alertText }) => {
     set({ isLoading: true });
@@ -79,16 +64,12 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         user,
         token,
         isAuthenticated: true,
-        showAlert: true,
-        alertType: "success",
-        alertText,
       });
       toast.success(alertText);
     } catch (error: unknown) {
       set({ isLoading: false });
       handleApiError(error, "Authentication failed");
     }
-    get().clearAlert();
   },
 
   logoutUser: () => {
@@ -98,9 +79,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       token: null,
       isAuthenticated: false,
       isLoading: false,
-      showAlert: false,
-      alertText: "",
-      alertType: "",
     });
   },
 
@@ -136,5 +114,4 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   },
 }));
 
-// Wire up the 401 interceptor to call logoutUser
 registerLogoutHandler(() => useAuthStore.getState().logoutUser());

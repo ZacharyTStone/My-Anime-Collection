@@ -57,7 +57,7 @@ const Landing = () => {
   const { controls: controls4, ref: ref4 } = useInViewAnimation();
 
   return (
-    <main className="landing-wrapper overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)" }}>
+    <div className="landing-wrapper overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)" }}>
       <nav
         className="mx-auto flex items-center"
         style={{ width: "var(--fluid-width)", maxWidth: "var(--max-width)", height: "var(--nav-height)" }}
@@ -219,7 +219,7 @@ const Landing = () => {
         </motion.div>
         <BackgroundAnimeCards />
       </main>
-    </main>
+    </div>
   );
 };
 

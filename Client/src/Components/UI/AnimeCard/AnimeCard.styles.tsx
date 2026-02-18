@@ -1,5 +1,4 @@
 import type React from "react";
-import pokeball from "../../../assets/images/pokeball.png";
 import { cn } from "../../../utils/cn";
 
 // Wrapper - article container for the anime card
@@ -10,27 +9,13 @@ export const Wrapper = ({
 }: React.HTMLAttributes<HTMLElement>) => (
   <article
     className={cn(
+      "anime-card-wrapper",
       "flex flex-col justify-center items-center",
       "max-[1000px]:flex-row",
       className
     )}
     {...props}
   >
-    <style>{`
-      .anime-cover-image {
-        width: 100%;
-        cursor: url(${pokeball}) 4 4, pointer !important;
-      }
-      .delete-btn {
-        letter-spacing: var(--letterSpacing);
-        cursor: pointer;
-        height: 30px;
-        margin: 10px;
-        color: var(--red-dark);
-        background: var(--red-light);
-        align-self: center;
-      }
-    `}</style>
     {children}
   </article>
 );

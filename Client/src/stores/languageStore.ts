@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import i18n from "../translations/i18n";
+import type { SiteLanguage } from "../utils/types";
 
 interface LanguageState {
-  siteLanguage: string;
-  changeSiteLanguage: (lang: string) => void;
+  siteLanguage: SiteLanguage;
+  changeSiteLanguage: (lang: SiteLanguage) => void;
 }
 
 export const useLanguageStore = create<LanguageState>((set) => ({

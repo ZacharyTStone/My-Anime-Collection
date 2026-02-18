@@ -1,4 +1,3 @@
-import Alert from "./Alert";
 import Logo from "./Logo";
 import FormRow from "./FormRow";
 import FormRowSelect from "./FormRowSelect";
@@ -12,7 +11,6 @@ import SkeletonLoadingBlock from "./SkeletonLoadingBlock";
 import PlaylistSelector from "./PlaylistSelector";
 
 export {
-  Alert,
   FormRow,
   FormRowSelect,
   Loading,

@@ -7,11 +7,6 @@ import { ExpectedFetchedAnimeResponse, AiRecommendation } from "../utils/types";
 import { apiClient } from "../utils/api";
 import { handleApiError } from "../utils/handleApiError";
 
-// Types
-interface LoadingData {
-  anime_id: string;
-}
-
 export interface Anime {
   _id: string;
   title: string;
@@ -28,14 +23,11 @@ export interface Anime {
   __v: number;
 }
 
-interface FetchedAnime {
-  id: string;
-  title: string;
-}
+export type FilterField = "search" | "searchStatus" | "searchStared" | "searchType" | "sort";
 
 interface AnimeStore {
-  isLoading: boolean;
-  loadingData: LoadingData;
+  loadingMyAnimes: boolean;
+  loadingItemIds: string[];
   animes: Anime[];
   totalAnimes: number;
   numOfPages: number;
@@ -46,11 +38,11 @@ interface AnimeStore {
   searchType: string;
   sort: string;
   sortOptions: { title: string; value: string }[];
-  fetchedAnimes: FetchedAnime[];
+  fetchedAnimes: ExpectedFetchedAnimeResponse[];
   totalFetchedAnimes: number;
   numOfFetchedAnimesPages: number;
   loadingFetchAnimes: boolean;
-  handleChange: (params: { name: string; value: string }) => void;
+  handleChange: (params: { name: FilterField; value: string }) => void;
   clearValues: () => void;
   createAnime: (anime: ExpectedFetchedAnimeResponse, playlistID: string) => Promise<void>;
   getAnimes: (playlistId: string) => Promise<void>;
@@ -67,11 +59,15 @@ interface AnimeStore {
     sort: string;
   }) => Promise<void>;
   getAiRecommendations: (title: string, synopsis: string) => Promise<AiRecommendation[]>;
+  isItemLoading: (id: string) => boolean;
 }
 
+let getAnimesController: AbortController | null = null;
+let fetchAnimesController: AbortController | null = null;
+
 export const useAnimeStore = create<AnimeStore>((set, get) => ({
-  isLoading: false,
-  loadingData: { anime_id: "" },
+  loadingMyAnimes: false,
+  loadingItemIds: [],
   animes: [],
   totalAnimes: 0,
   numOfPages: 1,
@@ -87,7 +83,9 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
   numOfFetchedAnimesPages: 0,
   loadingFetchAnimes: false,
 
-  handleChange: ({ name, value }) => {
+  isItemLoading: (id: string) => get().loadingItemIds.includes(id),
+
+  handleChange: ({ name, value }: { name: FilterField; value: string }) => {
     set({ page: 1, [name]: value });
   },
 
@@ -106,7 +104,8 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
     const { user } = useAuthStore.getState();
     if (!useAuthStore.getState().token) return;
 
-    set({ isLoading: true, loadingData: { anime_id: anime.id || "" } });
+    const itemId = anime.id || crypto.randomUUID();
+    set((s) => ({ loadingItemIds: [...s.loadingItemIds, itemId] }));
     try {
       const creationDate = anime.attributes?.startDate;
       const title =
@@ -114,7 +113,6 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
         anime.attributes?.titles?.en_jp ||
         anime.attributes?.canonicalTitle ||
         "Title N/A";
-      const id = anime.id || Math.random() * 100000;
       const rating = anime.attributes?.averageRating || "N/A";
       const format = anime.attributes?.subtype || "N/A";
       const episodeCount = anime.attributes?.episodeCount ?? null;
@@ -129,20 +127,23 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
       const isDemoAnime = user?.isDemo === true;
 
       await apiClient.post("/animes", {
-        title, id, rating, format, episodeCount, synopsis,
+        title, id: itemId, rating, format, episodeCount, synopsis,
         coverImage, creationDate, youtubeVideoId, japanese_title,
         playlistID, isDemoAnime,
       });
-      set({ isLoading: false });
       toast.success("Anime Created!");
     } catch (error: unknown) {
-      set({ isLoading: false });
       handleApiError(error, "An error occurred while adding the anime");
+    } finally {
+      set((s) => ({ loadingItemIds: s.loadingItemIds.filter((id) => id !== itemId) }));
     }
   },
 
   getAnimes: async (playlistId) => {
     if (!useAuthStore.getState().token) return;
+
+    getAnimesController?.abort();
+    getAnimesController = new AbortController();
 
     const { page, search, searchStatus, searchType, searchStared, sort } = get();
     const params = new URLSearchParams();
@@ -156,17 +157,20 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
       params.set("search", search);
     }
 
-    set({ isLoading: true });
+    set({ loadingMyAnimes: true });
     try {
-      const { data } = await apiClient.get(`/animes?${params.toString()}`);
+      const { data } = await apiClient.get(`/animes?${params.toString()}`, {
+        signal: getAnimesController.signal,
+      });
       set({
-        isLoading: false,
+        loadingMyAnimes: false,
         animes: data.animes,
         totalAnimes: data.totalAnimes,
         numOfPages: data.numOfPages,
       });
     } catch (error: unknown) {
-      set({ isLoading: false });
+      if (axios.isCancel(error)) return;
+      set({ loadingMyAnimes: false });
       handleApiError(error, "Failed to fetch animes");
     }
   },
@@ -174,15 +178,15 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
   deleteAnime: async (animeId, playlistId) => {
     if (!useAuthStore.getState().token) return;
 
-    set({ isLoading: true });
+    set((s) => ({ loadingItemIds: [...s.loadingItemIds, animeId] }));
     try {
       await apiClient.delete(`/animes/${animeId}`);
-      set({ isLoading: false });
       toast.success("Anime Deleted!");
       get().getAnimes(playlistId);
     } catch (error: unknown) {
-      set({ isLoading: false });
       handleApiError(error, "Failed to delete anime");
+    } finally {
+      set((s) => ({ loadingItemIds: s.loadingItemIds.filter((id) => id !== animeId) }));
     }
   },
 
@@ -208,7 +212,10 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
   },
 
   fetchAnimes: async ({ page, baseURL, searchText, sort }) => {
-    set({ isLoading: true, loadingFetchAnimes: true });
+    fetchAnimesController?.abort();
+    fetchAnimesController = new AbortController();
+
+    set({ loadingFetchAnimes: true });
     try {
       const limit = 18;
       let url = baseURL;
@@ -233,19 +240,21 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
         url = `${baseURL}?${params.toString()}`;
       }
 
-      const { data } = await axios.get(url);
+      const { data } = await axios.get(url, {
+        signal: fetchAnimesController.signal,
+      });
       const animes = data?.data ?? [];
       const totalAnimes = data?.meta?.count ?? animes.length;
       const numOfPages = Math.max(1, Math.ceil(totalAnimes / limit));
       set({
-        isLoading: false,
         loadingFetchAnimes: false,
         fetchedAnimes: animes,
         totalFetchedAnimes: totalAnimes,
         numOfFetchedAnimesPages: numOfPages,
       });
     } catch (error: unknown) {
-      set({ isLoading: false, loadingFetchAnimes: false });
+      if (axios.isCancel(error)) return;
+      set({ loadingFetchAnimes: false });
       handleApiError(error, "Failed to fetch animes");
     }
   },

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { FormRow, Alert } from "../../Components/UI";
+import { toast } from "react-toastify";
+import { FormRow } from "../../Components/UI";
 import { Pokemon } from "../../Components";
 import { useAuthSelector } from "../../stores/hooks";
 import { User } from "../../utils/types";
@@ -9,16 +10,12 @@ const Profile = () => {
   const { t } = useTranslation();
   const {
     user,
-    showAlert,
-    displayAlert,
     updateUser,
     isLoading,
     deleteUser,
     logoutUser,
   } = useAuthSelector((s) => ({
     user: s.user,
-    showAlert: s.showAlert,
-    displayAlert: s.displayAlert,
     updateUser: s.updateUser,
     isLoading: s.isLoading,
     deleteUser: s.deleteUser,
@@ -32,7 +29,7 @@ const Profile = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name || !email) {
-      displayAlert();
+      toast.error(t("profile.provide_all_values", { defaultValue: "Please provide all values!" }));
       return;
     }
     const theme = user?.theme || "light";
@@ -55,7 +52,6 @@ const Profile = () => {
         <h3 className="relative mt-0 mb-8 font-semibold text-grey-900 after:content-[''] after:absolute after:bottom-[-0.75rem] after:left-0 after:w-16 after:h-[3px] after:bg-primary-500 after:rounded-sm">
           {t("profile.title")}
         </h3>
-        {showAlert && <Alert />}
         <div className="grid gap-y-4 lg:grid-cols-2 lg:items-center lg:gap-x-6">
           <FormRow
             disabled={isLoading || isDemoUser}

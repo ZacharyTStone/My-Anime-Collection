@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import Anime from "../models/Anime.js";
 import Playlist from "../models/Playlists.js";
-import { Model, Document } from "mongoose";
+import { Model } from "mongoose";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
@@ -148,7 +148,7 @@ const register = async (req: Request, res: Response) => {
 };
 
 const deleteAssociatedRecords = async (
-  model: Model<Document>,
+  model: Model<any>,
   userId: string
 ) => {
   await model.deleteMany({ createdBy: userId });

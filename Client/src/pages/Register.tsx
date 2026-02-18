@@ -1,7 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { Alert, FormRow, Logo, RunningImg } from "../Components/UI";
+import { toast } from "react-toastify";
+import { FormRow, Logo, RunningImg } from "../Components/UI";
 import narutoRun from "../assets/images/narutoRun.gif";
 import { useAuthSelector } from "../stores/hooks";
 import { User } from "../utils/types";
@@ -24,11 +25,9 @@ const Register = () => {
 
   const navigate = useNavigate();
   const [values, setValues] = useState<FormValues>(initialState);
-  const { user, isLoading, showAlert, displayAlert, setupUser } = useAuthSelector((s) => ({
+  const { user, isLoading, setupUser } = useAuthSelector((s) => ({
     user: s.user,
     isLoading: s.isLoading,
-    showAlert: s.showAlert,
-    displayAlert: s.displayAlert,
     setupUser: s.setupUser,
   }));
   const toggleExistingUser = () => {
@@ -44,7 +43,7 @@ const Register = () => {
     const { name, email, password, existingUser } = values;
 
     if (!email || !password || (!existingUser && !name)) {
-      displayAlert();
+      toast.error(t("register.provide_all_values", { defaultValue: "Please provide all values!" }));
       return;
     }
     const currentUser = { id: "", name: name || "", email, password };
@@ -66,9 +65,10 @@ const Register = () => {
 
   useEffect(() => {
     if (user) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         navigate("/top-animes");
       }, 3000);
+      return () => clearTimeout(timer);
     }
   }, [user, navigate]);
 
@@ -90,7 +90,6 @@ const Register = () => {
         <h3 className="text-center mb-8 text-grey-800 text-[1.75rem] font-semibold bg-[linear-gradient(135deg,var(--primary-500)_0%,var(--anime-pink)_50%,var(--primary-600)_100%)] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] max-[480px]:text-2xl">
           {values.existingUser ? t("login.title") : t("register.title")}
         </h3>
-        {showAlert && <Alert />}
         {!values.existingUser && (
           <FormRow
             type="text"

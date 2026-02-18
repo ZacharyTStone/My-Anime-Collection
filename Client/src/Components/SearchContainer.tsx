@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, type ChangeEvent, type MouseEvent, type FormEvent } from "react";
 import { FormRow, FormRowSelect, PlaylistSelector } from "./UI";
 import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
+import type { FilterField } from "../stores/animeStore";
 
 import { useTranslation } from "react-i18next";
 import { debounce } from "../utils/debounce";
@@ -14,14 +15,14 @@ const DEBOUNCE_DELAY = 300;
 const SearchContainer = ({ className }: SearchContainerProps) => {
   const { t } = useTranslation();
   const {
-    isLoading,
+    loadingMyAnimes,
     search,
     sort,
     sortOptions,
     handleChange,
     clearFilters,
   } = useAnimeSelector((s) => ({
-    isLoading: s.isLoading,
+    loadingMyAnimes: s.loadingMyAnimes,
     search: s.search,
     sort: s.sort,
     sortOptions: s.sortOptions,
@@ -35,11 +36,11 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
 
   const [localSearch, setLocalSearch] = useState(search ?? "");
 
-  const isFormDisabled = isLoading || loadingFetchPlaylists;
+  const isFormDisabled = loadingMyAnimes || loadingFetchPlaylists;
 
   const handleSearch = useCallback(
     (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-      handleChange({ name: e.target.name, value: e.target.value });
+      handleChange({ name: e.target.name as FilterField, value: e.target.value });
     },
     [handleChange]
   );

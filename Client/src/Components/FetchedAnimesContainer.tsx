@@ -27,7 +27,6 @@ const FetchedAnimesContainer = ({
 
   const {
     fetchAnimes,
-    isLoading,
     fetchedAnimes,
     totalFetchedAnimes,
     numOfFetchedAnimesPages,
@@ -35,7 +34,6 @@ const FetchedAnimesContainer = ({
     loadingFetchAnimes,
   } = useAnimeSelector((s) => ({
     fetchAnimes: s.fetchAnimes,
-    isLoading: s.isLoading,
     fetchedAnimes: s.fetchedAnimes,
     totalFetchedAnimes: s.totalFetchedAnimes,
     numOfFetchedAnimesPages: s.numOfFetchedAnimesPages,
@@ -141,14 +139,14 @@ const FetchedAnimesContainer = ({
                 key={anime.id}
                 fetchedAnime={anime}
                 type="add"
-                _id={anime.id}
+                _id={anime.id || ""}
                 title={
                   anime?.attributes?.titles?.en ||
                   anime?.attributes?.titles?.en_jp ||
                   "Title N/A"
                 }
                 rating={anime?.attributes?.averageRating || "N/A"}
-                episodeCount={anime?.attributes?.episodeCount}
+                episodeCount={anime?.attributes?.episodeCount || null as number | null}
                 format={anime?.attributes?.subtype || "N/A"}
                 creationDate={anime?.attributes?.startDate || "N/A"}
                 synopsis={
@@ -158,7 +156,8 @@ const FetchedAnimesContainer = ({
                 }
                 coverImage={
                   anime?.attributes?.posterImage?.medium ||
-                  anime?.attributes?.posterImage?.small
+                  anime?.attributes?.posterImage?.small ||
+                  ""
                 }
                 japanese_title={
                   anime?.attributes?.titles?.ja_jp ||
@@ -176,7 +175,7 @@ const FetchedAnimesContainer = ({
           )}
         </div>
       ) : (
-        <div>{searchText && !isLoading && <h2>No animes found.</h2>}</div>
+        <div>{searchText && !loadingFetchAnimes && <h2>No animes found.</h2>}</div>
       )}
     </section>
   );

@@ -29,7 +29,7 @@ const createAnime = async (req: Request, res: Response) => {
   });
 
   if (existingAnime) {
-    throw new NotFoundError(`You have already added that anime to your list`);
+    throw new BadRequestError(`You have already added that anime to your list`);
   }
 
   req.body.createdBy = sanitize(req.user.userId);
@@ -41,7 +41,7 @@ const createAnime = async (req: Request, res: Response) => {
 interface QueryObject {
   createdBy: string;
   playlistID: string;
-  title?: any;
+  title?: { $regex: string; $options: string };
 }
 
 const getAnimes = async (req: Request, res: Response) => {
