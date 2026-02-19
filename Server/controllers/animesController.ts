@@ -5,9 +5,6 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 import { getAnimeRecommendations } from "../utils/groq.js";
 
-// noSQL sanitization
-import sanitize from "mongo-sanitize";
-
 const SORT_OPTIONS = {
   latest: { creationDate: -1 },
   oldest: { creationDate: 1 },
@@ -23,16 +20,16 @@ const SORT_OPTIONS = {
 
 const createAnime = async (req: Request, res: Response) => {
   const existingAnime = await Anime.findOne({
-    title: sanitize(req.body.title),
-    createdBy: sanitize(req.user.userId),
-    playlistID: sanitize(req.body.playlistID),
+    title: req.body.title,
+    createdBy: req.user!.userId,
+    playlistID: req.body.playlistID,
   });
 
   if (existingAnime) {
     throw new BadRequestError(`You have already added that anime to your list`);
   }
 
-  req.body.createdBy = sanitize(req.user.userId);
+  req.body.createdBy = req.user!.userId;
 
   const anime = await Anime.create(req.body);
   res.status(StatusCodes.CREATED).json({ anime });
@@ -45,15 +42,16 @@ interface QueryObject {
 }
 
 const getAnimes = async (req: Request, res: Response) => {
-  const { sort, search, currentPlaylistID } = sanitize(req.query);
+  const sort = req.query.sort as string | undefined;
+  const search = req.query.search as string | undefined;
+  const currentPlaylistID = req.query.currentPlaylistID as string;
 
   let queryObject: QueryObject = {
-    createdBy: sanitize(req.user.userId),
+    createdBy: req.user!.userId,
     playlistID: currentPlaylistID,
   };
 
   if (search) {
-    // Add case-insensitive search for title
     queryObject.title = { $regex: search, $options: "i" };
   }
 
@@ -89,7 +87,7 @@ const deleteAnime = async (req: Request, res: Response) => {
     throw new NotFoundError(`No Anime with id :${animeId}`);
   }
 
-  checkPermissions(req.user, anime?.createdBy.toString()); // Convert createdBy to string
+  checkPermissions(req.user!, anime.createdBy.toString()); // Convert createdBy to string
 
   await anime.deleteOne();
 
@@ -99,13 +97,9 @@ const deleteAnime = async (req: Request, res: Response) => {
 const getRecommendations = async (req: Request, res: Response) => {
   const { title, synopsis } = req.body;
 
-  if (!title) {
-    throw new BadRequestError("Anime title is required");
-  }
-
   const recommendations = await getAnimeRecommendations(
-    sanitize(title),
-    sanitize(synopsis || "")
+    title,
+    synopsis || ""
   );
 
   res.status(StatusCodes.OK).json({ recommendations });

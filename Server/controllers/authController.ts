@@ -1,12 +1,15 @@
 import User from "../models/User.js";
 import Anime from "../models/Anime.js";
 import Playlist from "../models/Playlists.js";
-import { Model } from "mongoose";
+
 import { Request, Response } from "express";
+
+interface AppError extends Error {
+  code?: number;
+}
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/constants.js";
-import sanitize from "mongo-sanitize";
 import {
   generateDemoEmail,
   createUserWithPlaylists,
@@ -14,22 +17,9 @@ import {
 
 
 // REST routes are defined in authRoutes.js
-const validateInputs = (inputObject: Record<string, unknown>) => {
-  const missingValues = Object.entries(inputObject)
-    .filter(([_, value]) => !value)
-    .map(([key, _]) => key);
-
-  if (missingValues.length > 0) {
-    throw new BadRequestError(
-      `Please provide all values: ${missingValues.join(", ")}`
-    );
-  }
-};
 
 const login = async (req: Request, res: Response) => {
-  const { email, password } = sanitize(req.body);
-
-  validateInputs({ email, password });
+  const { email, password } = req.body;
 
   const user = await User.findOne({ email }).select("+password");
 
@@ -44,20 +34,14 @@ const login = async (req: Request, res: Response) => {
   }
 
   const token = user.createJWT();
-  user.password = undefined;
+  user.password = undefined as unknown as string;
   res.status(StatusCodes.OK).json({ user, token });
 };
 
 const updateUser = async (req: Request, res: Response) => {
-  const { email, name, theme } = sanitize(req.body);
+  const { email, name, theme } = req.body;
 
-  const errorMessage = "Please provide all values";
-
-  if (!email || !name || !theme) {
-    throw new BadRequestError(errorMessage);
-  }
-
-  const user = await User.findOne({ _id: req.user.userId });
+  const user = await User.findOne({ _id: req.user!.userId });
 
   if (!user) {
     throw new UnAuthenticatedError("User not found");
@@ -75,14 +59,10 @@ const updateUser = async (req: Request, res: Response) => {
 };
 
 const register = async (req: Request, res: Response) => {
-  const { isDemo } = sanitize(req.body);
-  const { name, email, password } = isDemo ? DEMO_USER : sanitize(req.body);
-  const { theme } = sanitize(req.body);
-  const { language } = sanitize(req.body);
-
-  if (!isDemo) {
-    validateInputs({ name, email, password });
-  }
+  const { isDemo } = req.body;
+  const { name, email, password } = isDemo ? DEMO_USER : req.body;
+  const { theme } = req.body;
+  const { language } = req.body;
 
   let userEmail = email;
   let retryCount = 0;
@@ -120,8 +100,8 @@ const register = async (req: Request, res: Response) => {
       },
       token,
     });
-  } catch (error) {
-    if (error.code === 11000 && isDemo) {
+  } catch (error: unknown) {
+    if (error instanceof Error && (error as AppError).code === 11000 && isDemo) {
       const { user, token } = await createUserWithPlaylists({
         name,
         email: generateDemoEmail(),
@@ -148,21 +128,21 @@ const register = async (req: Request, res: Response) => {
 };
 
 const deleteAssociatedRecords = async (
-  model: Model<any>,
+  model: { deleteMany: (filter: Record<string, string>) => Promise<unknown> },
   userId: string
 ) => {
   await model.deleteMany({ createdBy: userId });
 };
 
 const deleteUser = async (req: Request, res: Response) => {
-  const user = await User.findOne({ _id: req.user.userId });
+  const user = await User.findOne({ _id: req.user!.userId });
 
   if (!user) {
     throw new UnAuthenticatedError("User not found");
   }
 
-  await deleteAssociatedRecords(Anime, req.user.userId);
-  await deleteAssociatedRecords(Playlist, req.user.userId);
+  await deleteAssociatedRecords(Anime, req.user!.userId);
+  await deleteAssociatedRecords(Playlist, req.user!.userId);
   await user.deleteOne();
 
   res.status(StatusCodes.OK).json({ message: "User deleted" });

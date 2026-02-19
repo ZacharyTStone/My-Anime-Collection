@@ -79,6 +79,9 @@ export interface AnimeDocument extends Document {
   isDemoAnime: boolean;
 }
 
+// Index for query performance on playlist lookups
+AnimeSchema.index({ playlistID: 1, createdBy: 1 });
+
 // Create a TTL index on the demo field with a expireAfterSeconds option (in this case, 30 days)
 AnimeSchema.index(
   { createdAt: 1 },

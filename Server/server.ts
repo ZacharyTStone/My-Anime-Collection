@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import "express-async-errors";
 import { dirname } from "path";
@@ -42,7 +42,7 @@ app.use(errorHandlerMiddleware);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, "../Client/build")));
 
-app.get("*", apiLimiter500, (req, res) => {
+app.get("*", apiLimiter500, (_req: Request, res: Response) => {
   res.sendFile(path.resolve(__dirname, "../Client/build", "index.html"));
 });
 
@@ -61,13 +61,13 @@ process.on("unhandledRejection", (error) => {
 // Start the server
 const start = async () => {
   try {
-    await connectDB(process.env.MONGO_URL);
+    await connectDB(process.env.MONGO_URL!);
     const server = app.listen(process.env.PORT || 5001, () => {
       console.log(`Server is listening on port ${process.env.PORT || 5001}...`);
     });
 
     // Handle server errors
-    server.on("error", (error) => {
+    server.on("error", (error: Error) => {
       console.error("Server error:", error);
       process.exit(1);
     });

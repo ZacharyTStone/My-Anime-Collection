@@ -3,6 +3,8 @@
     "outDir": "./dist",
     "target": "ES2020",
     "module": "Node16",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types", "./Server/typings-custom"]
   },

@@ -21,12 +21,12 @@ const auth = async (
   if (!authHeader || !authHeader.startsWith("Bearer")) {
     throw new UnAuthenticatedError("Authentication Invalid");
   }
-  const token = authHeader.split(" ")[1];
+  const token = authHeader.split(" ")[1] ?? "";
   try {
-    // the JWT secret is stored in the .env file and ensures that the token was made by the user
-    const payload = jwt.verify(token, process.env.JWT_SECRET) as {
-      userId: string;
-    };
+    const payload = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as unknown as { userId: string };
     req.user = { userId: payload.userId };
     // the next part will be what you will run if the jwt compare is true
     next();

@@ -1,13 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface Playlist {
-  title: string;
-  id: string;
-  userID: mongoose.Types.ObjectId;
-  isDemoUserPlaylist: boolean;
-}
-
-const playlistSchema = new Schema<Playlist>({
+const playlistSchema = new Schema<PlaylistDocument>({
   title: String,
   id: String,
   userID: {
