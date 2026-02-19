@@ -5,15 +5,26 @@ import { Express } from "express";
 
 const KITSU_API = "https://kitsu.io";
 
+const getCorsOrigin = (): string => {
+  if (process.env.NODE_ENV === "development") {
+    return "http://localhost:3000";
+  }
+
+  if (!process.env.FRONTEND_URL) {
+    throw new Error(
+      "FRONTEND_URL must be set in production environment variables"
+    );
+  }
+
+  return process.env.FRONTEND_URL;
+};
+
 export const configureSecurity = (app: Express) => {
   app.set("trust proxy", 1);
 
   app.use(
     cors({
-      origin:
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:3000"
-          : process.env.FRONTEND_URL || "http://localhost:3000",
+      origin: getCorsOrigin(),
       credentials: true,
     })
   );

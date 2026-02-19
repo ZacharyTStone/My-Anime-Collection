@@ -5,6 +5,10 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 import { getAnimeRecommendations } from "../utils/groq.js";
 
+/** Escape regex special characters to prevent ReDoS attacks */
+const escapeRegex = (str: string): string =>
+  str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 const SORT_OPTIONS = {
   latest: { creationDate: -1 },
   oldest: { creationDate: 1 },
@@ -29,9 +33,22 @@ const createAnime = async (req: Request, res: Response) => {
     throw new BadRequestError(`You have already added that anime to your list`);
   }
 
-  req.body.createdBy = req.user!.userId;
+  const animeData = {
+    id: req.body.id,
+    title: req.body.title,
+    japanese_title: req.body.japanese_title,
+    rating: req.body.rating,
+    format: req.body.format,
+    episodeCount: req.body.episodeCount,
+    synopsis: req.body.synopsis,
+    coverImage: req.body.coverImage,
+    youtubeVideoId: req.body.youtubeVideoId,
+    playlistID: req.body.playlistID,
+    creationDate: req.body.creationDate,
+    createdBy: req.user!.userId,
+  };
 
-  const anime = await Anime.create(req.body);
+  const anime = await Anime.create(animeData);
   res.status(StatusCodes.CREATED).json({ anime });
 };
 
@@ -52,7 +69,7 @@ const getAnimes = async (req: Request, res: Response) => {
   };
 
   if (search) {
-    queryObject.title = { $regex: search, $options: "i" };
+    queryObject.title = { $regex: escapeRegex(search), $options: "i" };
   }
 
   let result = Anime.find(queryObject);
@@ -65,8 +82,8 @@ const getAnimes = async (req: Request, res: Response) => {
   }
 
   // Setup pagination
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
+  const page = Math.max(1, Number(req.query.page) || 1);
+  const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 10));
   const skip = (page - 1) * limit;
 
   result = result.skip(skip).limit(limit);

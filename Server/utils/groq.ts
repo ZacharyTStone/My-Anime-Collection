@@ -1,3 +1,5 @@
+import { logger } from "./logger.js";
+
 export interface Recommendation {
   title: string;
   japanese_title: string;
@@ -66,13 +68,12 @@ function parseRecommendations(text: string): Recommendation[] {
   try {
     parsed = JSON.parse(cleaned);
   } catch (err) {
-    console.error("Failed to parse Groq response as JSON:", (err as Error).message);
-    console.error("Raw response (first 500 chars):", cleaned.slice(0, 500));
+    logger.error(`Failed to parse Groq response as JSON: ${(err as Error).message}`);
     return [];
   }
 
   if (!Array.isArray(parsed)) {
-    console.error("Groq response is not an array:", typeof parsed);
+    logger.error(`Groq response is not an array: ${typeof parsed}`);
     return [];
   }
 
@@ -91,12 +92,12 @@ function parseRecommendations(text: string): Recommendation[] {
       // Warn (but still include) if Japanese fields lack Japanese characters.
       // This helps us track if the LLM is still misbehaving.
       if (!containsJapanese(item.japanese_title)) {
-        console.warn(
+        logger.warn(
           `Recommendation "${item.title}" has non-Japanese japanese_title: "${item.japanese_title}"`
         );
       }
       if (!containsJapanese(item.reason_jp)) {
-        console.warn(
+        logger.warn(
           `Recommendation "${item.title}" has non-Japanese reason_jp: "${item.reason_jp}"`
         );
       }
@@ -147,7 +148,7 @@ async function callGroqWithRetry(
       const message = (err as Error).name === "AbortError"
         ? `Groq API timed out after ${FETCH_TIMEOUT_MS}ms`
         : `Groq API network error: ${(err as Error).message}`;
-      console.error(`${message} (attempt ${attempt + 1}/${MAX_RETRIES})`);
+      logger.error(`${message} (attempt ${attempt + 1}/${MAX_RETRIES})`);
 
       if (attempt < MAX_RETRIES - 1) {
         const delay = BASE_DELAY_MS * Math.pow(2, attempt);
@@ -159,7 +160,7 @@ async function callGroqWithRetry(
 
     if (response.status === 429) {
       const delay = BASE_DELAY_MS * Math.pow(2, attempt);
-      console.warn(
+      logger.warn(
         `Groq rate limited (attempt ${attempt + 1}/${MAX_RETRIES}), retrying in ${delay}ms...`
       );
       await sleep(delay);
@@ -167,7 +168,7 @@ async function callGroqWithRetry(
     }
 
     if (response.status === 401) {
-      console.error("Groq API authentication failed — check your GROQ_API_KEY in .env");
+      logger.error("Groq API authentication failed — check your GROQ_API_KEY in .env");
       return [];
     }
 
@@ -175,7 +176,7 @@ async function callGroqWithRetry(
       const errorBody = await response
         .text()
         .catch(() => "unable to read body");
-      console.error(`Groq API error ${response.status}: ${errorBody}`);
+      logger.error(`Groq API error ${response.status}: ${errorBody}`);
       return [];
     }
 
@@ -183,17 +184,14 @@ async function callGroqWithRetry(
     const text = data?.choices?.[0]?.message?.content;
 
     if (!text) {
-      console.error(
-        "No text in Groq response:",
-        JSON.stringify(data).slice(0, 500)
-      );
+      logger.error("No text in Groq response");
       return [];
     }
 
     return parseRecommendations(text);
   }
 
-  console.error("Groq API: max retries exceeded");
+  logger.error("Groq API: max retries exceeded");
   return [];
 }
 
@@ -204,7 +202,7 @@ export async function getAnimeRecommendations(
   const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey) {
-    console.error("GROQ_API_KEY is not set");
+    logger.error("GROQ_API_KEY is not set");
     return [];
   }
 

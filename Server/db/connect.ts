@@ -1,4 +1,5 @@
 import Mongoose from "mongoose";
+import { logger } from "../utils/logger.js";
 
 const connectDB = async (url: string) => {
   try {
@@ -6,9 +7,9 @@ const connectDB = async (url: string) => {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });
-    console.log("MongoDB connected successfully");
+    logger.info("MongoDB connected successfully");
   } catch (error) {
-    console.error("MongoDB connection error:", error);
+    logger.error("MongoDB connection error", error);
     throw error;
   }
 };
