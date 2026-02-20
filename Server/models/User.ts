@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
-import jwt, { SignOptions } from "jsonwebtoken";
+import jwt, { type SignOptions } from "jsonwebtoken";
+import type { StringValue } from "ms";
 
 // Create a document interface for the user
 export interface UserDocument extends Document {
@@ -73,7 +74,7 @@ UserSchema.methods.createJWT = function (this: UserDocument) {
     throw new Error("JWT_SECRET must be defined in environment variables");
   }
   const options: SignOptions = {
-    expiresIn: (process.env.JWT_LIFETIME || "7d") as string,
+    expiresIn: (process.env.JWT_LIFETIME || "7d") as StringValue,
   };
   return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, options);
 };
