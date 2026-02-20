@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { fn } from "storybook/test";
 import FormRow from "../FormRow";
 
 const meta = {
   title: "UI/FormRow",
   component: FormRow,
   tags: ["autodocs"],
-  argTypes: {
-    handleChange: { action: "changed" },
+  args: {
+    handleChange: fn(),
   },
 } satisfies Meta<typeof FormRow>;
 
