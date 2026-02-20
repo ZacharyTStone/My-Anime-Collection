@@ -18,7 +18,6 @@ import SynopsisModal from "./SynopsisModal";
 import AiRecommendationsModal from "./AiRecommendationsModal";
 
 interface AnimeCardProps extends SavedAnime {
-  fetchedAnime: ExpectedFetchedAnimeResponse;
   type?: "add" | "delete";
   className?: string;
 }
@@ -116,7 +115,7 @@ const Anime = ({
   const handleSubmit = () => {
     if (isCurrentlyLoading) return;
 
-    if (type === "add") {
+    if (type === "add" && fetchedAnime) {
       createAnime(fetchedAnime, currentPlaylist.id);
     } else if (type === "delete") {
       if (_id) {

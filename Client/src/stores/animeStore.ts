@@ -3,32 +3,17 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuthStore } from "./authStore";
 import { SORT_OPTIONS } from "../utils/constants";
-import { ExpectedFetchedAnimeResponse, AiRecommendation } from "../utils/types";
+import { ExpectedFetchedAnimeResponse, SavedAnime, AiRecommendation } from "../utils/types";
 import { apiClient } from "../utils/api";
 import { handleApiError } from "../utils/handleApiError";
-
-export interface Anime {
-  _id: string;
-  title: string;
-  rating: number;
-  episodeCount: number;
-  format: string;
-  creationDate: string;
-  synopsis: string;
-  coverImage: string;
-  type: string;
-  japanese_title: string;
-  youtubeVideoId: string;
-  fetchedAnime: ExpectedFetchedAnimeResponse;
-  __v: number;
-}
+import { mapFetchedAnime } from "../utils/mapFetchedAnime";
 
 export type FilterField = "search" | "searchStatus" | "searchStared" | "searchType" | "sort";
 
 interface AnimeStore {
   loadingMyAnimes: boolean;
   loadingItemIds: string[];
-  animes: Anime[];
+  animes: SavedAnime[];
   totalAnimes: number;
   numOfPages: number;
   page: number;
@@ -47,7 +32,6 @@ interface AnimeStore {
   createAnime: (anime: ExpectedFetchedAnimeResponse, playlistID: string) => Promise<void>;
   getAnimes: (playlistId: string) => Promise<void>;
   deleteAnime: (animeId: string, playlistId: string) => Promise<void>;
-  clearFilters: () => void;
   changePage: (page: number) => void;
   resetFetchedAnimes: () => void;
   fetchAnimes: (params: {
@@ -107,29 +91,22 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
     const itemId = anime.id || crypto.randomUUID();
     set((s) => ({ loadingItemIds: [...s.loadingItemIds, itemId] }));
     try {
-      const creationDate = anime.attributes?.startDate;
-      const title =
-        anime.attributes?.titles?.en ||
-        anime.attributes?.titles?.en_jp ||
-        anime.attributes?.canonicalTitle ||
-        "Title N/A";
-      const rating = anime.attributes?.averageRating || "N/A";
-      const format = anime.attributes?.subtype || "N/A";
-      const episodeCount = anime.attributes?.episodeCount ?? null;
-      const synopsis = anime.attributes?.synopsis || "N/A";
-      const coverImage = anime.attributes?.posterImage?.small || "N/A";
-      const youtubeVideoId = anime.attributes?.youtubeVideoId || "N/A";
-      const japanese_title =
-        anime.attributes?.titles?.ja_jp ||
-        anime.attributes?.titles?.en_jp ||
-        anime.attributes?.canonicalTitle ||
-        "Title N/A";
+      const mapped = mapFetchedAnime(anime);
       const isDemoAnime = user?.isDemo === true;
 
       await apiClient.post("/animes", {
-        title, id: itemId, rating, format, episodeCount, synopsis,
-        coverImage, creationDate, youtubeVideoId, japanese_title,
-        playlistID, isDemoAnime,
+        title: mapped.title,
+        id: itemId,
+        rating: mapped.rating,
+        format: mapped.format,
+        episodeCount: mapped.episodeCount,
+        synopsis: mapped.synopsis,
+        coverImage: mapped.coverImage,
+        creationDate: mapped.creationDate,
+        youtubeVideoId: mapped.youtubeVideoId,
+        japanese_title: mapped.japanese_title,
+        playlistID,
+        isDemoAnime,
       });
       toast.success("Anime Created!");
     } catch (error: unknown) {
@@ -188,15 +165,6 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
     } finally {
       set((s) => ({ loadingItemIds: s.loadingItemIds.filter((id) => id !== animeId) }));
     }
-  },
-
-  clearFilters: () => {
-    set({
-      search: "",
-      searchStatus: "all",
-      searchType: "all",
-      sort: "latest",
-    });
   },
 
   changePage: (page) => {

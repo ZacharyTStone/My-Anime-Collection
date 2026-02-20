@@ -20,14 +20,14 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
     sort,
     sortOptions,
     handleChange,
-    clearFilters,
+    clearValues,
   } = useAnimeSelector((s) => ({
     loadingMyAnimes: s.loadingMyAnimes,
     search: s.search,
     sort: s.sort,
     sortOptions: s.sortOptions,
     handleChange: s.handleChange,
-    clearFilters: s.clearFilters,
+    clearValues: s.clearValues,
   }));
 
   const { loadingFetchPlaylists } = usePlaylistSelector((s) => ({
@@ -48,7 +48,7 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
   const handleResetFilters = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLocalSearch("");
-    clearFilters();
+    clearValues();
   };
 
   const debouncedHandleSearch = useMemo(

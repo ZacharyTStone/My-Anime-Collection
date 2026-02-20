@@ -73,7 +73,7 @@ UserSchema.methods.createJWT = function (this: UserDocument) {
     throw new Error("JWT_SECRET must be defined in environment variables");
   }
   const options: SignOptions = {
-    expiresIn: "7d",
+    expiresIn: (process.env.JWT_LIFETIME || "7d") as string,
   };
   return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, options);
 };

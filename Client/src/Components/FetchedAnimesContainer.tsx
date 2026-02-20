@@ -4,8 +4,26 @@ import { useAnimeSelector } from "../stores/hooks";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
-import DOMPurify from "dompurify";
 import { cn } from "../utils/cn";
+import { mapFetchedAnime } from "../utils/mapFetchedAnime";
+
+const LoadingUI = ({ onMobile }: { onMobile: boolean }) => (
+  <section className="mt-16">
+    <div className="flex justify-between items-center mb-8">
+      <SkeletonLoadingBlock height={50} width={"100%"} borderRadius={8} />
+    </div>
+    <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">
+      {[...Array(onMobile ? 6 : 3)].map((_, index) => (
+        <SkeletonLoadingBlock
+          key={index}
+          height={onMobile ? 300 : 600}
+          width={300}
+          borderRadius={8}
+        />
+      ))}
+    </div>
+  </section>
+);
 
 interface FetchedAnimesContainerProps {
   searchText: string;
@@ -54,7 +72,7 @@ const FetchedAnimesContainer = ({
         sort,
       });
     }
-  }, [searchText, sort]);
+  }, [searchText, sort, baseURL, fetchAnimes]);
 
   useEffect(() => {
     return () => {
@@ -77,26 +95,8 @@ const FetchedAnimesContainer = ({
 
   const onMobile = useMobile();
 
-  const LoadingUI = () => (
-    <section className="mt-16">
-      <div className="flex justify-between items-center mb-8">
-        <SkeletonLoadingBlock height={50} width={"100%"} borderRadius={8} />
-      </div>
-      <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">
-        {[...Array(onMobile ? 6 : 3)].map((_, index) => (
-          <SkeletonLoadingBlock
-            key={index}
-            height={onMobile ? 300 : 600}
-            width={300}
-            borderRadius={8}
-          />
-        ))}
-      </div>
-    </section>
-  );
-
   if (loadingFetchAnimes) {
-    return <LoadingUI />;
+    return <LoadingUI onMobile={onMobile} />;
   }
 
   const paginationBtnClasses = cn(
@@ -134,39 +134,17 @@ const FetchedAnimesContainer = ({
             </div>
           )}
           <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">
-            {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => (
-              <Anime
-                key={anime.id}
-                fetchedAnime={anime}
-                type="add"
-                _id={anime.id || ""}
-                title={
-                  anime?.attributes?.titles?.en ||
-                  anime?.attributes?.titles?.en_jp ||
-                  "Title N/A"
-                }
-                rating={anime?.attributes?.averageRating || "N/A"}
-                episodeCount={anime?.attributes?.episodeCount || null as number | null}
-                format={anime?.attributes?.subtype || "N/A"}
-                creationDate={anime?.attributes?.startDate || "N/A"}
-                synopsis={
-                  anime?.attributes?.synopsis
-                    ? DOMPurify.sanitize(anime?.attributes?.synopsis)
-                    : "No synopsis available"
-                }
-                coverImage={
-                  anime?.attributes?.posterImage?.medium ||
-                  anime?.attributes?.posterImage?.small ||
-                  ""
-                }
-                japanese_title={
-                  anime?.attributes?.titles?.ja_jp ||
-                  anime?.attributes?.titles?.en ||
-                  "Title N/A"
-                }
-                youtubeVideoId={anime?.attributes?.youtubeVideoId}
-              />
-            ))}
+            {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => {
+              const mapped = mapFetchedAnime(anime);
+              return (
+                <Anime
+                  key={anime.id}
+                  {...mapped}
+                  fetchedAnime={anime}
+                  type="add"
+                />
+              );
+            })}
           </div>
           {!onTrendingPage && (
             <div className="mt-8 mb-4 flex justify-center items-center">

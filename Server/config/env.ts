@@ -8,6 +8,7 @@ interface EnvConfig {
   PORT: number;
   MONGO_URL: string;
   JWT_SECRET: string;
+  JWT_LIFETIME?: string;
 }
 
 function validateEnv(): EnvConfig {
@@ -24,6 +25,7 @@ function validateEnv(): EnvConfig {
     PORT: parseInt(process.env.PORT!, 10),
     MONGO_URL: process.env.MONGO_URL!,
     JWT_SECRET: process.env.JWT_SECRET!,
+    JWT_LIFETIME: process.env.JWT_LIFETIME,
   };
 }
 

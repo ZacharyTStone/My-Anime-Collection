@@ -1,11 +1,21 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
-import { Anime as IAnime } from "../stores/animeStore";
+import { SavedAnime } from "../utils/types";
 import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
 import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/AnimeCard";
+
+const PageLoader = () => (
+  <section className="mt-16 p-10">
+    <div className="flex justify-center items-center gap-2.5">
+      <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+      <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+      <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+    </div>
+  </section>
+);
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();
@@ -50,18 +60,6 @@ const MyAnimesContainer = () => {
 
   const noAnimesInPlaylist = animes.length === 0 && search?.length === 0;
 
-  const PageLoader = () => {
-    return (
-      <section className="mt-16 p-10">
-        <div className="flex justify-center items-center gap-2.5">
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-          <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-        </div>
-      </section>
-    );
-  };
-
   if (loadingMyAnimes) return <PageLoader />;
 
   if (noAnimesInPlaylist && !loadingMyAnimes) {
@@ -84,7 +82,7 @@ const MyAnimesContainer = () => {
       </h5>
       {numOfPages > 1 && <PageBtnContainer />}
       <div className="grid grid-cols-1 gap-y-8 lg:flex lg:flex-row lg:flex-wrap lg:justify-evenly lg:items-center text-[var(--textColor)]">
-        {animes?.map((anime: IAnime) => {
+        {animes?.map((anime: SavedAnime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}
       </div>

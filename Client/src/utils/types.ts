@@ -42,6 +42,8 @@ export interface SavedAnime {
   creationDate?: string;
   coverImage?: string;
   japanese_title?: string;
+  __v?: number;
+  fetchedAnime?: ExpectedFetchedAnimeResponse;
 }
 
 export interface User {
