@@ -181,29 +181,28 @@ const Anime = ({
 
     if (state.isHovering && hasYoutubeVideoId && !state.failedToLoadYoutube) {
       return (
-        <ReactPlayer
-          src={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
-          width="100%"
-          height="360px"
-          controls
-          className="anime-cover-image"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "var(--spacing-xs)",
-            overflow: "hidden",
-            boxShadow: "var(--shadow-md)",
-          }}
-          fallback={
-            <img
-              className={imgClasses}
-              src={imageSrc}
-              alt={title}
-            />
-          }
-          onError={onVideoError}
-        />
+        <div className="flex justify-center items-center w-full">
+          <ReactPlayer
+            src={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
+            width="100%"
+            height="360px"
+            controls
+            className="anime-cover-image"
+            style={{
+              borderRadius: "var(--spacing-xs)",
+              overflow: "hidden",
+              boxShadow: "var(--shadow-md)",
+            }}
+            fallback={
+              <img
+                className={imgClasses}
+                src={imageSrc}
+                alt={title}
+              />
+            }
+            onError={onVideoError}
+          />
+        </div>
       );
     }
 

@@ -23,7 +23,7 @@ export const Wrapper = ({
 // ImageDiv - container for card image with dynamic min-height
 export const ImageDiv = ({ $onMobile, className, style, ...props }: React.HTMLAttributes<HTMLDivElement> & { $onMobile?: boolean }) => (
   <div
-    className={className}
+    className={cn("flex justify-center items-center", className)}
     style={{
       minHeight: $onMobile ? "auto" : "378px",
       ...style,
