@@ -5,9 +5,9 @@ import { Express } from "express";
 
 const KITSU_API = "https://kitsu.io";
 
-const getCorsOrigin = (): string => {
+const getAllowedOrigins = (): string[] => {
   if (process.env.NODE_ENV === "development") {
-    return "http://localhost:3000";
+    return ["http://localhost:3000"];
   }
 
   if (!process.env.FRONTEND_URL) {
@@ -16,21 +16,33 @@ const getCorsOrigin = (): string => {
     );
   }
 
-  return process.env.FRONTEND_URL;
+  // FRONTEND_URL supports a comma-separated allowlist
+  // e.g. "https://myapp.com,https://staging.myapp.com"
+  return process.env.FRONTEND_URL.split(",").map((url) => url.trim());
 };
 
 export const configureSecurity = (app: Express) => {
   app.set("trust proxy", 1);
 
+  const allowedOrigins = getAllowedOrigins();
+
   app.use(
     cors({
-      origin: getCorsOrigin(),
+      origin: (origin, callback) => {
+        // Allow requests with no origin (e.g. server-to-server, curl)
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error(`Origin ${origin} not allowed by CORS`));
+        }
+      },
       credentials: true,
     })
   );
 
   app.use(
     helmet({
+      referrerPolicy: { policy: "strict-origin-when-cross-origin" },
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
