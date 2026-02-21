@@ -203,7 +203,7 @@ After installation, the application will be running at:
 ## Links
 
 - **Live Site:** [My Anime Collection](https://www.my-anime-collection.com)
-- **Storybook:** [Component Library](https://my-anime-collection-storybook.onrender.com)
+- **Storybook:** [Component Library](https://my-anime-collection-storybook.onrender.com) — An experimental Storybook instance used to explore component-driven development. Stories are primarily AI-generated as a sandbox for learning Storybook's tooling and workflow.
 - **GitHub Repository:** [My Anime Collection on GitHub](https://github.com/ZacharyTStone/My-Anime-Collection)
 
 ## License
@@ -418,7 +418,7 @@ npm start
 ## リンク
 
 - **サイト：** [My Anime Collection](https://www.my-anime-collection.com)
-- **Storybook：** [コンポーネントライブラリ](https://my-anime-collection-storybook.onrender.com)
+- **Storybook：** [コンポーネントライブラリ](https://my-anime-collection-storybook.onrender.com) — コンポーネント駆動開発を学ぶための実験的な Storybook インスタンス。ストーリーは主に AI で生成され、Storybook のツールやワークフローを習得するためのサンドボックスとして活用しています。
 - **GitHub リポジトリ：** [My Anime Collection on GitHub](https://github.com/ZacharyTStone/My-Anime-Collection)
 
 ## ライセンス
