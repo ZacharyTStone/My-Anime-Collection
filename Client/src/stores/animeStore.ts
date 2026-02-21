@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuthStore } from "./authStore";
 import { SORT_OPTIONS } from "../utils/constants";
-import { ExpectedFetchedAnimeResponse, SavedAnime, AiRecommendation } from "../utils/types";
+import { ExpectedFetchedAnimeResponse, SavedAnime } from "../utils/types";
 import { apiClient } from "../utils/api";
 import { handleApiError } from "../utils/handleApiError";
 import { mapFetchedAnime } from "../utils/mapFetchedAnime";
@@ -42,12 +42,22 @@ interface AnimeStore {
     pagination: boolean;
     sort: string;
   }) => Promise<void>;
-  getAiRecommendations: (title: string, synopsis: string) => Promise<AiRecommendation[]>;
   isItemLoading: (id: string) => boolean;
 }
 
-let getAnimesController: AbortController | null = null;
-let fetchAnimesController: AbortController | null = null;
+const createAbortController = () => {
+  let controller: AbortController | null = null;
+  return {
+    refresh() {
+      controller?.abort();
+      controller = new AbortController();
+      return controller.signal;
+    },
+  };
+};
+
+const getAnimesAbort = createAbortController();
+const fetchAnimesAbort = createAbortController();
 
 export const useAnimeStore = create<AnimeStore>((set, get) => ({
   loadingMyAnimes: false,
@@ -119,8 +129,7 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
   getAnimes: async (playlistId) => {
     if (!useAuthStore.getState().token) return;
 
-    getAnimesController?.abort();
-    getAnimesController = new AbortController();
+    const signal = getAnimesAbort.refresh();
 
     const { page, search, searchStatus, searchType, searchStared, sort } = get();
     const params = new URLSearchParams();
@@ -136,9 +145,7 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
 
     set({ loadingMyAnimes: true });
     try {
-      const { data } = await apiClient.get(`/animes?${params.toString()}`, {
-        signal: getAnimesController.signal,
-      });
+      const { data } = await apiClient.get(`/animes?${params.toString()}`, { signal });
       set({
         loadingMyAnimes: false,
         animes: data.animes,
@@ -180,8 +187,7 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
   },
 
   fetchAnimes: async ({ page, baseURL, searchText, sort }) => {
-    fetchAnimesController?.abort();
-    fetchAnimesController = new AbortController();
+    const signal = fetchAnimesAbort.refresh();
 
     set({ loadingFetchAnimes: true });
     try {
@@ -208,9 +214,7 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
         url = `${baseURL}?${params.toString()}`;
       }
 
-      const { data } = await axios.get(url, {
-        signal: fetchAnimesController.signal,
-      });
+      const { data } = await axios.get(url, { signal });
       const animes = data?.data ?? [];
       const totalAnimes = data?.meta?.count ?? animes.length;
       const numOfPages = Math.max(1, Math.ceil(totalAnimes / limit));
@@ -225,10 +229,5 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
       set({ loadingFetchAnimes: false });
       handleApiError(error, "Failed to fetch animes");
     }
-  },
-
-  getAiRecommendations: async (title, synopsis) => {
-    const { data } = await apiClient.post("/animes/recommendations", { title, synopsis });
-    return data.recommendations as AiRecommendation[];
   },
 }));

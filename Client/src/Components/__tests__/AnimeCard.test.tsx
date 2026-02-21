@@ -30,12 +30,14 @@ vi.mock("../../stores/hooks", () => ({
     createAnime: mockCreateAnime,
     deleteAnime: mockDeleteAnime,
     isItemLoading: () => false,
-    getAiRecommendations: vi.fn(),
   }),
   usePlaylistSelector: () => ({
     currentPlaylist: { id: "playlist-1", title: "My List", userId: "u1", createdAt: "", updatedAt: "" },
   }),
   useLanguageSelector: () => "en",
+  useAiSelector: () => ({
+    getRecommendations: vi.fn(),
+  }),
 }));
 
 vi.mock("../../utils/hooks", () => ({

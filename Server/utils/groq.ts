@@ -39,7 +39,7 @@ Synopsis: ${cleanSynopsis}
 Return ONLY a JSON array with exactly 5 objects. Each object must have these 4 fields:
 - "title": The anime's English title (e.g. "Attack on Titan")
 - "japanese_title": The anime's official Japanese title written in Japanese script (e.g. "進撃の巨人"). This MUST use Japanese characters (kanji/hiragana/katakana), NEVER romaji or English.
-- "reason": 1-2 sentence explanation in English why the user would enjoy this anime
+- "reason": 1-2 sentence explanation in English why the user would enjoy this anime and why it's similar to the input anime.
 - "reason_jp": The SAME explanation as "reason" but written ENTIRELY in Japanese (日本語で書くこと). This field MUST be in Japanese using Japanese script — not English, not romaji.
 
 ⚠ STRICT LANGUAGE RULES — VIOLATIONS WILL BE REJECTED:
@@ -48,7 +48,7 @@ Return ONLY a JSON array with exactly 5 objects. Each object must have these 4 f
 3. "title" and "reason" MUST be in English.
 4. Every object must have all 4 fields with the correct language.
 
-Do not include the original anime. Only recommend real, existing anime.
+Do not include the original anime as a recommendation. Only recommend real, existing anime. Do include the original anime in the "reason" field as a reason why the user would enjoy it.
 Return ONLY the raw JSON array.`;
 }
 

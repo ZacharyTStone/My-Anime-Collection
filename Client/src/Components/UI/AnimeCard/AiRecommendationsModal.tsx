@@ -2,24 +2,7 @@ import { BsStars, BsXLg } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { useLanguageSelector } from "../../../stores/hooks";
 import { AiRecommendation } from "../../../utils/types";
-import {
-  AiModalOverlay,
-  AiModalContent,
-  AiModalHeader,
-  AiModalTitle,
-  AiCloseButton,
-  AiModalBody,
-  AiLoadingContainer,
-  AiErrorMessage,
-  AiRecommendationList,
-  AiRecommendationItem,
-  AiRecNumber,
-  AiRecContent,
-  AiRecTitle,
-  AiRecSecondaryTitle,
-  AiRecReason,
-  ShimmerIcon,
-} from "./AnimeCard.styles";
+import { cn } from "../../../utils/cn";
 
 interface AiRecommendationsModalProps {
   loading: boolean;
@@ -28,49 +11,95 @@ interface AiRecommendationsModalProps {
   onClose: () => void;
 }
 
-const AiRecommendationsModal = ({
-  loading,
-  error,
-  results,
-  onClose,
-}: AiRecommendationsModalProps) => {
+const shimmerStyle = {
+  background: "linear-gradient(90deg, var(--anime-purple) 0%, var(--anime-pink) 20%, var(--anime-blue) 40%, var(--anime-pink) 60%, var(--anime-purple) 80%, var(--anime-blue) 100%)",
+  backgroundSize: "300% auto",
+  WebkitBackgroundClip: "text" as const,
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+};
+
+const gradientBg = {
+  background: "linear-gradient(135deg, var(--anime-purple), var(--anime-blue))",
+};
+
+const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommendationsModalProps) => {
   const { t } = useTranslation();
   const siteLanguage = useLanguageSelector((s) => s.siteLanguage);
 
   return (
-    <AiModalOverlay
+    <div
+      className="fixed inset-0 flex items-center justify-center z-[9999] bg-[rgba(15,20,35,0.6)] backdrop-blur-[12px] [-webkit-backdrop-filter:blur(12px)]"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label={t("anime.ai_suggestions")}
     >
-      <AiModalContent onClick={(e) => e.stopPropagation()}>
-        <AiModalHeader>
-          <AiModalTitle>
-            <ShimmerIcon>
+      <div
+        className="bg-white rounded-2xl max-w-[520px] w-[92%] max-h-[85vh] overflow-y-auto relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-grey-200 hover:scrollbar-thumb-grey-300"
+        style={{ boxShadow: "0 25px 60px rgba(0, 0, 0, 0.3)" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div
+          className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
+          style={{ background: "linear-gradient(90deg, var(--anime-purple), var(--anime-blue), var(--anime-pink))" }}
+        />
+        {/* Header */}
+        <div className="flex items-center justify-between px-7 py-6 border-b border-grey-100">
+          <div
+            className="flex items-center gap-2.5 text-[1.2rem] font-bold bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]"
+            style={gradientBg}
+          >
+            <span
+              className={cn(
+                "inline-flex items-center justify-center bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]",
+                "animate-[anime-shimmer_2s_linear_infinite]",
+                "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
+              )}
+              style={shimmerStyle}
+            >
               <BsStars size={20} />
-            </ShimmerIcon>
+            </span>
             {t("anime.ai_suggestions")}
-          </AiModalTitle>
-          <AiCloseButton onClick={onClose} aria-label="Close">
+          </div>
+          <button
+            className={cn(
+              "flex items-center justify-center w-9 h-9 rounded-full",
+              "border-[1.5px] border-grey-200 bg-transparent text-grey-400 cursor-pointer",
+              "transition-all duration-200",
+              "hover:bg-grey-100 hover:border-grey-300 hover:text-grey-700 hover:rotate-90",
+              "active:rotate-90 active:scale-[0.92]",
+              "[&_svg]:w-[13px] [&_svg]:h-[13px]",
+            )}
+            onClick={onClose}
+            aria-label="Close"
+          >
             <BsXLg />
-          </AiCloseButton>
-        </AiModalHeader>
-        <AiModalBody>
+          </button>
+        </div>
+        {/* Body */}
+        <div className="px-7 pt-4 pb-7">
           {loading && (
-            <AiLoadingContainer>
-              <ShimmerIcon className="text-[2rem]">
+            <div className="flex flex-col items-center justify-center py-12">
+              <span
+                className={cn(
+                  "inline-flex items-center justify-center text-[2rem]",
+                  "animate-[anime-shimmer_2s_linear_infinite]",
+                  "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
+                )}
+                style={shimmerStyle}
+              >
                 <BsStars size={36} />
-              </ShimmerIcon>
+              </span>
               <p className="mt-2 text-sm text-[var(--grey-400)] italic tracking-wide">
                 {t("anime.ai_loading")}
               </p>
-            </AiLoadingContainer>
+            </div>
           )}
           {error && (
-            <AiErrorMessage>
+            <div className="text-center p-5 text-red-dark bg-[#fef2f2] rounded-[10px] text-[0.875rem] border border-[#fecaca]">
               {t("anime.ai_error")}
-            </AiErrorMessage>
+            </div>
           )}
           {!loading && !error && results.length === 0 && (
             <p className="text-center py-3 text-sm text-[var(--grey-400)]">
@@ -78,29 +107,41 @@ const AiRecommendationsModal = ({
             </p>
           )}
           {!loading && !error && results.length > 0 && (
-            <AiRecommendationList>
+            <div className="flex flex-col gap-3">
               {results.map((rec, i) => (
-                <AiRecommendationItem key={i}>
-                  <AiRecNumber>{i + 1}</AiRecNumber>
-                  <AiRecContent>
-                    <AiRecTitle>
+                <div
+                  key={rec.title}
+                  className={cn(
+                    "flex gap-3.5 p-4 rounded-xl bg-[#f9fafb] border border-[#f3f4f6]",
+                    "transition-all duration-200",
+                    "hover:bg-white hover:border-[var(--primary-alpha-30)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.05)]",
+                  )}
+                >
+                  <div
+                    className="flex items-center justify-center w-[26px] h-[26px] min-w-[26px] rounded-full text-white text-[0.7rem] font-bold mt-0.5"
+                    style={gradientBg}
+                  >
+                    {i + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-grey-900 leading-[1.3] text-[0.95rem] m-0 mb-0.5">
                       {siteLanguage === "en" ? rec.title : rec.japanese_title}
-                    </AiRecTitle>
-                    <AiRecSecondaryTitle>
+                    </p>
+                    <p className="text-grey-400 text-[0.75rem] italic m-0 mb-2">
                       {siteLanguage === "en" ? rec.japanese_title : rec.title}
-                    </AiRecSecondaryTitle>
-                    <AiRecReason>
+                    </p>
+                    <p className="text-grey-600 leading-[1.55] text-[0.8125rem] m-0 [&_span]:text-[var(--anime-purple)] [&_span]:font-semibold">
                       <span>{t("anime.ai_reason")}:</span>{" "}
                       {siteLanguage === "en" ? rec.reason : (rec.reason_jp || rec.reason)}
-                    </AiRecReason>
-                  </AiRecContent>
-                </AiRecommendationItem>
+                    </p>
+                  </div>
+                </div>
               ))}
-            </AiRecommendationList>
+            </div>
           )}
-        </AiModalBody>
-      </AiModalContent>
-    </AiModalOverlay>
+        </div>
+      </div>
+    </div>
   );
 };
 

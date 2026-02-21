@@ -113,10 +113,35 @@ The app utilizes Concurrently to run both the backend and frontend simultaneousl
 - **Register/Login** - User authentication screens (includes demo mode)
 - **Error Pages** - Custom 404 and error handling screens
 
+### Testing
+
+The project uses a multi-layered testing strategy:
+
+- **Vitest (Unit)** - Unit tests for stores, utilities, and pure functions (`src/**/*.test.ts`)
+- **Storybook + Vitest Browser** - Component-level tests running stories in a real browser via Playwright (`src/**/*.stories.ts`)
+- **Playwright** - End-to-end tests across Chromium, Firefox, and WebKit (`Client/tests/`)
+
+```bash
+# Run unit tests
+npm run test -- --project=unit
+
+# Run Storybook component tests
+npm run test -- --project=storybook
+
+# Run all tests
+npm run test
+
+# Run Playwright E2E tests
+cd Client && npx playwright test
+```
+
+Unit tests are also run as part of the production build (`npm run build`) to ensure no regressions are deployed.
+
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Testing](#testing)
 - [API Endpoints](#api-endpoints)
 - [Links](#links)
 - [License](#license)
@@ -178,6 +203,7 @@ After installation, the application will be running at:
 ## Links
 
 - **Live Site:** [My Anime Collection](https://www.my-anime-collection.com)
+- **Storybook:** [Component Library](https://my-anime-collection-storybook.onrender.com)
 - **GitHub Repository:** [My Anime Collection on GitHub](https://github.com/ZacharyTStone/My-Anime-Collection)
 
 ## License
@@ -302,10 +328,35 @@ My-Anime-Collection/
 - **登録/ログイン** - ユーザー認証画面（デモモード含む）
 - **エラーページ** - カスタム404とエラー処理画面
 
+### テスト
+
+このプロジェクトは多層テスト戦略を採用しています：
+
+- **Vitest（ユニット）** - ストア、ユーティリティ、純粋関数のユニットテスト（`src/**/*.test.ts`）
+- **Storybook + Vitest Browser** - Playwright を使用した実ブラウザでのコンポーネントテスト（`src/**/*.stories.ts`）
+- **Playwright** - Chromium、Firefox、WebKit での E2E テスト（`Client/tests/`）
+
+```bash
+# ユニットテストを実行
+npm run test -- --project=unit
+
+# Storybook コンポーネントテストを実行
+npm run test -- --project=storybook
+
+# すべてのテストを実行
+npm run test
+
+# Playwright E2E テストを実行
+cd Client && npx playwright test
+```
+
+ユニットテストは本番ビルド（`npm run build`）の一部としても実行され、リグレッションがデプロイされないことを保証します。
+
 ## 目次
 
 - [インストール方法](#インストール方法)
 - [使用方法](#使用方法)
+- [テスト](#テスト)
 - [API エンドポイント](#api-エンドポイント)
 - [リンク](#リンク)
 - [ライセンス](#ライセンス)
@@ -367,6 +418,7 @@ npm start
 ## リンク
 
 - **サイト：** [My Anime Collection](https://www.my-anime-collection.com)
+- **Storybook：** [コンポーネントライブラリ](https://my-anime-collection-storybook.onrender.com)
 - **GitHub リポジトリ：** [My Anime Collection on GitHub](https://github.com/ZacharyTStone/My-Anime-Collection)
 
 ## ライセンス
