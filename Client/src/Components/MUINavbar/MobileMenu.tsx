@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect, type MouseEvent } from "react";
+import { useCallback, useState, useRef, type MouseEvent } from "react";
 import { HiMenu } from "react-icons/hi";
 import NavLinks from "../UI/NavLinks";
+import { useClickOutside } from "../../utils/hooks";
 
 const MobileMenu = () => {
   const [open, setOpen] = useState(false);
@@ -11,18 +12,9 @@ const MobileMenu = () => {
     setOpen((prev) => !prev);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = useCallback(() => setOpen(false), []);
 
-  useEffect(() => {
-    if (!open) return;
-    const onClickOutside = (e: globalThis.MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
-  }, [open]);
+  useClickOutside(menuRef, open, handleClose);
 
   return (
     <div className="grow md:hidden relative" ref={menuRef}>
@@ -42,13 +34,7 @@ const MobileMenu = () => {
           <div className="fixed inset-0 z-40" onClick={handleClose} />
           <div
             id="mobile-menu"
-            className="absolute left-0 top-full mt-1.5 z-50 flex flex-col items-start rounded-[var(--borderRadius)] border border-[var(--primary-alpha-20)]"
-            style={{
-              background: "rgba(255, 255, 255, 0.9)",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-              boxShadow: "0 4px 20px var(--primary-alpha-15)",
-            }}
+            className="absolute left-0 top-full mt-1.5 z-50 flex flex-col items-start rounded-[var(--borderRadius)] border border-[var(--primary-alpha-20)] glass-dropdown"
           >
             <NavLinks />
           </div>

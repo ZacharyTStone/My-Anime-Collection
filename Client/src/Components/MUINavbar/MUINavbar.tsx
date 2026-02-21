@@ -7,15 +7,7 @@ import UserMenu from "./UserMenu";
 const MUINavbar = () => {
   return (
     <nav className="h-[var(--nav-height)] flex items-start justify-center w-full bg-transparent shadow-none">
-      <div
-        className="w-full border-b border-[var(--primary-alpha-15)] relative"
-        style={{
-          background: "rgba(255, 255, 255, 0.7)",
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
-          boxShadow: "0 2px 10px var(--primary-alpha-10)",
-        }}
-      >
+      <div className="w-full border-b border-[var(--primary-alpha-15)] relative glass-navbar">
         <div className="max-w-screen-xl mx-auto px-4">
           <div className="flex items-center py-2 px-4">
             <div className="grow hidden md:block">

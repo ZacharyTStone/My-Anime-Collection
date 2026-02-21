@@ -2,7 +2,6 @@ import type { ChangeEvent } from "react";
 import { SelectOption } from "../../utils/types";
 import { cn } from "../../utils/cn";
 
-export type { SelectOption };
 
 interface FormRowSelectProps {
   labelText: string;
@@ -30,6 +29,7 @@ const FormRowSelect = ({
         {labelText || name}
       </label>
       <select
+        id={name}
         disabled={disabled}
         name={name}
         value={value}
@@ -41,13 +41,11 @@ const FormRowSelect = ({
           disabled && "opacity-60 cursor-not-allowed"
         )}
       >
-        {list?.map((itemValue: SelectOption, index: number) => {
-          return (
-            <option key={index} value={itemValue.value}>
-              {itemValue.title}
-            </option>
-          );
-        })}
+        {list?.map((itemValue: SelectOption) => (
+          <option key={itemValue.value} value={itemValue.value}>
+            {itemValue.title}
+          </option>
+        ))}
       </select>
     </div>
   );

@@ -42,12 +42,7 @@ const CardMedia = ({
           width="100%"
           height="360px"
           controls
-          className="anime-cover-image"
-          style={{
-            borderRadius: "var(--spacing-xs)",
-            overflow: "hidden",
-            boxShadow: "var(--shadow-md)",
-          }}
+          className="anime-cover-image rounded-[var(--spacing-xs)] overflow-hidden shadow-[var(--shadow-md)]"
           fallback={<img className={IMG_CLASSES} src={imageSrc} alt={title} />}
           onError={onVideoError}
         />

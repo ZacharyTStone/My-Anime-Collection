@@ -12,7 +12,7 @@
 
 ## Description
 
-Welcome to My Anime Collection, a free anime tracker that allows users to explore and create custom playlists to keep track of their favorite anime.
+Welcome to My Anime Collection, a free anime tracker that allows users to explore and create custom playlists to keep track of their favorite anime. This project also serves as a personal testing ground for experimenting with new technologies — such as Zustand, React Compiler, and Tailwind — and for learning tools like Storybook.
 
 ### Technologies Used
 
@@ -227,7 +227,7 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 
 ## 説明
 
-「My Anime Collection（私のアニメコレクション）」へようこそ。これは、ユーザーがお気に入りのアニメを追跡するためのカスタムプレイリストを探索および作成できる無料のアニメトラッカーです。
+「My Anime Collection（私のアニメコレクション）」へようこそ。これは、ユーザーがお気に入りのアニメを追跡するためのカスタムプレイリストを探索および作成できる無料のアニメトラッカーです。このプロジェクトは、Zustand、React Compiler、Tailwind などの新しい技術を試したり、Storybook などのツールを学ぶための実験場としても活用しています。
 
 ### 使用技術
 

@@ -8,8 +8,7 @@ interface DashboardProps {
 const Dashboard = ({ className }: DashboardProps) => {
   return (
     <div
-      className={`min-h-screen relative ${className || ""}`}
-      style={{ background: "var(--backgroundColor)" }}
+      className={`min-h-screen relative bg-[var(--backgroundColor)] ${className || ""}`}
     >
       <section className="relative z-[1]">
         <main className="min-h-screen h-full bg-transparent lg:grid-cols-[auto_1fr]">

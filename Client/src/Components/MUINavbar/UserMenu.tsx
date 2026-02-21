@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect, type MouseEvent } from "react";
+import { useCallback, useState, useRef, type MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { FaCaretDown, FaUserCircle } from "react-icons/fa";
 import { useAuthSelector } from "../../stores/hooks";
+import { useClickOutside } from "../../utils/hooks";
 
 const UserMenu = () => {
   const { t } = useTranslation();
@@ -20,7 +21,7 @@ const UserMenu = () => {
     setOpen((prev) => !prev);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = useCallback(() => setOpen(false), []);
 
   const handleLogout = () => {
     handleClose();
@@ -28,16 +29,7 @@ const UserMenu = () => {
     navigate("/landing");
   };
 
-  useEffect(() => {
-    if (!open) return;
-    const onClickOutside = (e: globalThis.MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
-  }, [open]);
+  useClickOutside(menuRef, open, handleClose);
 
   return (
     <div className="shrink-0 relative" ref={menuRef}>
@@ -62,13 +54,7 @@ const UserMenu = () => {
         <>
           <div className="fixed inset-0 z-40" onClick={handleClose} />
           <div
-            className="absolute right-0 top-full mt-2 z-50 rounded-[var(--borderRadius)] border border-[var(--primary-alpha-20)] min-w-[140px]"
-            style={{
-              background: "rgba(255, 255, 255, 0.9)",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-              boxShadow: "0 4px 20px var(--primary-alpha-15)",
-            }}
+            className="absolute right-0 top-full mt-2 z-50 rounded-[var(--borderRadius)] border border-[var(--primary-alpha-20)] min-w-[140px] glass-dropdown"
           >
             <button
               type="button"

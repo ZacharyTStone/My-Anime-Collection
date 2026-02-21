@@ -1,7 +1,31 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore, type RefObject } from "react";
 import { useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { TABLET } from "./constants";
+
+const useClickOutside = (
+  ref: RefObject<HTMLElement | null>,
+  active: boolean,
+  onClose: () => void,
+) => {
+  useEffect(() => {
+    if (!active) return;
+    const handleClick = (e: globalThis.MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [ref, active, onClose]);
+};
 
 const useInViewAnimation = (threshold = 0.5) => {
   const controls = useAnimation();
@@ -28,6 +52,7 @@ const useMobile = () =>
   useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
 export {
+  useClickOutside,
   useInViewAnimation,
   useMobile,
 };

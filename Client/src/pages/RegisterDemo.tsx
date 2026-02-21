@@ -1,36 +1,26 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { FormRow, Logo } from "../Components/UI";
 import { useAuthSelector } from "../stores/hooks";
 
-const initialState = {
-  name: "",
-  email: "",
-  password: "",
-  existingUser: true,
-};
+const NOOP = () => {};
 
-const Register = () => {
+const SECTION_CLASS = "full-page min-h-screen grid items-center justify-center relative overflow-hidden register-bg before:content-[''] before:absolute before:top-[-50%] before:right-[-20%] before:w-[600px] before:h-[600px] before:rounded-full before:pointer-events-none before:bg-[radial-gradient(circle,rgba(212,54,124,0.08)_0%,transparent_70%)] after:content-[''] after:absolute after:bottom-[-30%] after:left-[-10%] after:w-[400px] after:h-[400px] after:rounded-full after:pointer-events-none after:bg-[radial-gradient(circle,rgba(212,54,124,0.06)_0%,transparent_70%)]";
+
+const FORM_CLASS = "relative z-10 w-full max-w-[420px] m-8 p-10 rounded-2xl bg-white/95 backdrop-blur-[10px] border border-primary-500/10 register-form-shadow max-[480px]:m-4 max-[480px]:px-6 max-[480px]:py-8";
+
+const RegisterDemo = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [values, setValues] = useState(initialState);
   const { user, setupUser } = useAuthSelector((s) => ({
     user: s.user,
     setupUser: s.setupUser,
   }));
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
   const onSubmit = () => {
-    const currentUser = {
-      isDemo: true,
-    };
-
     setupUser({
-      currentUser,
+      currentUser: { isDemo: true },
       endPoint: "register",
       alertText: t("register.alert_text"),
     });
@@ -50,57 +40,38 @@ const Register = () => {
   }, []);
 
   return (
-    <section
-      className="full-page min-h-screen grid items-center justify-center relative overflow-hidden before:content-[''] before:absolute before:top-[-50%] before:right-[-20%] before:w-[600px] before:h-[600px] before:rounded-full before:pointer-events-none before:bg-[radial-gradient(circle,rgba(212,54,124,0.08)_0%,transparent_70%)] after:content-[''] after:absolute after:bottom-[-30%] after:left-[-10%] after:w-[400px] after:h-[400px] after:rounded-full after:pointer-events-none after:bg-[radial-gradient(circle,rgba(212,54,124,0.06)_0%,transparent_70%)]"
-      style={{
-        background: "linear-gradient(135deg, var(--grey-50) 0%, var(--white) 50%, rgba(212, 54, 124, 0.05) 100%)",
-      }}
-    >
+    <section className={SECTION_CLASS}>
       <form
-        className="relative z-10 w-full max-w-[420px] m-8 p-10 rounded-2xl bg-white/95 backdrop-blur-[10px] border border-primary-500/10 max-[480px]:m-4 max-[480px]:px-6 max-[480px]:py-8"
-        style={{
-          boxShadow: "0 4px 24px rgba(212, 54, 124, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05)",
-        }}
+        className={FORM_CLASS}
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
         }}
       >
         <Logo />
-        <h3 className="text-center mb-8 text-grey-800 text-[1.75rem] font-semibold bg-[linear-gradient(135deg,var(--primary-500)_0%,var(--anime-pink)_50%,var(--primary-600)_100%)] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] max-[480px]:text-2xl">
-          {values.existingUser ? t("login.title") : t("register.title")}
+        <h3 className="text-center mb-8 text-grey-800 text-[1.75rem] font-semibold gradient-heading max-[480px]:text-2xl">
+          {t("login.title")}
         </h3>
-        {!values.existingUser && (
-          <FormRow
-            type="text"
-            name="name"
-            labelText={t("register.name")}
-            value={values.name}
-            handleChange={handleChange}
-            disabled={true}
-          />
-        )}
-
         <FormRow
           type="email"
           name="email"
           labelText={t("register.email")}
-          value={values.email}
-          handleChange={handleChange}
-          disabled={true}
+          value=""
+          handleChange={NOOP}
+          disabled
         />
         <FormRow
           type="password"
           name="password"
           labelText={t("register.password")}
-          value={values.password}
-          handleChange={handleChange}
-          disabled={true}
+          value=""
+          handleChange={NOOP}
+          disabled
         />
         <button
           type="submit"
           className="btn btn-block mt-7 w-full font-semibold py-3.5 px-6 text-base opacity-60"
-          disabled={true}
+          disabled
         >
           {t("register.submit")}
         </button>
@@ -109,4 +80,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterDemo;

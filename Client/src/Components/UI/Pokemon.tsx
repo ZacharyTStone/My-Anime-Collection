@@ -1,37 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { SkeletonLoadingBlock } from ".";
-
-export const getRandomPokemon = async () => {
-  const randomArray = new Uint16Array(1);
-  crypto.getRandomValues(randomArray);
-  const randomId = (randomArray[0] % 1000) + 1;
-
-  try {
-    const response = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/${randomId}`
-    );
-    const pokemon = response.data;
-
-    return {
-      name: pokemon.name,
-      image:
-        pokemon.sprites.other.dream_world.front_default ||
-        pokemon.sprites.front_default ||
-        pokemon.sprites.back_default ||
-        pokemon.sprites.front_shiny ||
-        pokemon.sprites.back_shiny ||
-        pokemon.sprites.other.dream_world.front_default,
-    };
-  } catch {
-    return null;
-  }
-};
-
-interface PokemonData {
-  name: string;
-  image: string;
-}
+import { getRandomPokemon, type PokemonData } from "../../utils/pokemon";
 
 const Pokemon = () => {
   const [pokemon, setPokemon] = useState<PokemonData>({
@@ -72,12 +41,7 @@ const Pokemon = () => {
   return (
     <div className="flex justify-center mt-8">
       <div className="w-full max-w-[400px] flex flex-col items-center bg-white rounded-2xl p-6 shadow border border-grey-200 transition-all duration-300 hover:-translate-y-[5px] hover:shadow-md hover:border-primary-200">
-        <div
-          className="w-[160px] h-[160px] rounded-full flex items-center justify-center mb-4 p-2 border-2 border-primary-100 shadow-sm lg:max-w-[992px]:w-[140px] lg:max-w-[992px]:h-[140px]"
-          style={{
-            background: "linear-gradient(135deg, rgba(212, 54, 124, 0.1), rgba(212, 54, 124, 0.05))",
-          }}
-        >
+        <div className="w-[160px] h-[160px] rounded-full flex items-center justify-center mb-4 p-2 border-2 border-primary-100 shadow-sm bg-gradient-to-br from-primary-500/10 to-primary-500/5 max-[992px]:w-[140px] max-[992px]:h-[140px]">
           <img
             src={pokemon.image}
             alt={`pokemon: ${pokemon.name}`}

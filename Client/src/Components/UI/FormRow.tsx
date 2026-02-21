@@ -27,6 +27,7 @@ const FormRow = ({
         {labelText || name}
       </label>
       <input
+        id={name}
         type={type}
         value={value}
         name={name}

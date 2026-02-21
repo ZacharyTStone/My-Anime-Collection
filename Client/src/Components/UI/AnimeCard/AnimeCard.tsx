@@ -89,7 +89,7 @@ const AnimeCard = ({
             {siteLanguage === "en" ? title : japanese_title}
           </p>
           <div className="info-container">
-            <div className="flex justify-center items-center" style={{ minHeight: onMobile ? "auto" : "378px" }}>
+            <div className={cn("flex justify-center items-center", !onMobile && "min-h-[378px]")}>
               <CardMedia
                 onMobile={onMobile}
                 isHovering={state.isHovering}

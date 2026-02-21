@@ -20,6 +20,10 @@ const initialState: FormValues = {
   existingUser: false,
 };
 
+const SECTION_CLASS = "full-page min-h-screen grid items-center justify-center relative overflow-hidden register-bg before:content-[''] before:absolute before:top-[-50%] before:right-[-20%] before:w-[600px] before:h-[600px] before:rounded-full before:pointer-events-none before:bg-[radial-gradient(circle,rgba(212,54,124,0.08)_0%,transparent_70%)] after:content-[''] after:absolute after:bottom-[-30%] after:left-[-10%] after:w-[400px] after:h-[400px] after:rounded-full after:pointer-events-none after:bg-[radial-gradient(circle,rgba(212,54,124,0.06)_0%,transparent_70%)]";
+
+const FORM_CLASS = "relative z-10 w-full max-w-[420px] m-8 p-10 rounded-2xl bg-white/95 backdrop-blur-[10px] border border-primary-500/10 register-form-shadow max-[480px]:m-4 max-[480px]:px-6 max-[480px]:py-8";
+
 const Register = () => {
   const { t } = useTranslation();
 
@@ -73,21 +77,10 @@ const Register = () => {
   }, [user, navigate]);
 
   return (
-    <section
-      className="full-page min-h-screen grid items-center justify-center relative overflow-hidden before:content-[''] before:absolute before:top-[-50%] before:right-[-20%] before:w-[600px] before:h-[600px] before:rounded-full before:pointer-events-none before:bg-[radial-gradient(circle,rgba(212,54,124,0.08)_0%,transparent_70%)] after:content-[''] after:absolute after:bottom-[-30%] after:left-[-10%] after:w-[400px] after:h-[400px] after:rounded-full after:pointer-events-none after:bg-[radial-gradient(circle,rgba(212,54,124,0.06)_0%,transparent_70%)]"
-      style={{
-        background: "linear-gradient(135deg, var(--grey-50) 0%, var(--white) 50%, rgba(212, 54, 124, 0.05) 100%)",
-      }}
-    >
-      <form
-        className="relative z-10 w-full max-w-[420px] m-8 p-10 rounded-2xl bg-white/95 backdrop-blur-[10px] border border-primary-500/10 max-[480px]:m-4 max-[480px]:px-6 max-[480px]:py-8"
-        style={{
-          boxShadow: "0 4px 24px rgba(212, 54, 124, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05)",
-        }}
-        onSubmit={onSubmit}
-      >
+    <section className={SECTION_CLASS}>
+      <form className={FORM_CLASS} onSubmit={onSubmit}>
         <Logo />
-        <h3 className="text-center mb-8 text-grey-800 text-[1.75rem] font-semibold bg-[linear-gradient(135deg,var(--primary-500)_0%,var(--anime-pink)_50%,var(--primary-600)_100%)] bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] max-[480px]:text-2xl">
+        <h3 className="text-center mb-8 text-grey-800 text-[1.75rem] font-semibold gradient-heading max-[480px]:text-2xl">
           {values.existingUser ? t("login.title") : t("register.title")}
         </h3>
         {!values.existingUser && (

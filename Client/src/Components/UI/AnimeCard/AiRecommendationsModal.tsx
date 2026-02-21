@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useLanguageSelector } from "../../../stores/hooks";
 import { AiRecommendation } from "../../../utils/types";
 import { cn } from "../../../utils/cn";
+import ModalBackdrop from "../ModalBackdrop";
 
 interface AiRecommendationsModalProps {
   loading: boolean;
@@ -11,52 +12,29 @@ interface AiRecommendationsModalProps {
   onClose: () => void;
 }
 
-const shimmerStyle = {
-  background: "linear-gradient(90deg, var(--anime-purple) 0%, var(--anime-pink) 20%, var(--anime-blue) 40%, var(--anime-pink) 60%, var(--anime-purple) 80%, var(--anime-blue) 100%)",
-  backgroundSize: "300% auto",
-  WebkitBackgroundClip: "text" as const,
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-};
-
-const gradientBg = {
-  background: "linear-gradient(135deg, var(--anime-purple), var(--anime-blue))",
-};
-
 const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommendationsModalProps) => {
   const { t } = useTranslation();
   const siteLanguage = useLanguageSelector((s) => s.siteLanguage);
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center z-[9999] bg-[rgba(15,20,35,0.6)] backdrop-blur-[12px] [-webkit-backdrop-filter:blur(12px)]"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={t("anime.ai_suggestions")}
+    <ModalBackdrop
+      onClose={onClose}
+      ariaLabel={t("anime.ai_suggestions")}
+      className="bg-[rgba(15,20,35,0.6)] backdrop-blur-[12px] [-webkit-backdrop-filter:blur(12px)]"
     >
       <div
-        className="bg-white rounded-2xl max-w-[520px] w-[92%] max-h-[85vh] overflow-y-auto relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-grey-200 hover:scrollbar-thumb-grey-300"
-        style={{ boxShadow: "0 25px 60px rgba(0, 0, 0, 0.3)" }}
-        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-2xl max-w-[520px] w-[92vw] max-h-[85vh] overflow-y-auto relative shadow-[0_25px_60px_rgba(0,0,0,0.3)] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-grey-200 hover:scrollbar-thumb-grey-300"
       >
-        <div
-          className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
-          style={{ background: "linear-gradient(90deg, var(--anime-purple), var(--anime-blue), var(--anime-pink))" }}
-        />
+        <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl bg-[linear-gradient(90deg,var(--color-anime-purple),var(--color-anime-blue),var(--color-anime-pink))]" />
         {/* Header */}
         <div className="flex items-center justify-between px-7 py-6 border-b border-grey-100">
-          <div
-            className="flex items-center gap-2.5 text-[1.2rem] font-bold bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]"
-            style={gradientBg}
-          >
+          <div className="flex items-center gap-2.5 text-[1.2rem] font-bold gradient-anime bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
             <span
               className={cn(
-                "inline-flex items-center justify-center bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]",
+                "shimmer-text inline-flex items-center justify-center",
                 "animate-[anime-shimmer_2s_linear_infinite]",
                 "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
               )}
-              style={shimmerStyle}
             >
               <BsStars size={20} />
             </span>
@@ -83,11 +61,10 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
             <div className="flex flex-col items-center justify-center py-12">
               <span
                 className={cn(
-                  "inline-flex items-center justify-center text-[2rem]",
+                  "shimmer-text inline-flex items-center justify-center text-[2rem]",
                   "animate-[anime-shimmer_2s_linear_infinite]",
                   "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
                 )}
-                style={shimmerStyle}
               >
                 <BsStars size={36} />
               </span>
@@ -117,10 +94,7 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
                     "hover:bg-white hover:border-[var(--primary-alpha-30)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.05)]",
                   )}
                 >
-                  <div
-                    className="flex items-center justify-center w-[26px] h-[26px] min-w-[26px] rounded-full text-white text-[0.7rem] font-bold mt-0.5"
-                    style={gradientBg}
-                  >
+                  <div className="gradient-anime flex items-center justify-center w-[26px] h-[26px] min-w-[26px] rounded-full text-white text-[0.7rem] font-bold mt-0.5">
                     {i + 1}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -141,7 +115,7 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
           )}
         </div>
       </div>
-    </div>
+    </ModalBackdrop>
   );
 };
 
