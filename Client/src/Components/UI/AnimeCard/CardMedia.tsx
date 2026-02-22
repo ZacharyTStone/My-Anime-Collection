@@ -36,17 +36,16 @@ const CardMedia = ({
 
   if (isHovering && hasYoutubeVideoId && !failedToLoadYoutube) {
     return (
-      <div className="flex justify-center items-center w-full">
-        <ReactPlayer
-          src={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
-          width="100%"
-          height="360px"
-          controls
-          className="anime-cover-image rounded-[var(--spacing-xs)] overflow-hidden shadow-[var(--shadow-md)]"
-          fallback={<img className={IMG_CLASSES} src={imageSrc} alt={title} />}
-          onError={onVideoError}
-        />
-      </div>
+      <ReactPlayer
+        src={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
+        width="100%"
+        height="360px"
+        playing
+        muted={false}
+        className={IMG_CLASSES}
+        fallback={<img className={IMG_CLASSES} src={imageSrc} alt={title} />}
+        onError={onVideoError}
+      />
     );
   }
 

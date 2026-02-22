@@ -39,7 +39,7 @@ const PlaylistSelector = ({
 
   if (loadingFetchPlaylists) {
     return (
-      <div className={ cn(className, "h-full") }>
+      <div className={ cn(className, "h-full mb-4") }>
         <label className="block text-sm mb-2 font-medium tracking-wide text-grey-700">
           {t("search_container.playlist")}
         </label>
@@ -49,7 +49,7 @@ const PlaylistSelector = ({
   }
 
   return (
-    <div className={className}>
+    <div className={cn(className, "mb-4")}>
       <label
         htmlFor="playlist"
         className="block text-sm mb-2 font-medium tracking-wide text-grey-700"
