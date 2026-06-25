@@ -41,12 +41,11 @@ const CardActions = ({
       >
         <span
           className={cn(
-            "shimmer-text inline-flex items-center justify-center",
-            "animate-[anime-shimmer_2s_linear_infinite]",
+            "inline-flex items-center justify-center",
             "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
           )}
         >
-          <BsStars size={20} />
+          <BsStars size={20} className="text-anime-purple" />
         </span>
       </button>
       {type === "delete" ? (

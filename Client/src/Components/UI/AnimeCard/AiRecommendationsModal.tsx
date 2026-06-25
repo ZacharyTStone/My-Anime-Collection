@@ -27,22 +27,24 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
       >
         <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl bg-[linear-gradient(90deg,var(--color-anime-purple),var(--color-anime-blue),var(--color-anime-pink))]" />
         {/* Header */}
-        <div className="flex items-center justify-between px-7 py-6 border-b border-grey-100">
-          <div className="flex items-center gap-2.5 text-[1.2rem] font-bold gradient-anime bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+        <div className="flex items-center justify-between gap-3 px-7 py-5 border-b border-grey-100">
+          <div className="flex items-center gap-3 min-w-0">
             <span
               className={cn(
-                "shimmer-text inline-flex items-center justify-center",
-                "animate-[anime-shimmer_2s_linear_infinite]",
-                "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
+                "gradient-anime flex items-center justify-center shrink-0 w-9 h-9 rounded-xl",
+                "shadow-[0_4px_12px_var(--primary-alpha-30)]",
+                "[&_svg]:animate-[jiggle_3s_ease-in-out_infinite]",
               )}
             >
-              <BsStars size={20} />
+              <BsStars size={18} className="text-white" />
             </span>
-            {t("anime.ai_suggestions")}
+            <h2 className="gradient-heading text-[1.05rem] sm:text-[1.15rem] font-bold leading-tight m-0">
+              {t("anime.ai_suggestions")}
+            </h2>
           </div>
           <button
             className={cn(
-              "flex items-center justify-center w-9 h-9 rounded-full",
+              "flex items-center justify-center shrink-0 w-9 h-9 rounded-full",
               "border-[1.5px] border-grey-200 bg-transparent text-grey-400 cursor-pointer",
               "transition-all duration-200",
               "hover:bg-grey-100 hover:border-grey-300 hover:text-grey-700 hover:rotate-90",
@@ -61,14 +63,13 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
             <div className="flex flex-col items-center justify-center py-12">
               <span
                 className={cn(
-                  "shimmer-text inline-flex items-center justify-center text-[2rem]",
-                  "animate-[anime-shimmer_2s_linear_infinite]",
+                  "inline-flex items-center justify-center",
                   "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
                 )}
               >
-                <BsStars size={36} />
+                <BsStars size={36} className="text-anime-purple" />
               </span>
-              <p className="mt-2 text-sm text-[var(--grey-400)] italic tracking-wide">
+              <p className="mt-2 text-sm text-grey-400 italic tracking-wide">
                 {t("anime.ai_loading")}
               </p>
             </div>
@@ -79,7 +80,7 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
             </div>
           )}
           {!loading && !error && results.length === 0 && (
-            <p className="text-center py-3 text-sm text-[var(--grey-400)]">
+            <p className="text-center py-3 text-sm text-grey-400">
               {t("anime.ai_no_results")}
             </p>
           )}
@@ -104,8 +105,10 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
                     <p className="text-grey-400 text-[0.75rem] italic m-0 mb-2">
                       {siteLanguage === "en" ? rec.japanese_title : rec.title}
                     </p>
-                    <p className="text-grey-600 leading-[1.55] text-[0.8125rem] m-0 [&_span]:text-[var(--anime-purple)] [&_span]:font-semibold">
-                      <span>{t("anime.ai_reason")}:</span>{" "}
+                    <p className="text-grey-600 leading-[1.55] text-[0.8125rem] m-0">
+                      <strong className="text-anime-purple font-semibold">
+                        {t("anime.ai_reason")}:
+                      </strong>{" "}
                       {siteLanguage === "en" ? rec.reason : (rec.reason_jp || rec.reason)}
                     </p>
                   </div>
