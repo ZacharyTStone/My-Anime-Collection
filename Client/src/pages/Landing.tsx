@@ -31,7 +31,7 @@ const Landing = () => {
   const { controls: ctaControls, ref: ctaRef } = useInViewAnimation();
 
   return (
-    <div className="landing-wrapper overflow-hidden bg-[var(--backgroundColor)]">
+    <div className="landing-wrapper overflow-hidden bg-background">
       <nav className="mx-auto flex items-center w-[var(--fluid-width)] max-w-[var(--max-width)] h-[var(--nav-height)]">
         <Suspense fallback={<div>Loading...</div>}>
           <div className="flex flex-row justify-between items-center fixed top-[5%] right-[5%] z-[100]">

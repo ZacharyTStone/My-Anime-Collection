@@ -84,7 +84,7 @@ const MyAnimesContainer = () => {
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
       {numOfPages > 1 && <PageBtnContainer />}
-      <div className="grid grid-cols-1 gap-y-8 lg:flex lg:flex-row lg:flex-wrap lg:justify-evenly lg:items-center text-[var(--textColor)]">
+      <div className="grid grid-cols-1 gap-y-8 lg:flex lg:flex-row lg:flex-wrap lg:justify-evenly lg:items-center text-foreground">
         {animes?.map((anime: SavedAnime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}

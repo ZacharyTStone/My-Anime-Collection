@@ -103,7 +103,10 @@ const Profile = () => {
               <AlertDialogCancel>
                 {t("profile.cancel", { defaultValue: "Cancel" })}
               </AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete}>
+              <AlertDialogAction
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                onClick={handleDelete}
+              >
                 {t("profile.delete")}
               </AlertDialogAction>
             </AlertDialogFooter>

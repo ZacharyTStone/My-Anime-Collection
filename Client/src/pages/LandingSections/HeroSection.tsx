@@ -29,7 +29,7 @@ const HeroSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoColCla
         <h1 className="font-bold tracking-[-0.03em] leading-[1.2] mb-6 text-3xl lg:text-5xl">
           <span className="text-primary-600">{t("landing.title")}</span>
         </h1>
-        <p className="text-left text-grey-600 text-[1.1rem] leading-[1.7] mb-0 lg:text-[1.2rem]">
+        <p className="text-left text-muted-foreground text-[1.1rem] leading-[1.7] mb-0 lg:text-[1.2rem]">
           {t("landing.title_description")}
         </p>
         <div className="flex justify-start items-center mt-8 gap-4 flex-wrap lg:flex-nowrap">

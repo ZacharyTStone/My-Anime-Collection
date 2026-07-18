@@ -37,7 +37,7 @@ const CTASection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoColClas
             <Link to="/register-demo">{t("landing.demo_button")}</Link>
           </Button>
         </div>
-        <h5 className="mt-12 font-normal text-grey-600 text-[0.95rem] leading-[1.6]">
+        <h5 className="mt-12 font-normal text-muted-foreground text-[0.95rem] leading-[1.6]">
           {t("landing.call_to_action.contact_info")}{" "}
           <a
             href="https://zstone.dev"

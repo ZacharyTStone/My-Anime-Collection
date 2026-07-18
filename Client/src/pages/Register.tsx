@@ -24,7 +24,7 @@ const initialState: FormValues = {
 
 const SECTION_CLASS = "full-page min-h-screen grid items-center justify-center relative overflow-hidden register-bg before:content-[''] before:absolute before:top-[-50%] before:right-[-20%] before:w-[600px] before:h-[600px] before:rounded-full before:pointer-events-none before:bg-[radial-gradient(circle,rgba(212,54,124,0.08)_0%,transparent_70%)] after:content-[''] after:absolute after:bottom-[-30%] after:left-[-10%] after:w-[400px] after:h-[400px] after:rounded-full after:pointer-events-none after:bg-[radial-gradient(circle,rgba(212,54,124,0.06)_0%,transparent_70%)]";
 
-const FORM_CLASS = "relative z-10 w-full max-w-[420px] m-8 p-10 rounded-2xl bg-[var(--outline-button-background)]/95 backdrop-blur-[10px] border border-primary-500/10 register-form-shadow max-[480px]:m-4 max-[480px]:px-6 max-[480px]:py-8";
+const FORM_CLASS = "relative z-10 w-full max-w-[420px] m-8 p-10 rounded-2xl bg-card/95 backdrop-blur-[10px] border border-primary-500/10 register-form-shadow max-[480px]:m-4 max-[480px]:px-6 max-[480px]:py-8";
 
 const Register = () => {
   const { t } = useTranslation();
@@ -83,7 +83,7 @@ const Register = () => {
     <section className={SECTION_CLASS}>
       <form className={FORM_CLASS} onSubmit={onSubmit}>
         <Logo />
-        <h3 className="text-center mb-8 text-grey-800 text-[1.75rem] font-semibold gradient-heading max-[480px]:text-2xl">
+        <h3 className="text-center mb-8 text-foreground text-[1.75rem] font-semibold gradient-heading max-[480px]:text-2xl">
           {values.existingUser ? t("login.title") : t("register.title")}
         </h3>
         {!values.existingUser && (
@@ -120,7 +120,7 @@ const Register = () => {
         </Button>
         {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
           <>
-            <div className="flex items-center gap-3 my-5 text-grey-600 text-[0.85rem]">
+            <div className="flex items-center gap-3 my-5 text-muted-foreground text-[0.85rem]">
               <span className="flex-1 h-px bg-grey-300" aria-hidden="true" />
               {t("sso.or", { defaultValue: "or" })}
               <span className="flex-1 h-px bg-grey-300" aria-hidden="true" />
@@ -148,7 +148,7 @@ const Register = () => {
             </div>
           </>
         )}
-        <p className="m-0 mt-7 text-center text-grey-600 text-[0.95rem]">
+        <p className="m-0 mt-7 text-center text-muted-foreground text-[0.95rem]">
           {values.existingUser ? t("login.switch1") : t("register.switch1")}
           <Button
             type="button"

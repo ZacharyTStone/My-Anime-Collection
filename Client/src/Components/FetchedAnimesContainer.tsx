@@ -12,7 +12,7 @@ const LoadingUI = ({ onMobile }: { onMobile: boolean }) => (
     <div className="flex justify-between items-center mb-8">
       <SkeletonLoadingBlock height={50} width={"100%"} borderRadius={8} />
     </div>
-    <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">
+    <div className="flex flex-row flex-wrap justify-evenly items-center text-foreground">
       {[...Array(onMobile ? 6 : 3)].map((_, index) => (
         <SkeletonLoadingBlock
           key={index}
@@ -122,7 +122,7 @@ const FetchedAnimesContainer = ({
               </Button>
             </div>
           )}
-          <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">
+          <div className="flex flex-row flex-wrap justify-evenly items-center text-foreground">
             {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => {
               const mapped = mapFetchedAnime(anime);
               return (

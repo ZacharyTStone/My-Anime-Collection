@@ -58,7 +58,7 @@ const FeaturesSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoCo
               key={point}
               custom={index}
               variants={LIST_ITEM_VARIANTS}
-              className="text-grey-700 mb-3 flex items-center text-base leading-[1.6]"
+              className="text-muted-foreground mb-3 flex items-center text-base leading-[1.6]"
             >
               <FaCheck color="var(--primary-500)" className="mr-3 shrink-0" />
               <span className="font-normal text-foreground">{t(`landing.why.${point}`)}</span>

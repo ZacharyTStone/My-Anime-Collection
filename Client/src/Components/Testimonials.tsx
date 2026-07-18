@@ -1,28 +1,18 @@
 import { useState } from "react";
 import Carousel from "react-simply-carousel";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Testimonial from "./UI/Testimonial";
 import { useTranslation } from "react-i18next";
 import { useMobile } from "../utils/hooks";
 import { TESTIMONIALS, TESTIMONIALS_TYPE } from "../utils/constants";
 
 const arrowButtonProps = (direction: "right" | "left") => ({
-  children: direction === "right" ? ">" : "<",
-  style: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize: "3em",
-    width: 40,
-    height: 40,
-    alignSelf: "center",
-    paddingBottom: "10px",
-    borderRadius: "none",
-    color: "var(--primary-500)",
-    backgroundColor: "transparent",
-    border: "none",
-    marginLeft: direction === "right" ? "20px" : "0",
-    marginRight: direction === "left" ? "20px" : "0",
-  },
+  children:
+    direction === "right" ? <ChevronRight size={32} /> : <ChevronLeft size={32} />,
+  className:
+    "mx-2 flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center self-center rounded-full border bg-card text-primary-500 shadow-sm transition-colors hover:bg-accent hover:text-primary-600",
+  "aria-label":
+    direction === "right" ? "Next testimonials" : "Previous testimonials",
 });
 
 function Testimonials() {
@@ -45,11 +35,6 @@ function Testimonials() {
           },
         }}
         activeSlideIndex={activeSlide}
-        activeSlideProps={{
-          style: {
-            background: "var(--primary-500)",
-          },
-        }}
         onRequestChange={setActiveSlide}
         forwardBtnProps={arrowButtonProps("right")}
         backwardBtnProps={arrowButtonProps("left")}
