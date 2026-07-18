@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Anime from "../models/Anime.js";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
@@ -111,6 +112,67 @@ const deleteAnime = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Anime removed" });
 };
 
+const getAnimeStats = async (req: Request, res: Response) => {
+  const createdBy = new mongoose.Types.ObjectId(req.user!.userId);
+
+  const [totals] = await Anime.aggregate<{
+    total: number;
+    totalEpisodes: number;
+  }>([
+    { $match: { createdBy } },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: 1 },
+        totalEpisodes: { $sum: { $ifNull: ["$episodeCount", 0] } },
+      },
+    },
+  ]);
+
+  const playlistGroups = await Anime.aggregate<{
+    _id: string;
+    count: number;
+  }>([
+    { $match: { createdBy } },
+    { $group: { _id: "$playlistID", count: { $sum: 1 } } },
+  ]);
+
+  const playlistCounts = playlistGroups.reduce<Record<string, number>>(
+    (acc, { _id, count }) => {
+      acc[_id] = count;
+      return acc;
+    },
+    {}
+  );
+
+  const topRatedAnime = await Anime.findOne({ createdBy })
+    .sort({ rating: -1 })
+    .select("title rating")
+    .lean();
+
+  const recentlyAddedAnime = await Anime.findOne({ createdBy })
+    .sort({ createdAt: -1 })
+    .select("title createdAt")
+    .lean();
+
+  res.status(StatusCodes.OK).json({
+    total: totals?.total ?? 0,
+    totalEpisodes: totals?.totalEpisodes ?? 0,
+    playlistCounts,
+    topRated: topRatedAnime
+      ? { title: topRatedAnime.title, rating: topRatedAnime.rating ?? null }
+      : null,
+    recentlyAdded: recentlyAddedAnime
+      ? {
+          title: recentlyAddedAnime.title,
+          createdAt:
+            (recentlyAddedAnime as unknown as { createdAt?: Date }).createdAt ??
+            null,
+        }
+      : null,
+  });
+};
+
 const getRecommendations = async (req: Request, res: Response) => {
   const { title, synopsis } = req.body;
 
@@ -122,4 +184,4 @@ const getRecommendations = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ recommendations });
 };
 
-export { createAnime, deleteAnime, getAnimes, getRecommendations };
+export { createAnime, deleteAnime, getAnimes, getAnimeStats, getRecommendations };

@@ -47,7 +47,7 @@ const Profile = () => {
   };
 
   return (
-    <section className="rounded-default w-full bg-white p-10 shadow">
+    <section className="rounded-default w-full bg-[var(--outline-button-background)] p-10 shadow">
       <form className="w-full p-4" onSubmit={handleSubmit}>
         <h3 className="relative mt-0 mb-8 font-semibold text-grey-900 after:content-[''] after:absolute after:bottom-[-0.75rem] after:left-0 after:w-16 after:h-[3px] after:bg-primary-500 after:rounded-sm">
           {t("profile.title")}

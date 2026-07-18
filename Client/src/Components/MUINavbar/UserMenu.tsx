@@ -40,7 +40,7 @@ const UserMenu = () => {
         aria-expanded={open}
         className="flex items-center gap-1.5 py-1.5 px-3.5 rounded-3xl border-2 border-[var(--primary-alpha-20)] cursor-pointer"
         style={{
-          background: "linear-gradient(135deg, var(--grey-50) 0%, var(--white) 100%)",
+          background: "linear-gradient(135deg, var(--grey-50) 0%, var(--outline-button-background) 100%)",
           boxShadow: "0 2px 8px var(--primary-alpha-10)",
         }}
       >

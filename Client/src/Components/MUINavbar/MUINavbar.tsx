@@ -2,6 +2,7 @@ import FlagContainer from "../FlagContainer";
 import Logo from "../UI/Logo";
 import NavLinks from "../UI/NavLinks";
 import MobileMenu from "./MobileMenu";
+import ThemeToggle from "./ThemeToggle";
 import UserMenu from "./UserMenu";
 
 const MUINavbar = () => {
@@ -18,6 +19,7 @@ const MUINavbar = () => {
               <NavLinks />
             </div>
             <FlagContainer />
+            <ThemeToggle />
             <UserMenu />
           </div>
         </div>

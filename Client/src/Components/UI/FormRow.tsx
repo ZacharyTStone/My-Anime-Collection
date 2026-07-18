@@ -33,7 +33,7 @@ const FormRow = ({
         name={name}
         onChange={handleChange}
         className={cn(
-          "w-full px-3 py-2.5 rounded-default bg-white border border-grey-300",
+          "w-full px-3 py-2.5 rounded-default bg-[var(--outline-button-background)] border border-grey-300",
           "text-grey-900 text-[0.95rem] min-h-[42px] transition-all",
           "focus:outline-none focus:border-primary-500 focus:ring-3 focus:ring-primary-500/12",
           disabled && "opacity-60 cursor-not-allowed"

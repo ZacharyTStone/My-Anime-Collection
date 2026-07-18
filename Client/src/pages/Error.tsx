@@ -26,7 +26,7 @@ const Error = ({
         backgroundColor: "rgba(0, 0, 0, 0.5)",
       }}
     >
-      <div className="full-page bg-white p-8 opacity-90 rounded-default max-w-[500px] mx-4" style={{ boxShadow: "var(--shadow-lg)" }}>
+      <div className="full-page bg-[var(--outline-button-background)] p-8 opacity-90 rounded-default max-w-[500px] mx-4" style={{ boxShadow: "var(--shadow-lg)" }}>
         <h1 className="mb-2 text-grey-900 text-[1.75rem] font-semibold">{title}</h1>
         <p className="mt-0 mb-6 text-grey-500 text-base leading-relaxed">{message}</p>
         <Link

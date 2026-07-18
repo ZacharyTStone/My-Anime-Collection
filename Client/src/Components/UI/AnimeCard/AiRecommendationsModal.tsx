@@ -23,7 +23,7 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
       className="bg-[rgba(15,20,35,0.6)] backdrop-blur-[12px] [-webkit-backdrop-filter:blur(12px)]"
     >
       <div
-        className="bg-white rounded-2xl max-w-[520px] w-[92vw] max-h-[85vh] overflow-y-auto relative shadow-[0_25px_60px_rgba(0,0,0,0.3)] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-grey-200 hover:scrollbar-thumb-grey-300"
+        className="bg-[var(--outline-button-background)] rounded-2xl max-w-[520px] w-[92vw] max-h-[85vh] overflow-y-auto relative shadow-[0_25px_60px_rgba(0,0,0,0.3)] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-grey-200 hover:scrollbar-thumb-grey-300"
       >
         <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl bg-[linear-gradient(90deg,var(--color-anime-purple),var(--color-anime-blue),var(--color-anime-pink))]" />
         {/* Header */}

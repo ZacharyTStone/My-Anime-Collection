@@ -27,7 +27,7 @@ const Pokemon = () => {
   if (loading || !pokemon.image.length || !pokemon.name.length) {
     return (
       <div className="flex justify-center mt-8">
-        <div className="w-full max-w-[400px] flex flex-col items-center bg-white rounded-2xl p-6 shadow border border-grey-200 transition-all duration-300 min-h-[250px] justify-center">
+        <div className="w-full max-w-[400px] flex flex-col items-center bg-[var(--outline-button-background)] rounded-2xl p-6 shadow border border-grey-200 transition-all duration-300 min-h-[250px] justify-center">
           <SkeletonLoadingBlock
             width={150}
             height={150}
@@ -40,7 +40,7 @@ const Pokemon = () => {
 
   return (
     <div className="flex justify-center mt-8">
-      <div className="w-full max-w-[400px] flex flex-col items-center bg-white rounded-2xl p-6 shadow border border-grey-200 transition-all duration-300 hover:-translate-y-[5px] hover:shadow-md hover:border-primary-200">
+      <div className="w-full max-w-[400px] flex flex-col items-center bg-[var(--outline-button-background)] rounded-2xl p-6 shadow border border-grey-200 transition-all duration-300 hover:-translate-y-[5px] hover:shadow-md hover:border-primary-200">
         <div className="w-[160px] h-[160px] rounded-full flex items-center justify-center mb-4 p-2 border-2 border-primary-100 shadow-sm bg-gradient-to-br from-primary-500/10 to-primary-500/5 max-[992px]:w-[140px] max-[992px]:h-[140px]">
           <img
             src={pokemon.image}

@@ -52,7 +52,41 @@
       "top": "Top Animes",
       "profile": "Profile",
       "logout": "Logout",
-      "edit_playlist": "Edit Playlists"
+      "edit_playlist": "Edit Playlists",
+      "seasonal": "Seasonal",
+      "dark_mode": "Switch to dark mode",
+      "light_mode": "Switch to light mode"
+    },
+    "seasonal": {
+      "title": "Seasonal Anime",
+      "season": "Season",
+      "year": "Year",
+      "winter": "Winter",
+      "spring": "Spring",
+      "summer": "Summer",
+      "fall": "Fall"
+    },
+    "stats": {
+      "title": "Your Collection Stats",
+      "total": "Total Animes",
+      "total_episodes": "Total Episodes",
+      "playlists": "Playlists",
+      "top_rated": "Top Rated",
+      "recently_added": "Recently Added",
+      "error": "Couldn't load stats right now."
+    },
+    "random_pick": {
+      "button": "What Should I Watch?",
+      "title": "You should watch...",
+      "reroll": "Pick Another",
+      "close": "Close",
+      "empty": "No animes in your collection yet."
+    },
+    "export": {
+      "title": "Export",
+      "json": "Export as JSON",
+      "csv": "Export as CSV",
+      "success": "Collection exported!"
     },
 
     "edit_playlist": {

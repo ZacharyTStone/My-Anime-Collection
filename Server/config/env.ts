@@ -9,6 +9,7 @@ interface EnvConfig {
   MONGO_URL: string;
   JWT_SECRET: string;
   JWT_LIFETIME?: string;
+  GOOGLE_CLIENT_ID?: string;
 }
 
 function validateEnv(): EnvConfig {
@@ -26,6 +27,7 @@ function validateEnv(): EnvConfig {
     MONGO_URL: process.env.MONGO_URL!,
     JWT_SECRET: process.env.JWT_SECRET!,
     JWT_LIFETIME: process.env.JWT_LIFETIME,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   };
 }
 

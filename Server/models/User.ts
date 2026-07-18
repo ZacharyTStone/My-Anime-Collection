@@ -10,6 +10,7 @@ export interface UserDocument extends Document {
   email: string;
   isDemo: boolean;
   password: string;
+  googleId?: string;
   theme: "light" | "dark";
   language: "en" | "jp";
 
@@ -43,9 +44,19 @@ const UserSchema = new Schema<UserDocument>(
     },
     password: {
       type: String,
-      required: [true, "Please provide password"],
+      required: [
+        function (this: UserDocument) {
+          return !this.googleId;
+        },
+        "Please provide password",
+      ],
       minlength: 6,
       select: false,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
     },
     theme: {
       type: String,

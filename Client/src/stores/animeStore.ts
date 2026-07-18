@@ -41,6 +41,7 @@ interface AnimeStore {
     searchText: string;
     pagination: boolean;
     sort: string;
+    extraParams?: Record<string, string>;
   }) => Promise<void>;
   isItemLoading: (id: string) => boolean;
 }
@@ -186,7 +187,7 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
     });
   },
 
-  fetchAnimes: async ({ page, baseURL, searchText, sort }) => {
+  fetchAnimes: async ({ page, baseURL, searchText, sort, extraParams }) => {
     const signal = fetchAnimesAbort.refresh();
 
     set({ loadingFetchAnimes: true });
@@ -210,6 +211,13 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
         }
         if (sort) {
           params.set("sort", sort);
+        }
+        if (extraParams) {
+          Object.entries(extraParams).forEach(([key, value]) => {
+            if (value) {
+              params.set(key, value);
+            }
+          });
         }
         url = `${baseURL}?${params.toString()}`;
       }

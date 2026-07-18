@@ -86,13 +86,13 @@ const EditPlaylist = () => {
   }
 
   return (
-    <section className="rounded-default w-full bg-white px-8 pt-12 pb-16 shadow">
+    <section className="rounded-default w-full bg-[var(--outline-button-background)] px-8 pt-12 pb-16 shadow">
       <div className="mb-8">
         <h3 className="relative mt-0 mb-8 font-semibold text-grey-900 after:content-[''] after:absolute after:bottom-[-0.75rem] after:left-0 after:w-16 after:h-[3px] after:bg-primary-500 after:rounded-sm">
           {t("edit_playlist.title")}
         </h3>
         <div>
-          <ul className="mb-6 p-2 max-h-[300px] overflow-y-auto border border-grey-200 rounded-default bg-white shadow-[inset_var(--shadow-sm)]">
+          <ul className="mb-6 p-2 max-h-[300px] overflow-y-auto border border-grey-200 rounded-default bg-[var(--outline-button-background)] shadow-[inset_var(--shadow-sm)]">
             {userPlaylists.map((playlist: IPlaylist) => (
               <li key={playlist.id} className="list-none">
                 <span

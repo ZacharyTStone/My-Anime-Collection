@@ -2,7 +2,7 @@ import type { JSX } from "react";
 import { NavLink, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { CgProfile } from "react-icons/cg";
-import { BsFillCollectionFill } from "react-icons/bs";
+import { BsFillCollectionFill, BsSnow2 } from "react-icons/bs";
 import { MdPlaylistAdd } from "react-icons/md";
 import { RiAddFill } from "react-icons/ri";
 import { AiFillGold } from "react-icons/ai";
@@ -50,6 +50,12 @@ const NavLinks = () => {
       text: t("navbar.profile"),
       path: "profile",
       icon: <CgProfile />,
+    },
+    {
+      id: 6,
+      text: t("navbar.seasonal"),
+      path: "seasonal",
+      icon: <BsSnow2 />,
     },
   ];
 

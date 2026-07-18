@@ -13,6 +13,7 @@ const MyAnimes = lazy(() => import("../pages/DashboardTabs/MyAnimes"));
 const EditPlaylist = lazy(() => import("../pages/DashboardTabs/EditPlaylist"));
 const AddAnime = lazy(() => import("../pages/DashboardTabs/AddAnime"));
 const TopAnimes = lazy(() => import("../pages/DashboardTabs/TopAnimes"));
+const SeasonalAnimes = lazy(() => import("../pages/DashboardTabs/SeasonalAnimes"));
 
 export const routes: RouteObject[] = [
   // Public routes
@@ -59,6 +60,10 @@ export const routes: RouteObject[] = [
       {
         path: "top-animes",
         element: <TopAnimes />,
+      },
+      {
+        path: "seasonal",
+        element: <SeasonalAnimes />,
       },
     ],
   },

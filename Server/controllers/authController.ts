@@ -3,6 +3,7 @@ import Anime from "../models/Anime.js";
 import Playlist from "../models/Playlists.js";
 
 import { Request, Response } from "express";
+import { OAuth2Client } from "google-auth-library";
 
 interface AppError extends Error {
   code?: number;
@@ -31,6 +32,62 @@ const login = async (req: Request, res: Response) => {
 
   if (!isPasswordCorrect) {
     throw new UnAuthenticatedError("Invalid Credentials");
+  }
+
+  const token = user.createJWT();
+  user.password = undefined as unknown as string;
+  res.status(StatusCodes.OK).json({ user, token });
+};
+
+const googleClient = new OAuth2Client();
+
+/** Fit a Google display name into the model's 3–20 char constraint. */
+const normalizeGoogleName = (name: string | undefined, email: string): string => {
+  const emailPrefix = email.split("@")[0] ?? "";
+  let candidate = (name ?? "").trim().slice(0, 20);
+  if (candidate.length < 3) candidate = emailPrefix.slice(0, 20);
+  if (candidate.length < 3) candidate = `${candidate}User`.slice(0, 20);
+  return candidate;
+};
+
+const googleLogin = async (req: Request, res: Response) => {
+  const { credential, theme, language } = req.body;
+
+  if (!process.env.GOOGLE_CLIENT_ID) {
+    throw new BadRequestError("Google sign-in is not configured on this server");
+  }
+
+  const ticket = await googleClient.verifyIdToken({
+    idToken: credential,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+  const payload = ticket.getPayload();
+
+  if (!payload?.email || !payload.email_verified) {
+    throw new UnAuthenticatedError("Google account email could not be verified");
+  }
+
+  const email = payload.email.toLowerCase();
+  const googleId = payload.sub;
+
+  let user = await User.findOne({ email });
+
+  if (user) {
+    // Link the Google account on first SSO use of an existing email
+    if (!user.googleId) {
+      user.googleId = googleId;
+      await user.save();
+    }
+  } else {
+    const created = await createUserWithPlaylists({
+      name: normalizeGoogleName(payload.name, email),
+      email,
+      googleId,
+      isDemo: false,
+      theme: theme ?? "light",
+      language: language ?? "en",
+    });
+    user = created.user;
   }
 
   const token = user.createJWT();
@@ -148,4 +205,4 @@ const deleteUser = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ message: "User deleted" });
 };
 
-export { register, login, updateUser, deleteUser };
+export { register, login, googleLogin, updateUser, deleteUser };

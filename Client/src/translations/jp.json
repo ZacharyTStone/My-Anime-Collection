@@ -52,7 +52,41 @@
       "top": "トップアニメ",
       "profile": "プロフィール",
       "logout": "ログアウト",
-      "edit_playlist": "プレイリストの編集"
+      "edit_playlist": "プレイリストの編集",
+      "seasonal": "季節アニメ",
+      "dark_mode": "ダークモードに切り替え",
+      "light_mode": "ライトモードに切り替え"
+    },
+    "seasonal": {
+      "title": "季節のアニメ",
+      "season": "季節",
+      "year": "年",
+      "winter": "冬",
+      "spring": "春",
+      "summer": "夏",
+      "fall": "秋"
+    },
+    "stats": {
+      "title": "コレクション統計",
+      "total": "総アニメ数",
+      "total_episodes": "総エピソード数",
+      "playlists": "プレイリスト数",
+      "top_rated": "最高評価",
+      "recently_added": "最近追加",
+      "error": "統計を読み込めませんでした。"
+    },
+    "random_pick": {
+      "button": "何を観よう？",
+      "title": "これを観よう！",
+      "reroll": "もう一回",
+      "close": "閉じる",
+      "empty": "コレクションにアニメがまだありません。"
+    },
+    "export": {
+      "title": "エクスポート",
+      "json": "JSONでエクスポート",
+      "csv": "CSVでエクスポート",
+      "success": "コレクションをエクスポートしました！"
     },
 
     "edit_playlist": {

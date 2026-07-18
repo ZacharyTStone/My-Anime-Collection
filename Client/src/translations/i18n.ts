@@ -11,6 +11,8 @@ const resources = {
 const browserLanguageSettings =
   (navigator as unknown as { userLanguage?: string }).userLanguage || navigator.language;
 
+const storedLanguage = localStorage.getItem("siteLanguage");
+
 const language = browserLanguageSettings.split(/[-_]/)[0].toLowerCase();
 
 const checkLanguage = (lang: string): string => {
@@ -24,11 +26,16 @@ const checkLanguage = (lang: string): string => {
   }
 };
 
+const initialLanguage =
+  storedLanguage === "en" || storedLanguage === "jp"
+    ? storedLanguage
+    : checkLanguage(language);
+
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: checkLanguage(language),
+    lng: initialLanguage,
     interpolation: {
       escapeValue: false,
     },

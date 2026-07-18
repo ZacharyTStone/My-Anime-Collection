@@ -8,14 +8,14 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <main className="min-h-screen w-full bg-grey-50">
+    <main className="min-h-screen w-full bg-[var(--backgroundColor)]">
       {children || <Outlet />}
     </main>
   );
 };
 
 export const LoadingLayout = () => (
-  <div className="flex justify-center items-center h-screen w-screen bg-grey-50 p-4">
+  <div className="flex justify-center items-center h-screen w-screen bg-[var(--backgroundColor)] p-4">
     <SkeletonLoadingBlock height="100%" width="100%" borderRadius={8} />
   </div>
 );

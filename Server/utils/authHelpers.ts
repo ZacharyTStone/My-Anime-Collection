@@ -13,7 +13,8 @@ export const generateDemoEmail = (): string => {
 export interface CreateUserParams {
   name: string;
   email: string;
-  password: string;
+  password?: string;
+  googleId?: string;
   isDemo: boolean;
   theme: string;
   language: string;
@@ -27,6 +28,7 @@ export const createUserWithPlaylists = async ({
   name,
   email,
   password,
+  googleId,
   isDemo,
   theme,
   language,
@@ -35,6 +37,7 @@ export const createUserWithPlaylists = async ({
     name,
     email,
     password,
+    googleId,
     isDemo,
     theme,
     language,

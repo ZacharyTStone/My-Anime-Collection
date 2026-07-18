@@ -42,6 +42,7 @@ interface AuthStore {
     endPoint: string;
     alertText: string;
   }) => Promise<void>;
+  googleSSO: (params: { credential: string; alertText: string }) => Promise<void>;
   logoutUser: () => void;
   updateUser: (currentUser: User) => Promise<void>;
   deleteUser: () => Promise<void>;
@@ -69,6 +70,25 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     } catch (error: unknown) {
       set({ isLoading: false });
       handleApiError(error, "Authentication failed");
+    }
+  },
+
+  googleSSO: async ({ credential, alertText }) => {
+    set({ isLoading: true });
+    try {
+      const { data } = await apiClient.post("/auth/google", { credential });
+      const { user, token } = data;
+      addUserToLocalStorage(user, token);
+      set({
+        isLoading: false,
+        user,
+        token,
+        isAuthenticated: true,
+      });
+      toast.success(alertText);
+    } catch (error: unknown) {
+      set({ isLoading: false });
+      handleApiError(error, "Google sign-in failed");
     }
   },
 

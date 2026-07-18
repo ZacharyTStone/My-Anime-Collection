@@ -50,7 +50,7 @@ const AddAnime = () => {
   };
 
   return (
-    <section className="rounded-default w-full bg-white px-8 pt-12 pb-16 shadow-md">
+    <section className="rounded-default w-full bg-[var(--outline-button-background)] px-8 pt-12 pb-16 shadow-md">
       <main className="content full-page">
         <form
           className="w-full p-4"

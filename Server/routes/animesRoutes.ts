@@ -5,6 +5,7 @@ import {
   createAnime,
   deleteAnime,
   getAnimes,
+  getAnimeStats,
   getRecommendations,
 } from "../controllers/animesController.js";
 import { validate } from "../middleware/validate.js";
@@ -17,6 +18,8 @@ router
   .get(apiLimiter2000, getAnimes);
 
 router.route("/recommendations").post(apiLimiter50, validate(recommendationsSchema), getRecommendations);
+
+router.route("/stats").get(apiLimiter2000, getAnimeStats);
 
 router.route("/:id").delete(apiLimiter500, deleteAnime);
 

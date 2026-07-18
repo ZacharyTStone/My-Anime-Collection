@@ -13,7 +13,7 @@ const FlagContainer = () => {
         <button
           onClick={() => changeSiteLanguage("jp")}
           title="Switch to Japanese"
-          className="flex items-center justify-center h-10 w-10 p-1 rounded-full overflow-hidden transition-all duration-200 bg-white border border-grey-200 shadow-sm cursor-pointer hover:bg-[rgba(212,54,124,0.05)] hover:-translate-y-0.5 hover:shadow hover:border-primary-200 active:scale-[0.96]"
+          className="flex items-center justify-center h-10 w-10 p-1 rounded-full overflow-hidden transition-all duration-200 bg-[var(--outline-button-background)] border border-grey-200 shadow-sm cursor-pointer hover:bg-[rgba(212,54,124,0.05)] hover:-translate-y-0.5 hover:shadow hover:border-primary-200 active:scale-[0.96]"
         >
           <img
             className="flag w-7 h-5 rounded border border-grey-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 object-cover"
@@ -25,7 +25,7 @@ const FlagContainer = () => {
         <button
           onClick={() => changeSiteLanguage("en")}
           title="Switch to English"
-          className="flex items-center justify-center h-10 w-10 p-1 rounded-full overflow-hidden transition-all duration-200 bg-white border border-grey-200 shadow-sm cursor-pointer hover:bg-[rgba(212,54,124,0.05)] hover:-translate-y-0.5 hover:shadow hover:border-primary-200 active:scale-[0.96]"
+          className="flex items-center justify-center h-10 w-10 p-1 rounded-full overflow-hidden transition-all duration-200 bg-[var(--outline-button-background)] border border-grey-200 shadow-sm cursor-pointer hover:bg-[rgba(212,54,124,0.05)] hover:-translate-y-0.5 hover:shadow hover:border-primary-200 active:scale-[0.96]"
         >
           <img
             className="flag w-7 h-5 rounded border border-grey-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 object-cover"

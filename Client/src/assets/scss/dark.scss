@@ -1,0 +1,40 @@
+:root[data-theme="dark"] {
+  /* flip the grey scale so var(--grey-*) usages adapt to dark surfaces */
+  --grey-50: #0f172a;
+  --grey-100: #1e293b;
+  --grey-200: #334155;
+  --grey-300: #475569;
+  --grey-400: #64748b;
+  --grey-500: #94a3b8;
+  --grey-600: #cbd5e1;
+  --grey-700: #e2e8f0;
+  --grey-800: #f1f5f9;
+  --grey-900: #f9fafb;
+
+  /* semantic colors */
+  --backgroundColor: #0f172a;
+  --textColor: #f1f5f9;
+  --outline-button-background: #1e293b;
+  --gradient-background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #26182e 50%, #0f172a 75%, #1e293b 100%);
+
+  /* translucent surfaces (navbar, dropdowns) */
+  --glass-navbar-background: rgba(15, 23, 42, 0.7);
+  --glass-dropdown-background: rgba(15, 23, 42, 0.92);
+
+  /* status backgrounds tinted for dark surfaces */
+  --red-light: rgba(185, 28, 28, 0.2);
+  --green-50: rgba(16, 185, 129, 0.12);
+
+  /* card borders */
+  --card-border-light: #334155;
+
+  /* deeper shadows on dark background */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4),
+    0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.45),
+    0 10px 10px -5px rgba(0, 0, 0, 0.3);
+}
