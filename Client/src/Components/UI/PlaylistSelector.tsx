@@ -1,7 +1,15 @@
-import { useEffect, type ChangeEvent } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { usePlaylistSelector } from "../../stores/hooks";
 import { SkeletonLoadingBlock } from ".";
+import { Label } from "@/Components/UI/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/Components/UI/select";
 import { cn } from "../../utils/cn";
 
 interface PlaylistSelectorProps {
@@ -33,47 +41,39 @@ const PlaylistSelector = ({
     getPlaylists();
   }, [getPlaylists]);
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    handlePlaylistChange({ value: e.target.value });
+  const handleChange = (value: string) => {
+    handlePlaylistChange({ value });
   };
 
   if (loadingFetchPlaylists) {
     return (
-      <div className={ cn(className, "h-full mb-4") }>
-        <label className="block text-sm mb-2 font-medium tracking-wide text-grey-700">
-          {t("search_container.playlist")}
-        </label>
-        <SkeletonLoadingBlock height={40} width={240} borderRadius={6} />
+      <div className={cn(className, "h-full mb-4 grid gap-2")}>
+        <Label>{t("search_container.playlist")}</Label>
+        <SkeletonLoadingBlock height={36} width="100%" borderRadius={6} />
       </div>
     );
   }
 
   return (
-    <div className={cn(className, "mb-4")}>
-      <label
-        htmlFor="playlist"
-        className="block text-sm mb-2 font-medium tracking-wide text-grey-700"
-      >
-        {t("search_container.playlist")}
-      </label>
-      <select
+    <div className={cn(className, "mb-4 grid gap-2")}>
+      <Label htmlFor="playlist">{t("search_container.playlist")}</Label>
+      <Select
         name="playlist"
         value={currentPlaylist.id}
-        onChange={handleChange}
+        onValueChange={handleChange}
         disabled={disabled}
-        className={cn(
-          "w-full px-3 py-2.5 rounded-default bg-[var(--outline-button-background)] border border-grey-300",
-          "text-grey-900 text-[0.95rem] min-h-[42px] appearance-none transition-all",
-          "focus:outline-none focus:border-primary-500 focus:ring-3 focus:ring-primary-500/12",
-          disabled && "opacity-60 cursor-not-allowed"
-        )}
       >
-        {userPlaylists?.map((playlist, index) => (
-          <option key={`${playlist.id}-${index}`} value={playlist.id}>
-            {playlist.title}
-          </option>
-        ))}
-      </select>
+        <SelectTrigger id="playlist" className="w-full">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {userPlaylists?.map((playlist, index) => (
+            <SelectItem key={`${playlist.id}-${index}`} value={playlist.id}>
+              {playlist.title}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 };

@@ -4,9 +4,9 @@ import { Anime } from "../../Components";
 import { FormRowSelect, PlaylistSelector, SkeletonLoadingBlock } from "../../Components/UI";
 import { useAnimeSelector } from "../../stores/hooks";
 import { useMobile } from "../../utils/hooks";
-import { cn } from "../../utils/cn";
 import { mapFetchedAnime } from "../../utils/mapFetchedAnime";
 import { ExpectedFetchedAnimeResponse, SelectOption } from "../../utils/types";
+import { Button } from "@/Components/UI/button";
 
 const KITSU_ANIME_URL = "https://kitsu.io/api/edge/anime";
 
@@ -81,24 +81,17 @@ const SeasonalAnimes = () => {
     { title: t("seasonal.fall"), value: "fall" },
   ];
 
-  const handleSeasonChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSeason(e.target.value as Season);
+  const handleSeasonChange = (value: string) => {
+    setSeason(value as Season);
     setPage(1);
   };
 
-  const handleYearChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setYear(e.target.value);
+  const handleYearChange = (value: string) => {
+    setYear(value);
     setPage(1);
   };
 
   const onMobile = useMobile();
-
-  const paginationBtnClasses = cn(
-    "py-2 px-4 m-2 rounded-lg font-medium text-sm cursor-pointer transition-colors",
-    "bg-[var(--primary-500)] text-white border-none",
-    "hover:bg-[var(--primary-600)]",
-    "disabled:opacity-50 disabled:cursor-not-allowed"
-  );
 
   return (
     <main className="content full-page">
@@ -155,26 +148,22 @@ const SeasonalAnimes = () => {
         <section className="mt-16">
           {fetchedAnimes?.length > 0 ? (
             <div>
-              <div className="flex justify-between items-center mb-8">
-                <button
-                  type="button"
+              <div className="mb-8 flex items-center justify-between">
+                <Button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className={paginationBtnClasses}
                 >
                   Previous
-                </button>
+                </Button>
                 <div className="text-center">
                   <h3>Page {page} of {numOfFetchedAnimesPages}</h3>
                 </div>
-                <button
-                  type="button"
+                <Button
                   onClick={() => setPage((p) => Math.min(numOfFetchedAnimesPages, p + 1))}
                   disabled={page === numOfFetchedAnimesPages}
-                  className={paginationBtnClasses}
                 >
                   Next
-                </button>
+                </Button>
               </div>
               <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">
                 {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => {

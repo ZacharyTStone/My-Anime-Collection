@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { GoogleLogin } from "@react-oauth/google";
 import { FormRow, Logo, RunningImg } from "../Components/UI";
+import { Button } from "@/Components/UI/button";
 import narutoRun from "../assets/images/narutoRun.gif";
 import { useAuthSelector } from "../stores/hooks";
 import { User } from "../utils/types";
@@ -109,13 +110,14 @@ const Register = () => {
           value={values.password || ""}
           handleChange={handleChange}
         />
-        <button
+        <Button
           type="submit"
-          className="btn btn-block btn-submit mt-7 w-full font-semibold py-3.5 px-6 text-base"
+          size="lg"
+          className="mt-7 w-full text-base font-semibold"
           disabled={isLoading}
         >
           {values.existingUser ? t("login.submit") : t("register.submit")}
-        </button>
+        </Button>
         {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
           <>
             <div className="flex items-center gap-3 my-5 text-grey-600 text-[0.85rem]">
@@ -148,13 +150,14 @@ const Register = () => {
         )}
         <p className="m-0 mt-7 text-center text-grey-600 text-[0.95rem]">
           {values.existingUser ? t("login.switch1") : t("register.switch1")}
-          <button
+          <Button
             type="button"
+            variant="link"
             onClick={toggleExistingUser}
-            className="bg-transparent border-none text-primary-500 cursor-pointer tracking-wide font-semibold px-1 transition-all duration-200 underline underline-offset-2 hover:text-primary-600 hover:decoration-2"
+            className="px-1 font-semibold text-primary-500"
           >
             {values.existingUser ? t("login.switch2") : t("register.switch2")}
-          </button>
+          </Button>
         </p>
       </form>
       <div className="absolute top-[80vh] left-0 w-screen z-[1]">

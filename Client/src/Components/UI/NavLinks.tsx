@@ -7,9 +7,14 @@ import { MdPlaylistAdd } from "react-icons/md";
 import { RiAddFill } from "react-icons/ri";
 import { AiFillGold } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import { Button } from "@/Components/UI/button";
 import { cn } from "../../utils/cn";
 
-const NavLinks = () => {
+interface NavLinksProps {
+  vertical?: boolean;
+}
+
+const NavLinks = ({ vertical = false }: NavLinksProps) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -60,43 +65,41 @@ const NavLinks = () => {
   ];
 
   return (
-    <nav className="navlinks-wrapper">
-      <div className="nav-links flex gap-2 max-[768px]:flex-col max-[768px]:w-full max-[768px]:p-2">
-        {LINKS.map((link: Link) => {
-          const { text, path, id, icon } = link;
-          const isActive = location.pathname.includes(path);
+    <nav
+      className={cn(
+        "flex gap-1",
+        vertical ? "w-full flex-col" : "flex-row items-center"
+      )}
+    >
+      {LINKS.map((link: Link) => {
+        const { text, path, id, icon } = link;
+        const isActive = location.pathname.includes(path);
 
-          return (
-            <NavLink
-              to={path}
-              key={id}
-              className="nav-item no-underline"
-            >
-              <button
-                type="button"
-                className={cn(
-                  "flex items-center rounded-lg py-1.5 px-3 transition-all duration-200 bg-transparent border-none cursor-pointer",
-                  "text-[0.95rem] tracking-normal normal-case",
-                  "max-[768px]:w-full max-[768px]:justify-start max-[768px]:py-3 max-[768px]:px-4",
-                  isActive
-                    ? "bg-[rgba(212,54,124,0.08)] font-semibold text-[var(--primary-600)] hover:bg-[rgba(212,54,124,0.12)]"
-                    : "font-medium text-[var(--grey-600)] hover:bg-[rgba(212,54,124,0.05)]"
-                )}
+        return (
+          <Button
+            key={id}
+            asChild
+            variant={isActive ? "secondary" : "ghost"}
+            className={cn(
+              "no-underline",
+              isActive && "text-primary-600 font-semibold",
+              vertical && "w-full justify-start"
+            )}
+          >
+            <NavLink to={path}>
+              <IconContext.Provider
+                value={{
+                  size: "1.25rem",
+                  color: isActive ? "var(--primary-600)" : "var(--grey-600)",
+                }}
               >
-                <IconContext.Provider
-                  value={{
-                    size: "1.25rem",
-                    color: isActive ? "var(--primary-600)" : "var(--grey-600)",
-                  }}
-                >
-                  <span className="flex items-center mr-1.5">{icon}</span>
-                </IconContext.Provider>
-                <span className="mt-0.5">{text}</span>
-              </button>
+                {icon}
+              </IconContext.Provider>
+              <span>{text}</span>
             </NavLink>
-          );
-        })}
-      </div>
+          </Button>
+        );
+      })}
     </nav>
   );
 };

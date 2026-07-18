@@ -2,6 +2,7 @@ import { motion, type Variants } from "framer-motion";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useInViewAnimation } from "../../utils/hooks";
+import { Button } from "@/Components/UI/button";
 import goku from "../../assets/images/goku.webp";
 
 interface HeroSectionProps {
@@ -32,12 +33,12 @@ const HeroSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoColCla
           {t("landing.title_description")}
         </p>
         <div className="flex justify-start items-center mt-8 gap-4 flex-wrap lg:flex-nowrap">
-          <Link to="/register" className="btn btn-primary hover:-translate-y-0.5!">
-            {t("landing.login_button")}
-          </Link>
-          <Link to="/register-demo" className="btn btn-outline hover:-translate-y-0.5!">
-            {t("landing.demo_button")}
-          </Link>
+          <Button asChild size="lg">
+            <Link to="/register">{t("landing.login_button")}</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link to="/register-demo">{t("landing.demo_button")}</Link>
+          </Button>
         </div>
       </div>
       <div className="hidden lg:block">

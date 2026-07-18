@@ -107,18 +107,8 @@ ul {
 }
 
 /* Anime card styles */
-.anime-card-wrapper .anime-cover-image {
+.anime-cover-image {
   width: 100%;
   cursor: url("../images/pokeball.png") 4 4, pointer !important;
-}
-
-.anime-card-wrapper .delete-btn {
-  letter-spacing: var(--letterSpacing);
-  cursor: pointer;
-  height: 30px;
-  margin: 10px;
-  color: var(--red-dark);
-  background: var(--red-light);
-  align-self: center;
 }
 

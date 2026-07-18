@@ -6,6 +6,7 @@ import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
 import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/AnimeCard";
+import { Button } from "@/Components/UI/button";
 
 const PageLoader = () => (
   <section className="mt-16 p-10">
@@ -67,9 +68,11 @@ const MyAnimesContainer = () => {
       <section className="mt-16 p-10">
         <h5 className="text-center">
           {t("my_animes_container.no_anime_message1")}
-          <NavLink to="/add-anime" className="btn btn-block btn-outline">
-            {t("my_animes_container.no_anime_message2")}
-          </NavLink>
+          <Button asChild variant="outline" className="mt-4 w-full">
+            <NavLink to="/add-anime">
+              {t("my_animes_container.no_anime_message2")}
+            </NavLink>
+          </Button>
         </h5>
       </section>
     );

@@ -53,11 +53,21 @@ describe("SearchContainer", () => {
     expect(searchInput).toBeInTheDocument();
   });
 
-  it("renders the sort dropdown", () => {
+  it("renders the sort dropdown with the current value", () => {
     render(<SearchContainer />);
     const sortSelect = screen.getByRole("combobox");
     expect(sortSelect).toBeInTheDocument();
-    expect(sortSelect).toHaveValue("latest");
+    expect(sortSelect).toHaveTextContent("Latest");
+  });
+
+  it("changes the sort value when an option is selected", async () => {
+    const user = userEvent.setup();
+    render(<SearchContainer />);
+
+    await user.click(screen.getByRole("combobox"));
+    await user.click(await screen.findByRole("option", { name: "Oldest" }));
+
+    expect(useAnimeStore.getState().sort).toBe("oldest");
   });
 
   it("renders the clear filters button", () => {

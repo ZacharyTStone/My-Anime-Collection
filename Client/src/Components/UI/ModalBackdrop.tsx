@@ -1,4 +1,10 @@
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { VisuallyHidden } from "radix-ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/Components/UI/dialog";
 
 interface ModalBackdropProps {
   onClose: () => void;
@@ -7,27 +13,30 @@ interface ModalBackdropProps {
   className?: string;
 }
 
-const ModalBackdrop = ({ onClose, ariaLabel, children, className }: ModalBackdropProps) => {
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
-
+/**
+ * Dialog-based modal. Rendered conditionally by callers
+ * (`{open && <ModalBackdrop .../>}`), so it is always open while mounted.
+ */
+const ModalBackdrop = ({
+  onClose,
+  ariaLabel,
+  children,
+  className,
+}: ModalBackdropProps) => {
   return (
-    <div
-      className={`fixed inset-0 flex items-center justify-center z-[9999] ${className || "bg-black/50 backdrop-blur-[4px]"}`}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={ariaLabel}
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
     >
-      <div onClick={(e) => e.stopPropagation()}>
+      <DialogContent aria-label={ariaLabel} className={className}>
+        <VisuallyHidden.Root>
+          <DialogTitle>{ariaLabel}</DialogTitle>
+        </VisuallyHidden.Root>
         {children}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

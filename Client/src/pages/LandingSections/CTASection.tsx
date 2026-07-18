@@ -2,6 +2,7 @@ import { motion, type Variants } from "framer-motion";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useInViewAnimation } from "../../utils/hooks";
+import { Button } from "@/Components/UI/button";
 import lucy from "../../assets/images/lucy.webp";
 
 interface CTASectionProps {
@@ -29,12 +30,12 @@ const CTASection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoColClas
           {t("landing.call_to_action.title")}
         </h3>
         <div className="flex gap-4 mt-8 flex-wrap items-center lg:flex-nowrap">
-          <Link to="/register" className="btn btn-primary hover:-translate-y-0.5!">
-            {t("landing.login_button")}
-          </Link>
-          <Link to="/register-demo" className="btn btn-primary btn-outline hover:-translate-y-0.5!">
-            {t("landing.demo_button")}
-          </Link>
+          <Button asChild size="lg">
+            <Link to="/register">{t("landing.login_button")}</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link to="/register-demo">{t("landing.demo_button")}</Link>
+          </Button>
         </div>
         <h5 className="mt-12 font-normal text-grey-600 text-[0.95rem] leading-[1.6]">
           {t("landing.call_to_action.contact_info")}{" "}

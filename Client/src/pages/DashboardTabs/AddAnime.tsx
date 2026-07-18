@@ -7,7 +7,7 @@ import { debounce } from "../../utils/debounce";
 const SORT_OPTIONS = [
   {
     title: "popularity",
-    value: "",
+    value: "default",
   },
   {
     title: "average rating",
@@ -30,7 +30,7 @@ const SORT_OPTIONS = [
 const AddAnime = () => {
   const { t } = useTranslation();
   const [textInput, setTextInput] = useState<string>("");
-  const [sort, setSort] = useState<string>("");
+  const [sort, setSort] = useState<string>("default");
   const [searchText, setSearchText] = useState<string>("");
 
   const debouncedRequest = useMemo(
@@ -45,8 +45,8 @@ const AddAnime = () => {
     debouncedRequest(apiValue);
   };
 
-  const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSort(e.target.value);
+  const handleSort = (value: string) => {
+    setSort(value);
   };
 
   return (
@@ -83,7 +83,7 @@ const AddAnime = () => {
           baseURL="https://kitsu.io/api/edge/anime"
           filter={true}
           pagination={true}
-          sort={sort}
+          sort={sort === "default" ? "" : sort}
         />
       </main>
     </section>

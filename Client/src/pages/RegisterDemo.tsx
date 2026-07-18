@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { FormRow, Logo } from "../Components/UI";
+import { Button } from "@/Components/UI/button";
 import { useAuthSelector } from "../stores/hooks";
 
 const NOOP = () => {};
@@ -68,13 +69,14 @@ const RegisterDemo = () => {
           handleChange={NOOP}
           disabled
         />
-        <button
+        <Button
           type="submit"
-          className="btn btn-block mt-7 w-full font-semibold py-3.5 px-6 text-base opacity-60"
+          size="lg"
+          className="mt-7 w-full text-base font-semibold"
           disabled
         >
           {t("register.submit")}
-        </button>
+        </Button>
       </form>
     </section>
   );

@@ -12,9 +12,9 @@ interface AnimeStats {
 }
 
 const StatCard = ({ label, value }: { label: string; value: string | number }) => (
-  <div className="flex flex-col items-center rounded-lg border border-[var(--primary-alpha-30)] bg-[var(--backgroundColor)] px-4 py-2 min-w-[110px]">
-    <span className="text-lg font-bold text-[var(--textColor)]">{value}</span>
-    <span className="text-xs text-[var(--grey-500)]">{label}</span>
+  <div className="flex min-w-[110px] flex-col items-center rounded-lg border bg-card px-4 py-2 shadow-sm">
+    <span className="text-lg font-bold">{value}</span>
+    <span className="text-xs text-muted-foreground">{label}</span>
   </div>
 );
 
@@ -55,7 +55,7 @@ const CollectionStats = () => {
   }
 
   if (error || !stats) {
-    return <p className="text-sm text-[var(--grey-500)]">{t("stats.error")}</p>;
+    return <p className="text-sm text-muted-foreground">{t("stats.error")}</p>;
   }
 
   return (

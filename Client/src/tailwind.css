@@ -1,123 +1,5 @@
 @import "tailwindcss";
-
-/* ==============================================
-   Button Components
-   ============================================== */
-
-@layer components {
-  .btn {
-    @apply inline-flex items-center justify-center relative overflow-hidden
-           cursor-pointer rounded-default text-white text-[0.95rem] font-medium
-           capitalize no-underline
-           px-5 py-2.5 tracking-[0.5px];
-    background: var(--gradient-primary);
-    background-color: var(--primary-500);
-    border: transparent;
-    box-shadow: var(--shadow-anime);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-
-  .btn,
-  .btn > *,
-  .btn span,
-  .btn svg {
-    color: var(--white);
-    fill: var(--white);
-  }
-
-  /* Anime-style shine effect */
-  .btn::before {
-    content: "";
-    @apply absolute top-0 -left-full w-full h-full z-[1] pointer-events-none;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.5s;
-  }
-
-  .btn:hover {
-    @apply -translate-y-[3px] no-underline;
-  }
-
-  .btn:hover::before {
-    left: 100%;
-  }
-
-  .btn:active {
-    @apply translate-y-0;
-    box-shadow: var(--shadow);
-  }
-
-  /* Outline variant */
-  .btn-outline {
-    background: var(--outline-button-background);
-    border: 2px solid var(--primary-400);
-    box-shadow: 0 0 6px rgba(212, 54, 124, 0.1);
-    color: var(--primary-600);
-  }
-
-  .btn-outline > *,
-  .btn-outline span,
-  .btn-outline svg {
-    color: var(--primary-600);
-    fill: var(--primary-600);
-  }
-
-  /* Primary size */
-  .btn-primary {
-    @apply text-base px-6 py-2.5 font-medium;
-  }
-
-  .btn-primary + .btn-outline {
-    @apply text-base px-6 py-2.5;
-  }
-
-  /* Block (full width) */
-  .btn-block {
-    @apply w-full min-h-[42px] h-max mr-0;
-  }
-
-  /* Submit */
-  .btn-submit {
-    background: var(--primary-500);
-    border: none;
-    box-shadow: var(--shadow);
-  }
-
-  .btn-submit:hover {
-    background: var(--primary-600);
-    box-shadow: var(--shadow-md);
-  }
-
-  /* Danger */
-  .btn-danger {
-    @apply bg-grey-400;
-  }
-
-  .btn-danger:hover {
-    @apply bg-red-dark;
-  }
-
-  /* Loading state */
-  .btn-loading {
-    @apply relative pointer-events-none opacity-85;
-  }
-
-  .btn-loading::after {
-    content: "";
-    @apply absolute w-4 h-4 border-2 border-transparent border-t-current rounded-full;
-    top: calc(50% - 8px);
-    left: calc(50% - 8px);
-    animation: button-loading-spinner 0.7s linear infinite;
-  }
-}
-
-@keyframes button-loading-spinner {
-  from {
-    transform: rotate(0turn);
-  }
-  to {
-    transform: rotate(1turn);
-  }
-}
+@import "tw-animate-css";
 
 @keyframes run {
   from {
@@ -197,27 +79,6 @@
   }
 }
 
-@keyframes skeleton-pulse {
-  0% {
-    background-color: var(--skeleton-light, var(--grey-50));
-  }
-  50% {
-    background-color: var(--skeleton-dark, var(--grey-100));
-  }
-  100% {
-    background-color: var(--skeleton-light, var(--grey-50));
-  }
-}
-
-@keyframes skeleton-shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 /* ==============================================
    Shared Utility Classes
    ============================================== */
@@ -232,13 +93,6 @@
 
 @utility gradient-anime {
   background: linear-gradient(135deg, var(--color-anime-purple), var(--color-anime-blue));
-}
-
-@utility glass-dropdown {
-  background: var(--glass-dropdown-background, rgba(255, 255, 255, 0.9));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px var(--primary-alpha-15);
 }
 
 @utility glass-navbar {
@@ -308,4 +162,61 @@
 
   /* Border radius */
   --radius-default: 0.5rem;
+}
+
+/* ==============================================
+   shadcn/ui theme tokens
+   Dark mode is driven by [data-theme="dark"] on <html>
+   (see themeStore.ts), not a .dark class.
+   ============================================== */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --radius: 0.5rem;
+  --background: var(--backgroundColor);
+  --foreground: var(--textColor);
+  --card: var(--outline-button-background);
+  --card-foreground: var(--textColor);
+  --popover: var(--outline-button-background);
+  --popover-foreground: var(--textColor);
+  --primary: var(--primary-500);
+  --primary-foreground: var(--white);
+  --secondary: var(--grey-100);
+  --secondary-foreground: var(--textColor);
+  --muted: var(--grey-100);
+  --muted-foreground: var(--grey-500);
+  --accent: var(--grey-100);
+  --accent-foreground: var(--textColor);
+  --destructive: var(--red-dark);
+  --destructive-foreground: var(--white);
+  --border: var(--grey-200);
+  --input: var(--grey-300);
+  --ring: var(--primary-400);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }

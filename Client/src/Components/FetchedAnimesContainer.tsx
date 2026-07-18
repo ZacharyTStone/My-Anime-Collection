@@ -4,7 +4,7 @@ import { useAnimeSelector } from "../stores/hooks";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
-import { cn } from "../utils/cn";
+import { Button } from "@/Components/UI/button";
 import { mapFetchedAnime } from "../utils/mapFetchedAnime";
 
 const LoadingUI = ({ onMobile }: { onMobile: boolean }) => (
@@ -99,38 +99,27 @@ const FetchedAnimesContainer = ({
     return <LoadingUI onMobile={onMobile} />;
   }
 
-  const paginationBtnClasses = cn(
-    "py-2 px-4 m-2 rounded-lg font-medium text-sm cursor-pointer transition-colors",
-    "bg-[var(--primary-500)] text-white border-none",
-    "hover:bg-[var(--primary-600)]",
-    "disabled:opacity-50 disabled:cursor-not-allowed"
-  );
-
   return (
     <section className="mt-16">
       {fetchedAnimes?.length > 0 ? (
         <div>
           {pagination && (
-            <div className="flex justify-between items-center mb-8">
-              <button
-                type="button"
+            <div className="mb-8 flex items-center justify-between">
+              <Button
                 onClick={() => handlePageClick(-1)}
                 disabled={page.current === 1}
-                className={paginationBtnClasses}
               >
                 Previous
-              </button>
+              </Button>
               <div className="text-center">
                 <h3>Page {page.current} of {numOfFetchedAnimesPages}</h3>
               </div>
-              <button
-                type="button"
+              <Button
                 onClick={() => handlePageClick(1)}
                 disabled={page.current === numOfFetchedAnimesPages}
-                className={paginationBtnClasses}
               >
                 Next
-              </button>
+              </Button>
             </div>
           )}
           <div className="flex flex-row flex-wrap justify-evenly items-center text-[var(--textColor)]">

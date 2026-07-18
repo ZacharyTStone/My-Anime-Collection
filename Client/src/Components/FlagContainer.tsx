@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useLanguageSelector } from "../stores/hooks";
+import { Button } from "@/Components/UI/button";
 import america from "./../assets/images/america-big.png";
 import japan from "./../assets/images/japan-big.png";
 
@@ -7,34 +8,22 @@ const FlagContainer = () => {
   const changeSiteLanguage = useLanguageSelector((s) => s.changeSiteLanguage);
   const { i18n } = useTranslation();
 
+  const isEnglish = i18n.language === "en";
+
   return (
-    <div className="flag-div-holder flex items-center justify-center mr-3">
-      {i18n.language === "en" ? (
-        <button
-          onClick={() => changeSiteLanguage("jp")}
-          title="Switch to Japanese"
-          className="flex items-center justify-center h-10 w-10 p-1 rounded-full overflow-hidden transition-all duration-200 bg-[var(--outline-button-background)] border border-grey-200 shadow-sm cursor-pointer hover:bg-[rgba(212,54,124,0.05)] hover:-translate-y-0.5 hover:shadow hover:border-primary-200 active:scale-[0.96]"
-        >
-          <img
-            className="flag w-7 h-5 rounded border border-grey-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 object-cover"
-            src={japan}
-            alt="Japan Flag"
-          />
-        </button>
-      ) : (
-        <button
-          onClick={() => changeSiteLanguage("en")}
-          title="Switch to English"
-          className="flex items-center justify-center h-10 w-10 p-1 rounded-full overflow-hidden transition-all duration-200 bg-[var(--outline-button-background)] border border-grey-200 shadow-sm cursor-pointer hover:bg-[rgba(212,54,124,0.05)] hover:-translate-y-0.5 hover:shadow hover:border-primary-200 active:scale-[0.96]"
-        >
-          <img
-            className="flag w-7 h-5 rounded border border-grey-200 shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 object-cover"
-            src={america}
-            alt="America Flag"
-          />
-        </button>
-      )}
-    </div>
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={() => changeSiteLanguage(isEnglish ? "jp" : "en")}
+      title={isEnglish ? "Switch to Japanese" : "Switch to English"}
+      className="mr-3 rounded-full"
+    >
+      <img
+        className="h-5 w-7 rounded border object-cover"
+        src={isEnglish ? japan : america}
+        alt={isEnglish ? "Japan Flag" : "America Flag"}
+      />
+    </Button>
   );
 };
 

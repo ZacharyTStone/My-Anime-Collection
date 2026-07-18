@@ -1,4 +1,6 @@
 import { Link } from "react-router";
+import { Button } from "@/Components/UI/button";
+import { Card } from "@/Components/UI/card";
 import img from "../assets/images/allanime.webp";
 
 interface ErrorProps {
@@ -26,16 +28,13 @@ const Error = ({
         backgroundColor: "rgba(0, 0, 0, 0.5)",
       }}
     >
-      <div className="full-page bg-[var(--outline-button-background)] p-8 opacity-90 rounded-default max-w-[500px] mx-4" style={{ boxShadow: "var(--shadow-lg)" }}>
-        <h1 className="mb-2 text-grey-900 text-[1.75rem] font-semibold">{title}</h1>
-        <p className="mt-0 mb-6 text-grey-500 text-base leading-relaxed">{message}</p>
-        <Link
-          to={homeLink}
-          className="text-primary-500 underline capitalize font-medium transition-colors duration-300 hover:text-primary-600"
-        >
-          back home
-        </Link>
-      </div>
+      <Card className="mx-4 max-w-[500px] p-8 opacity-95 shadow-lg">
+        <h1 className="mb-2 text-[1.75rem] font-semibold">{title}</h1>
+        <p className="mb-6 mt-0 text-base leading-relaxed text-muted-foreground">{message}</p>
+        <Button asChild>
+          <Link to={homeLink}>back home</Link>
+        </Button>
+      </Card>
     </main>
   );
 };

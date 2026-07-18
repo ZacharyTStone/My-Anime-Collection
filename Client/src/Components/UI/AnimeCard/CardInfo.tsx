@@ -1,5 +1,6 @@
 import { FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { Badge } from "@/Components/UI/badge";
 import { ExpectedFetchedAnimeResponse } from "../../../utils/types";
 
 interface CardInfoProps {
@@ -25,28 +26,27 @@ const CardInfo = ({
   const hasYoutubeVideoId = Boolean(youtubeVideoId);
 
   return (
-    <div className="mb-1.5 text-[var(--textColor)] text-sm font-medium flex items-center justify-center gap-[var(--spacing-xs)] mt-[var(--spacing-sm)] flex-wrap">
-      <span className="text-[var(--textColor)] px-2 py-1">
+    <div className="mb-1.5 mt-2 flex flex-wrap items-center justify-center gap-1.5 text-sm font-medium">
+      <Badge variant="secondary">
         {rating}
-        <span className="text-[var(--grey-500)]">/100</span>
-      </span>
-      <span className="text-[var(--textColor)] px-2 py-1">{format}</span>
-      <span className="text-[var(--textColor)] px-2 py-1">{creationDate?.slice(0, 4)}</span>
-      <span className="text-[var(--textColor)] px-2 py-1">
+        <span className="text-muted-foreground">/100</span>
+      </Badge>
+      <Badge variant="secondary">{format}</Badge>
+      <Badge variant="secondary">{creationDate?.slice(0, 4)}</Badge>
+      <Badge variant="secondary">
         <span>{episodeCount ?? "N/A"}</span>
-        <span className="ml-[5px]">{t("anime.episode")}</span>
-      </span>
+        <span className="ml-1">{t("anime.episode")}</span>
+      </Badge>
       {hasYoutubeVideoId && (
-        <span className="text-[var(--textColor)] px-2 py-1">
-          <a
-            href={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Watch ${title} trailer on YouTube`}
-          >
-            <FaYoutube color="red" size={30} />
-          </a>
-        </span>
+        <a
+          href={`https://www.youtube.com/watch?v=${youtubeVideoId || fetchedAnime?.attributes?.youtubeVideoId}`}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Watch ${title} trailer on YouTube`}
+          className="inline-flex items-center px-1"
+        >
+          <FaYoutube color="red" size={26} />
+        </a>
       )}
     </div>
   );

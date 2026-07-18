@@ -1,5 +1,7 @@
 import { BsReverseLayoutTextWindowReverse, BsStars } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/Components/UI/button";
+import { CardFooter } from "@/Components/UI/card";
 import { cn } from "../../../utils/cn";
 
 interface CardActionsProps {
@@ -24,18 +26,19 @@ const CardActions = ({
   const { t } = useTranslation();
 
   return (
-    <div className="p-[var(--spacing-md)] flex justify-center border-t border-[var(--grey-100)] bg-[var(--grey-50)] gap-[var(--spacing-md)]">
-      <button
-        type="button"
-        className="card-btn flex items-center gap-2 bg-transparent border-none cursor-pointer p-2"
+    <CardFooter className="mt-auto justify-center gap-3 border-t bg-muted/50 p-4">
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={onSynopsisOpen}
         aria-label={t("anime.showSynopsis")}
+        className="text-primary-500"
       >
-        <BsReverseLayoutTextWindowReverse size={20} className="text-primary-500" />
-      </button>
-      <button
-        type="button"
-        className="card-btn flex items-center gap-2 bg-transparent border-none cursor-pointer p-2"
+        <BsReverseLayoutTextWindowReverse size={20} />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={onAiOpen}
         aria-label={t("anime.ai_suggestions")}
       >
@@ -48,28 +51,25 @@ const CardActions = ({
         >
           <BsStars size={20} />
         </span>
-      </button>
+      </Button>
       {type === "delete" ? (
-        <button
-          type="button"
-          className="btn delete-btn"
+        <Button
+          variant="destructive"
           aria-label={`${t("anime.delete")} ${title}`}
           onClick={onDelete}
         >
           {t("anime.delete")}
-        </button>
+        </Button>
       ) : (
-        <button
-          type="button"
-          className="card-btn add bg-transparent border-none cursor-pointer p-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        <Button
           disabled={isCurrentlyLoading}
           onClick={onSubmit}
           aria-label={`${t("anime.add")} ${title}`}
         >
           {t("anime.add")}
-        </button>
+        </Button>
       )}
-    </div>
+    </CardFooter>
   );
 };
 

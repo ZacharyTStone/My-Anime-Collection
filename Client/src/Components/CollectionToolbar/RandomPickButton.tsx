@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ModalBackdrop from "../UI/ModalBackdrop";
+import { Button } from "@/Components/UI/button";
 import { fetchAllAnimes, type CollectionAnime } from "../../utils/fetchAllAnimes";
 import { handleApiError } from "../../utils/handleApiError";
 
@@ -45,64 +46,49 @@ const RandomPickButton = () => {
 
   return (
     <>
-      <button type="button" className="btn btn-outline" onClick={handleOpen}>
+      <Button variant="outline" onClick={handleOpen}>
         {t("random_pick.button")}
-      </button>
+      </Button>
 
       {isOpen && (
-        <ModalBackdrop onClose={handleClose} ariaLabel={t("random_pick.title")}>
-          <div
-            className="p-8 rounded-[calc(var(--borderRadius)*1.5)] max-w-[80vw] w-[320px] text-center border-2 border-[var(--primary-alpha-30)]"
-            style={{
-              background:
-                "linear-gradient(135deg, var(--white) 0%, var(--primary-50) 100%)",
-              boxShadow: "var(--shadow-anime-lg)",
-            }}
-          >
-            <h2 className="text-xl font-semibold mb-4">
-              {t("random_pick.title")}
-            </h2>
+        <ModalBackdrop
+          onClose={handleClose}
+          ariaLabel={t("random_pick.title")}
+          className="sm:max-w-[340px] text-center"
+        >
+          <h2 className="text-xl font-semibold mb-4">
+            {t("random_pick.title")}
+          </h2>
 
-            {loading ? (
-              <p className="text-[var(--grey-500)]">...</p>
-            ) : picked ? (
-              <div className="flex flex-col items-center gap-2">
-                {picked.coverImage && (
-                  <img
-                    src={picked.coverImage}
-                    alt={picked.title}
-                    className="w-40 rounded-lg object-cover"
-                  />
-                )}
-                <p className="font-bold text-[var(--textColor)]">
-                  {picked.title}
-                </p>
-                <p className="text-sm text-[var(--grey-500)]">
-                  ⭐ {picked.rating ?? "N/A"} · {picked.episodeCount ?? "?"} ep
-                </p>
-              </div>
-            ) : (
-              <p className="text-[var(--grey-500)]">{t("random_pick.empty")}</p>
-            )}
-
-            <div className="mt-6 flex justify-center gap-3">
-              {picked && (
-                <button
-                  type="button"
-                  className="btn btn-outline"
-                  onClick={handleReroll}
-                >
-                  {t("random_pick.reroll")}
-                </button>
+          {loading ? (
+            <p className="text-muted-foreground">...</p>
+          ) : picked ? (
+            <div className="flex flex-col items-center gap-2">
+              {picked.coverImage && (
+                <img
+                  src={picked.coverImage}
+                  alt={picked.title}
+                  className="w-40 rounded-lg object-cover"
+                />
               )}
-              <button
-                type="button"
-                className="btn btn-outline"
-                onClick={handleClose}
-              >
-                {t("random_pick.close")}
-              </button>
+              <p className="font-bold">{picked.title}</p>
+              <p className="text-sm text-muted-foreground">
+                ⭐ {picked.rating ?? "N/A"} · {picked.episodeCount ?? "?"} ep
+              </p>
             </div>
+          ) : (
+            <p className="text-muted-foreground">{t("random_pick.empty")}</p>
+          )}
+
+          <div className="mt-6 flex justify-center gap-3">
+            {picked && (
+              <Button variant="outline" onClick={handleReroll}>
+                {t("random_pick.reroll")}
+              </Button>
+            )}
+            <Button variant="outline" onClick={handleClose}>
+              {t("random_pick.close")}
+            </Button>
           </div>
         </ModalBackdrop>
       )}

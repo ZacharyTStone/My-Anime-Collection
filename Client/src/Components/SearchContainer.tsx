@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, type ChangeEvent, type MouseEvent, type FormEvent } from "react";
 import { FormRow, FormRowSelect, PlaylistSelector } from "./UI";
+import { Button } from "@/Components/UI/button";
 import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
 import type { FilterField } from "../stores/animeStore";
 
@@ -39,8 +40,15 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
   const isFormDisabled = loadingMyAnimes || loadingFetchPlaylists;
 
   const handleSearch = useCallback(
-    (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       handleChange({ name: e.target.name as FilterField, value: e.target.value });
+    },
+    [handleChange]
+  );
+
+  const handleSortChange = useCallback(
+    (value: string) => {
+      handleChange({ name: "sort", value });
     },
     [handleChange]
   );
@@ -84,20 +92,21 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
             name="sort"
             value={sort}
             labelText={t("search_container.sort")}
-            handleChange={handleSearch}
+            handleChange={handleSortChange}
             list={sortOptions}
           />
 
           <PlaylistSelector disabled={isFormDisabled} />
 
-          <button
+          <Button
             type="button"
-            className="btn btn-block btn-danger"
+            variant="destructive"
+            className="w-full self-end"
             onClick={handleResetFilters}
             disabled={isFormDisabled}
           >
             {t("search_container.clear_filters")}
-          </button>
+          </Button>
         </div>
       </form>
     </section>

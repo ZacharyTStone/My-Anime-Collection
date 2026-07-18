@@ -4,9 +4,21 @@ import { useTranslation } from "react-i18next";
 
 import { usePlaylistSelector } from "../../stores/hooks";
 import { FormRow, SkeletonLoadingBlock } from "../../Components/UI";
+import { Button } from "@/Components/UI/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/Components/UI/alert-dialog";
+import { Separator } from "@/Components/UI/separator";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 import { IPlaylist } from "../../utils/types";
-import { cn } from "../../utils/cn";
 
 const EditPlaylist = () => {
   const { t } = useTranslation();
@@ -72,11 +84,9 @@ const EditPlaylist = () => {
   };
 
   const handleDeletePlaylist = async (playlistId: string) => {
-    if (window.confirm("Are you sure you want to delete this playlist?")) {
-      await deletePlaylist(playlistId);
-      setNewTitle("");
-      setSelectedPlaylistId(undefined);
-    }
+    await deletePlaylist(playlistId);
+    setNewTitle("");
+    setSelectedPlaylistId(undefined);
   };
 
   if (loadingFetchPlaylists) {
@@ -86,18 +96,18 @@ const EditPlaylist = () => {
   }
 
   return (
-    <section className="rounded-default w-full bg-[var(--outline-button-background)] px-8 pt-12 pb-16 shadow">
+    <section className="w-full rounded-lg bg-card px-8 pb-16 pt-12 shadow">
       <div className="mb-8">
-        <h3 className="relative mt-0 mb-8 font-semibold text-grey-900 after:content-[''] after:absolute after:bottom-[-0.75rem] after:left-0 after:w-16 after:h-[3px] after:bg-primary-500 after:rounded-sm">
+        <h3 className="relative mb-8 mt-0 font-semibold after:absolute after:bottom-[-0.75rem] after:left-0 after:h-[3px] after:w-16 after:rounded-sm after:bg-primary-500 after:content-['']">
           {t("edit_playlist.title")}
         </h3>
         <div>
-          <ul className="mb-6 p-2 max-h-[300px] overflow-y-auto border border-grey-200 rounded-default bg-[var(--outline-button-background)] shadow-[inset_var(--shadow-sm)]">
+          <ul className="mb-6 max-h-[300px] overflow-y-auto rounded-lg border bg-card p-2">
             {userPlaylists.map((playlist: IPlaylist) => (
               <li key={playlist.id} className="list-none">
                 <span
                   onClick={() => handleClickOnPlaylist(playlist.id)}
-                  className="text-[1.1rem] cursor-pointer flex items-center gap-3 py-3 px-4 mb-2 rounded-default transition-all duration-200 border border-transparent hover:bg-grey-50 hover:border-grey-200"
+                  className="mb-2 flex cursor-pointer items-center gap-3 rounded-lg border border-transparent px-4 py-3 text-[1.1rem] transition-colors hover:bg-accent"
                 >
                   {playlist.id === currentPlaylist.id && (
                     <AiOutlineArrowRight
@@ -108,26 +118,55 @@ const EditPlaylist = () => {
                   {playlist.title}
                   {!DEFAULT_PLAYLIST_IDS.includes(currentPlaylist.id) &&
                     playlist.id === currentPlaylist.id && (
-                      <span
-                        className="inline-flex text-red-dark text-[1.25rem] cursor-pointer ml-auto opacity-70 transition-all duration-200 hover:opacity-100 hover:scale-110"
-                        onClick={() => handleDeletePlaylist(playlist.id)}
-                      >
-                        <AiFillDelete size={20} />
-                      </span>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <span
+                            className="ml-auto inline-flex cursor-pointer text-[1.25rem] text-destructive opacity-70 transition-opacity hover:opacity-100"
+                            aria-label={`Delete playlist ${playlist.title}`}
+                          >
+                            <AiFillDelete size={20} />
+                          </span>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              {t("edit_playlist.delete_title", {
+                                defaultValue: "Delete playlist?",
+                              })}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              {t("edit_playlist.delete_confirm", {
+                                defaultValue:
+                                  "Are you sure you want to delete this playlist? This cannot be undone.",
+                              })}
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>
+                              {t("profile.cancel", { defaultValue: "Cancel" })}
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDeletePlaylist(playlist.id)}
+                            >
+                              {t("profile.delete")}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     )}
                 </span>
               </li>
             ))}
           </ul>
-          <button className="btn" onClick={handleNewPlaylistSubmit}>
+          <Button onClick={handleNewPlaylistSubmit}>
             {t("edit_playlist.new_playlist")}
-          </button>
+          </Button>
         </div>
       </div>
-      <hr className="h-px bg-grey-200 border-none my-6" />
+      <Separator className="my-6" />
 
       <div>
-        <p className="text-[0.9rem]! text-grey-600 mb-4 italic no-underline! relative inline-block after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-px after:bg-grey-300">
+        <p className="mb-4 text-[0.9rem] italic text-muted-foreground">
           {t("edit_playlist.cta")}
         </p>
       </div>
@@ -135,7 +174,7 @@ const EditPlaylist = () => {
         !!selectedPlaylistId &&
         !DEFAULT_PLAYLIST_IDS.includes(selectedPlaylistId) && (
           <form className="w-full p-4" onSubmit={handlePlaylistEdit}>
-            <div className="grid gap-y-4 bg-grey-50 p-6 rounded-default border border-grey-200 mt-6 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-x-4">
+            <div className="mt-6 grid gap-y-4 rounded-lg border bg-muted/50 p-6 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-x-4">
               <FormRow
                 type="text"
                 name="title"
@@ -143,12 +182,9 @@ const EditPlaylist = () => {
                 labelText="Edit Playlist Title"
                 handleChange={(e) => setNewTitle(e.target.value)}
               />
-              <button
-                className={cn("btn btn-block self-end h-[42px] mt-4")}
-                type="submit"
-              >
+              <Button className="self-end" type="submit">
                 {t("profile.save")}
-              </button>
+              </Button>
             </div>
           </form>
         )}

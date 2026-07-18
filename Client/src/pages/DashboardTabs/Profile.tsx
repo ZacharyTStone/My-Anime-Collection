@@ -5,6 +5,19 @@ import { FormRow } from "../../Components/UI";
 import { Pokemon } from "../../Components";
 import { useAuthSelector } from "../../stores/hooks";
 import { User } from "../../utils/types";
+import { Button } from "@/Components/UI/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/Components/UI/alert-dialog";
+import { Separator } from "@/Components/UI/separator";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -37,9 +50,6 @@ const Profile = () => {
   };
 
   const handleDelete = () => {
-    if (!window.confirm(t("profile.confirm"))) {
-      return;
-    }
     if (user) {
       deleteUser();
       logoutUser();
@@ -47,9 +57,9 @@ const Profile = () => {
   };
 
   return (
-    <section className="rounded-default w-full bg-[var(--outline-button-background)] p-10 shadow">
+    <section className="w-full rounded-lg bg-card p-10 shadow">
       <form className="w-full p-4" onSubmit={handleSubmit}>
-        <h3 className="relative mt-0 mb-8 font-semibold text-grey-900 after:content-[''] after:absolute after:bottom-[-0.75rem] after:left-0 after:w-16 after:h-[3px] after:bg-primary-500 after:rounded-sm">
+        <h3 className="relative mb-8 mt-0 font-semibold after:absolute after:bottom-[-0.75rem] after:left-0 after:h-[3px] after:w-16 after:rounded-sm after:bg-primary-500 after:content-['']">
           {t("profile.title")}
         </h3>
         <div className="grid gap-y-4 lg:grid-cols-2 lg:items-center lg:gap-x-6">
@@ -70,25 +80,35 @@ const Profile = () => {
             handleChange={(e) => setEmail(e.target.value)}
           />
 
-          <div className="flex justify-start mt-4 col-span-full">
-            <button
-              className="btn btn-submit mt-8!"
-              type="submit"
-              disabled={isLoading || isDemoUser}
-            >
+          <div className="col-span-full mt-4 flex justify-start">
+            <Button type="submit" disabled={isLoading || isDemoUser}>
               {isLoading ? t("profile.wait") : t("profile.save")}
-            </button>
+            </Button>
           </div>
         </div>
         <Pokemon />
-        <div className="mt-12 pt-8 border-t border-grey-200">
-          <button
-            className="btn btn-danger relative bg-grey-300 text-grey-700 transition-all duration-200 hover:bg-red-dark hover:text-white"
-            onClick={handleDelete}
-          >
-            {t("profile.delete")}
-          </button>
-        </div>
+        <Separator className="my-12" />
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">{t("profile.delete")}</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t("profile.delete")}</AlertDialogTitle>
+              <AlertDialogDescription>
+                {t("profile.confirm")}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>
+                {t("profile.cancel", { defaultValue: "Cancel" })}
+              </AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete}>
+                {t("profile.delete")}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </form>
     </section>
   );

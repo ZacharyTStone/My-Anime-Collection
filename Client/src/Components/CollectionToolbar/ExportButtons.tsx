@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { Button } from "@/Components/UI/button";
 import { fetchAllAnimes } from "../../utils/fetchAllAnimes";
 import { animesToCsv, animesToJson, downloadFile } from "../../utils/exportCollection";
 import { handleApiError } from "../../utils/handleApiError";
@@ -28,22 +29,20 @@ const ExportButtons = () => {
 
   return (
     <div className="flex gap-2" aria-label={t("export.title")}>
-      <button
-        type="button"
-        className="btn btn-outline"
+      <Button
+        variant="outline"
         disabled={exporting}
         onClick={() => handleExport("json")}
       >
         {t("export.json")}
-      </button>
-      <button
-        type="button"
-        className="btn btn-outline"
+      </Button>
+      <Button
+        variant="outline"
         disabled={exporting}
         onClick={() => handleExport("csv")}
       >
         {t("export.csv")}
-      </button>
+      </Button>
     </div>
   );
 };
