@@ -105,10 +105,13 @@ export const useAnimeStore = create<AnimeStore>((set, get) => ({
       const mapped = mapFetchedAnime(anime);
       const isDemoAnime = user?.isDemo === true;
 
+      // Kitsu returns id and averageRating as strings; the API expects numbers
+      const rating = Number(mapped.rating);
+
       await apiClient.post("/animes", {
         title: mapped.title,
-        id: itemId,
-        rating: mapped.rating,
+        id: Number(itemId),
+        rating: Number.isNaN(rating) ? undefined : rating,
         format: mapped.format,
         episodeCount: mapped.episodeCount,
         synopsis: mapped.synopsis,
