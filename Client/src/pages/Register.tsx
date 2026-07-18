@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
 import { FormRow, Logo, RunningImg } from "../Components/UI";
 import narutoRun from "../assets/images/narutoRun.gif";
 import { useAuthSelector } from "../stores/hooks";
@@ -29,10 +30,11 @@ const Register = () => {
 
   const navigate = useNavigate();
   const [values, setValues] = useState<FormValues>(initialState);
-  const { user, isLoading, setupUser } = useAuthSelector((s) => ({
+  const { user, isLoading, setupUser, googleSSO } = useAuthSelector((s) => ({
     user: s.user,
     isLoading: s.isLoading,
     setupUser: s.setupUser,
+    googleSSO: s.googleSSO,
   }));
   const toggleExistingUser = () => {
     setValues({ ...values, existingUser: !values.existingUser });
@@ -114,6 +116,36 @@ const Register = () => {
         >
           {values.existingUser ? t("login.submit") : t("register.submit")}
         </button>
+        {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
+          <>
+            <div className="flex items-center gap-3 my-5 text-grey-600 text-[0.85rem]">
+              <span className="flex-1 h-px bg-grey-300" aria-hidden="true" />
+              {t("sso.or", { defaultValue: "or" })}
+              <span className="flex-1 h-px bg-grey-300" aria-hidden="true" />
+            </div>
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={(response) => {
+                  if (!response.credential) {
+                    toast.error(
+                      t("sso.error", { defaultValue: "Google sign-in failed. Please try again." })
+                    );
+                    return;
+                  }
+                  googleSSO({
+                    credential: response.credential,
+                    alertText: t("sso.alert_text", { defaultValue: "Signed in with Google!" }),
+                  });
+                }}
+                onError={() => {
+                  toast.error(
+                    t("sso.error", { defaultValue: "Google sign-in failed. Please try again." })
+                  );
+                }}
+              />
+            </div>
+          </>
+        )}
         <p className="m-0 mt-7 text-center text-grey-600 text-[0.95rem]">
           {values.existingUser ? t("login.switch1") : t("register.switch1")}
           <button
