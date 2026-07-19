@@ -6,7 +6,7 @@ import { useAnimeCard } from "./useAnimeCard";
 import CardMedia from "./CardMedia";
 import CardInfo from "./CardInfo";
 import CardActions from "./CardActions";
-import SynopsisModal from "./SynopsisModal";
+import AnimeDetailsModal from "./AnimeDetailsModal";
 import AiRecommendationsModal from "./AiRecommendationsModal";
 
 interface AnimeCardProps extends SavedAnime {
@@ -21,6 +21,7 @@ const SKELETON_BORDER_RADIUS = 8;
 
 const AnimeCard = ({
   _id,
+  id,
   title,
   rating,
   episodeCount,
@@ -53,6 +54,7 @@ const AnimeCard = ({
   } = useAnimeCard({ _id, title, synopsis, fetchedAnime, type });
 
   const hasYoutubeVideoId = Boolean(youtubeVideoId);
+  const kitsuId = fetchedAnime?.id ?? id;
   const skeletonHeight = onMobile ? SKELETON_HEIGHT_MOBILE : SKELETON_HEIGHT_DESKTOP;
 
   if (isCurrentlyLoading) {
@@ -72,11 +74,14 @@ const AnimeCard = ({
       <Card
         className={cn(
           "h-full w-full sm:w-[300px] gap-0 overflow-hidden py-0",
-          "transition-all duration-300 hover:-translate-y-1 hover:border-primary-400 hover:shadow-lg"
+          "border-l-[3px] border-l-primary-500/60",
+          "transition-all duration-300",
+          "hover:-translate-y-[4px] hover:border-l-primary-500 hover:border-primary-400",
+          "hover:shadow-[0_12px_40px_var(--primary-alpha-20),0_4px_12px_var(--primary-alpha-10)]"
         )}
       >
         <CardHeader className="px-4 pt-4">
-          <CardTitle className="flex min-h-[60px] items-center justify-center text-center text-lg leading-snug tracking-tight">
+          <CardTitle className="flex min-h-[60px] items-center justify-center text-center text-[1rem] leading-snug tracking-tight font-bold" style={{ fontFamily: "var(--headingFont)" }}>
             {siteLanguage === "en" ? title : japanese_title}
           </CardTitle>
         </CardHeader>
@@ -115,7 +120,18 @@ const AnimeCard = ({
         />
       </Card>
       {state.modalOpen && (
-        <SynopsisModal title={title} japanese_title={japanese_title} synopsis={synopsis} onClose={handleModalClose} />
+        <AnimeDetailsModal
+          title={title}
+          japanese_title={japanese_title}
+          synopsis={synopsis}
+          coverImage={coverImage}
+          rating={rating}
+          episodeCount={episodeCount}
+          format={format}
+          creationDate={creationDate}
+          kitsuId={kitsuId}
+          onClose={handleModalClose}
+        />
       )}
       {aiState.open && (
         <AiRecommendationsModal loading={aiState.loading} error={aiState.error} results={aiState.results} onClose={handleAiModalClose} />

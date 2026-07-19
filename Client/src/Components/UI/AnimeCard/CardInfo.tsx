@@ -27,15 +27,15 @@ const CardInfo = ({
 
   return (
     <div className="mb-1.5 mt-2 flex flex-wrap items-center justify-center gap-1.5 text-sm font-medium">
-      <Badge variant="secondary">
+      <Badge variant="secondary" className="bg-primary-500/10 text-primary-600 border border-primary-500/20 dark:bg-primary-500/15 dark:text-primary-300">
         {rating}
-        <span className="text-muted-foreground">/100</span>
+        <span className="text-primary-400/60 ml-0.5">/100</span>
       </Badge>
-      <Badge variant="secondary">{format}</Badge>
-      <Badge variant="secondary">{creationDate?.slice(0, 4)}</Badge>
-      <Badge variant="secondary">
+      <Badge variant="secondary" className="font-mono text-[0.7rem] tracking-wide">{format}</Badge>
+      <Badge variant="secondary" className="font-mono text-[0.7rem] tracking-wide">{creationDate?.slice(0, 4)}</Badge>
+      <Badge variant="secondary" className="font-mono text-[0.7rem] tracking-wide">
         <span>{episodeCount ?? "N/A"}</span>
-        <span className="ml-1">{t("anime.episode")}</span>
+        <span className="ml-1 opacity-70">{t("anime.episode")}</span>
       </Badge>
       {hasYoutubeVideoId && (
         <a

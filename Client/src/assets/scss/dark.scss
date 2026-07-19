@@ -1,39 +1,72 @@
 :root[data-theme="dark"] {
-  /* flip the grey scale so var(--grey-*) usages adapt to dark surfaces */
-  --grey-50: #0f172a;
-  --grey-100: #1e293b;
-  --grey-200: #334155;
-  --grey-300: #475569;
-  --grey-400: #64748b;
-  --grey-500: #94a3b8;
-  --grey-600: #cbd5e1;
-  --grey-700: #e2e8f0;
-  --grey-800: #f1f5f9;
-  --grey-900: #f9fafb;
+  /* Deep midnight — a genuine dark, not just dark-grey */
+  --grey-50:  #07070f;
+  --grey-100: #0f1020;
+  --grey-200: #181930;
+  --grey-300: #252640;
+  --grey-400: #3d3f60;
+  --grey-500: #7b7fa0;
+  --grey-600: #a8abcc;
+  --grey-700: #c8cbdf;
+  --grey-800: #e0e2f0;
+  --grey-900: #f0f1f8;
 
-  /* semantic colors */
-  --backgroundColor: #0f172a;
-  --textColor: #f1f5f9;
-  --outline-button-background: #1e293b;
-  --gradient-background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #26182e 50%, #0f172a 75%, #1e293b 100%);
+  /* semantic */
+  --backgroundColor:           #07070f;
+  --textColor:                  #e8eaf8;
+  --outline-button-background: #0f1020;
 
-  /* translucent surfaces (navbar) */
-  --glass-navbar-background: rgba(15, 23, 42, 0.7);
+  /* brighter primary in dark mode — pops on midnight */
+  --primary-500: #ff2d48;
+  --primary-400: #ff5566;
+  --primary-300: #ff8090;
+  --primary-200: #ffc0c8;
+  --primary-100: #ffe0e4;
+  --primary-50:  #fff0f2;
+  --primary-600: #e01030;
+  --primary-700: #b80020;
 
-  /* status backgrounds tinted for dark surfaces */
-  --red-light: rgba(185, 28, 28, 0.2);
-  --green-50: rgba(16, 185, 129, 0.12);
+  --primary-alpha-10: rgba(255, 45, 72, 0.10);
+  --primary-alpha-15: rgba(255, 45, 72, 0.15);
+  --primary-alpha-20: rgba(255, 45, 72, 0.20);
+  --primary-alpha-30: rgba(255, 45, 72, 0.30);
+  --primary-alpha-40: rgba(255, 45, 72, 0.40);
+  --primary-alpha-50: rgba(255, 45, 72, 0.50);
 
-  /* card borders */
-  --card-border-light: #334155;
+  /* vivid anime accents on dark */
+  --anime-pink:   #ff375f;
+  --anime-purple: #7b79f7;
+  --anime-blue:   #2d9cff;
+  --anime-cyan:   #32d8ff;
+  --anime-orange: #ff8c26;
+  --anime-yellow: #ffd60a;
 
-  /* deeper shadows on dark background */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4),
-    0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4),
-    0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.45),
-    0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  /* gradients */
+  --gradient-background: linear-gradient(160deg, #07070f 0%, #0f0c1e 40%, #07070f 70%, #100c1a 100%);
+
+  /* glass navbar */
+  --glass-navbar-background: rgba(7, 7, 15, 0.80);
+
+  /* status */
+  --red-light:  rgba(185, 28, 28, 0.22);
+  --green-50:   rgba(16, 185, 129, 0.14);
+
+  /* card borders — subtle indigo tint */
+  --card-border-light: #1e2040;
+  --card-border-hover: #ff2d48;
+
+  /* deeper shadows */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+  --shadow:    0 2px 6px 0 rgba(0, 0, 0, 0.55), 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 16px -2px rgba(0, 0, 0, 0.55), 0 3px 8px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 32px -4px rgba(0, 0, 0, 0.6), 0 6px 12px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 28px 50px -8px rgba(0, 0, 0, 0.65), 0 10px 20px -4px rgba(0, 0, 0, 0.45);
+
+  --shadow-anime:       0 4px 20px rgba(255, 45, 72, 0.20), 0 2px 8px rgba(255, 45, 72, 0.12);
+  --shadow-anime-lg:    0 12px 40px rgba(255, 45, 72, 0.25), 0 4px 16px rgba(255, 45, 72, 0.15);
+  --shadow-anime-hover: 0 16px 48px rgba(255, 45, 72, 0.30), 0 6px 20px rgba(255, 45, 72, 0.20);
+
+  /* glow effects — stronger on dark */
+  --glow-primary:   0 0 16px rgba(255, 45, 72, 0.35), 0 0 32px rgba(255, 45, 72, 0.15);
+  --glow-secondary: 0 0 16px rgba(45, 156, 255, 0.30), 0 0 32px rgba(45, 156, 255, 0.12);
 }

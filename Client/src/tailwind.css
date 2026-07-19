@@ -136,7 +136,14 @@
    ============================================== */
 
 @utility shimmer-text {
-  background: linear-gradient(90deg, var(--color-anime-purple) 0%, var(--color-anime-pink) 20%, var(--color-anime-blue) 40%, var(--color-anime-pink) 60%, var(--color-anime-purple) 80%, var(--color-anime-blue) 100%);
+  background: linear-gradient(90deg,
+    var(--color-anime-purple) 0%,
+    var(--color-anime-pink)   20%,
+    var(--color-anime-blue)   40%,
+    var(--color-anime-cyan)   60%,
+    var(--color-anime-purple) 80%,
+    var(--color-anime-blue)   100%
+  );
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -148,69 +155,83 @@
 }
 
 @utility glass-navbar {
-  background: var(--glass-navbar-background, rgba(255, 255, 255, 0.7));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 10px var(--primary-alpha-10);
+  background: var(--glass-navbar-background, rgba(250, 250, 248, 0.82));
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 1px 0 var(--primary-alpha-15), 0 4px 16px rgba(0,0,0,0.06);
 }
 
 @utility register-bg {
-  background: linear-gradient(135deg, var(--backgroundColor) 0%, var(--outline-button-background) 50%, rgba(212, 54, 124, 0.05) 100%);
+  background: linear-gradient(135deg, var(--backgroundColor) 0%, var(--outline-button-background) 50%, rgba(232, 32, 53, 0.04) 100%);
 }
 
 @utility register-form-shadow {
-  box-shadow: 0 4px 24px rgba(212, 54, 124, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 24px rgba(232, 32, 53, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 @utility gradient-heading {
-  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-anime-pink) 50%, var(--color-primary-600) 100%);
+  background: linear-gradient(135deg,
+    var(--color-primary-700) 0%,
+    var(--color-primary-500) 40%,
+    var(--color-anime-pink)  100%
+  );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+@utility card-accent-border {
+  border-left: 3px solid var(--primary-500);
+}
+
+@utility card-glow-hover {
+  transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              transform   0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 @theme {
-  /* Primary colors */
-  --color-primary-50: #fef0f6;
-  --color-primary-100: #fad8e8;
-  --color-primary-200: #f7b9d7;
-  --color-primary-300: #ef91be;
-  --color-primary-400: #e6699f;
-  --color-primary-500: #d4367c;
-  --color-primary-600: #c12d6d;
-  --color-primary-700: #a8255e;
-  --color-primary-800: #88204b;
-  --color-primary-900: #661036;
+  /* Primary: vivid vermillion */
+  --color-primary-50:  #fff1f2;
+  --color-primary-100: #ffe0e3;
+  --color-primary-200: #ffc4cb;
+  --color-primary-300: #ff909c;
+  --color-primary-400: #ff5066;
+  --color-primary-500: #e82035;
+  --color-primary-600: #cc0a24;
+  --color-primary-700: #a80d1f;
+  --color-primary-800: #8b0e1c;
+  --color-primary-900: #6b1118;
 
   /* Grey */
-  --color-grey-50: #f9fafb;
+  --color-grey-50:  #f9fafb;
   --color-grey-100: #f1f5f9;
-  --color-grey-200: #e2e8f0;
-  --color-grey-300: #cbd5e1;
+  --color-grey-200: #e4e8f0;
+  --color-grey-300: #c8d0e0;
   --color-grey-400: #94a3b8;
   --color-grey-500: #64748b;
   --color-grey-600: #475569;
   --color-grey-700: #334155;
   --color-grey-800: #1e293b;
-  --color-grey-900: #0f172a;
+  --color-grey-900: #0c0e18;
 
-  /* Semantic colors */
-  --color-red-light: #fee2e2;
-  --color-red-dark: #b91c1c;
-  --color-green-50: #ecfdf5;
-  --color-green-500: #10b981;
+  /* Semantic */
+  --color-red-light:  #fee2e2;
+  --color-red-dark:   #b91c1c;
+  --color-green-50:   #ecfdf5;
+  --color-green-500:  #10b981;
 
-  /* Anime-inspired */
-  --color-anime-pink: #ff6b9d;
-  --color-anime-purple: #c44569;
-  --color-anime-blue: #4ecdc4;
-  --color-anime-cyan: #44a3c4;
-  --color-anime-orange: #ff8c42;
-  --color-anime-yellow: #ffd93d;
+  /* Anime-inspired — vivid and saturated */
+  --color-anime-pink:   #ff2d55;
+  --color-anime-purple: #5856d6;
+  --color-anime-blue:   #007aff;
+  --color-anime-cyan:   #00c2ff;
+  --color-anime-orange: #ff6b00;
+  --color-anime-yellow: #ffd500;
 
   /* Fonts */
-  --font-heading: "Poppins", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-heading: "Dela Gothic One", sans-serif;
+  --font-body:    "Outfit", sans-serif;
 
   /* Border radius */
   --radius-default: 0.5rem;

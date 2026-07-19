@@ -26,12 +26,12 @@ const CardActions = ({
   const { t } = useTranslation();
 
   return (
-    <CardFooter className="mt-auto justify-center gap-3 border-t bg-muted/50 p-4">
+    <CardFooter className="mt-auto justify-center gap-3 border-t border-primary-500/10 bg-muted/30 p-4">
       <Button
         variant="ghost"
         size="icon"
         onClick={onSynopsisOpen}
-        aria-label={t("anime.showSynopsis")}
+        aria-label={t("anime.details")}
         className="text-primary-500"
       >
         <BsReverseLayoutTextWindowReverse size={20} />
