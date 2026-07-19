@@ -51,7 +51,8 @@ const fetchAnimesPage = async (
 
 export const useAnimesQuery = (
   playlistId: string,
-  params: AnimeListParams
+  params: AnimeListParams,
+  enabled = true
 ) => {
   const token = useAuthStore((s) => s.token);
   return useQuery({
@@ -64,7 +65,7 @@ export const useAnimesQuery = (
       sort: params.sort,
     }),
     queryFn: () => fetchAnimesPage(playlistId, params),
-    enabled: Boolean(token) && Boolean(playlistId),
+    enabled: enabled && Boolean(token) && Boolean(playlistId),
     placeholderData: (previousData) => previousData,
   });
 };
@@ -128,7 +129,7 @@ export const useCreateAnime = () => {
         synopsis: mapped.synopsis,
         coverImage: mapped.coverImage,
         creationDate: mapped.creationDate,
-        youtubeVideoId: mapped.youtubeVideoId,
+        youtubeVideoId: mapped.youtubeVideoId ?? undefined,
         japanese_title: mapped.japanese_title,
         playlistID,
         isDemoAnime: isDemo,

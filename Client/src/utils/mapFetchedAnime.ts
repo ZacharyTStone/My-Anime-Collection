@@ -25,7 +25,7 @@ export function mapFetchedAnime(
       : "No synopsis available",
     coverImage:
       attrs?.posterImage?.medium || attrs?.posterImage?.small || "",
-    youtubeVideoId: attrs?.youtubeVideoId,
+    youtubeVideoId: attrs?.youtubeVideoId ?? undefined,
     japanese_title:
       attrs?.titles?.ja_jp ||
       attrs?.titles?.en_jp ||
