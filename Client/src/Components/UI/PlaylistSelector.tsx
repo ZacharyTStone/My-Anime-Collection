@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { usePlaylistSelector } from "../../stores/hooks";
+import { usePlaylistsQuery } from "../../queries/playlists";
 import { SkeletonLoadingBlock } from ".";
 import { Label } from "@/Components/UI/label";
 import {
@@ -23,29 +23,19 @@ const PlaylistSelector = ({
 }: PlaylistSelectorProps) => {
   const { t } = useTranslation();
 
-  const {
-    getPlaylists,
-    currentPlaylist,
-    userPlaylists,
-    handlePlaylistChange,
-    loadingFetchPlaylists,
-  } = usePlaylistSelector((s) => ({
-    getPlaylists: s.getPlaylists,
+  const { currentPlaylist, setCurrentPlaylist } = usePlaylistSelector((s) => ({
     currentPlaylist: s.currentPlaylist,
-    userPlaylists: s.userPlaylists,
-    handlePlaylistChange: s.handlePlaylistChange,
-    loadingFetchPlaylists: s.loadingFetchPlaylists,
+    setCurrentPlaylist: s.setCurrentPlaylist,
   }));
 
-  useEffect(() => {
-    getPlaylists();
-  }, [getPlaylists]);
+  const { data: userPlaylists, isPending } = usePlaylistsQuery();
 
   const handleChange = (value: string) => {
-    handlePlaylistChange({ value });
+    const playlist = userPlaylists?.find((p) => p.id === value);
+    if (playlist) setCurrentPlaylist(playlist);
   };
 
-  if (loadingFetchPlaylists) {
+  if (isPending) {
     return (
       <div className={cn(className, "h-full mb-4 grid gap-2")}>
         <Label>{t("search_container.playlist")}</Label>

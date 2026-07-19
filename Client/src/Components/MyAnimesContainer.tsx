@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import { SavedAnime } from "../utils/types";
 import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
+import { useAnimesQuery } from "../queries/animes";
 import PageBtnContainer from "./PageBtnContainer";
 import { SkeletonLoadingBlock } from "./UI";
 import Anime from "./UI/AnimeCard";
@@ -20,50 +20,44 @@ const PageLoader = () => (
 
 const MyAnimesContainer = () => {
   const { t } = useTranslation();
-  const isFirstLoad = useRef(true);
   const {
-    getAnimes,
-    animes,
-    loadingMyAnimes,
     page,
-    totalAnimes,
     search,
     searchStatus,
     searchType,
     searchStared,
     sort,
-    numOfPages,
   } = useAnimeSelector((s) => ({
-    getAnimes: s.getAnimes,
-    animes: s.animes,
-    loadingMyAnimes: s.loadingMyAnimes,
     page: s.page,
-    totalAnimes: s.totalAnimes,
     search: s.search,
     searchStatus: s.searchStatus,
     searchType: s.searchType,
     searchStared: s.searchStared,
     sort: s.sort,
-    numOfPages: s.numOfPages,
   }));
 
   const { currentPlaylist } = usePlaylistSelector((s) => ({
     currentPlaylist: s.currentPlaylist,
   }));
 
-  useEffect(() => {
-    if (currentPlaylist.id) {
-      getAnimes(currentPlaylist.id).then(() => {
-        isFirstLoad.current = false;
-      });
-    }
-  }, [page, search, searchStatus, searchStared, searchType, sort, currentPlaylist, getAnimes]);
+  const { data, isPending } = useAnimesQuery(currentPlaylist.id, {
+    page,
+    search,
+    searchStatus,
+    searchType,
+    searchStared,
+    sort,
+  });
+
+  const animes = data?.animes ?? [];
+  const totalAnimes = data?.totalAnimes ?? 0;
+  const numOfPages = data?.numOfPages ?? 1;
 
   const noAnimesInPlaylist = animes.length === 0 && search?.length === 0;
 
-  if (loadingMyAnimes) return <PageLoader />;
+  if (isPending) return <PageLoader />;
 
-  if (noAnimesInPlaylist && !loadingMyAnimes) {
+  if (noAnimesInPlaylist) {
     return (
       <section className="mt-8 rounded-lg border bg-card p-10 text-center shadow-sm">
         <p className="text-lg font-medium">
@@ -83,7 +77,7 @@ const MyAnimesContainer = () => {
       <h5 className="mb-6 font-bold">
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
-      {numOfPages > 1 && <PageBtnContainer />}
+      {numOfPages > 1 && <PageBtnContainer numOfPages={numOfPages} />}
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 justify-items-center">
         {animes?.map((anime: SavedAnime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;

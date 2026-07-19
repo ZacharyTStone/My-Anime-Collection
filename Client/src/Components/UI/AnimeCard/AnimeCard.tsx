@@ -111,7 +111,7 @@ const AnimeCard = ({
           onSynopsisOpen={handleModalOpen}
           onAiOpen={handleAiModalOpen}
           onSubmit={handleSubmit}
-          onDelete={() => { if (_id) deleteAnime(_id, currentPlaylist.id); }}
+          onDelete={() => { if (_id) deleteAnime(_id); }}
         />
       </Card>
       {state.modalOpen && (

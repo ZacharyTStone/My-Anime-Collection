@@ -3,6 +3,12 @@ import { AiFillDelete, AiOutlineArrowRight } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 
 import { usePlaylistSelector } from "../../stores/hooks";
+import {
+  usePlaylistsQuery,
+  useCreatePlaylist,
+  useUpdatePlaylist,
+  useDeletePlaylist,
+} from "../../queries/playlists";
 import { FormRow, SkeletonLoadingBlock } from "../../Components/UI";
 import { Button } from "@/Components/UI/button";
 import {
@@ -18,78 +24,59 @@ import {
 } from "@/Components/UI/alert-dialog";
 import { Separator } from "@/Components/UI/separator";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
-import { IPlaylist } from "../../utils/types";
+import type { Playlist } from "../../stores/playlistStore";
 
 const EditPlaylist = () => {
   const { t } = useTranslation();
-  const {
-    getPlaylists,
-    updatePlaylist,
-    deletePlaylist,
-    createPlaylist,
-    userPlaylists,
-    currentPlaylist,
-    handlePlaylistChange,
-    loadingFetchPlaylists,
-  } = usePlaylistSelector((s) => ({
-    getPlaylists: s.getPlaylists,
-    updatePlaylist: s.updatePlaylist,
-    deletePlaylist: s.deletePlaylist,
-    createPlaylist: s.createPlaylist,
-    userPlaylists: s.userPlaylists,
+  const { currentPlaylist, setCurrentPlaylist } = usePlaylistSelector((s) => ({
     currentPlaylist: s.currentPlaylist,
-    handlePlaylistChange: s.handlePlaylistChange,
-    loadingFetchPlaylists: s.loadingFetchPlaylists,
+    setCurrentPlaylist: s.setCurrentPlaylist,
   }));
+
+  const { data: userPlaylists, isPending } = usePlaylistsQuery();
+  const createPlaylist = useCreatePlaylist();
+  const updatePlaylist = useUpdatePlaylist();
+  const deletePlaylist = useDeletePlaylist();
 
   const [newTitle, setNewTitle] = useState("");
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<
     undefined | string
   >(undefined);
 
-  const handleClickOnPlaylist = async (playlistId: string) => {
-    const playlist = userPlaylists.find(
-      (playlist: IPlaylist) => playlist.id === playlistId
-    );
-    if (!playlist) return;
-    if (playlist.id) {
-      await handlePlaylistChange({ value: playlist.id });
-    }
+  const handleClickOnPlaylist = (playlist: Playlist) => {
+    setCurrentPlaylist(playlist);
     setNewTitle(playlist.title);
     setSelectedPlaylistId(playlist.id);
   };
 
   useEffect(() => {
-    getPlaylists();
     setSelectedPlaylistId(currentPlaylist.id);
-  }, [getPlaylists, currentPlaylist.id]);
+  }, [currentPlaylist.id]);
 
   const handleNewPlaylistSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const numberOfPlaylists = userPlaylists.length - 1;
-    await createPlaylist(`New Playlist #`);
-    setNewTitle(userPlaylists[numberOfPlaylists].title);
-    setSelectedPlaylistId(userPlaylists[numberOfPlaylists].id);
+    await createPlaylist.mutateAsync("New Playlist #");
+    setNewTitle("");
+    setSelectedPlaylistId(undefined);
   };
 
   const handlePlaylistEdit = async (e: FormEvent) => {
     e.preventDefault();
     if (selectedPlaylistId) {
-      const playlist = userPlaylists.find((p) => p.id === selectedPlaylistId);
+      const playlist = userPlaylists?.find((p) => p.id === selectedPlaylistId);
       if (playlist) {
-        await updatePlaylist({ ...playlist, title: newTitle });
-        await getPlaylists();
+        await updatePlaylist.mutateAsync({ ...playlist, title: newTitle });
       }
     }
   };
 
   const handleDeletePlaylist = async (playlistId: string) => {
-    await deletePlaylist(playlistId);
+    await deletePlaylist.mutateAsync(playlistId);
     setNewTitle("");
     setSelectedPlaylistId(undefined);
   };
 
-  if (loadingFetchPlaylists) {
+  if (isPending) {
     return (
       <SkeletonLoadingBlock height={500} width={"100%"} borderRadius={8} />
     );
@@ -103,10 +90,10 @@ const EditPlaylist = () => {
         </h3>
         <div>
           <ul className="mb-6 max-h-[300px] overflow-y-auto rounded-lg border bg-card p-2">
-            {userPlaylists.map((playlist: IPlaylist) => (
+            {userPlaylists?.map((playlist: Playlist) => (
               <li key={playlist.id} className="list-none">
                 <span
-                  onClick={() => handleClickOnPlaylist(playlist.id)}
+                  onClick={() => handleClickOnPlaylist(playlist)}
                   className="mb-2 flex cursor-pointer items-center gap-3 rounded-lg border border-transparent px-4 py-3 text-[1.1rem] transition-colors hover:bg-accent"
                 >
                   {playlist.id === currentPlaylist.id && (
@@ -159,7 +146,7 @@ const EditPlaylist = () => {
               </li>
             ))}
           </ul>
-          <Button onClick={handleNewPlaylistSubmit}>
+          <Button onClick={handleNewPlaylistSubmit} disabled={createPlaylist.isPending}>
             {t("edit_playlist.new_playlist")}
           </Button>
         </div>
@@ -183,7 +170,7 @@ const EditPlaylist = () => {
                 labelText="Edit Playlist Title"
                 handleChange={(e) => setNewTitle(e.target.value)}
               />
-              <Button className="self-end" type="submit">
+              <Button className="self-end" type="submit" disabled={updatePlaylist.isPending}>
                 {t("profile.save")}
               </Button>
             </div>

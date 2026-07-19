@@ -22,22 +22,24 @@ vi.mock("react-player", () => ({
   default: () => <div data-testid="react-player" />,
 }));
 
-const mockCreateAnime = vi.fn();
-const mockDeleteAnime = vi.fn();
+const mockCreateMutate = vi.fn();
+const mockDeleteMutate = vi.fn();
+
+vi.mock("../../queries/animes", () => ({
+  useCreateAnime: () => ({ mutate: mockCreateMutate, isPending: false }),
+  useDeleteAnime: () => ({ mutate: mockDeleteMutate, isPending: false }),
+}));
+
+vi.mock("../../queries/ai", () => ({
+  useAiRecommendations: () => ({ data: [], isPending: false, isError: false }),
+}));
 
 vi.mock("../../stores/hooks", () => ({
-  useAnimeSelector: () => ({
-    createAnime: mockCreateAnime,
-    deleteAnime: mockDeleteAnime,
-    isItemLoading: () => false,
-  }),
   usePlaylistSelector: () => ({
     currentPlaylist: { id: "playlist-1", title: "My List", userId: "u1", createdAt: "", updatedAt: "" },
   }),
   useLanguageSelector: () => "en",
-  useAiSelector: () => ({
-    getRecommendations: vi.fn(),
-  }),
+  useAuthSelector: () => false,
 }));
 
 vi.mock("../../utils/hooks", () => ({

@@ -8,9 +8,8 @@ import {
   PaginationPrevious,
 } from "@/Components/UI/pagination";
 
-const PageBtnContainer = () => {
-  const { numOfPages, page, changePage } = useAnimeSelector((s) => ({
-    numOfPages: s.numOfPages,
+const PageBtnContainer = ({ numOfPages }: { numOfPages: number }) => {
+  const { page, changePage } = useAnimeSelector((s) => ({
     page: s.page,
     changePage: s.changePage,
   }));

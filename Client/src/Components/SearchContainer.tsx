@@ -3,6 +3,8 @@ import { FormRow, FormRowSelect, PlaylistSelector } from "./UI";
 import { Button } from "@/Components/UI/button";
 import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
 import type { FilterField } from "../stores/animeStore";
+import { useAnimesQuery } from "../queries/animes";
+import { usePlaylistsQuery } from "../queries/playlists";
 
 import { useTranslation } from "react-i18next";
 import { debounce } from "../utils/debounce";
@@ -16,28 +18,44 @@ const DEBOUNCE_DELAY = 300;
 const SearchContainer = ({ className }: SearchContainerProps) => {
   const { t } = useTranslation();
   const {
-    loadingMyAnimes,
+    page,
     search,
+    searchStatus,
+    searchType,
+    searchStared,
     sort,
     sortOptions,
     handleChange,
     clearValues,
   } = useAnimeSelector((s) => ({
-    loadingMyAnimes: s.loadingMyAnimes,
+    page: s.page,
     search: s.search,
+    searchStatus: s.searchStatus,
+    searchType: s.searchType,
+    searchStared: s.searchStared,
     sort: s.sort,
     sortOptions: s.sortOptions,
     handleChange: s.handleChange,
     clearValues: s.clearValues,
   }));
 
-  const { loadingFetchPlaylists } = usePlaylistSelector((s) => ({
-    loadingFetchPlaylists: s.loadingFetchPlaylists,
+  const { currentPlaylist } = usePlaylistSelector((s) => ({
+    currentPlaylist: s.currentPlaylist,
   }));
+
+  const { isFetching: isFetchingAnimes } = useAnimesQuery(currentPlaylist.id, {
+    page,
+    search,
+    searchStatus,
+    searchType,
+    searchStared,
+    sort,
+  });
+  const { isFetching: isFetchingPlaylists } = usePlaylistsQuery();
 
   const [localSearch, setLocalSearch] = useState(search ?? "");
 
-  const isFormDisabled = loadingMyAnimes || loadingFetchPlaylists;
+  const isFormDisabled = isFetchingAnimes || isFetchingPlaylists;
 
   const handleSearch = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

@@ -59,16 +59,7 @@
     <link rel="manifest" href="/manifest.json" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="
-    font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
-    img-src * data:;
-    media-src * data:;
-    object-src 'none';
-    upgrade-insecure-requests;
-    block-all-mixed-content;
-    script-src 'self' https://accounts.google.com https://www.youtube.com;
-    connect-src 'self' https://kitsu.io https://pokeapi.co https://accounts.google.com;
-  "
+      content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;"
     />
     <title>M.A.C.</title>
   </head>

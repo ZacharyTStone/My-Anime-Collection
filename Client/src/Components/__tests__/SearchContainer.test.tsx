@@ -28,16 +28,29 @@ vi.mock("../UI", async () => {
   };
 });
 
+vi.mock("../../queries/animes", () => ({
+  useAnimesQuery: () => ({ isFetching: false }),
+}));
+
+vi.mock("../../queries/playlists", () => ({
+  usePlaylistsQuery: () => ({ isFetching: false }),
+}));
+
 vi.mock("../../stores/hooks", () => ({
   useAnimeSelector: (selector: (s: ReturnType<typeof useAnimeStore.getState>) => unknown) =>
     selector(useAnimeStore.getState()),
-  usePlaylistSelector: () => ({ loadingFetchPlaylists: false }),
+  usePlaylistSelector: () => ({
+    currentPlaylist: { id: "2", title: "", userId: "", createdAt: "", updatedAt: "" },
+  }),
 }));
 
 beforeEach(() => {
   useAnimeStore.setState({
-    loadingMyAnimes: false,
+    page: 1,
     search: "",
+    searchStatus: "all",
+    searchType: "all",
+    searchStared: "all",
     sort: "latest",
     sortOptions: [
       { title: "Latest", value: "latest" },

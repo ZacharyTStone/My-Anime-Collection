@@ -1,19 +1,14 @@
-import { useState, useRef } from "react";
-import { useAnimeSelector, usePlaylistSelector, useLanguageSelector, useAiSelector } from "../../../stores/hooks";
+import { useState } from "react";
+import { useAuthSelector, usePlaylistSelector, useLanguageSelector } from "../../../stores/hooks";
 import { useMobile } from "../../../utils/hooks";
-import { AiRecommendation, ExpectedFetchedAnimeResponse } from "../../../utils/types";
+import { useCreateAnime, useDeleteAnime } from "../../../queries/animes";
+import { useAiRecommendations } from "../../../queries/ai";
+import { ExpectedFetchedAnimeResponse } from "../../../utils/types";
 
 interface AnimeCardState {
   modalOpen: boolean;
   isHovering: boolean;
   failedToLoadYoutube: boolean;
-}
-
-interface AiState {
-  open: boolean;
-  loading: boolean;
-  results: AiRecommendation[];
-  error: boolean;
 }
 
 interface UseAnimeCardParams {
@@ -31,33 +26,29 @@ export const useAnimeCard = ({ _id, title, synopsis, fetchedAnime, type }: UseAn
     failedToLoadYoutube: false,
   });
 
-  const { createAnime, deleteAnime, isItemLoading } = useAnimeSelector((s) => ({
-    createAnime: s.createAnime,
-    deleteAnime: s.deleteAnime,
-    isItemLoading: s.isItemLoading,
-  }));
+  const createAnime = useCreateAnime();
+  const deleteAnime = useDeleteAnime();
 
   const { currentPlaylist } = usePlaylistSelector((s) => ({
     currentPlaylist: s.currentPlaylist,
   }));
 
+  const isDemo = useAuthSelector((s) => s.user?.isDemo === true);
   const siteLanguage = useLanguageSelector((s) => s.siteLanguage);
-  const { getRecommendations } = useAiSelector((s) => ({
-    getRecommendations: s.getRecommendations,
-  }));
 
   const onMobile = useMobile();
 
-  const [aiState, setAiState] = useState<AiState>({
-    open: false,
-    loading: false,
-    results: [],
-    error: false,
-  });
-  const aiCacheRef = useRef<AiRecommendation[] | null>(null);
+  const [aiOpen, setAiOpen] = useState(false);
+  const aiQuery = useAiRecommendations(title || "", synopsis || "", aiOpen);
 
-  const itemId = _id || fetchedAnime?.id || "";
-  const isCurrentlyLoading = isItemLoading(itemId);
+  const aiState = {
+    open: aiOpen,
+    loading: aiOpen && aiQuery.isPending,
+    results: aiQuery.data ?? [],
+    error: aiQuery.isError,
+  };
+
+  const isCurrentlyLoading = createAnime.isPending || deleteAnime.isPending;
 
   const handleMouseEnter = () => setState((prev) => ({ ...prev, isHovering: true }));
   const handleMouseLeave = () => setState((prev) => ({ ...prev, isHovering: false }));
@@ -68,43 +59,18 @@ export const useAnimeCard = ({ _id, title, synopsis, fetchedAnime, type }: UseAn
   const handleSubmit = () => {
     if (isCurrentlyLoading) return;
     if (type === "add" && fetchedAnime) {
-      createAnime(fetchedAnime, currentPlaylist.id);
+      createAnime.mutate({
+        anime: fetchedAnime,
+        playlistID: currentPlaylist.id,
+        isDemo,
+      });
     } else if (type === "delete" && _id) {
-      deleteAnime(_id, currentPlaylist.id);
+      deleteAnime.mutate(_id);
     }
   };
 
-  const handleAiModalOpen = async () => {
-    if (aiState.loading) {
-      setAiState((prev) => ({ ...prev, open: true }));
-      return;
-    }
-
-    setAiState((prev) => ({ ...prev, open: true, loading: true, error: false }));
-
-    if (aiCacheRef.current) {
-      setAiState((prev) => ({
-        ...prev,
-        loading: false,
-        results: aiCacheRef.current!,
-      }));
-      return;
-    }
-
-    try {
-      const recommendations = await getRecommendations(title || "", synopsis || "");
-      aiCacheRef.current = recommendations;
-      setAiState((prev) => ({
-        ...prev,
-        loading: false,
-        results: recommendations,
-      }));
-    } catch {
-      setAiState((prev) => ({ ...prev, loading: false, error: true }));
-    }
-  };
-
-  const handleAiModalClose = () => setAiState((prev) => ({ ...prev, open: false }));
+  const handleAiModalOpen = () => setAiOpen(true);
+  const handleAiModalClose = () => setAiOpen(false);
 
   return {
     state,
@@ -113,7 +79,7 @@ export const useAnimeCard = ({ _id, title, synopsis, fetchedAnime, type }: UseAn
     siteLanguage,
     isCurrentlyLoading,
     currentPlaylist,
-    deleteAnime,
+    deleteAnime: (animeId: string) => deleteAnime.mutate(animeId),
     handleMouseEnter,
     handleMouseLeave,
     handleModalOpen,

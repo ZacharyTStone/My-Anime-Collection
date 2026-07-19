@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useState } from "react";
 import { Anime } from "../Components";
-import { useAnimeSelector } from "../stores/hooks";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
 import { SkeletonLoadingBlock } from "./UI";
 import { Button } from "@/Components/UI/button";
+import { useKitsuAnimesQuery } from "../queries/kitsu";
 import { mapFetchedAnime } from "../utils/mapFetchedAnime";
 
 const LoadingUI = ({ onMobile }: { onMobile: boolean }) => (
@@ -34,68 +34,38 @@ interface FetchedAnimesContainerProps {
 const FetchedAnimesContainer = ({
   searchText,
   baseURL,
-  filter,
   pagination,
   sort,
 }: FetchedAnimesContainerProps) => {
   const onTrendingPage = baseURL.includes("trending");
-  const page = useRef(1);
+  const [page, setPage] = useState(1);
+  const [lastQuery, setLastQuery] = useState(searchText + sort + baseURL);
 
-  const {
-    fetchAnimes,
-    fetchedAnimes,
-    totalFetchedAnimes,
-    numOfFetchedAnimesPages,
-    resetFetchedAnimes,
-    loadingFetchAnimes,
-  } = useAnimeSelector((s) => ({
-    fetchAnimes: s.fetchAnimes,
-    fetchedAnimes: s.fetchedAnimes,
-    totalFetchedAnimes: s.totalFetchedAnimes,
-    numOfFetchedAnimesPages: s.numOfFetchedAnimesPages,
-    resetFetchedAnimes: s.resetFetchedAnimes,
-    loadingFetchAnimes: s.loadingFetchAnimes,
-  }));
+  // Reset to page 1 whenever the search criteria change
+  if (lastQuery !== searchText + sort + baseURL) {
+    setLastQuery(searchText + sort + baseURL);
+    setPage(1);
+  }
 
-  useEffect(() => {
-    page.current = 1;
+  const enabled = Boolean(searchText) || onTrendingPage;
 
-    if (!!searchText || onTrendingPage) {
-      fetchAnimes({
-        page: page.current,
-        baseURL,
-        filter,
-        searchText,
-        pagination,
-        sort,
-      });
-    }
-  }, [searchText, sort, baseURL, fetchAnimes]);
-
-  useEffect(() => {
-    return () => {
-      resetFetchedAnimes();
-    };
-  }, []);
-
-  const handlePageClick = (increment: number) => {
-    page.current += increment;
-
-    fetchAnimes({
-      baseURL,
-      searchText,
-      filter,
-      pagination,
-      sort,
-      page: page.current,
-    });
-  };
+  const { data, isPending } = useKitsuAnimesQuery({
+    baseURL,
+    page,
+    searchText,
+    sort,
+    enabled,
+  });
 
   const onMobile = useMobile();
 
-  if (loadingFetchAnimes) {
+  if (enabled && isPending) {
     return <LoadingUI onMobile={onMobile} />;
   }
+
+  const fetchedAnimes = data?.animes ?? [];
+  const totalFetchedAnimes = data?.totalAnimes ?? 0;
+  const numOfFetchedAnimesPages = data?.numOfPages ?? 1;
 
   return (
     <section className="mt-8">
@@ -104,17 +74,17 @@ const FetchedAnimesContainer = ({
           {pagination && (
             <div className="mb-8 flex items-center justify-between">
               <Button
-                onClick={() => handlePageClick(-1)}
-                disabled={page.current === 1}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
               >
                 Previous
               </Button>
               <div className="text-center">
-                <h3>Page {page.current} of {numOfFetchedAnimesPages}</h3>
+                <h3>Page {page} of {numOfFetchedAnimesPages}</h3>
               </div>
               <Button
-                onClick={() => handlePageClick(1)}
-                disabled={page.current === numOfFetchedAnimesPages}
+                onClick={() => setPage((p) => Math.min(numOfFetchedAnimesPages, p + 1))}
+                disabled={page === numOfFetchedAnimesPages}
               >
                 Next
               </Button>
@@ -140,7 +110,7 @@ const FetchedAnimesContainer = ({
           )}
         </div>
       ) : (
-        <div>{searchText && !loadingFetchAnimes && <h2>No animes found.</h2>}</div>
+        <div>{searchText && !isPending && <h2>No animes found.</h2>}</div>
       )}
     </section>
   );

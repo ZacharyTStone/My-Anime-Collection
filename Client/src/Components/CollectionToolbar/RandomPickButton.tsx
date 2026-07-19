@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ModalBackdrop from "../UI/ModalBackdrop";
 import { Button } from "@/Components/UI/button";
-import { fetchAllAnimes, type CollectionAnime } from "../../utils/fetchAllAnimes";
-import { handleApiError } from "../../utils/handleApiError";
+import { useCollectionQuery, type CollectionAnime } from "../../queries/animes";
 
 const pickRandom = (animes: CollectionAnime[]): CollectionAnime | null =>
   animes.length > 0
@@ -13,29 +12,13 @@ const pickRandom = (animes: CollectionAnime[]): CollectionAnime | null =>
 const RandomPickButton = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [animes, setAnimes] = useState<CollectionAnime[] | null>(null);
   const [picked, setPicked] = useState<CollectionAnime | null>(null);
 
-  const handleOpen = async () => {
+  const { data: animes, isPending, isError } = useCollectionQuery(isOpen);
+
+  const handleOpen = () => {
     setIsOpen(true);
-
-    if (animes !== null) {
-      setPicked(pickRandom(animes));
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const fetched = await fetchAllAnimes();
-      setAnimes(fetched);
-      setPicked(pickRandom(fetched));
-    } catch (error: unknown) {
-      setIsOpen(false);
-      handleApiError(error, "Failed to fetch animes");
-    } finally {
-      setLoading(false);
-    }
+    if (animes) setPicked(pickRandom(animes));
   };
 
   const handleReroll = () => {
@@ -43,6 +26,11 @@ const RandomPickButton = () => {
   };
 
   const handleClose = () => setIsOpen(false);
+
+  // Pick once the collection finishes loading after first open
+  if (isOpen && !picked && animes && animes.length > 0) {
+    setPicked(pickRandom(animes));
+  }
 
   return (
     <>
@@ -60,8 +48,10 @@ const RandomPickButton = () => {
             {t("random_pick.title")}
           </h2>
 
-          {loading ? (
+          {isPending ? (
             <p className="text-muted-foreground">...</p>
+          ) : isError ? (
+            <p className="text-muted-foreground">{t("random_pick.empty")}</p>
           ) : picked ? (
             <div className="flex flex-col items-center gap-2">
               {picked.coverImage && (

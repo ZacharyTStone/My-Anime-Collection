@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Anime } from "../../Components";
 import { FormRowSelect, PlaylistSelector, SkeletonLoadingBlock } from "../../Components/UI";
-import { useAnimeSelector } from "../../stores/hooks";
 import { useMobile } from "../../utils/hooks";
 import { mapFetchedAnime } from "../../utils/mapFetchedAnime";
 import { ExpectedFetchedAnimeResponse, SelectOption } from "../../utils/types";
 import { Button } from "@/Components/UI/button";
+import { useKitsuAnimesQuery } from "../../queries/kitsu";
 
 const KITSU_ANIME_URL = "https://kitsu.io/api/edge/anime";
 
@@ -37,42 +37,20 @@ const SeasonalAnimes = () => {
   const [year, setYear] = useState<string>(String(CURRENT_YEAR));
   const [page, setPage] = useState(1);
 
-  const {
-    fetchAnimes,
-    fetchedAnimes,
-    totalFetchedAnimes,
-    numOfFetchedAnimesPages,
-    resetFetchedAnimes,
-    loadingFetchAnimes,
-  } = useAnimeSelector((s) => ({
-    fetchAnimes: s.fetchAnimes,
-    fetchedAnimes: s.fetchedAnimes,
-    totalFetchedAnimes: s.totalFetchedAnimes,
-    numOfFetchedAnimesPages: s.numOfFetchedAnimesPages,
-    resetFetchedAnimes: s.resetFetchedAnimes,
-    loadingFetchAnimes: s.loadingFetchAnimes,
-  }));
+  const { data, isPending } = useKitsuAnimesQuery({
+    baseURL: KITSU_ANIME_URL,
+    page,
+    searchText: "",
+    sort: "-userCount",
+    extraParams: {
+      "filter[season]": season,
+      "filter[seasonYear]": year,
+    },
+  });
 
-  useEffect(() => {
-    fetchAnimes({
-      page,
-      baseURL: KITSU_ANIME_URL,
-      filter: true,
-      searchText: "",
-      pagination: true,
-      sort: "-userCount",
-      extraParams: {
-        "filter[season]": season,
-        "filter[seasonYear]": year,
-      },
-    });
-  }, [season, year, page, fetchAnimes]);
-
-  useEffect(() => {
-    return () => {
-      resetFetchedAnimes();
-    };
-  }, [resetFetchedAnimes]);
+  const fetchedAnimes = data?.animes ?? [];
+  const totalFetchedAnimes = data?.totalAnimes ?? 0;
+  const numOfFetchedAnimesPages = data?.numOfPages ?? 1;
 
   const SEASON_OPTIONS: SelectOption[] = [
     { title: t("seasonal.winter"), value: "winter" },
@@ -128,7 +106,7 @@ const SeasonalAnimes = () => {
         </form>
       </div>
 
-      {loadingFetchAnimes ? (
+      {isPending ? (
         <section className="mt-8">
           <SkeletonLoadingBlock height={48} width="100%" borderRadius={8} className="mb-8" />
           <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 justify-items-center">
