@@ -13,7 +13,7 @@ interface CardMediaProps {
   onVideoError: () => void;
 }
 
-const IMG_CLASSES = "anime-cover-image w-full transition-all duration-400 rounded-[var(--spacing-xs)] shadow-sm hover:scale-[1.02]";
+const IMG_CLASSES = "w-full rounded-md shadow-sm transition-all duration-300 hover:scale-[1.02]";
 
 const CardMedia = ({
   onMobile,

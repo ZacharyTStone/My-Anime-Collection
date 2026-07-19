@@ -27,9 +27,9 @@ const HeroSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoColCla
     >
       <div>
         <h1 className="font-bold tracking-[-0.03em] leading-[1.2] mb-6 text-3xl lg:text-5xl">
-          <span className="text-primary-600">{t("landing.title")}</span>
+          <span className="gradient-heading">{t("landing.title")}</span>
         </h1>
-        <p className="text-left text-muted-foreground text-[1.1rem] leading-[1.7] mb-0 lg:text-[1.2rem]">
+        <p className="text-left text-muted-foreground text-[1.1rem] leading-[1.7] mb-0 max-w-xl lg:text-[1.2rem]">
           {t("landing.title_description")}
         </p>
         <div className="flex justify-start items-center mt-8 gap-4 flex-wrap lg:flex-nowrap">
@@ -45,7 +45,7 @@ const HeroSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoColCla
         <motion.img
           src={goku}
           alt="anime character"
-          className="img main-img h-auto w-full rounded-xl object-cover"
+          className="h-auto w-full rounded-xl object-cover"
           initial="hidden"
           animate={controls}
           variants={imageAnim}

@@ -57,8 +57,8 @@ const Profile = () => {
   };
 
   return (
-    <section className="w-full rounded-lg bg-card p-10 shadow">
-      <form className="w-full p-4" onSubmit={handleSubmit}>
+    <section className="w-full rounded-lg border bg-card p-6 shadow-sm md:p-8">
+      <form className="w-full" onSubmit={handleSubmit}>
         <h3 className="relative mb-8 mt-0 font-semibold after:absolute after:bottom-[-0.75rem] after:left-0 after:h-[3px] after:w-16 after:rounded-sm after:bg-primary-500 after:content-['']">
           {t("profile.title")}
         </h3>

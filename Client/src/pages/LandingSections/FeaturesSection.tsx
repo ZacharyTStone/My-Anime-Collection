@@ -40,7 +40,7 @@ const FeaturesSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoCo
           src={aot}
           alt="anime character"
           loading="lazy"
-          className="img main-img h-[110%] w-[110%] rounded-xl object-cover"
+          className="h-auto w-full rounded-xl object-cover"
           initial="hidden"
           animate={controls}
           variants={imageAnim}
@@ -48,7 +48,7 @@ const FeaturesSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoCo
       </div>
       <div>
         <h3 className="font-semibold mb-6 leading-[1.4] text-xl lg:text-[2rem] lg:mb-8">
-          <span className="underline decoration-primary-500 decoration-[3px] underline-offset-[6px]">
+          <span className="gradient-heading">
             {t("landing.why.title")}
           </span>
         </h3>
@@ -58,9 +58,9 @@ const FeaturesSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoCo
               key={point}
               custom={index}
               variants={LIST_ITEM_VARIANTS}
-              className="text-muted-foreground mb-3 flex items-center text-base leading-[1.6]"
+              className="mb-3 flex items-start gap-3 text-base leading-[1.6] text-muted-foreground"
             >
-              <FaCheck color="var(--primary-500)" className="mr-3 shrink-0" />
+              <FaCheck color="var(--primary-500)" className="mt-1.5 shrink-0" />
               <span className="font-normal text-foreground">{t(`landing.why.${point}`)}</span>
             </motion.li>
           ))}

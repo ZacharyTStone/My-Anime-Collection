@@ -9,11 +9,11 @@ import Anime from "./UI/AnimeCard";
 import { Button } from "@/Components/UI/button";
 
 const PageLoader = () => (
-  <section className="mt-16 p-10">
-    <div className="flex justify-center items-center gap-2.5">
-      <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-      <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
-      <SkeletonLoadingBlock height={300} width={"100%"} borderRadius={8} />
+  <section className="mt-8">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6">
+      <SkeletonLoadingBlock height={300} width="100%" borderRadius={8} />
+      <SkeletonLoadingBlock height={300} width="100%" borderRadius={8} />
+      <SkeletonLoadingBlock height={300} width="100%" borderRadius={8} />
     </div>
   </section>
 );
@@ -65,26 +65,26 @@ const MyAnimesContainer = () => {
 
   if (noAnimesInPlaylist && !loadingMyAnimes) {
     return (
-      <section className="mt-16 p-10">
-        <h5 className="text-center">
+      <section className="mt-8 rounded-lg border bg-card p-10 text-center shadow-sm">
+        <p className="text-lg font-medium">
           {t("my_animes_container.no_anime_message1")}
-          <Button asChild variant="outline" className="mt-4 w-full">
-            <NavLink to="/add-anime">
-              {t("my_animes_container.no_anime_message2")}
-            </NavLink>
-          </Button>
-        </h5>
+        </p>
+        <Button asChild variant="outline" className="mt-4">
+          <NavLink to="/add-anime">
+            {t("my_animes_container.no_anime_message2")}
+          </NavLink>
+        </Button>
       </section>
     );
   }
 
   return (
-    <section className="mt-16 p-10">
-      <h5 className="font-bold">
+    <section className="mt-8">
+      <h5 className="mb-6 font-bold">
         {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
       </h5>
       {numOfPages > 1 && <PageBtnContainer />}
-      <div className="grid grid-cols-1 gap-y-8 lg:flex lg:flex-row lg:flex-wrap lg:justify-evenly lg:items-center text-foreground">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 justify-items-center">
         {animes?.map((anime: SavedAnime) => {
           return <Anime key={anime._id} {...anime} type="delete" />;
         })}

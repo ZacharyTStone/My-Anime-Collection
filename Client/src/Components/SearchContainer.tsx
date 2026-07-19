@@ -75,9 +75,12 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
 
   return (
     <section className={className}>
-      <form className="w-full p-4 overflow-visible" onSubmit={handleFormSubmit}>
-        <h4>{t("search_container.title")}</h4>
-        <div className="grid gap-y-4 lg:grid-cols-2 lg:items-center lg:gap-x-4 xl:grid-cols-3">
+      <form
+        className="w-full rounded-lg border bg-card p-6 shadow-sm"
+        onSubmit={handleFormSubmit}
+      >
+        <h4 className="mb-4">{t("search_container.title")}</h4>
+        <div className="grid gap-y-2 lg:grid-cols-2 lg:items-end lg:gap-x-4 xl:grid-cols-4">
           <FormRow
             type="text"
             name="search"
@@ -101,7 +104,7 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
           <Button
             type="button"
             variant="destructive"
-            className="w-full self-end"
+            className="mb-4 w-full self-end"
             onClick={handleResetFilters}
             disabled={isFormDisabled}
           >

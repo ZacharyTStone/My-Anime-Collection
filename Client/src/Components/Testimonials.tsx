@@ -22,7 +22,7 @@ function Testimonials() {
 
   return (
     <div className="w-screen max-w-[100vw] flex flex-col items-center justify-center mb-[100px] min-w-[250px]">
-      <h1 className="text-primary-500">
+      <h1 className="mb-2 text-center text-primary-500">
         {t("landing.testimonials.title") as string}
       </h1>
       <Carousel

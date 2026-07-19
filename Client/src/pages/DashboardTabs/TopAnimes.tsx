@@ -6,13 +6,13 @@ const TopAnimes = () => {
   const { t } = useTranslation();
 
   return (
-    <main className="content full-page">
-      <h1 className="text-center">
+    <main className="full-page">
+      <h1 className="mb-8 text-center">
         {t("top_animes.title")}
       </h1>
 
-      <div className="flex flex-wrap justify-center items-center mx-auto">
-        <form className="mb-0">
+      <div className="mx-auto flex flex-wrap items-center justify-center">
+        <form className="mb-0 w-full max-w-[280px]">
           <PlaylistSelector />
         </form>
       </div>

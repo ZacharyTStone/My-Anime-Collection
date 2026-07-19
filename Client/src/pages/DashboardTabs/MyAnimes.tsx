@@ -4,7 +4,7 @@ import CollectionToolbar from "../../Components/CollectionToolbar";
 
 const MyAnimes = () => {
   return (
-    <main className="content full-page">
+    <main className="full-page">
       <CollectionToolbar />
       <SearchContainer />
       <MyAnimesContainer />

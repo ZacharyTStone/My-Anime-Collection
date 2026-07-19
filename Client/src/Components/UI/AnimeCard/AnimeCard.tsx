@@ -71,7 +71,7 @@ const AnimeCard = ({
     >
       <Card
         className={cn(
-          "h-full w-full sm:w-[300px] mb-6 gap-0 overflow-hidden py-0",
+          "h-full w-full sm:w-[300px] gap-0 overflow-hidden py-0",
           "transition-all duration-300 hover:-translate-y-1 hover:border-primary-400 hover:shadow-lg"
         )}
       >

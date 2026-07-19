@@ -96,7 +96,7 @@ const EditPlaylist = () => {
   }
 
   return (
-    <section className="w-full rounded-lg bg-card px-8 pb-16 pt-12 shadow">
+    <section className="w-full rounded-lg border bg-card p-6 shadow-sm md:p-8">
       <div className="mb-8">
         <h3 className="relative mb-8 mt-0 font-semibold after:absolute after:bottom-[-0.75rem] after:left-0 after:h-[3px] after:w-16 after:rounded-sm after:bg-primary-500 after:content-['']">
           {t("edit_playlist.title")}
@@ -174,7 +174,7 @@ const EditPlaylist = () => {
       {currentPlaylist.id &&
         !!selectedPlaylistId &&
         !DEFAULT_PLAYLIST_IDS.includes(selectedPlaylistId) && (
-          <form className="w-full p-4" onSubmit={handlePlaylistEdit}>
+          <form className="w-full" onSubmit={handlePlaylistEdit}>
             <div className="mt-6 grid gap-y-4 rounded-lg border bg-muted/50 p-6 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-x-4">
               <FormRow
                 type="text"

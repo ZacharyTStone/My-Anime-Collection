@@ -50,10 +50,10 @@ const AddAnime = () => {
   };
 
   return (
-    <section className="rounded-lg w-full bg-card px-8 pt-12 pb-16 shadow-md">
-      <main className="content full-page">
+    <section className="w-full rounded-lg border bg-card p-6 shadow-sm md:p-8">
+      <main className="full-page">
         <form
-          className="w-full p-4"
+          className="w-full"
           onSubmit={(e) => {
             e.preventDefault();
           }}

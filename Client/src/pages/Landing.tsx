@@ -21,7 +21,7 @@ const IMAGE_ANIM: Variants = {
   visible: { opacity: 1, transition: { duration: 1, ease: "easeInOut" as const } },
 };
 
-const SECTION_CLASS = "container py-16 lg:py-24";
+const SECTION_CLASS = "mx-auto w-[92%] max-w-[1200px] px-4 py-16 lg:py-24";
 const TWO_COL_CLASS = "lg:grid lg:grid-cols-2 lg:gap-x-20 lg:items-center";
 
 const Landing = () => {

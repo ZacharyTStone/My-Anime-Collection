@@ -4,7 +4,7 @@ import ExportButtons from "./ExportButtons";
 
 const CollectionToolbar = () => {
   return (
-    <section className="px-10 pt-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+    <section className="flex flex-col gap-4 pt-2 lg:flex-row lg:items-start lg:justify-between">
       <CollectionStats />
       <div className="flex flex-wrap items-center gap-2">
         <RandomPickButton />

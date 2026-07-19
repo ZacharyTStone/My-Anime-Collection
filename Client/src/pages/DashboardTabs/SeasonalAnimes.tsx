@@ -94,14 +94,14 @@ const SeasonalAnimes = () => {
   const onMobile = useMobile();
 
   return (
-    <main className="content full-page">
-      <h1 className="text-center">
+    <main className="full-page">
+      <h1 className="mb-8 text-center">
         {t("seasonal.title")}
       </h1>
 
-      <div className="flex flex-wrap justify-center items-center mx-auto">
+      <div className="mx-auto flex flex-wrap items-center justify-center">
         <form
-          className="mb-0"
+          className="mb-0 w-full max-w-[720px]"
           onSubmit={(e) => {
             e.preventDefault();
           }}
@@ -129,11 +129,9 @@ const SeasonalAnimes = () => {
       </div>
 
       {loadingFetchAnimes ? (
-        <section className="mt-16">
-          <div className="flex justify-between items-center mb-8">
-            <SkeletonLoadingBlock height={50} width={"100%"} borderRadius={8} />
-          </div>
-          <div className="flex flex-row flex-wrap justify-evenly items-center text-foreground">
+        <section className="mt-8">
+          <SkeletonLoadingBlock height={48} width="100%" borderRadius={8} className="mb-8" />
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 justify-items-center">
             {[...Array(onMobile ? 6 : 3)].map((_, index) => (
               <SkeletonLoadingBlock
                 key={index}
@@ -145,7 +143,7 @@ const SeasonalAnimes = () => {
           </div>
         </section>
       ) : (
-        <section className="mt-16">
+        <section className="mt-8">
           {fetchedAnimes?.length > 0 ? (
             <div>
               <div className="mb-8 flex items-center justify-between">
@@ -165,7 +163,7 @@ const SeasonalAnimes = () => {
                   Next
                 </Button>
               </div>
-              <div className="flex flex-row flex-wrap justify-evenly items-center text-foreground">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 justify-items-center">
                 {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => {
                   const mapped = mapFetchedAnime(anime);
                   return (

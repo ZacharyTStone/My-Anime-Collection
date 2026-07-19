@@ -7,24 +7,22 @@ import UserMenu from "./UserMenu";
 
 const MUINavbar = () => {
   return (
-    <nav className="h-[var(--nav-height)] flex items-start justify-center w-full bg-transparent shadow-none">
-      <div className="w-full border-b border-[var(--primary-alpha-15)] relative glass-navbar">
-        <div className="max-w-screen-xl mx-auto px-4">
-          <div className="flex items-center py-2 px-4">
-            <div className="grow hidden md:block">
-              <Logo />
-            </div>
-            <MobileMenu />
-            <div className="grow-[6] hidden md:flex">
-              <NavLinks />
-            </div>
-            <FlagContainer />
-            <ThemeToggle />
-            <UserMenu />
-          </div>
+    <header className="glass-navbar sticky top-0 z-50 w-full border-b">
+      <div className="mx-auto flex max-w-[1240px] items-center gap-2 px-4 py-2">
+        <div className="hidden grow md:block">
+          <Logo className="mx-0" />
+        </div>
+        <MobileMenu />
+        <div className="hidden grow-[6] md:flex">
+          <NavLinks />
+        </div>
+        <div className="ml-auto flex items-center md:ml-0">
+          <FlagContainer />
+          <ThemeToggle />
+          <UserMenu />
         </div>
       </div>
-    </nav>
+    </header>
   );
 };
 
