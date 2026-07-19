@@ -94,10 +94,10 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
   return (
     <section className={className}>
       <form
-        className="w-full rounded-lg border bg-card p-6 shadow-sm"
+        className="w-full rounded-lg border border-l-[3px] border-l-primary-500/60 bg-card p-6 shadow-sm"
         onSubmit={handleFormSubmit}
       >
-        <h4 className="mb-4">{t("search_container.title")}</h4>
+        <h4 className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-muted-foreground">{t("search_container.title")}</h4>
         <div className="grid gap-y-2 lg:grid-cols-2 lg:items-end lg:gap-x-4 xl:grid-cols-4">
           <FormRow
             type="text"
