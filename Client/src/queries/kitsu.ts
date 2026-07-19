@@ -20,6 +20,83 @@ export interface KitsuResult {
   numOfPages: number;
 }
 
+export interface KitsuStreamingLink {
+  url: string;
+  subs: string[];
+  dubs: string[];
+}
+
+export interface AnimeDetails {
+  status?: string;
+  ageRating?: string;
+  ratingRank?: number;
+  popularityRank?: number;
+  episodeLength?: number;
+  endDate?: string;
+  categories: string[];
+  streamingLinks: KitsuStreamingLink[];
+}
+
+const fetchAnimeDetails = async (
+  kitsuId: string,
+  signal?: AbortSignal
+): Promise<AnimeDetails> => {
+  const params = new URLSearchParams();
+  params.set("include", "categories,streamingLinks");
+  params.set("fields[categories]", "title");
+  params.set("fields[streamingLinks]", "url,subs,dubs");
+  const { data } = await axios.get(
+    `https://kitsu.io/api/edge/anime/${kitsuId}?${params.toString()}`,
+    { signal }
+  );
+  const attributes = data?.data?.attributes ?? {};
+  const included: { type: string; attributes?: Record<string, unknown> }[] =
+    data?.included ?? [];
+  return {
+    status: attributes.status,
+    ageRating: attributes.ageRating,
+    ratingRank: attributes.ratingRank,
+    popularityRank: attributes.popularityRank,
+    episodeLength: attributes.episodeLength,
+    endDate: attributes.endDate,
+    categories: included
+      .filter((i) => i.type === "categories")
+      .map((i) => String(i.attributes?.title ?? ""))
+      .filter(Boolean),
+    streamingLinks: included
+      .filter((i) => i.type === "streamingLinks")
+      .map((i) => ({
+        url: String(i.attributes?.url ?? ""),
+        subs: (i.attributes?.subs as string[]) ?? [],
+        dubs: (i.attributes?.dubs as string[]) ?? [],
+      }))
+      .filter((l) => l.url),
+  };
+};
+
+/** Shared query options so the details modal and bulk fetches share cache. */
+export const animeDetailsQueryOptions = (kitsuId: string) => ({
+  queryKey: queryKeys.kitsuAnimeDetails(kitsuId),
+  queryFn: ({ signal }: { signal: AbortSignal }) =>
+    fetchAnimeDetails(kitsuId, signal),
+  staleTime: 5 * 60 * 1000,
+});
+
+/**
+ * Fetches extra details for a single anime (status, ranks, age rating,
+ * categories/genres and streaming links) in one request. Used by the
+ * anime details modal.
+ */
+export const useAnimeDetailsQuery = (
+  kitsuId: string | undefined,
+  enabled: boolean
+) => {
+  return useQuery({
+    ...animeDetailsQueryOptions(kitsuId ?? ""),
+    enabled: enabled && Boolean(kitsuId),
+  });
+};
+
 /**
  * Fetches anime from the external Kitsu API. Used by the Add Anime search,
  * the trending page, and the seasonal page.

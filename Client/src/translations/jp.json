@@ -8,7 +8,23 @@
       "ai_loading": "おすすめアニメを探しています...",
       "ai_error": "現在おすすめを取得できません。後でもう一度お試しください。",
       "ai_reason": "おすすめの理由",
-      "ai_no_results": "おすすめが見つかりませんでした。"
+      "ai_no_results": "おすすめが見つかりませんでした。",
+      "details": "詳細を見る"
+    },
+    "details": {
+      "aria": "{{title}}の詳細",
+      "rating": "評価",
+      "format": "フォーマット",
+      "episodes": "話数",
+      "year": "年",
+      "episode_length": "1話の長さ",
+      "minutes": "{{count}}分",
+      "status": "ステータス",
+      "age_rating": "対象年齢",
+      "rating_rank": "評価ランク",
+      "popularity_rank": "人気ランク",
+      "genres": "ジャンル",
+      "where_to_watch": "視聴できるサービス"
     },
 
     "profile": {
@@ -40,11 +56,20 @@
       "sort": "ソート",
       "clear_filters": "フィルターを解除",
       "playlist": "アニメに入れるのプレイリスト",
-      "current_playlist": "選択したプレイリスト"
+      "current_playlist": "選択したプレイリスト",
+      "streaming_only": "契約中のサービスで視聴可能",
+      "streaming_hint": "このフィルターを使うには、プロフィールで視聴サービスを選択してください。"
     },
     "my_animes_container": {
       "no_anime_message1": "このプレイリストは空です。",
-      "no_anime_message2": "アニメを追加"
+      "no_anime_message2": "アニメを追加",
+      "streaming_found_one": "契約中のサービスで{{count}}作品が視聴できます",
+      "streaming_found_other": "契約中のサービスで{{count}}作品が視聴できます",
+      "streaming_empty": "このプレイリストの中に、契約中のサービスで視聴できるアニメはありません。"
+    },
+    "streaming": {
+      "title": "視聴サービス",
+      "description": "契約しているサービスを選択してください。プレイリストのフィルターで、実際に視聴できるアニメだけを表示します。"
     },
     "navbar": {
       "home": "マイアニメコレクション",

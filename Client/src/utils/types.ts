@@ -33,6 +33,8 @@ export interface IPlaylist {
 
 export interface SavedAnime {
   _id?: string;
+  /** Kitsu anime id, used to fetch extra details from the Kitsu API */
+  id?: string;
   title?: string;
   synopsis?: string;
   rating?: number | string;

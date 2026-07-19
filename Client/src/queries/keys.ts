@@ -5,5 +5,6 @@ export const queryKeys = {
   animeStats: ["anime-stats"] as const,
   collection: ["collection"] as const,
   kitsu: (args: Record<string, unknown>) => ["kitsu", args] as const,
+  kitsuAnimeDetails: (id: string) => ["kitsu", "anime-details", id] as const,
   aiRecommendations: (title: string) => ["ai-recommendations", title] as const,
 };

@@ -15,9 +15,12 @@ interface AnimeStore {
   searchType: string;
   sort: string;
   sortOptions: { title: string; value: string }[];
+  /** When on, the playlist shows only anime available on the user's streaming services */
+  streamingOnly: boolean;
   handleChange: (params: { name: FilterField; value: string }) => void;
   clearValues: () => void;
   changePage: (page: number) => void;
+  toggleStreamingOnly: () => void;
 }
 
 export const useAnimeStore = create<AnimeStore>((set) => ({
@@ -28,6 +31,7 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
   searchType: "all",
   sort: "latest",
   sortOptions: SORT_OPTIONS,
+  streamingOnly: false,
 
   handleChange: ({ name, value }: { name: FilterField; value: string }) => {
     set({ page: 1, [name]: value });
@@ -46,5 +50,9 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
 
   changePage: (page) => {
     set({ page });
+  },
+
+  toggleStreamingOnly: () => {
+    set((state) => ({ streamingOnly: !state.streamingOnly }));
   },
 }));

@@ -42,6 +42,7 @@ vi.mock("../../stores/hooks", () => ({
   usePlaylistSelector: () => ({
     currentPlaylist: { id: "2", title: "", userId: "", createdAt: "", updatedAt: "" },
   }),
+  useSettingsSelector: () => ({ streamingServices: [] }),
 }));
 
 beforeEach(() => {
@@ -52,6 +53,7 @@ beforeEach(() => {
     searchType: "all",
     searchStared: "all",
     sort: "latest",
+    streamingOnly: false,
     sortOptions: [
       { title: "Latest", value: "latest" },
       { title: "Oldest", value: "oldest" },

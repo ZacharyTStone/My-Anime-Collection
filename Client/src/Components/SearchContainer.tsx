@@ -1,7 +1,8 @@
 import { useState, useCallback, useMemo, type ChangeEvent, type MouseEvent, type FormEvent } from "react";
 import { FormRow, FormRowSelect, PlaylistSelector } from "./UI";
 import { Button } from "@/Components/UI/button";
-import { useAnimeSelector, usePlaylistSelector } from "../stores/hooks";
+import { Tv } from "lucide-react";
+import { useAnimeSelector, usePlaylistSelector, useSettingsSelector } from "../stores/hooks";
 import type { FilterField } from "../stores/animeStore";
 import { useAnimesQuery } from "../queries/animes";
 import { usePlaylistsQuery } from "../queries/playlists";
@@ -27,6 +28,8 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
     sortOptions,
     handleChange,
     clearValues,
+    streamingOnly,
+    toggleStreamingOnly,
   } = useAnimeSelector((s) => ({
     page: s.page,
     search: s.search,
@@ -37,6 +40,12 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
     sortOptions: s.sortOptions,
     handleChange: s.handleChange,
     clearValues: s.clearValues,
+    streamingOnly: s.streamingOnly,
+    toggleStreamingOnly: s.toggleStreamingOnly,
+  }));
+
+  const { streamingServices } = useSettingsSelector((s) => ({
+    streamingServices: s.streamingServices,
   }));
 
   const { currentPlaylist } = usePlaylistSelector((s) => ({
@@ -131,6 +140,23 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
           >
             {t("search_container.clear_filters")}
           </Button>
+        </div>
+        <div className="mt-2 flex flex-wrap items-center gap-3">
+          <Button
+            type="button"
+            variant={streamingOnly ? "default" : "outline"}
+            size="sm"
+            aria-pressed={streamingOnly}
+            onClick={toggleStreamingOnly}
+          >
+            <Tv className="mr-2 h-4 w-4" />
+            {t("search_container.streaming_only")}
+          </Button>
+          {streamingOnly && streamingServices.length === 0 && (
+            <p className="text-sm text-muted-foreground">
+              {t("search_container.streaming_hint")}
+            </p>
+          )}
         </div>
       </form>
     </section>

@@ -8,7 +8,23 @@
       "ai_loading": "Finding anime you'll love...",
       "ai_error": "Couldn't get suggestions right now. Try again later.",
       "ai_reason": "Why you'll like it",
-      "ai_no_results": "No suggestions found."
+      "ai_no_results": "No suggestions found.",
+      "details": "View Details"
+    },
+    "details": {
+      "aria": "Details for {{title}}",
+      "rating": "Rating",
+      "format": "Format",
+      "episodes": "Episodes",
+      "year": "Year",
+      "episode_length": "Episode length",
+      "minutes": "{{count}} min",
+      "status": "Status",
+      "age_rating": "Age rating",
+      "rating_rank": "Rating rank",
+      "popularity_rank": "Popularity rank",
+      "genres": "Genres",
+      "where_to_watch": "Where to watch"
     },
     "profile": {
       "title": "Profile",
@@ -40,11 +56,20 @@
       "sort": "Sort",
       "clear_filters": "Reset Filters",
       "playlist": "Playlist To Add To",
-      "current_playlist": "Current Playlist"
+      "current_playlist": "Current Playlist",
+      "streaming_only": "On my streaming services",
+      "streaming_hint": "Select your services in your Profile to use this filter."
     },
     "my_animes_container": {
       "no_anime_message1": "This playlist is empty.",
-      "no_anime_message2": "Add an Anime"
+      "no_anime_message2": "Add an Anime",
+      "streaming_found_one": "{{count}} anime available on your streaming services",
+      "streaming_found_other": "{{count}} animes available on your streaming services",
+      "streaming_empty": "No anime in this playlist is available on your streaming services."
+    },
+    "streaming": {
+      "title": "My Streaming Services",
+      "description": "Select the services you subscribe to. The playlist filter uses this to show only anime you can actually watch."
     },
     "navbar": {
       "home": "My Anime Collection",
