@@ -58,7 +58,7 @@ const AddAnime = () => {
             e.preventDefault();
           }}
         >
-          <h3>{t("add_anime.title")}</h3>
+          <h3 className="mb-6">{t("add_anime.title")}</h3>
           <div className="grid gap-y-4 lg:grid-cols-2 lg:items-center lg:gap-x-4 xl:grid-cols-3">
             <FormRow
               type="text"

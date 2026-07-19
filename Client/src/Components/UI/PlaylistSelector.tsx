@@ -15,11 +15,13 @@ import { cn } from "../../utils/cn";
 interface PlaylistSelectorProps {
   disabled?: boolean;
   className?: string;
+  labelKey?: string;
 }
 
 const PlaylistSelector = ({
   disabled = false,
   className,
+  labelKey = "search_container.playlist",
 }: PlaylistSelectorProps) => {
   const { t } = useTranslation();
 
@@ -38,7 +40,7 @@ const PlaylistSelector = ({
   if (isPending) {
     return (
       <div className={cn(className, "h-full mb-4 grid gap-2")}>
-        <Label>{t("search_container.playlist")}</Label>
+        <Label>{t(labelKey)}</Label>
         <SkeletonLoadingBlock height={36} width="100%" borderRadius={6} />
       </div>
     );
@@ -46,7 +48,7 @@ const PlaylistSelector = ({
 
   return (
     <div className={cn(className, "mb-4 grid gap-2")}>
-      <Label htmlFor="playlist">{t("search_container.playlist")}</Label>
+      <Label htmlFor="playlist">{t(labelKey)}</Label>
       <Select
         name="playlist"
         value={currentPlaylist.id}

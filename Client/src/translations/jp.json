@@ -43,8 +43,8 @@
       "current_playlist": "選択したプレイリスト"
     },
     "my_animes_container": {
-      "no_anime_message1": "アニメが見つかりませんでした。",
-      "no_anime_message2": "ここをクリックしてアニメを追加してください。"
+      "no_anime_message1": "このプレイリストは空です。",
+      "no_anime_message2": "アニメを追加"
     },
     "navbar": {
       "home": "マイアニメコレクション",
@@ -76,7 +76,7 @@
       "error": "統計を読み込めませんでした。"
     },
     "random_pick": {
-      "button": "何を観よう？",
+      "button": "ランダムに選ぶ",
       "title": "これを観よう！",
       "reroll": "もう一回",
       "close": "閉じる",

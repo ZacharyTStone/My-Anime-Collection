@@ -117,7 +117,10 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
             list={sortOptions}
           />
 
-          <PlaylistSelector disabled={isFormDisabled} />
+          <PlaylistSelector
+            disabled={isFormDisabled}
+            labelKey="search_container.current_playlist"
+          />
 
           <Button
             type="button"

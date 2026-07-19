@@ -33,7 +33,7 @@ const CollectionStats = () => {
       <StatCard label={t("stats.total_episodes")} value={stats.totalEpisodes} />
       <StatCard
         label={t("stats.playlists")}
-        value={Object.keys(stats.playlistCounts).length}
+        value={Object.keys(stats.playlistCounts ?? {}).length}
       />
       {stats.topRated && (
         <StatCard label={t("stats.top_rated")} value={stats.topRated.title} />

@@ -43,8 +43,8 @@
       "current_playlist": "Current Playlist"
     },
     "my_animes_container": {
-      "no_anime_message1": "Couldn't find any anime. Click",
-      "no_anime_message2": "Here To Add An Anime"
+      "no_anime_message1": "This playlist is empty.",
+      "no_anime_message2": "Add an Anime"
     },
     "navbar": {
       "home": "My Anime Collection",
@@ -76,7 +76,7 @@
       "error": "Couldn't load stats right now."
     },
     "random_pick": {
-      "button": "What Should I Watch?",
+      "button": "Pick a Random Anime",
       "title": "You should watch...",
       "reroll": "Pick Another",
       "close": "Close",
