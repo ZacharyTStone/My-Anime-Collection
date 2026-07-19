@@ -45,14 +45,15 @@ export const configureSecurity = (app: Express) => {
       referrerPolicy: { policy: "strict-origin-when-cross-origin" },
       contentSecurityPolicy: {
         directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "https://www.youtube.com", "https://s.ytimg.com"],
-          styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-          fontSrc: ["'self'", "https://fonts.gstatic.com"],
-          imgSrc: ["'self'", "data:", "https://media.kitsu.io", "https://media.kitsu.app", "https://i.ytimg.com"],
-          connectSrc: ["'self'", KITSU_API],
-          frameSrc: ["'self'", "https://www.youtube.com"],
-          mediaSrc: ["'self'", "https://www.youtube.com"],
+          defaultSrc: ["'self'", "*"],
+          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*"],
+          styleSrc: ["'self'", "'unsafe-inline'", "*"],
+          fontSrc: ["'self'", "*"],
+          imgSrc: ["'self'", "data:", "blob:", "*"],
+          connectSrc: ["'self'", "*"],
+          frameSrc: ["'self'", "*"],
+          mediaSrc: ["'self'", "*"],
+          workerSrc: ["'self'", "blob:", "*"],
         },
       },
     })
