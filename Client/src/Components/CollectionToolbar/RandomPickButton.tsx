@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Shuffle } from "lucide-react";
 import ModalBackdrop from "../UI/ModalBackdrop";
 import { Button } from "@/Components/UI/button";
 import { useCollectionQuery, type CollectionAnime } from "../../queries/animes";
@@ -35,6 +36,7 @@ const RandomPickButton = () => {
   return (
     <>
       <Button variant="outline" onClick={handleOpen}>
+        <Shuffle className="mr-2 h-4 w-4" />
         {t("random_pick.button")}
       </Button>
 
