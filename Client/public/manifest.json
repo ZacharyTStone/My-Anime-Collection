@@ -1,16 +1,21 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "M.A.C.",
+  "name": "My Anime Collection",
+  "description": "Track your favorite anime, organize playlists, and discover new shows.",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "thumb1.png",
+      "sizes": "192x192",
+      "type": "image/png"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "content security policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "theme_color": "#e11d48",
+  "background_color": "#fafafa"
 }

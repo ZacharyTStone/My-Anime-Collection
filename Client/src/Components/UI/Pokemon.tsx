@@ -24,33 +24,34 @@ const Pokemon = () => {
     fetchPokemon();
   }, []);
 
-  if (loading || !pokemon.image.length || !pokemon.name.length) {
+  if (loading) {
     return (
-      <div className="flex justify-center mt-8">
-        <div className="w-full max-w-[400px] flex flex-col items-center bg-card rounded-2xl p-6 shadow border min-h-[250px] justify-center">
-          <SkeletonLoadingBlock
-            width={150}
-            height={150}
-            borderRadius={75}
-          />
+      <div className="mt-8 flex justify-center">
+        <div className="flex min-h-[250px] w-full max-w-[400px] flex-col items-center justify-center rounded-2xl border border-border/70 bg-card p-6 shadow-sm">
+          <SkeletonLoadingBlock width={150} height={150} borderRadius={75} />
         </div>
       </div>
     );
   }
 
+  // The easter egg only earns its space when the sprite actually loaded
+  if (!pokemon.image.length || !pokemon.name.length) {
+    return null;
+  }
+
   return (
-    <div className="flex justify-center mt-8">
-      <div className="w-full max-w-[400px] flex flex-col items-center bg-card rounded-2xl p-6 shadow border transition-all duration-300 hover:-translate-y-[5px] hover:shadow-md hover:border-primary-200">
-        <div className="w-[160px] h-[160px] rounded-full flex items-center justify-center mb-4 p-2 border-2 border-primary-100 shadow-sm bg-gradient-to-br from-primary-500/10 to-primary-500/5 max-[992px]:w-[140px] max-[992px]:h-[140px]">
+    <div className="mt-8 flex justify-center">
+      <div className="flex w-full max-w-[400px] flex-col items-center rounded-2xl border border-border/70 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+        <div className="mb-4 flex h-[160px] w-[160px] items-center justify-center rounded-full border border-border/70 bg-muted/60 p-2 shadow-sm max-[992px]:h-[140px] max-[992px]:w-[140px]">
           <img
             src={pokemon.image}
             alt={`pokemon: ${pokemon.name}`}
-            className="w-[130px] h-[130px] object-contain max-[992px]:w-[110px] max-[992px]:h-[110px]"
+            className="h-[130px] w-[130px] object-contain max-[992px]:h-[110px] max-[992px]:w-[110px]"
           />
         </div>
-        <div className="flex flex-col items-center w-full text-center">
-          <span className="text-[0.9rem] text-muted-foreground mb-1">Your Random Pokémon</span>
-          <span className="font-semibold capitalize text-[1.25rem] border-b-2 border-primary-200 pb-1">
+        <div className="flex w-full flex-col items-center text-center">
+          <span className="mb-1 text-[0.9rem] text-muted-foreground">Your Random Pokémon</span>
+          <span className="text-[1.25rem] font-semibold capitalize">
             {pokemon.name}
           </span>
         </div>

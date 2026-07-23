@@ -133,7 +133,7 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
 
           <Button
             type="button"
-            variant="destructive"
+            variant="outline"
             className="mb-4 w-full self-end"
             onClick={handleResetFilters}
             disabled={isFormDisabled}

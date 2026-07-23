@@ -7,6 +7,16 @@
    ============================================== */
 
 @layer base {
+  /* Tailwind v4 defaults un-styled borders to currentColor; map them to the
+     border token so a plain `border` class always renders the design system */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
@@ -56,6 +66,19 @@
   a:hover {
     @apply text-primary-500;
   }
+}
+
+/* Toasts follow the design system */
+.Toastify__toast {
+  font-family: var(--font-body);
+  border-radius: var(--radius-default);
+  border: 1px solid var(--grey-200);
+  box-shadow: var(--shadow-lg);
+}
+
+.Toastify__progress-bar--success,
+.Toastify__progress-bar--info {
+  background: var(--primary-500);
 }
 
 /* ==============================================

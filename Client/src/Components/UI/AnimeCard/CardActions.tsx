@@ -46,7 +46,8 @@ const CardActions = ({
       </Button>
       {type === "delete" ? (
         <Button
-          variant="destructive"
+          variant="outline"
+          className="border-destructive/30 text-destructive hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
           aria-label={`${t("anime.delete")} ${title}`}
           onClick={onDelete}
         >
