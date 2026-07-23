@@ -74,14 +74,13 @@ const AnimeCard = ({
       <Card
         className={cn(
           "h-full w-full sm:w-[300px] gap-0 overflow-hidden py-0",
-          "border-l-[3px] border-l-primary-500/60",
+          "border-border/70 shadow-sm",
           "transition-all duration-300",
-          "hover:-translate-y-[4px] hover:border-l-primary-500 hover:border-primary-400",
-          "hover:shadow-[0_12px_40px_var(--primary-alpha-20),0_4px_12px_var(--primary-alpha-10)]"
+          "hover:-translate-y-1 hover:border-border hover:shadow-lg"
         )}
       >
         <CardHeader className="px-4 pt-4">
-          <CardTitle className="flex min-h-[60px] items-center justify-center text-center text-[1rem] leading-snug tracking-tight font-bold" style={{ fontFamily: "var(--headingFont)" }}>
+          <CardTitle className="flex min-h-[60px] items-center justify-center text-center text-[1rem] leading-snug tracking-tight font-bold">
             {siteLanguage === "en" ? title : japanese_title}
           </CardTitle>
         </CardHeader>

@@ -6,7 +6,6 @@ import Testimonials from "./Testimonials";
 import FetchedAnimesContainer from "./FetchedAnimesContainer";
 import MUINavbar from "./MUINavbar/MUINavbar";
 import MyAnimesContainer from "./MyAnimesContainer";
-import BackgroundAnimeCards from "./BackgroundAnimeCards";
 import Pokemon from "./UI/Pokemon";
 
 export {
@@ -18,6 +17,5 @@ export {
   PageBtnContainer,
   SearchContainer,
   Testimonials,
-  BackgroundAnimeCards,
   Pokemon,
 };

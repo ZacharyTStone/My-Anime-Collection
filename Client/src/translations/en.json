@@ -113,7 +113,6 @@
       "csv": "Export as CSV",
       "success": "Collection exported!"
     },
-
     "edit_playlist": {
       "title": "My Playlists",
       "cta": "Click on a playlist to edit it's name. Default playlists cannot be edited.",
@@ -140,7 +139,6 @@
       "switch2": "Login",
       "alert_text": "User Created! Redirecting..."
     },
-
     "landing": {
       "title": "My Anime Collection",
       "title_description": "My Anime Collection is an application that let's you track, and find new anime.",
@@ -187,11 +185,11 @@
         "point5": "We're always working on adding new features and improvements.",
         "point6": "AI-powered anime suggestions help you discover your next favorite show."
       },
-
       "call_to_action": {
         "title": "Let's go find some anime!",
         "contact_info": "For all inquieres please contact Zach Stone at"
-      }
+      },
+      "hero_badge": "Free · No ads · AI-powered discovery"
     }
   }
 }

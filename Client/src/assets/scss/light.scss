@@ -3,46 +3,38 @@
   --yellow-dark: #e6a817;
   --yellow-light: #fff8e1;
 
-  /* primary: vivid vermillion — bold, energetic, not the usual pink */
+  /* primary: refined crimson rose — confident but not loud */
   --primary-50:  #fff1f2;
-  --primary-100: #ffe0e3;
-  --primary-200: #ffc4cb;
-  --primary-300: #ff909c;
-  --primary-400: #ff5066;
-  --primary-500: #e82035;
-  --primary-600: #cc0a24;
-  --primary-700: #a80d1f;
-  --primary-800: #8b0e1c;
-  --primary-900: #6b1118;
+  --primary-100: #ffe4e6;
+  --primary-200: #fecdd3;
+  --primary-300: #fda4af;
+  --primary-400: #fb7185;
+  --primary-500: #e11d48;
+  --primary-600: #be123c;
+  --primary-700: #9f1239;
+  --primary-800: #881337;
+  --primary-900: #4c0519;
 
-  /* anime accents — vivid, saturated, premium */
-  --anime-pink:   #ff2d55;
-  --anime-purple: #5856d6;
-  --anime-blue:   #007aff;
-  --anime-cyan:   #00c2ff;
-  --anime-orange: #ff6b00;
-  --anime-yellow: #ffd500;
-
-  /* gradient definitions */
-  --gradient-primary:    linear-gradient(135deg, var(--primary-500) 0%, var(--anime-pink) 50%, var(--primary-600) 100%);
-  --gradient-secondary:  linear-gradient(135deg, var(--anime-blue) 0%, var(--anime-cyan) 100%);
-  --gradient-accent:     linear-gradient(135deg, var(--anime-orange) 0%, var(--anime-yellow) 100%);
-  --gradient-background: linear-gradient(160deg, #fafaf8 0%, #fff1f2 40%, #fafaf8 70%, #f5f0ff 100%);
+  /* accent colors — used sparingly (AI features, highlights) */
+  --anime-pink:   #f43f5e;
+  --anime-purple: #7c6cf0;
+  --anime-blue:   #3b82f6;
+  --anime-cyan:   #22d3ee;
+  --anime-orange: #fb923c;
+  --anime-yellow: #facc15;
 
   /* primary alpha */
-  --primary-alpha-10: rgba(232, 32, 53, 0.08);
-  --primary-alpha-15: rgba(232, 32, 53, 0.12);
-  --primary-alpha-20: rgba(232, 32, 53, 0.18);
-  --primary-alpha-30: rgba(232, 32, 53, 0.28);
-  --primary-alpha-40: rgba(232, 32, 53, 0.38);
-  --primary-alpha-50: rgba(232, 32, 53, 0.50);
+  --primary-alpha-10: rgba(225, 29, 72, 0.06);
+  --primary-alpha-15: rgba(225, 29, 72, 0.10);
+  --primary-alpha-20: rgba(225, 29, 72, 0.16);
+  --primary-alpha-30: rgba(225, 29, 72, 0.26);
+  --primary-alpha-40: rgba(225, 29, 72, 0.36);
+  --primary-alpha-50: rgba(225, 29, 72, 0.48);
 
-  /* glow effects */
-  --glow-primary:   0 0 12px rgba(232, 32, 53, 0.20), 0 0 24px rgba(232, 32, 53, 0.08);
-  --glow-secondary: 0 0 12px rgba(0, 122, 255, 0.18), 0 0 24px rgba(0, 122, 255, 0.08);
-  --glow-accent:    0 0 12px rgba(255, 107, 0, 0.18), 0 0 24px rgba(255, 107, 0, 0.08);
+  /* secondary accent alpha (violet) for background washes */
+  --accent-alpha-08: rgba(124, 108, 240, 0.07);
 
-  /* neutral greys — slightly cooler */
+  /* neutral greys — slightly cool */
   --grey-50:  #f9fafb;
   --grey-100: #f1f5f9;
   --grey-200: #e4e8f0;
@@ -52,28 +44,28 @@
   --grey-600: #475569;
   --grey-700: #334155;
   --grey-800: #1e293b;
-  --grey-900: #0c0e18;
+  --grey-900: #0f1222;
 
   /* status */
   --red-light:   #fee2e2;
   --red-dark:    #b91c1c;
   --green-50:    #ecfdf5;
   --green-500:   #10b981;
-  --black:       #0c0e18;
+  --black:       #0f1222;
   --white:       #ffffff;
 
-  /* typography */
-  --headingFont: "Dela Gothic One", sans-serif;
-  --bodyFont:    "Outfit", sans-serif;
+  /* typography — one family, hierarchy via weight */
+  --headingFont: "Outfit", system-ui, sans-serif;
+  --bodyFont:    "Outfit", system-ui, sans-serif;
   --small-text:       0.875rem;
   --extra-small-text: 0.7em;
 
   /* layout */
   --outline-button-background: var(--white);
-  --backgroundColor:    #fafaf8;
+  --backgroundColor:    #fafafa;
   --textColor:          var(--grey-900);
-  --borderRadius:       0.5rem;
-  --transition:         0.25s cubic-bezier(0.4, 0, 0.2, 1) all;
+  --borderRadius:       0.75rem;
+  --transition:         0.2s cubic-bezier(0.4, 0, 0.2, 1) all;
   --max-width:          1200px;
   --fixed-width:        600px;
   --fluid-width:        90vw;
@@ -81,22 +73,18 @@
   --nav-height:         4.5rem;
 
   /* glass navbar (light) */
-  --glass-navbar-background: rgba(250, 250, 248, 0.82);
+  --glass-navbar-background: rgba(250, 250, 250, 0.85);
 
-  /* shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(12, 14, 24, 0.04);
-  --shadow:    0 1px 4px 0 rgba(12, 14, 24, 0.07), 0 1px 2px 0 rgba(12, 14, 24, 0.03);
-  --shadow-md: 0 4px 8px -1px rgba(12, 14, 24, 0.08), 0 2px 4px -1px rgba(12, 14, 24, 0.03);
-  --shadow-lg: 0 12px 24px -4px rgba(12, 14, 24, 0.10), 0 4px 8px -2px rgba(12, 14, 24, 0.04);
-  --shadow-xl: 0 24px 40px -8px rgba(12, 14, 24, 0.12), 0 8px 16px -4px rgba(12, 14, 24, 0.05);
-
-  --shadow-anime:       0 4px 16px rgba(232, 32, 53, 0.14), 0 2px 6px rgba(232, 32, 53, 0.08);
-  --shadow-anime-lg:    0 12px 32px rgba(232, 32, 53, 0.18), 0 4px 12px rgba(232, 32, 53, 0.10);
-  --shadow-anime-hover: 0 16px 40px rgba(232, 32, 53, 0.22), 0 6px 16px rgba(232, 32, 53, 0.14);
+  /* shadows — soft, layered, neutral */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 18, 34, 0.04);
+  --shadow:    0 1px 4px 0 rgba(15, 18, 34, 0.06), 0 1px 2px 0 rgba(15, 18, 34, 0.03);
+  --shadow-md: 0 4px 10px -2px rgba(15, 18, 34, 0.07), 0 2px 4px -1px rgba(15, 18, 34, 0.03);
+  --shadow-lg: 0 12px 24px -6px rgba(15, 18, 34, 0.10), 0 4px 8px -2px rgba(15, 18, 34, 0.04);
+  --shadow-xl: 0 24px 48px -12px rgba(15, 18, 34, 0.14), 0 8px 16px -4px rgba(15, 18, 34, 0.05);
 
   /* card borders */
   --card-border-light: var(--grey-200);
-  --card-border-hover: var(--primary-400);
+  --card-border-hover: var(--primary-300);
 
   /* spacing */
   --spacing-xs:  0.25rem;

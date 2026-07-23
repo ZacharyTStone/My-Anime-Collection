@@ -1,72 +1,63 @@
-import { motion, type Variants } from "framer-motion";
-import { FaCheck } from "react-icons/fa";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { useInViewAnimation } from "../../utils/hooks";
-import aot from "../../assets/images/aot.png";
+import {
+  BadgeCheck,
+  MousePointerClick,
+  ShieldCheck,
+  EyeOff,
+  Rocket,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
 
-const LIST_ITEM_VARIANTS: Variants = {
-  hidden: { opacity: 0, x: -10 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: { delay: i * 0.3, duration: 0.5 },
-  }),
-};
-
-const FEATURE_POINTS = ["point1", "point2", "point3", "point4", "point5", "point6"];
-
-interface FeaturesSectionProps {
-  controls: ReturnType<typeof useInViewAnimation>["controls"];
-  ref: (node?: Element | null) => void;
-  fadeIn: Variants;
-  imageAnim: Variants;
-  sectionClass: string;
-  twoColClass: string;
+interface FeaturePoint {
+  key: string;
+  icon: LucideIcon;
 }
 
-const FeaturesSection = ({ controls, ref, fadeIn, imageAnim, sectionClass, twoColClass }: FeaturesSectionProps) => {
+const FEATURE_POINTS: FeaturePoint[] = [
+  { key: "point1", icon: BadgeCheck },
+  { key: "point2", icon: MousePointerClick },
+  { key: "point3", icon: ShieldCheck },
+  { key: "point4", icon: EyeOff },
+  { key: "point5", icon: Rocket },
+  { key: "point6", icon: Sparkles },
+];
+
+const FeaturesSection = () => {
   const { t } = useTranslation();
 
   return (
-    <motion.div
-      className={`${sectionClass} ${twoColClass}`}
-      initial="hidden"
-      animate={controls}
-      ref={ref}
-      variants={fadeIn}
-    >
-      <div className="hidden lg:block">
-        <motion.img
-          src={aot}
-          alt="anime character"
-          loading="lazy"
-          className="h-auto w-full rounded-xl object-cover"
-          initial="hidden"
-          animate={controls}
-          variants={imageAnim}
-        />
-      </div>
-      <div>
-        <h3 className="font-semibold mb-6 leading-[1.4] text-xl lg:text-[2rem] lg:mb-8">
-          <span className="gradient-heading">
-            {t("landing.why.title")}
-          </span>
-        </h3>
-        <motion.ul initial="hidden" animate="visible" variants={LIST_ITEM_VARIANTS}>
-          {FEATURE_POINTS.map((point, index) => (
-            <motion.li
-              key={point}
-              custom={index}
-              variants={LIST_ITEM_VARIANTS}
-              className="mb-3 flex items-start gap-3 text-base leading-[1.6] text-muted-foreground"
+    <section className="mx-auto max-w-[1200px] px-6 py-20 lg:py-28">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold sm:text-4xl">
+          {t("landing.why.title")}
+        </h2>
+
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURE_POINTS.map(({ key, icon: Icon }, index) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.45, delay: index * 0.06, ease: "easeOut" }}
+              className="rounded-xl border border-border/70 bg-card p-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
             >
-              <FaCheck color="var(--primary-500)" className="mt-1.5 shrink-0" />
-              <span className="font-normal text-foreground">{t(`landing.why.${point}`)}</span>
-            </motion.li>
+              <div className="mb-4 inline-flex size-11 items-center justify-center rounded-lg bg-primary-500/10 text-primary-600 dark:text-primary-400">
+                <Icon className="size-5" aria-hidden="true" />
+              </div>
+              <p className="leading-relaxed text-foreground">{t(`landing.why.${key}`)}</p>
+            </motion.div>
           ))}
-        </motion.ul>
-      </div>
-    </motion.div>
+        </div>
+      </motion.div>
+    </section>
   );
 };
 
