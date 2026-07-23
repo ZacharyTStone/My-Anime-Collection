@@ -83,11 +83,9 @@ const EditPlaylist = () => {
   }
 
   return (
-    <section className="w-full rounded-lg border bg-card p-6 shadow-sm md:p-8">
+    <section className="w-full rounded-xl border border-border/70 bg-card p-6 shadow-sm md:p-8">
       <div className="mb-8">
-        <h3 className="relative mb-8 mt-0 font-semibold after:absolute after:bottom-[-0.75rem] after:left-0 after:h-[3px] after:w-16 after:rounded-sm after:bg-primary-500 after:content-['']">
-          {t("edit_playlist.title")}
-        </h3>
+        <h3 className="mb-6 mt-0 font-semibold">{t("edit_playlist.title")}</h3>
         <div>
           <ul className="mb-6 max-h-[300px] overflow-y-auto rounded-lg border bg-card p-2">
             {userPlaylists?.map((playlist: Playlist) => (
