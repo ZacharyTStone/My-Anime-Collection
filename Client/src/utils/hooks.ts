@@ -1,6 +1,4 @@
 import { useEffect, useSyncExternalStore, type RefObject } from "react";
-import { useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import { TABLET } from "./constants";
 
 const useClickOutside = (
@@ -27,18 +25,6 @@ const useClickOutside = (
   }, [ref, active, onClose]);
 };
 
-const useInViewAnimation = (threshold = 0.5) => {
-  const controls = useAnimation();
-
-  const [ref, inView] = useInView({ threshold });
-
-  useEffect(() => {
-    if (inView) controls.start("visible");
-  }, [controls, inView]);
-
-  return { controls, ref };
-};
-
 const mobileQuery = `(max-width: ${TABLET}px)`;
 const subscribe = (cb: () => void) => {
   const mql = window.matchMedia(mobileQuery);
@@ -53,6 +39,5 @@ const useMobile = () =>
 
 export {
   useClickOutside,
-  useInViewAnimation,
   useMobile,
 };

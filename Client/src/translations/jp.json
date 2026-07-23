@@ -26,7 +26,6 @@
       "genres": "ジャンル",
       "where_to_watch": "視聴できるサービス"
     },
-
     "profile": {
       "title": "プロフィール",
       "name": "名前",
@@ -36,9 +35,9 @@
       "save": "変更を保存",
       "delete": "アカウントを削除",
       "confirm": "本当にアカウントを削除しますか？",
-      "wait": "しばらくお待ちください..."
+      "wait": "しばらくお待ちください...",
+      "random_pokemon": "あなたのランダムポケモン"
     },
-
     "top_animes": {
       "title": "トップアニメ"
     },
@@ -49,7 +48,6 @@
       "add_to_default": "いつもデフォルト＆選択したプレイリストに追加",
       "anime_created_successfully": "アニメがプレイリストに追加されました！"
     },
-
     "search_container": {
       "title": "プレイリストをフィルターしましょう",
       "search": "検索",
@@ -65,7 +63,9 @@
       "no_anime_message2": "アニメを追加",
       "streaming_found_one": "契約中のサービスで{{count}}作品が視聴できます",
       "streaming_found_other": "契約中のサービスで{{count}}作品が視聴できます",
-      "streaming_empty": "このプレイリストの中に、契約中のサービスで視聴できるアニメはありません。"
+      "streaming_empty": "このプレイリストの中に、契約中のサービスで視聴できるアニメはありません。",
+      "found_one": "プレイリストに{{count}}件のアニメがあります",
+      "found_other": "プレイリストに{{count}}件のアニメがあります"
     },
     "streaming": {
       "title": "視聴サービス",
@@ -113,13 +113,13 @@
       "csv": "CSVでエクスポート",
       "success": "コレクションをエクスポートしました！"
     },
-
     "edit_playlist": {
       "title": "マイ・プレイリスト",
       "new_playlist": "新しいプレイリストを作る",
       "cta": "プレイリストをクリックして名前を編集します。デフォルトのプレイリストは編集できません。",
       "playlist_updated_successfully": "プレイリストが正常に更新されました！",
-      "playlist_deleted_successfully": "プレイリストが正常に削除されました！"
+      "playlist_deleted_successfully": "プレイリストが正常に削除されました！",
+      "edit_title_label": "プレイリスト名を編集"
     },
     "login": {
       "title": "ログイン",
@@ -148,7 +148,6 @@
       "title_description": "マイ・アニメ・コレクションでは好きなアニメを調べて、忘れないようにコレクションに入れられます",
       "login_button": "ログイン/登録",
       "demo_button": "デモ",
-
       "testimonials": {
         "title": "お客様の声",
         "vegeta": {
@@ -190,11 +189,24 @@
         "point5": "常に新しい機能や改善を追加していくよう努めています。",
         "point6": "AIを活用したアニメのおすすめで、次のお気に入りを見つけましょう。"
       },
-
       "call_to_action": {
         "title": "マイ・アニメ・コレクションを使ってみよう！",
         "contact_info": "ご質問はお気軽にお問い合わせください。"
-      }
+      },
+      "hero_badge": "無料・広告なし・AIでアニメ発見"
+    },
+    "common": {
+      "previous": "前へ",
+      "next": "次へ",
+      "page_of": "{{total}}ページ中{{page}}ページ目",
+      "results_found_one": "{{count}}件のアニメが見つかりました",
+      "results_found_other": "{{count}}件のアニメが見つかりました",
+      "no_results": "アニメが見つかりませんでした。"
+    },
+    "error_page": {
+      "title": "ページが見つかりません",
+      "message": "お探しのページが見つかりませんでした。",
+      "back_home": "ホームに戻る"
     }
   }
 }

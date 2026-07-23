@@ -58,11 +58,9 @@ const Profile = () => {
   };
 
   return (
-    <section className="w-full rounded-lg border border-l-[3px] border-l-primary-500/70 bg-card p-6 shadow-sm md:p-8">
+    <section className="w-full rounded-xl border border-border/70 bg-card p-6 shadow-sm md:p-8">
       <form className="w-full" onSubmit={handleSubmit}>
-        <h3 className="relative mb-8 mt-0 after:absolute after:bottom-[-0.75rem] after:left-0 after:h-[2px] after:w-12 after:rounded-sm after:bg-primary-500 after:content-['']" style={{ fontFamily: "var(--headingFont)" }}>
-          {t("profile.title")}
-        </h3>
+        <h3 className="mb-6 mt-0">{t("profile.title")}</h3>
         <div className="grid gap-y-4 lg:grid-cols-2 lg:items-center lg:gap-x-6">
           <FormRow
             disabled={isLoading || isDemoUser}

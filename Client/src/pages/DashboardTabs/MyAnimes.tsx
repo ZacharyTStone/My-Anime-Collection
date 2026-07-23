@@ -6,7 +6,7 @@ const MyAnimes = () => {
   return (
     <main className="full-page">
       <CollectionToolbar />
-      <SearchContainer />
+      <SearchContainer className="mt-6" />
       <MyAnimesContainer />
     </main>
   );

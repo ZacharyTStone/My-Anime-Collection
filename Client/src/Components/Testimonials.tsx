@@ -1,56 +1,40 @@
-import { useState } from "react";
-import Carousel from "react-simply-carousel";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import Testimonial from "./UI/Testimonial";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { useMobile } from "../utils/hooks";
+import Testimonial from "./UI/Testimonial";
 import { TESTIMONIALS, TESTIMONIALS_TYPE } from "../utils/constants";
 
-const arrowButtonProps = (direction: "right" | "left") => ({
-  children:
-    direction === "right" ? <ChevronRight size={32} /> : <ChevronLeft size={32} />,
-  className:
-    "mx-2 flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center self-center rounded-full border bg-card text-primary-500 shadow-sm transition-colors hover:bg-accent hover:text-primary-600",
-  "aria-label":
-    direction === "right" ? "Next testimonials" : "Previous testimonials",
-});
+const VISIBLE_TESTIMONIALS = 6;
 
 function Testimonials() {
   const { t } = useTranslation();
-  const [activeSlide, setActiveSlide] = useState(0);
-  const onMobile = useMobile();
 
   return (
-    <div className="w-screen max-w-[100vw] flex flex-col items-center justify-center mb-[100px] min-w-[250px]">
-      <h1 className="mb-2 text-center text-primary-500">
-        {t("landing.testimonials.title") as string}
-      </h1>
-      <Carousel
-        updateOnItemClick
-        containerProps={{
-          style: {
-            width: "100vw",
-            justifyContent: "center",
-            marginTop: "50px",
-          },
-        }}
-        activeSlideIndex={activeSlide}
-        onRequestChange={setActiveSlide}
-        forwardBtnProps={arrowButtonProps("right")}
-        backwardBtnProps={arrowButtonProps("left")}
-        itemsToShow={onMobile ? 1 : 3}
-        speed={400}
-      >
-        {TESTIMONIALS.map((testimonial: TESTIMONIALS_TYPE, index: number) => (
-          <Testimonial
-            key={index}
-            name={t(`landing.testimonials.${testimonial.nameKey}.name`)}
-            img={testimonial.img}
-            text={t(testimonial.textKey)}
-          />
-        ))}
-      </Carousel>
-    </div>
+    <section className="border-y border-border/70 bg-muted/40">
+      <div className="mx-auto max-w-[1200px] px-6 py-20 lg:py-28">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <h2 className="text-center text-3xl font-bold sm:text-4xl">
+            {t("landing.testimonials.title")}
+          </h2>
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {TESTIMONIALS.slice(0, VISIBLE_TESTIMONIALS).map(
+              (testimonial: TESTIMONIALS_TYPE) => (
+                <Testimonial
+                  key={testimonial.nameKey}
+                  name={t(`landing.testimonials.${testimonial.nameKey}.name`)}
+                  img={testimonial.img}
+                  text={t(testimonial.textKey)}
+                />
+              )
+            )}
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 

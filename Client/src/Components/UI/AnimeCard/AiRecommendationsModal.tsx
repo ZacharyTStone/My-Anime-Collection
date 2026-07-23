@@ -2,7 +2,6 @@ import { BsStars } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { useLanguageSelector } from "../../../stores/hooks";
 import { AiRecommendation } from "../../../utils/types";
-import { cn } from "../../../utils/cn";
 import ModalBackdrop from "../ModalBackdrop";
 
 interface AiRecommendationsModalProps {
@@ -23,14 +22,8 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
       className="max-h-[85vh] overflow-y-auto sm:max-w-[520px]"
     >
       {/* Header */}
-      <div className="flex items-center gap-2.5 pb-4 text-[1.2rem] font-bold gradient-anime bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-        <span
-          className={cn(
-            "shimmer-text inline-flex items-center justify-center",
-            "animate-[anime-shimmer_2s_linear_infinite]",
-            "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
-          )}
-        >
+      <div className="flex items-center gap-2.5 pb-4 text-[1.2rem] font-bold">
+        <span className="text-ai inline-flex items-center justify-center">
           <BsStars size={20} />
         </span>
         {t("anime.ai_suggestions")}
@@ -39,13 +32,7 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
       <div>
         {loading && (
           <div className="flex flex-col items-center justify-center py-12">
-            <span
-              className={cn(
-                "shimmer-text inline-flex items-center justify-center text-[2rem]",
-                "animate-[anime-shimmer_2s_linear_infinite]",
-                "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
-              )}
-            >
+            <span className="text-ai inline-flex animate-pulse items-center justify-center">
               <BsStars size={36} />
             </span>
             <p className="mt-2 text-sm text-muted-foreground italic tracking-wide">
@@ -70,7 +57,7 @@ const AiRecommendationsModal = ({ loading, error, results, onClose }: AiRecommen
                 key={rec.title}
                 className="flex gap-3.5 rounded-xl border bg-muted/50 p-4 transition-colors hover:border-primary-300"
               >
-                <div className="gradient-anime mt-0.5 flex h-[26px] w-[26px] min-w-[26px] items-center justify-center rounded-full text-[0.7rem] font-bold text-white">
+                <div className="gradient-ai mt-0.5 flex h-[26px] w-[26px] min-w-[26px] items-center justify-center rounded-full text-[0.7rem] font-bold text-white">
                   {i + 1}
                 </div>
                 <div className="min-w-0 flex-1">

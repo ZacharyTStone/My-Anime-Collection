@@ -9,18 +9,20 @@ interface TestimonialProps {
 
 const Testimonial = ({ name, img, text }: TestimonialProps) => {
   return (
-    <section className="mt-[50px]">
-      <Card className="relative ml-5 mt-14 h-fit w-[220px] min-w-[140px] border-primary-300 text-center">
-        <Avatar className="absolute left-1/2 top-0 h-[100px] w-[100px] -translate-x-1/2 -translate-y-1/2 border-2 border-primary-300">
-          <AvatarImage src={img} alt={name} loading="lazy" />
-          <AvatarFallback>{name.slice(0, 1)}</AvatarFallback>
-        </Avatar>
-        <CardContent className="px-4 pb-4 pt-16">
-          <p className="min-h-[125px] text-base">{text}</p>
-          <h3 className="text-[1.1rem]">{name}</h3>
-        </CardContent>
-      </Card>
-    </section>
+    <Card className="h-full gap-0 py-0 shadow-sm">
+      <CardContent className="flex h-full flex-col p-6">
+        <p className="flex-1 leading-relaxed text-foreground">
+          &ldquo;{text}&rdquo;
+        </p>
+        <div className="mt-6 flex items-center gap-3 border-t border-border/70 pt-5">
+          <Avatar className="size-10 border border-border/70">
+            <AvatarImage src={img} alt={name} loading="lazy" />
+            <AvatarFallback>{name.slice(0, 1)}</AvatarFallback>
+          </Avatar>
+          <span className="text-sm font-semibold">{name}</span>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

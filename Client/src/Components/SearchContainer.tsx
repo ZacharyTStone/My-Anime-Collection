@@ -103,7 +103,7 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
   return (
     <section className={className}>
       <form
-        className="w-full rounded-lg border border-l-[3px] border-l-primary-500/60 bg-card p-6 shadow-sm"
+        className="w-full rounded-xl border border-border/70 bg-card p-6 shadow-sm"
         onSubmit={handleFormSubmit}
       >
         <h4 className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-muted-foreground">{t("search_container.title")}</h4>
@@ -133,7 +133,7 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
 
           <Button
             type="button"
-            variant="destructive"
+            variant="outline"
             className="mb-4 w-full self-end"
             onClick={handleResetFilters}
             disabled={isFormDisabled}

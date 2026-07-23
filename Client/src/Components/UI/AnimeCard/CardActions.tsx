@@ -2,7 +2,6 @@ import { BsReverseLayoutTextWindowReverse, BsStars } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/Components/UI/button";
 import { CardFooter } from "@/Components/UI/card";
-import { cn } from "../../../utils/cn";
 
 interface CardActionsProps {
   title?: string;
@@ -26,7 +25,7 @@ const CardActions = ({
   const { t } = useTranslation();
 
   return (
-    <CardFooter className="mt-auto justify-center gap-3 border-t border-primary-500/10 bg-muted/30 p-4">
+    <CardFooter className="mt-auto justify-center gap-3 border-t border-border/70 bg-muted/30 p-4">
       <Button
         variant="ghost"
         size="icon"
@@ -41,20 +40,14 @@ const CardActions = ({
         size="icon"
         onClick={onAiOpen}
         aria-label={t("anime.ai_suggestions")}
+        className="text-ai"
       >
-        <span
-          className={cn(
-            "shimmer-text inline-flex items-center justify-center",
-            "animate-[anime-shimmer_2s_linear_infinite]",
-            "[&_svg]:animate-[aiGlow_2s_ease-in-out_infinite,jiggle_3s_ease-in-out_infinite]",
-          )}
-        >
-          <BsStars size={20} />
-        </span>
+        <BsStars size={20} />
       </Button>
       {type === "delete" ? (
         <Button
-          variant="destructive"
+          variant="outline"
+          className="border-destructive/30 text-destructive hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
           aria-label={`${t("anime.delete")} ${title}`}
           onClick={onDelete}
         >

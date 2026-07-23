@@ -79,20 +79,16 @@ const NavLinks = ({ vertical = false }: NavLinksProps) => {
           <Button
             key={id}
             asChild
-            variant={isActive ? "secondary" : "ghost"}
+            variant="ghost"
             className={cn(
-              "no-underline",
-              isActive && "text-primary-600 font-semibold",
+              "no-underline text-muted-foreground",
+              isActive &&
+                "bg-primary-500/10 text-primary-600 font-semibold hover:bg-primary-500/15 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-400",
               vertical && "w-full justify-start"
             )}
           >
             <NavLink to={path}>
-              <IconContext.Provider
-                value={{
-                  size: "1.25rem",
-                  color: isActive ? "var(--primary-600)" : "var(--grey-600)",
-                }}
-              >
+              <IconContext.Provider value={{ size: "1.25rem" }}>
                 {icon}
               </IconContext.Provider>
               <span>{text}</span>
