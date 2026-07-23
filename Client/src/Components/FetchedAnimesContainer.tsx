@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Anime } from "../Components";
 import { useMobile } from "../utils/hooks";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
@@ -37,6 +38,7 @@ const FetchedAnimesContainer = ({
   pagination,
   sort,
 }: FetchedAnimesContainerProps) => {
+  const { t } = useTranslation();
   const onTrendingPage = baseURL.includes("trending");
   const [page, setPage] = useState(1);
   const [lastQuery, setLastQuery] = useState(searchText + sort + baseURL);
@@ -72,21 +74,23 @@ const FetchedAnimesContainer = ({
       {fetchedAnimes?.length > 0 ? (
         <div>
           {pagination && (
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-8 flex items-center justify-between gap-4">
               <Button
+                variant="outline"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
               >
-                Previous
+                {t("common.previous")}
               </Button>
-              <div className="text-center">
-                <h3>Page {page} of {numOfFetchedAnimesPages}</h3>
-              </div>
+              <p className="text-sm font-medium text-muted-foreground">
+                {t("common.page_of", { page, total: numOfFetchedAnimesPages })}
+              </p>
               <Button
+                variant="outline"
                 onClick={() => setPage((p) => Math.min(numOfFetchedAnimesPages, p + 1))}
                 disabled={page === numOfFetchedAnimesPages}
               >
-                Next
+                {t("common.next")}
               </Button>
             </div>
           )}
@@ -105,12 +109,20 @@ const FetchedAnimesContainer = ({
           </div>
           {!onTrendingPage && (
             <div className="mt-8 mb-4 flex justify-center items-center">
-              <h5>We found {totalFetchedAnimes} animes</h5>
+              <p className="text-sm text-muted-foreground">
+                {t("common.results_found", { count: totalFetchedAnimes })}
+              </p>
             </div>
           )}
         </div>
       ) : (
-        <div>{searchText && !isPending && <h2>No animes found.</h2>}</div>
+        <div>
+          {searchText && !isPending && (
+            <div className="rounded-xl border border-border/70 bg-card p-10 text-center shadow-sm">
+              <p className="text-lg font-medium">{t("common.no_results")}</p>
+            </div>
+          )}
+        </div>
       )}
     </section>
   );

@@ -179,7 +179,7 @@ const MyAnimesContainer = () => {
   return (
     <section className="mt-8">
       <h5 className="mb-6 font-bold">
-        {totalAnimes} anime{animes.length > 1 && "s"} found in playlist
+        {t("my_animes_container.found", { count: totalAnimes })}
       </h5>
       {numOfPages > 1 && <PageBtnContainer numOfPages={numOfPages} />}
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 justify-items-center">

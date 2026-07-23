@@ -158,9 +158,9 @@
   --color-anime-orange: #fb923c;
   --color-anime-yellow: #facc15;
 
-  /* Fonts — single family, hierarchy via weight */
-  --font-heading: "Outfit", system-ui, sans-serif;
-  --font-body:    "Outfit", system-ui, sans-serif;
+  /* Fonts — single family, hierarchy via weight; Noto Sans JP for Japanese */
+  --font-heading: "Outfit", "Noto Sans JP", system-ui, sans-serif;
+  --font-body:    "Outfit", "Noto Sans JP", system-ui, sans-serif;
 
   /* Border radius */
   --radius-default: 0.75rem;

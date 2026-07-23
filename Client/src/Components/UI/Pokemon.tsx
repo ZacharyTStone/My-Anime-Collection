@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { SkeletonLoadingBlock } from ".";
 import { getRandomPokemon, type PokemonData } from "../../utils/pokemon";
 
 const Pokemon = () => {
+  const { t } = useTranslation();
   const [pokemon, setPokemon] = useState<PokemonData>({
     name: "",
     image: "",
@@ -50,7 +52,7 @@ const Pokemon = () => {
           />
         </div>
         <div className="flex w-full flex-col items-center text-center">
-          <span className="mb-1 text-[0.9rem] text-muted-foreground">Your Random Pokémon</span>
+          <span className="mb-1 text-[0.9rem] text-muted-foreground">{t("profile.random_pokemon")}</span>
           <span className="text-[1.25rem] font-semibold capitalize">
             {pokemon.name}
           </span>

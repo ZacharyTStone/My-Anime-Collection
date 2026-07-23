@@ -165,7 +165,7 @@ const EditPlaylist = () => {
                 type="text"
                 name="title"
                 value={newTitle}
-                labelText="Edit Playlist Title"
+                labelText={t("edit_playlist.edit_title_label")}
                 handleChange={(e) => setNewTitle(e.target.value)}
               />
               <Button className="self-end" type="submit" disabled={updatePlaylist.isPending}>

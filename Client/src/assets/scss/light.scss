@@ -54,9 +54,9 @@
   --black:       #0f1222;
   --white:       #ffffff;
 
-  /* typography — one family, hierarchy via weight */
-  --headingFont: "Outfit", system-ui, sans-serif;
-  --bodyFont:    "Outfit", system-ui, sans-serif;
+  /* typography — one family, hierarchy via weight; Noto Sans JP for Japanese */
+  --headingFont: "Outfit", "Noto Sans JP", system-ui, sans-serif;
+  --bodyFont:    "Outfit", "Noto Sans JP", system-ui, sans-serif;
   --small-text:       0.875rem;
   --extra-small-text: 0.7em;
 
