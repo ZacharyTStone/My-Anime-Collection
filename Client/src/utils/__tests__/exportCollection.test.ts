@@ -43,9 +43,7 @@ describe("animesToCsv", () => {
 
   it("escapes titles containing commas and quotes", () => {
     const csv = animesToCsv([makeAnime({ title: 'K-On!, "The Movie"' })]);
-    expect(csv.split("\n")[1]).toBe(
-      '"K-On!, ""The Movie""",85,25,1,2024-01-15T10:00:00.000Z'
-    );
+    expect(csv.split("\n")[1]).toBe('"K-On!, ""The Movie""",85,25,1,2024-01-15T10:00:00.000Z');
   });
 
   it("handles missing optional fields as empty cells", () => {

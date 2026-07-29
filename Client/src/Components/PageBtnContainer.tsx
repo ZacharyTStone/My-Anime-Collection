@@ -1,4 +1,4 @@
-import { useAnimeSelector } from "../stores/hooks";
+import { useAnimeSelector } from "../hooks/storeSelectors";
 import {
   Pagination,
   PaginationContent,
@@ -7,7 +7,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/Components/UI/pagination";
+} from "@/components/ui/pagination";
 
 /**
  * Windowed page list: always show first/last page, the current page and its
@@ -18,9 +18,7 @@ const getVisiblePages = (current: number, total: number): (number | "ellipsis")[
     return Array.from({ length: total }, (_, i) => i + 1);
   }
   const pages = new Set<number>([1, total, current - 1, current, current + 1]);
-  const sorted = [...pages]
-    .filter((p) => p >= 1 && p <= total)
-    .sort((a, b) => a - b);
+  const sorted = [...pages].filter((p) => p >= 1 && p <= total).sort((a, b) => a - b);
 
   const result: (number | "ellipsis")[] = [];
   let prev = 0;

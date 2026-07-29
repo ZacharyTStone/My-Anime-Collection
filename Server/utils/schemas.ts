@@ -55,7 +55,24 @@ export const recommendationsSchema = z.object({
   synopsis: z.string().optional(),
 });
 
+// Keep in sync with SORT_OPTIONS in animesController.ts
+export const getAnimesQuerySchema = z.object({
+  currentPlaylistID: z.string().min(1, "Please provide a playlist ID"),
+  sort: z
+    .enum(["latest", "oldest", "rating", "episodeCount", "format", "a-z", "z-a", "date added"])
+    .optional(),
+  search: z.string().optional(),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(100).default(10),
+});
+
+export type GetAnimesQuery = z.infer<typeof getAnimesQuerySchema>;
+
 // Playlist schemas
+export const createPlaylistSchema = z.object({
+  title: z.string().min(1, "Please provide a title").max(50),
+});
+
 export const updatePlaylistSchema = z.object({
   title: z.string().min(1, "Please provide a title").max(50),
 });

@@ -1,16 +1,16 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { AiFillDelete, AiOutlineArrowRight } from "react-icons/ai";
+import { useState, type FormEvent } from "react";
+import { ArrowRight, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-import { usePlaylistSelector } from "../../stores/hooks";
+import { usePlaylistSelector } from "../../hooks/storeSelectors";
 import {
   usePlaylistsQuery,
   useCreatePlaylist,
   useUpdatePlaylist,
   useDeletePlaylist,
 } from "../../queries/playlists";
-import { FormRow, SkeletonLoadingBlock } from "../../Components/UI";
-import { Button } from "@/Components/UI/button";
+import { FormRow, SkeletonLoadingBlock } from "../../components";
+import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +21,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/Components/UI/alert-dialog";
-import { Separator } from "@/Components/UI/separator";
+} from "@/components/ui/alert-dialog";
+import { Separator } from "@/components/ui/separator";
 import { DEFAULT_PLAYLIST_IDS } from "../../utils/constants";
 import type { Playlist } from "../../stores/playlistStore";
 
@@ -39,9 +39,7 @@ const EditPlaylist = () => {
   const deletePlaylist = useDeletePlaylist();
 
   const [newTitle, setNewTitle] = useState("");
-  const [selectedPlaylistId, setSelectedPlaylistId] = useState<
-    undefined | string
-  >(undefined);
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState<undefined | string>(undefined);
 
   const handleClickOnPlaylist = (playlist: Playlist) => {
     setCurrentPlaylist(playlist);
@@ -49,9 +47,13 @@ const EditPlaylist = () => {
     setSelectedPlaylistId(playlist.id);
   };
 
-  useEffect(() => {
+  // Sync selection when the current playlist changes (adjust state during
+  // render instead of in an effect to avoid cascading renders).
+  const [prevPlaylistId, setPrevPlaylistId] = useState(currentPlaylist.id);
+  if (prevPlaylistId !== currentPlaylist.id) {
+    setPrevPlaylistId(currentPlaylist.id);
     setSelectedPlaylistId(currentPlaylist.id);
-  }, [currentPlaylist.id]);
+  }
 
   const handleNewPlaylistSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -77,9 +79,7 @@ const EditPlaylist = () => {
   };
 
   if (isPending) {
-    return (
-      <SkeletonLoadingBlock height={500} width={"100%"} borderRadius={8} />
-    );
+    return <SkeletonLoadingBlock height={500} width={"100%"} borderRadius={8} />;
   }
 
   return (
@@ -95,10 +95,7 @@ const EditPlaylist = () => {
                   className="mb-2 flex cursor-pointer items-center gap-3 rounded-lg border border-transparent px-4 py-3 text-[1.1rem] transition-colors hover:bg-accent"
                 >
                   {playlist.id === currentPlaylist.id && (
-                    <AiOutlineArrowRight
-                      size={20}
-                      className="text-primary-500 text-[1.25rem]"
-                    />
+                    <ArrowRight size={20} className="text-primary-500 text-[1.25rem]" />
                   )}
                   {playlist.title}
                   {!DEFAULT_PLAYLIST_IDS.includes(currentPlaylist.id) &&
@@ -107,29 +104,20 @@ const EditPlaylist = () => {
                         <AlertDialogTrigger asChild>
                           <span
                             className="ml-auto inline-flex cursor-pointer text-[1.25rem] text-destructive opacity-70 transition-opacity hover:opacity-100"
-                            aria-label={`Delete playlist ${playlist.title}`}
+                            aria-label={t("edit_playlist.delete_aria", { title: playlist.title })}
                           >
-                            <AiFillDelete size={20} />
+                            <Trash2 size={20} />
                           </span>
                         </AlertDialogTrigger>
                         <AlertDialogContent onClick={(e) => e.stopPropagation()}>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              {t("edit_playlist.delete_title", {
-                                defaultValue: "Delete playlist?",
-                              })}
-                            </AlertDialogTitle>
+                            <AlertDialogTitle>{t("edit_playlist.delete_title")}</AlertDialogTitle>
                             <AlertDialogDescription>
-                              {t("edit_playlist.delete_confirm", {
-                                defaultValue:
-                                  "Are you sure you want to delete this playlist? This cannot be undone.",
-                              })}
+                              {t("edit_playlist.delete_confirm")}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>
-                              {t("profile.cancel", { defaultValue: "Cancel" })}
-                            </AlertDialogCancel>
+                            <AlertDialogCancel>{t("profile.cancel")}</AlertDialogCancel>
                             <AlertDialogAction
                               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                               onClick={() => handleDeletePlaylist(playlist.id)}
@@ -152,9 +140,7 @@ const EditPlaylist = () => {
       <Separator className="my-6" />
 
       <div>
-        <p className="mb-4 text-[0.9rem] italic text-muted-foreground">
-          {t("edit_playlist.cta")}
-        </p>
+        <p className="mb-4 text-[0.9rem] italic text-muted-foreground">{t("edit_playlist.cta")}</p>
       </div>
       {currentPlaylist.id &&
         !!selectedPlaylistId &&

@@ -33,10 +33,5 @@ export const serviceNameFromUrl = (url: string): string => {
 };
 
 /** True when any link belongs to one of the user's selected services. */
-export const matchesServices = (
-  links: KitsuStreamingLink[],
-  selectedServices: string[]
-): boolean =>
-  links.some((link) =>
-    selectedServices.includes(serviceNameFromUrl(link.url))
-  );
+export const matchesServices = (links: KitsuStreamingLink[], selectedServices: string[]): boolean =>
+  links.some((link) => selectedServices.includes(serviceNameFromUrl(link.url)));

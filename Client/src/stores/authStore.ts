@@ -1,8 +1,6 @@
 import { create } from "zustand";
-import { toast } from "react-toastify";
 import { User } from "../utils/types";
-import { apiClient, registerLogoutHandler } from "../utils/api";
-import { handleApiError } from "../utils/handleApiError";
+import { registerLogoutHandler } from "../utils/api";
 
 const TOKEN_KEY = "token";
 const USER_KEY = "user";
@@ -33,104 +31,26 @@ const removeUserFromLocalStorage = () => {
 };
 
 interface AuthStore {
-  isLoading: boolean;
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  setupUser: (params: {
-    currentUser: Partial<User>;
-    endPoint: string;
-    alertText: string;
-  }) => Promise<void>;
-  googleSSO: (params: { credential: string; alertText: string }) => Promise<void>;
+  setAuth: (user: User, token: string) => void;
   logoutUser: () => void;
-  updateUser: (currentUser: User) => Promise<void>;
-  deleteUser: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthStore>((set, get) => ({
-  isLoading: false,
+export const useAuthStore = create<AuthStore>((set) => ({
   user: getStoredUser(),
   token: getStoredToken(),
   isAuthenticated: !!getStoredToken(),
 
-  setupUser: async ({ currentUser, endPoint, alertText }) => {
-    set({ isLoading: true });
-    try {
-      const { data } = await apiClient.post(`/auth/${endPoint}`, currentUser);
-      const { user, token } = data;
-      addUserToLocalStorage(user, token);
-      set({
-        isLoading: false,
-        user,
-        token,
-        isAuthenticated: true,
-      });
-      toast.success(alertText);
-    } catch (error: unknown) {
-      set({ isLoading: false });
-      handleApiError(error, "Authentication failed");
-    }
-  },
-
-  googleSSO: async ({ credential, alertText }) => {
-    set({ isLoading: true });
-    try {
-      const { data } = await apiClient.post("/auth/google", { credential });
-      const { user, token } = data;
-      addUserToLocalStorage(user, token);
-      set({
-        isLoading: false,
-        user,
-        token,
-        isAuthenticated: true,
-      });
-      toast.success(alertText);
-    } catch (error: unknown) {
-      set({ isLoading: false });
-      handleApiError(error, "Google sign-in failed");
-    }
+  setAuth: (user, token) => {
+    addUserToLocalStorage(user, token);
+    set({ user, token, isAuthenticated: true });
   },
 
   logoutUser: () => {
     removeUserFromLocalStorage();
-    set({
-      user: null,
-      token: null,
-      isAuthenticated: false,
-      isLoading: false,
-    });
-  },
-
-  updateUser: async (currentUser: User) => {
-    set({ isLoading: true });
-    try {
-      const { data } = await apiClient.patch("/auth/updateUser", currentUser);
-      const { user, token } = data;
-      addUserToLocalStorage(user, token);
-      set({
-        isLoading: false,
-        user,
-        token,
-        isAuthenticated: true,
-      });
-      toast.success("User Updated!");
-    } catch (error: unknown) {
-      set({ isLoading: false });
-      handleApiError(error, "Failed to update user");
-    }
-  },
-
-  deleteUser: async () => {
-    set({ isLoading: true });
-    try {
-      await apiClient.delete("/auth/deleteUser");
-      get().logoutUser();
-      toast.success("User Deleted!");
-    } catch (error: unknown) {
-      set({ isLoading: false });
-      handleApiError(error, "Failed to delete user");
-    }
+    set({ user: null, token: null, isAuthenticated: false });
   },
 }));
 

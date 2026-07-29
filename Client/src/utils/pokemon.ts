@@ -11,9 +11,7 @@ export const getRandomPokemon = async (): Promise<PokemonData | null> => {
   const randomId = (randomArray[0] % 1000) + 1;
 
   try {
-    const response = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/${randomId}`
-    );
+    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
     const pokemon = response.data;
 
     const computedImage =

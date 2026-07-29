@@ -1,19 +1,12 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  type QueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import i18n from "../translations/i18n";
 import { apiClient } from "../utils/api";
 import { handleApiError } from "../utils/handleApiError";
 import { mapFetchedAnime } from "../utils/mapFetchedAnime";
 import { fetchAllAnimes, type CollectionAnime } from "../utils/fetchAllAnimes";
 import { useAuthStore } from "../stores/authStore";
-import type {
-  ExpectedFetchedAnimeResponse,
-  SavedAnime,
-} from "../utils/types";
+import type { ExpectedFetchedAnimeResponse, SavedAnime } from "../utils/types";
 import { queryKeys } from "./keys";
 
 export interface AnimeListParams {
@@ -49,21 +42,21 @@ const fetchAnimesPage = async (
   return data;
 };
 
-export const useAnimesQuery = (
-  playlistId: string,
-  params: AnimeListParams,
-  enabled = true
-) => {
+/** Query key for a server-paginated anime list; shared by subscribers (e.g. useIsFetching). */
+export const animesQueryKey = (playlistId: string, params: AnimeListParams) =>
+  queryKeys.animes(playlistId, {
+    page: String(params.page),
+    search: params.search,
+    status: params.searchStatus,
+    type: params.searchType,
+    stared: params.searchStared,
+    sort: params.sort,
+  });
+
+export const useAnimesQuery = (playlistId: string, params: AnimeListParams, enabled = true) => {
   const token = useAuthStore((s) => s.token);
   return useQuery({
-    queryKey: queryKeys.animes(playlistId, {
-      page: String(params.page),
-      search: params.search,
-      status: params.searchStatus,
-      type: params.searchType,
-      stared: params.searchStared,
-      sort: params.sort,
-    }),
+    queryKey: animesQueryKey(playlistId, params),
     queryFn: () => fetchAnimesPage(playlistId, params),
     enabled: enabled && Boolean(token) && Boolean(playlistId),
     placeholderData: (previousData) => previousData,
@@ -136,11 +129,10 @@ export const useCreateAnime = () => {
       });
     },
     onSuccess: () => {
-      toast.success("Anime Created!");
+      toast.success(i18n.t("add_anime.created"));
       invalidateAnimeCaches(queryClient);
     },
-    onError: (error) =>
-      handleApiError(error, "An error occurred while adding the anime"),
+    onError: (error) => handleApiError(error, i18n.t("errors.add_anime_failed")),
   });
 };
 
@@ -156,16 +148,14 @@ export const useDeleteAnime = () => {
       const previous = queryClient.getQueriesData<AnimesResponse>({
         queryKey: ["animes"],
       });
-      queryClient.setQueriesData<AnimesResponse>(
-        { queryKey: ["animes"] },
-        (old) =>
-          old
-            ? {
-                ...old,
-                animes: old.animes.filter((a) => a._id !== animeId),
-                totalAnimes: Math.max(0, old.totalAnimes - 1),
-              }
-            : old
+      queryClient.setQueriesData<AnimesResponse>({ queryKey: ["animes"] }, (old) =>
+        old
+          ? {
+              ...old,
+              animes: old.animes.filter((a) => a._id !== animeId),
+              totalAnimes: Math.max(0, old.totalAnimes - 1),
+            }
+          : old
       );
       return { previous };
     },
@@ -173,10 +163,10 @@ export const useDeleteAnime = () => {
       context?.previous.forEach(([key, data]) => {
         queryClient.setQueryData(key, data);
       });
-      handleApiError(error, "Failed to delete anime");
+      handleApiError(error, i18n.t("errors.delete_anime_failed"));
     },
     onSuccess: () => {
-      toast.success("Anime Deleted!");
+      toast.success(i18n.t("add_anime.deleted"));
     },
     onSettled: () => {
       invalidateAnimeCaches(queryClient);

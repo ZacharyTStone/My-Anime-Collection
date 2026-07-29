@@ -1,14 +1,14 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/Components/UI/button";
-import Logo from "../Components/UI/Logo";
-import FlagContainer from "../Components/FlagContainer";
+import { Button } from "@/components/ui/button";
+import Logo from "../components/Logo";
+import FlagContainer from "../components/FlagContainer";
 import HeroSection from "./LandingSections/HeroSection";
 import FeaturesSection from "./LandingSections/FeaturesSection";
 import CTASection from "./LandingSections/CTASection";
 
-const Testimonials = lazy(() => import("../Components/Testimonials"));
+const Testimonials = lazy(() => import("../components/Testimonials"));
 
 const Landing = () => {
   const { t } = useTranslation();

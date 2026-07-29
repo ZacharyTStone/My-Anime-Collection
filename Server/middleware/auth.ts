@@ -1,6 +1,12 @@
 import jwt from "jsonwebtoken";
+import { z } from "zod";
 import { Request, Response, NextFunction } from "express";
 import { UnAuthenticatedError } from "../errors/index.js";
+import { env } from "../config/env.js";
+
+const jwtPayloadSchema = z.object({
+  userId: z.string(),
+});
 
 // Extend the Express Request interface to include the user property
 declare global {
@@ -11,11 +17,7 @@ declare global {
   }
 }
 
-const auth = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+const auth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const authHeader = req.headers.authorization;
   // all auth headers are in the form of "Bearer token"
   if (!authHeader || !authHeader.startsWith("Bearer")) {
@@ -23,10 +25,7 @@ const auth = async (
   }
   const token = authHeader.split(" ")[1] ?? "";
   try {
-    const payload = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    ) as unknown as { userId: string };
+    const payload = jwtPayloadSchema.parse(jwt.verify(token, env.JWT_SECRET));
     req.user = { userId: payload.userId };
     // the next part will be what you will run if the jwt compare is true
     next();

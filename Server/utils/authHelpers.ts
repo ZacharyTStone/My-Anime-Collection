@@ -43,8 +43,7 @@ export const createUserWithPlaylists = async ({
     language,
   });
 
-  const basePlaylists =
-    language === "jp" ? DEFAULT_PLAYLISTS_JP : DEFAULT_PLAYLISTS_EN;
+  const basePlaylists = language === "jp" ? DEFAULT_PLAYLISTS_JP : DEFAULT_PLAYLISTS_EN;
 
   const playlists = basePlaylists.map((playlist) => ({
     ...playlist,
@@ -52,7 +51,7 @@ export const createUserWithPlaylists = async ({
     isDemoUserPlaylist: isDemo,
   }));
 
-  await Promise.all(playlists.map((p) => Playlist.create(p)));
+  await Playlist.insertMany(playlists);
 
   return { user, token: user.createJWT() };
 };

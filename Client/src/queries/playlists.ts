@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import i18n from "../translations/i18n";
 import { apiClient } from "../utils/api";
 import { handleApiError } from "../utils/handleApiError";
 import { useAuthStore } from "../stores/authStore";
@@ -25,10 +26,10 @@ export const useCreatePlaylist = () => {
       await apiClient.post("/playlists", { title: playlistTitle });
     },
     onSuccess: () => {
-      toast.success("Playlist Created!");
+      toast.success(i18n.t("edit_playlist.created"));
       queryClient.invalidateQueries({ queryKey: queryKeys.playlists });
     },
-    onError: (error) => handleApiError(error, "Failed to create playlist"),
+    onError: (error) => handleApiError(error, i18n.t("errors.create_playlist_failed")),
   });
 };
 
@@ -39,10 +40,10 @@ export const useUpdatePlaylist = () => {
       await apiClient.patch(`/playlists/${playlist.id}`, playlist);
     },
     onSuccess: () => {
-      toast.success("Playlist Updated!");
+      toast.success(i18n.t("edit_playlist.updated"));
       queryClient.invalidateQueries({ queryKey: queryKeys.playlists });
     },
-    onError: (error) => handleApiError(error, "Failed to update playlist"),
+    onError: (error) => handleApiError(error, i18n.t("errors.update_playlist_failed")),
   });
 };
 
@@ -54,7 +55,7 @@ export const useDeletePlaylist = () => {
       await apiClient.delete(`/playlists/${playlistId}`);
     },
     onSuccess: async () => {
-      toast.success("Playlist Deleted!");
+      toast.success(i18n.t("edit_playlist.deleted"));
       const playlists = await queryClient.fetchQuery<Playlist[]>({
         queryKey: queryKeys.playlists,
         queryFn: async () => {
@@ -65,6 +66,6 @@ export const useDeletePlaylist = () => {
       setCurrentPlaylist(playlists[0] || { ...DEFAULT_PLAYLIST });
       queryClient.invalidateQueries({ queryKey: queryKeys.playlists });
     },
-    onError: (error) => handleApiError(error, "Failed to delete playlist"),
+    onError: (error) => handleApiError(error, i18n.t("errors.delete_playlist_failed")),
   });
 };

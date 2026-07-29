@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: "npm"
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install client dependencies
+        run: npm ci --prefix Client
+
+      - name: Typecheck server
+        run: npm run typecheck
+
+      - name: Run server tests
+        run: npm run test:server
+        env:
+          NODE_ENV: test
+
+      - name: Build client
+        run: npm run build:client
+        env:
+          NODE_ENV: production

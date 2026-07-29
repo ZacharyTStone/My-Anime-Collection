@@ -1,17 +1,13 @@
 import type React from "react";
 import { Outlet } from "react-router";
-import { SkeletonLoadingBlock } from "../UI";
+import SkeletonLoadingBlock from "../SkeletonLoadingBlock";
 
 interface MainLayoutProps {
   children?: React.ReactNode;
 }
 
 const MainLayout = ({ children }: MainLayoutProps) => {
-  return (
-    <main className="min-h-screen w-full bg-background">
-      {children || <Outlet />}
-    </main>
-  );
+  return <main className="min-h-screen w-full bg-background">{children || <Outlet />}</main>;
 };
 
 export const LoadingLayout = () => (

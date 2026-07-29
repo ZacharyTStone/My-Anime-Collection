@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import Anime from "../UI/AnimeCard/AnimeCard";
+import Anime from "../AnimeCard/AnimeCard";
 import type { SavedAnime, ExpectedFetchedAnimeResponse } from "../../utils/types";
 
 vi.mock("react-i18next", () => ({
+  initReactI18next: { type: "3rdParty", init: () => {} },
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
@@ -34,15 +35,21 @@ vi.mock("../../queries/ai", () => ({
   useAiRecommendations: () => ({ data: [], isPending: false, isError: false }),
 }));
 
-vi.mock("../../stores/hooks", () => ({
+vi.mock("../../hooks/storeSelectors", () => ({
   usePlaylistSelector: () => ({
-    currentPlaylist: { id: "playlist-1", title: "My List", userId: "u1", createdAt: "", updatedAt: "" },
+    currentPlaylist: {
+      id: "playlist-1",
+      title: "My List",
+      userId: "u1",
+      createdAt: "",
+      updatedAt: "",
+    },
   }),
   useLanguageSelector: () => "en",
   useAuthSelector: () => false,
 }));
 
-vi.mock("../../utils/hooks", () => ({
+vi.mock("../../hooks/useMobile", () => ({
   useMobile: () => false,
 }));
 
@@ -57,7 +64,10 @@ const defaultFetchedAnime: ExpectedFetchedAnimeResponse = {
   },
 };
 
-const defaultProps: SavedAnime & { fetchedAnime: ExpectedFetchedAnimeResponse; type: "add" | "delete" } = {
+const defaultProps: SavedAnime & {
+  fetchedAnime: ExpectedFetchedAnimeResponse;
+  type: "add" | "delete";
+} = {
   _id: "anime-1",
   title: "My Test Anime",
   rating: 90,
@@ -109,9 +119,9 @@ describe("AnimeCard", () => {
     expect(deleteBtn).toBeInTheDocument();
   });
 
-  it("renders cover image", () => {
+  it("renders cover image", async () => {
     render(<Anime {...defaultProps} />);
-    const img = screen.getByAltText("My Test Anime");
+    const img = await screen.findByAltText("My Test Anime");
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute("src", "https://img.com/cover.jpg");
   });

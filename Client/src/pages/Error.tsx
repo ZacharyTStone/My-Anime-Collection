@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/Components/UI/button";
-import { Card } from "@/Components/UI/card";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 interface ErrorProps {
   className?: string;
@@ -12,12 +12,7 @@ interface ErrorProps {
 
 const DEFAULT_HOME_LINK = "/my-animes";
 
-const Error = ({
-  className,
-  title,
-  message,
-  homeLink = DEFAULT_HOME_LINK,
-}: ErrorProps) => {
+const Error = ({ className, title, message, homeLink = DEFAULT_HOME_LINK }: ErrorProps) => {
   const { t } = useTranslation();
 
   return (
@@ -28,9 +23,7 @@ const Error = ({
         <p className="mb-2 text-6xl font-bold text-primary-500" aria-hidden="true">
           404
         </p>
-        <h1 className="mb-2 text-[1.75rem] font-semibold">
-          {title ?? t("error_page.title")}
-        </h1>
+        <h1 className="mb-2 text-[1.75rem] font-semibold">{title ?? t("error_page.title")}</h1>
         <p className="mb-6 mt-0 text-base leading-relaxed text-muted-foreground">
           {message ?? t("error_page.message")}
         </p>

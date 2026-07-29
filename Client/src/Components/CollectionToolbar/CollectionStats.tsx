@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { SkeletonLoadingBlock } from "../UI";
+import SkeletonLoadingBlock from "../SkeletonLoadingBlock";
 import { useAnimeStatsQuery } from "../../queries/animes";
 
 const StatCard = ({ label, value }: { label: string; value: string | number }) => (
@@ -7,7 +7,9 @@ const StatCard = ({ label, value }: { label: string; value: string | number }) =
     <span className="mb-1 max-w-[120px] truncate text-center text-xl font-bold leading-none tracking-tight tabular-nums text-primary-600 dark:text-primary-400">
       {value}
     </span>
-    <span className="text-[0.65rem] font-medium uppercase tracking-widest text-muted-foreground text-center leading-tight">{label}</span>
+    <span className="text-[0.65rem] font-medium uppercase tracking-widest text-muted-foreground text-center leading-tight">
+      {label}
+    </span>
   </div>
 );
 
@@ -37,14 +39,9 @@ const CollectionStats = () => {
         label={t("stats.playlists")}
         value={Object.keys(stats.playlistCounts ?? {}).length}
       />
-      {stats.topRated && (
-        <StatCard label={t("stats.top_rated")} value={stats.topRated.title} />
-      )}
+      {stats.topRated && <StatCard label={t("stats.top_rated")} value={stats.topRated.title} />}
       {stats.recentlyAdded && (
-        <StatCard
-          label={t("stats.recently_added")}
-          value={stats.recentlyAdded.title}
-        />
+        <StatCard label={t("stats.recently_added")} value={stats.recentlyAdded.title} />
       )}
     </div>
   );

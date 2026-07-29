@@ -1,12 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { FormRow } from "../../Components/UI";
-import { Pokemon } from "../../Components";
-import StreamingServicesPicker from "../../Components/StreamingServicesPicker";
-import { useAuthSelector } from "../../stores/hooks";
+import { FormRow } from "../../components";
+import { Pokemon } from "../../components";
+import StreamingServicesPicker from "../../components/StreamingServicesPicker";
+import { useAuthSelector } from "../../hooks/storeSelectors";
+import { useDeleteUserMutation, useUpdateUserMutation } from "../../queries/auth";
 import { User } from "../../utils/types";
-import { Button } from "@/Components/UI/button";
+import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,24 +18,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/Components/UI/alert-dialog";
-import { Separator } from "@/Components/UI/separator";
+} from "@/components/ui/alert-dialog";
+import { Separator } from "@/components/ui/separator";
 
 const Profile = () => {
   const { t } = useTranslation();
-  const {
-    user,
-    updateUser,
-    isLoading,
-    deleteUser,
-    logoutUser,
-  } = useAuthSelector((s) => ({
+  const { user, logoutUser } = useAuthSelector((s) => ({
     user: s.user,
-    updateUser: s.updateUser,
-    isLoading: s.isLoading,
-    deleteUser: s.deleteUser,
     logoutUser: s.logoutUser,
   }));
+  const updateUserMutation = useUpdateUserMutation();
+  const deleteUserMutation = useDeleteUserMutation();
+  const isLoading = updateUserMutation.isPending;
 
   const [name, setName] = useState<string>(user?.name || "");
   const [email, setEmail] = useState<User["email"]>(user?.email || "");
@@ -43,16 +38,16 @@ const Profile = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name || !email) {
-      toast.error(t("profile.provide_all_values", { defaultValue: "Please provide all values!" }));
+      toast.error(t("profile.provide_all_values"));
       return;
     }
     const theme = user?.theme || "light";
-    updateUser({ name, email, id: user?.id ?? "", theme });
+    updateUserMutation.mutate({ name, email, id: user?.id ?? "", theme });
   };
 
   const handleDelete = () => {
     if (user) {
-      deleteUser();
+      deleteUserMutation.mutate();
       logoutUser();
     }
   };
@@ -95,14 +90,10 @@ const Profile = () => {
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>{t("profile.delete")}</AlertDialogTitle>
-              <AlertDialogDescription>
-                {t("profile.confirm")}
-              </AlertDialogDescription>
+              <AlertDialogDescription>{t("profile.confirm")}</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>
-                {t("profile.cancel", { defaultValue: "Cancel" })}
-              </AlertDialogCancel>
+              <AlertDialogCancel>{t("profile.cancel")}</AlertDialogCancel>
               <AlertDialogAction
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 onClick={handleDelete}

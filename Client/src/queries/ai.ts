@@ -8,11 +8,7 @@ import { queryKeys } from "./keys";
  * AI-powered recommendations for a given anime. Cached per title, so
  * re-opening the modal is instant and no manual cache ref is needed.
  */
-export const useAiRecommendations = (
-  title: string,
-  synopsis: string,
-  enabled: boolean
-) => {
+export const useAiRecommendations = (title: string, synopsis: string, enabled: boolean) => {
   const token = useAuthStore((s) => s.token);
   return useQuery({
     queryKey: queryKeys.aiRecommendations(title),

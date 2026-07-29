@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Anime } from "../../Components";
-import { FormRowSelect, PlaylistSelector, SkeletonLoadingBlock } from "../../Components/UI";
-import { useMobile } from "../../utils/hooks";
+import { Anime } from "../../components";
+import { FormRowSelect, PlaylistSelector, SkeletonLoadingBlock } from "../../components";
+import { useMobile } from "../../hooks/useMobile";
 import { mapFetchedAnime } from "../../utils/mapFetchedAnime";
 import { ExpectedFetchedAnimeResponse, SelectOption } from "../../utils/types";
-import { Button } from "@/Components/UI/button";
+import { Button } from "@/components/ui/button";
 import { useKitsuAnimesQuery } from "../../queries/kitsu";
 
 const KITSU_ANIME_URL = "https://kitsu.io/api/edge/anime";
@@ -23,13 +23,10 @@ const now = new Date();
 const CURRENT_YEAR = now.getFullYear();
 const CURRENT_SEASON = getSeasonForMonth(now.getMonth());
 
-const YEAR_OPTIONS: SelectOption[] = Array.from(
-  { length: CURRENT_YEAR - 2000 + 1 },
-  (_, index) => {
-    const year = String(CURRENT_YEAR - index);
-    return { title: year, value: year };
-  }
-);
+const YEAR_OPTIONS: SelectOption[] = Array.from({ length: CURRENT_YEAR - 2000 + 1 }, (_, index) => {
+  const year = String(CURRENT_YEAR - index);
+  return { title: year, value: year };
+});
 
 const SeasonalAnimes = () => {
   const { t } = useTranslation();
@@ -72,10 +69,8 @@ const SeasonalAnimes = () => {
   const onMobile = useMobile();
 
   return (
-    <main className="full-page">
-      <h1 className="mb-8 text-center">
-        {t("seasonal.title")}
-      </h1>
+    <main className="min-h-screen">
+      <h1 className="mb-8 text-center">{t("seasonal.title")}</h1>
 
       <div className="mx-auto flex flex-wrap items-center justify-center">
         <form
@@ -146,14 +141,7 @@ const SeasonalAnimes = () => {
               <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 justify-items-center">
                 {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => {
                   const mapped = mapFetchedAnime(anime);
-                  return (
-                    <Anime
-                      key={anime.id}
-                      {...mapped}
-                      fetchedAnime={anime}
-                      type="add"
-                    />
-                  );
+                  return <Anime key={anime.id} {...mapped} fetchedAnime={anime} type="add" />;
                 })}
               </div>
               <div className="mt-8 mb-4 flex justify-center items-center">

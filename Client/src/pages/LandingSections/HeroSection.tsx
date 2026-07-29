@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Sparkles } from "lucide-react";
-import { Button } from "@/Components/UI/button";
+import { Button } from "@/components/ui/button";
 import { sampleAnimes } from "../../assets/images/sampleAnimes";
 
 const POSTER_TILTS = [
@@ -39,7 +39,11 @@ const HeroSection = () => {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Button asChild size="lg" className="h-12 px-8 text-base shadow-md shadow-primary-500/20">
+            <Button
+              asChild
+              size="lg"
+              className="h-12 px-8 text-base shadow-md shadow-primary-500/20"
+            >
               <Link to="/register">{t("landing.login_button")}</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-12 px-8 text-base">

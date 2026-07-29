@@ -9,12 +9,12 @@ import {
 } from "../controllers/playlistsController.js";
 import { validate } from "../middleware/validate.js";
 import { apiLimiter2000, apiLimiter50 } from "../utils/rateLimiters.js";
-import { updatePlaylistSchema } from "../utils/schemas.js";
+import { updatePlaylistSchema, createPlaylistSchema } from "../utils/schemas.js";
 
 // Define the routes
 router
   .route("/")
-  .post(apiLimiter50, createPlaylist)
+  .post(apiLimiter50, validate(createPlaylistSchema), createPlaylist)
   .get(apiLimiter2000, getPlaylists);
 
 // :id is a dynamic parameter

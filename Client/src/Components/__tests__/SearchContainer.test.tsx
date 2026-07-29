@@ -20,23 +20,23 @@ vi.mock("react-i18next", () => ({
 }));
 
 // Mock PlaylistSelector to avoid complex dependencies
-vi.mock("../UI", async () => {
-  const actual = await vi.importActual<Record<string, unknown>>("../UI");
-  return {
-    ...actual,
-    PlaylistSelector: () => <div data-testid="playlist-selector" />,
-  };
-});
+vi.mock("../PlaylistSelector", () => ({
+  default: () => <div data-testid="playlist-selector" />,
+}));
 
 vi.mock("../../queries/animes", () => ({
-  useAnimesQuery: () => ({ isFetching: false }),
+  animesQueryKey: () => ["animes", "2"],
+}));
+
+vi.mock("@tanstack/react-query", () => ({
+  useIsFetching: () => 0,
 }));
 
 vi.mock("../../queries/playlists", () => ({
   usePlaylistsQuery: () => ({ isFetching: false }),
 }));
 
-vi.mock("../../stores/hooks", () => ({
+vi.mock("../../hooks/storeSelectors", () => ({
   useAnimeSelector: (selector: (s: ReturnType<typeof useAnimeStore.getState>) => unknown) =>
     selector(useAnimeStore.getState()),
   usePlaylistSelector: () => ({

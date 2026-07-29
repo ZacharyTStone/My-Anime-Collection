@@ -3,13 +3,14 @@ import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import type { StringValue } from "ms";
+import { env } from "../config/env.js";
 
 // Create a document interface for the user
 export interface UserDocument extends Document {
   name: string;
   email: string;
   isDemo: boolean;
-  password: string;
+  password?: string;
   googleId?: string;
   theme: "light" | "dark";
   language: "en" | "jp";
@@ -74,20 +75,20 @@ const UserSchema = new Schema<UserDocument>(
 
 // Hash the password before saving
 UserSchema.pre("save", async function (this: UserDocument) {
-  if (!this.isModified("password")) return;
+  if (!this.isModified("password") || !this.password) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 
 // Generate JWT
 UserSchema.methods.createJWT = function (this: UserDocument) {
-  if (!process.env.JWT_SECRET) {
+  if (!env.JWT_SECRET) {
     throw new Error("JWT_SECRET must be defined in environment variables");
   }
   const options: SignOptions = {
-    expiresIn: (process.env.JWT_LIFETIME || "7d") as StringValue,
+    expiresIn: env.JWT_LIFETIME as StringValue,
   };
-  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, options);
+  return jwt.sign({ userId: this._id }, env.JWT_SECRET, options);
 };
 
 // Compare the entered password with the hashed password
@@ -95,6 +96,7 @@ UserSchema.methods.comparePassword = async function (
   this: UserDocument,
   candidatePassword: string
 ) {
+  if (!this.password) return false;
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
   return isMatch;
 };

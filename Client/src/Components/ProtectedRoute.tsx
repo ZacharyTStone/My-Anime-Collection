@@ -1,6 +1,6 @@
 import type React from "react";
 import { Navigate, useLocation } from "react-router";
-import { useAuthSelector } from "../stores/hooks";
+import { useAuthSelector } from "../hooks/storeSelectors";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -24,22 +24,14 @@ const ProtectedRoute = ({
   const location = useLocation();
 
   if (fallback && !isAuthenticated) {
-    return (
-      <div className={`w-full h-full ${className || ""}`}>
-        {fallback}
-      </div>
-    );
+    return <div className={`w-full h-full ${className || ""}`}>{fallback}</div>;
   }
 
   if (!user) {
     return <Navigate to={redirectTo} replace state={{ from: location }} />;
   }
 
-  return (
-    <div className={`w-full h-full ${className || ""}`}>
-      {children}
-    </div>
-  );
+  return <div className={`w-full h-full ${className || ""}`}>{children}</div>;
 };
 
 export default ProtectedRoute;

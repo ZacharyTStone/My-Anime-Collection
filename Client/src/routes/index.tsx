@@ -1,10 +1,11 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router";
-import { Landing, Error } from "../pages";
-import MainLayout from "../Components/Layout/MainLayout";
-import ProtectedRoute from "../Components/ProtectedRoute";
+import MainLayout from "../components/Layout/MainLayout";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 // Lazy loaded components
+const Landing = lazy(() => import("../pages/Landing"));
+const ErrorPage = lazy(() => import("../pages/Error"));
 const Profile = lazy(() => import("../pages/DashboardTabs/Profile"));
 const RegisterDemo = lazy(() => import("../pages/RegisterDemo"));
 const Register = lazy(() => import("../pages/Register"));
@@ -71,6 +72,6 @@ export const routes: RouteObject[] = [
   // Error route
   {
     path: "*",
-    element: <Error />,
+    element: <ErrorPage />,
   },
 ];

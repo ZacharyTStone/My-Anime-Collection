@@ -8,16 +8,22 @@ import {
   getAnimeStats,
   getRecommendations,
 } from "../controllers/animesController.js";
-import { validate } from "../middleware/validate.js";
+import { validate, validateQuery } from "../middleware/validate.js";
 import { apiLimiter50, apiLimiter500, apiLimiter2000 } from "../utils/rateLimiters.js";
-import { createAnimeSchema, recommendationsSchema } from "../utils/schemas.js";
+import {
+  createAnimeSchema,
+  getAnimesQuerySchema,
+  recommendationsSchema,
+} from "../utils/schemas.js";
 
 router
   .route("/")
   .post(apiLimiter500, validate(createAnimeSchema), createAnime)
-  .get(apiLimiter2000, getAnimes);
+  .get(apiLimiter2000, validateQuery(getAnimesQuerySchema), getAnimes);
 
-router.route("/recommendations").post(apiLimiter50, validate(recommendationsSchema), getRecommendations);
+router
+  .route("/recommendations")
+  .post(apiLimiter50, validate(recommendationsSchema), getRecommendations);
 
 router.route("/stats").get(apiLimiter2000, getAnimeStats);
 

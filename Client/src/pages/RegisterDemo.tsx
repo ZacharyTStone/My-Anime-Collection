@@ -1,44 +1,43 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { FormRow, Logo } from "../Components/UI";
-import { Button } from "@/Components/UI/button";
-import { useAuthSelector } from "../stores/hooks";
+import { FormRow, Logo } from "../components";
+import { Button } from "@/components/ui/button";
+import { useSetupUserMutation } from "../queries/auth";
 
 const NOOP = () => {};
 
-const SECTION_CLASS = "page-glow relative grid min-h-screen items-center justify-center overflow-hidden px-4 py-12";
+const SECTION_CLASS =
+  "page-glow relative grid min-h-screen items-center justify-center overflow-hidden px-4 py-12";
 
-const FORM_CLASS = "relative z-10 w-full max-w-[420px] rounded-2xl border border-border/70 bg-card p-8 shadow-lg sm:p-10";
+const FORM_CLASS =
+  "relative z-10 w-full max-w-[420px] rounded-2xl border border-border/70 bg-card p-8 shadow-lg sm:p-10";
 
 const RegisterDemo = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { user, setupUser } = useAuthSelector((s) => ({
-    user: s.user,
-    setupUser: s.setupUser,
-  }));
+  const setupUserMutation = useSetupUserMutation();
 
-  const onSubmit = () => {
-    setupUser({
-      currentUser: { isDemo: true },
-      endPoint: "register",
-      alertText: t("register.alert_text"),
-    });
-  };
-
-  useEffect(() => {
-    if (user) {
-      const timer = setTimeout(() => {
-        navigate("/top-animes");
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [user, navigate]);
+  const onSubmit = useCallback(() => {
+    setupUserMutation.mutate(
+      {
+        currentUser: { isDemo: true },
+        endPoint: "register",
+        alertText: t("register.alert_text"),
+      },
+      {
+        onSuccess: () => {
+          setTimeout(() => {
+            navigate("/top-animes");
+          }, 3000);
+        },
+      }
+    );
+  }, [navigate, setupUserMutation, t]);
 
   useEffect(() => {
     onSubmit();
-  }, []);
+  }, [onSubmit]);
 
   return (
     <section className={SECTION_CLASS}>
@@ -50,9 +49,7 @@ const RegisterDemo = () => {
         }}
       >
         <Logo />
-        <h3 className="text-center mb-8 text-2xl font-bold">
-          {t("login.title")}
-        </h3>
+        <h3 className="text-center mb-8 text-2xl font-bold">{t("login.title")}</h3>
         <FormRow
           type="email"
           name="email"
@@ -69,12 +66,7 @@ const RegisterDemo = () => {
           handleChange={NOOP}
           disabled
         />
-        <Button
-          type="submit"
-          size="lg"
-          className="mt-7 w-full text-base font-semibold"
-          disabled
-        >
+        <Button type="submit" size="lg" className="mt-7 w-full text-base font-semibold" disabled>
           {t("register.submit")}
         </Button>
       </form>

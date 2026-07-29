@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import mongoose from "mongoose";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../errors/index.js";
 import Anime from "../models/Anime.js";
@@ -6,6 +7,7 @@ import Playlist from "../models/Playlists.js";
 import { v4 as uuidv4 } from "uuid";
 import { randomInt } from "crypto";
 import { Request, Response } from "express";
+import { DEFAULT_PLAYLIST_IDS } from "../utils/constants.js";
 
 // REST routes are defined in playlistRoutes.js
 
@@ -64,16 +66,26 @@ const deletePlaylist = async (req: Request, res: Response) => {
     throw new BadRequestError("Playlist not found");
   }
 
-  if (playlist.id === "0" || playlist.id === "1" || playlist.id === "2") {
+  if (DEFAULT_PLAYLIST_IDS.includes(playlist.id)) {
     throw new BadRequestError("You cannot delete " + playlist.title);
   }
 
-  await Anime.deleteMany({
-    createdBy: req.user!.userId,
-    playlistID: req.params.id,
-  });
+  const session = await mongoose.startSession();
+  try {
+    await session.withTransaction(async () => {
+      await Anime.deleteMany(
+        {
+          createdBy: req.user!.userId,
+          playlistID: playlist._id,
+        },
+        { session }
+      );
 
-  await playlist.deleteOne();
+      await playlist.deleteOne({ session });
+    });
+  } finally {
+    await session.endSession();
+  }
 
   res.status(StatusCodes.OK).json({ message: "Playlist deleted" });
 };

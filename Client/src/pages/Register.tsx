@@ -1,11 +1,11 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { GoogleLogin } from "@react-oauth/google";
-import { FormRow, Logo } from "../Components/UI";
-import { Button } from "@/Components/UI/button";
-import { useAuthSelector } from "../stores/hooks";
+import { FormRow, Logo } from "../components";
+import { Button } from "@/components/ui/button";
+import { useGoogleSSOMutation, useSetupUserMutation } from "../queries/auth";
 import { User } from "../utils/types";
 
 interface FormValues extends Partial<User> {
@@ -21,21 +21,27 @@ const initialState: FormValues = {
   existingUser: false,
 };
 
-const SECTION_CLASS = "page-glow relative grid min-h-screen items-center justify-center overflow-hidden px-4 py-12";
+const SECTION_CLASS =
+  "page-glow relative grid min-h-screen items-center justify-center overflow-hidden px-4 py-12";
 
-const FORM_CLASS = "relative z-10 w-full max-w-[420px] rounded-2xl border border-border/70 bg-card p-8 shadow-lg sm:p-10";
+const FORM_CLASS =
+  "relative z-10 w-full max-w-[420px] rounded-2xl border border-border/70 bg-card p-8 shadow-lg sm:p-10";
 
 const Register = () => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
   const [values, setValues] = useState<FormValues>(initialState);
-  const { user, isLoading, setupUser, googleSSO } = useAuthSelector((s) => ({
-    user: s.user,
-    isLoading: s.isLoading,
-    setupUser: s.setupUser,
-    googleSSO: s.googleSSO,
-  }));
+  const setupUserMutation = useSetupUserMutation();
+  const googleSSOMutation = useGoogleSSOMutation();
+  const isLoading = setupUserMutation.isPending || googleSSOMutation.isPending;
+
+  const navigateToTopAnimes = () => {
+    setTimeout(() => {
+      navigate("/top-animes");
+    }, 3000);
+  };
+
   const toggleExistingUser = () => {
     setValues({ ...values, existingUser: !values.existingUser });
   };
@@ -49,34 +55,31 @@ const Register = () => {
     const { name, email, password, existingUser } = values;
 
     if (!email || !password || (!existingUser && !name)) {
-      toast.error(t("register.provide_all_values", { defaultValue: "Please provide all values!" }));
+      toast.error(t("register.provide_all_values"));
       return;
     }
     const currentUser = { id: "", name: name || "", email, password };
 
     if (existingUser) {
-      setupUser({
-        currentUser,
-        endPoint: "login",
-        alertText: t("login.alert_text"),
-      });
+      setupUserMutation.mutate(
+        {
+          currentUser,
+          endPoint: "login",
+          alertText: t("login.alert_text"),
+        },
+        { onSuccess: navigateToTopAnimes }
+      );
     } else {
-      setupUser({
-        currentUser,
-        endPoint: "register",
-        alertText: t("register.alert_text"),
-      });
+      setupUserMutation.mutate(
+        {
+          currentUser,
+          endPoint: "register",
+          alertText: t("register.alert_text"),
+        },
+        { onSuccess: navigateToTopAnimes }
+      );
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      const timer = setTimeout(() => {
-        navigate("/top-animes");
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [user, navigate]);
 
   return (
     <section className={SECTION_CLASS}>
@@ -121,27 +124,26 @@ const Register = () => {
           <>
             <div className="flex items-center gap-3 my-5 text-muted-foreground text-[0.85rem]">
               <span className="flex-1 h-px bg-grey-300" aria-hidden="true" />
-              {t("sso.or", { defaultValue: "or" })}
+              {t("sso.or")}
               <span className="flex-1 h-px bg-grey-300" aria-hidden="true" />
             </div>
             <div className="flex justify-center">
               <GoogleLogin
                 onSuccess={(response) => {
                   if (!response.credential) {
-                    toast.error(
-                      t("sso.error", { defaultValue: "Google sign-in failed. Please try again." })
-                    );
+                    toast.error(t("sso.error"));
                     return;
                   }
-                  googleSSO({
-                    credential: response.credential,
-                    alertText: t("sso.alert_text", { defaultValue: "Signed in with Google!" }),
-                  });
+                  googleSSOMutation.mutate(
+                    {
+                      credential: response.credential,
+                      alertText: t("sso.alert_text"),
+                    },
+                    { onSuccess: navigateToTopAnimes }
+                  );
                 }}
                 onError={() => {
-                  toast.error(
-                    t("sso.error", { defaultValue: "Google sign-in failed. Please try again." })
-                  );
+                  toast.error(t("sso.error"));
                 }}
               />
             </div>

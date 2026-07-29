@@ -3,7 +3,6 @@
 
 /* ==============================================
    Base typography & element defaults
-   (global element styles live here, not in SCSS)
    ============================================== */
 
 @layer base {
@@ -17,10 +16,18 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
     line-height: 1.6;
+    min-height: 100vh;
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1;
   }
 
   h1,
@@ -66,19 +73,60 @@
   a:hover {
     @apply text-primary-500;
   }
+
+  /* Scrollbar — thin, unobtrusive */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+
+  /* Selection */
+  ::selection {
+    background: var(--primary);
+    color: #ffffff;
+  }
+
+  /* Focus ring — use primary */
+  *:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Respect reduced-motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 /* Toasts follow the design system */
 .Toastify__toast {
   font-family: var(--font-body);
   border-radius: var(--radius-default);
-  border: 1px solid var(--grey-200);
+  border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
 }
 
 .Toastify__progress-bar--success,
 .Toastify__progress-bar--info {
-  background: var(--primary-500);
+  background: var(--primary);
 }
 
 /* ==============================================
@@ -121,7 +169,7 @@
 
 @theme {
   /* Primary: refined crimson rose */
-  --color-primary-50:  #fff1f2;
+  --color-primary-50: #fff1f2;
   --color-primary-100: #ffe4e6;
   --color-primary-200: #fecdd3;
   --color-primary-300: #fda4af;
@@ -133,7 +181,7 @@
   --color-primary-900: #4c0519;
 
   /* Grey */
-  --color-grey-50:  #f9fafb;
+  --color-grey-50: #f9fafb;
   --color-grey-100: #f1f5f9;
   --color-grey-200: #e4e8f0;
   --color-grey-300: #c8d0e0;
@@ -145,56 +193,96 @@
   --color-grey-900: #0f1222;
 
   /* Semantic */
-  --color-red-light:  #fee2e2;
-  --color-red-dark:   #b91c1c;
-  --color-green-50:   #ecfdf5;
-  --color-green-500:  #10b981;
+  --color-red-light: #fee2e2;
+  --color-red-dark: #b91c1c;
+  --color-green-50: #ecfdf5;
+  --color-green-500: #10b981;
 
   /* Accent colors — used sparingly (AI features, highlights) */
-  --color-anime-pink:   #f43f5e;
+  --color-anime-pink: #f43f5e;
   --color-anime-purple: #7c6cf0;
-  --color-anime-blue:   #3b82f6;
-  --color-anime-cyan:   #22d3ee;
+  --color-anime-blue: #3b82f6;
+  --color-anime-cyan: #22d3ee;
   --color-anime-orange: #fb923c;
   --color-anime-yellow: #facc15;
 
   /* Fonts — single family, hierarchy via weight; Noto Sans JP for Japanese */
   --font-heading: "Outfit", "Noto Sans JP", system-ui, sans-serif;
-  --font-body:    "Outfit", "Noto Sans JP", system-ui, sans-serif;
+  --font-body: "Outfit", "Noto Sans JP", system-ui, sans-serif;
 
   /* Border radius */
   --radius-default: 0.75rem;
 }
 
 /* ==============================================
-   shadcn/ui theme tokens
+   Runtime theme tokens
    Dark mode is driven by [data-theme="dark"] on <html>
    (see themeStore.ts), not a .dark class.
+   The @theme palette above is static; these semantic
+   tokens flip per theme and feed the shadcn utilities,
+   chrome (scrollbar/selection/focus) and effects.
    ============================================== */
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
   --radius: 0.75rem;
-  --background: var(--backgroundColor);
-  --foreground: var(--textColor);
-  --card: var(--outline-button-background);
-  --card-foreground: var(--textColor);
-  --popover: var(--outline-button-background);
-  --popover-foreground: var(--textColor);
-  --primary: var(--primary-500);
-  --primary-foreground: var(--white);
-  --secondary: var(--grey-100);
-  --secondary-foreground: var(--textColor);
-  --muted: var(--grey-100);
-  --muted-foreground: var(--grey-500);
-  --accent: var(--grey-100);
-  --accent-foreground: var(--textColor);
-  --destructive: var(--red-dark);
-  --destructive-foreground: var(--white);
-  --border: var(--grey-200);
-  --input: var(--grey-300);
-  --ring: var(--primary-400);
+  --background: #fafafa;
+  --foreground: var(--color-grey-900);
+  --card: #ffffff;
+  --card-foreground: var(--color-grey-900);
+  --popover: #ffffff;
+  --popover-foreground: var(--color-grey-900);
+  --primary: var(--color-primary-500);
+  --primary-foreground: #ffffff;
+  --secondary: var(--color-grey-100);
+  --secondary-foreground: var(--color-grey-900);
+  --muted: var(--color-grey-100);
+  --muted-foreground: var(--color-grey-500);
+  --accent: var(--color-grey-100);
+  --accent-foreground: var(--color-grey-900);
+  --destructive: var(--color-red-dark);
+  --destructive-foreground: #ffffff;
+  --border: var(--color-grey-200);
+  --input: var(--color-grey-300);
+  --ring: var(--color-primary-400);
+
+  /* Effects & chrome that flip with the theme */
+  --glass-navbar-background: rgba(250, 250, 250, 0.85);
+  --primary-alpha-10: rgba(225, 29, 72, 0.06);
+  --accent-alpha-08: rgba(124, 108, 240, 0.07);
+  --shadow-lg: 0 12px 24px -6px rgba(15, 18, 34, 0.1), 0 4px 8px -2px rgba(15, 18, 34, 0.04);
+  --scrollbar-thumb: var(--color-grey-300);
+  --scrollbar-thumb-hover: var(--color-grey-400);
+  /* AI accent used where it must pop on dark (AiRecommendationsModal) */
+  --ai-accent: var(--color-anime-purple);
+}
+
+:root[data-theme="dark"] {
+  --background: #0a0b14;
+  --foreground: #e8eaf5;
+  --card: #12131f;
+  --card-foreground: #e8eaf5;
+  --popover: #12131f;
+  --popover-foreground: #e8eaf5;
+  --primary: #fb4c6b;
+  --secondary: #12131f;
+  --secondary-foreground: #e8eaf5;
+  --muted: #12131f;
+  --muted-foreground: #8286a3;
+  --accent: #12131f;
+  --accent-foreground: #e8eaf5;
+  --border: #1d1e2e;
+  --input: #2a2b3f;
+
+  /* Effects & chrome that flip with the theme */
+  --glass-navbar-background: rgba(10, 11, 20, 0.82);
+  --primary-alpha-10: rgba(251, 76, 107, 0.08);
+  --accent-alpha-08: rgba(140, 126, 245, 0.09);
+  --shadow-lg: 0 16px 32px -4px rgba(0, 0, 0, 0.6), 0 6px 12px -2px rgba(0, 0, 0, 0.4);
+  --scrollbar-thumb: #2a2b3f;
+  --scrollbar-thumb-hover: #414360;
+  --ai-accent: #8c7ef5;
 }
 
 @theme inline {

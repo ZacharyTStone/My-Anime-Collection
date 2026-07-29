@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { useLanguageSelector } from "../stores/hooks";
-import { Button } from "@/Components/UI/button";
+import { useLanguageSelector } from "../hooks/storeSelectors";
+import { Button } from "@/components/ui/button";
 import america from "./../assets/images/america-big.png";
 import japan from "./../assets/images/japan-big.png";
 

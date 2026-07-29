@@ -50,7 +50,8 @@ const AnimeSchema = new Schema<AnimeDocument>(
       required: false,
     },
     playlistID: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "Playlist",
       required: true,
     },
     isDemoAnime: {
@@ -75,8 +76,9 @@ export interface AnimeDocument extends Document {
   synopsis?: string;
   coverImage?: string;
   youtubeVideoId?: string;
-  playlistID: string;
+  playlistID: mongoose.Types.ObjectId;
   isDemoAnime: boolean;
+  createdAt?: Date;
 }
 
 // Index for query performance on playlist lookups

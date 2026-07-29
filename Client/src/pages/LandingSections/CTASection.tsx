@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/Components/UI/button";
+import { Button } from "@/components/ui/button";
 
 const CTASection = () => {
   const { t } = useTranslation();

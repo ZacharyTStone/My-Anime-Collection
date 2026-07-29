@@ -1,5 +1,5 @@
 import React, { ReactNode, ErrorInfo } from "react";
-import Loading from "../Components/UI/Loading";
+import Loading from "../components/Loading";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -9,10 +9,7 @@ interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
@@ -31,12 +28,10 @@ class ErrorBoundary extends React.Component<
       return (
         <div className="flex justify-center items-center h-screen w-screen bg-black">
           <div className="flex justify-center items-center flex-col">
-            <h3 className="text-primary-500">
-              Something Went Wrong...Please Try Again Later!
-            </h3>
+            <h3 className="text-primary-500">Something Went Wrong...Please Try Again Later!</h3>
             <p className="text-primary-500">
-              Please send an email to zach.stone.developer@gmail.com with a
-              description of what happened.
+              Please send an email to zach.stone.developer@gmail.com with a description of what
+              happened.
             </p>
             <Loading />
           </div>

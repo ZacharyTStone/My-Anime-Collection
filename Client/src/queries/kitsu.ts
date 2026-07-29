@@ -37,10 +37,7 @@ export interface AnimeDetails {
   streamingLinks: KitsuStreamingLink[];
 }
 
-const fetchAnimeDetails = async (
-  kitsuId: string,
-  signal?: AbortSignal
-): Promise<AnimeDetails> => {
+const fetchAnimeDetails = async (kitsuId: string, signal?: AbortSignal): Promise<AnimeDetails> => {
   const params = new URLSearchParams();
   params.set("include", "categories,streamingLinks");
   params.set("fields[categories]", "title");
@@ -50,8 +47,7 @@ const fetchAnimeDetails = async (
     { signal }
   );
   const attributes = data?.data?.attributes ?? {};
-  const included: { type: string; attributes?: Record<string, unknown> }[] =
-    data?.included ?? [];
+  const included: { type: string; attributes?: Record<string, unknown> }[] = data?.included ?? [];
   return {
     status: attributes.status,
     ageRating: attributes.ageRating,
@@ -77,8 +73,7 @@ const fetchAnimeDetails = async (
 /** Shared query options so the details modal and bulk fetches share cache. */
 export const animeDetailsQueryOptions = (kitsuId: string) => ({
   queryKey: queryKeys.kitsuAnimeDetails(kitsuId),
-  queryFn: ({ signal }: { signal: AbortSignal }) =>
-    fetchAnimeDetails(kitsuId, signal),
+  queryFn: ({ signal }: { signal: AbortSignal }) => fetchAnimeDetails(kitsuId, signal),
   staleTime: 5 * 60 * 1000,
 });
 
@@ -87,10 +82,7 @@ export const animeDetailsQueryOptions = (kitsuId: string) => ({
  * categories/genres and streaming links) in one request. Used by the
  * anime details modal.
  */
-export const useAnimeDetailsQuery = (
-  kitsuId: string | undefined,
-  enabled: boolean
-) => {
+export const useAnimeDetailsQuery = (kitsuId: string | undefined, enabled: boolean) => {
   return useQuery({
     ...animeDetailsQueryOptions(kitsuId ?? ""),
     enabled: enabled && Boolean(kitsuId),

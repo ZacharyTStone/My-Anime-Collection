@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Anime } from "../Components";
-import { useMobile } from "../utils/hooks";
+import { Anime } from "../components";
+import { useMobile } from "../hooks/useMobile";
 import { ExpectedFetchedAnimeResponse } from "../utils/types";
-import { SkeletonLoadingBlock } from "./UI";
-import { Button } from "@/Components/UI/button";
+import SkeletonLoadingBlock from "./SkeletonLoadingBlock";
+import { Button } from "@/components/ui/button";
 import { useKitsuAnimesQuery } from "../queries/kitsu";
 import { mapFetchedAnime } from "../utils/mapFetchedAnime";
 
@@ -97,14 +97,7 @@ const FetchedAnimesContainer = ({
           <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 justify-items-center">
             {fetchedAnimes.map((anime: ExpectedFetchedAnimeResponse) => {
               const mapped = mapFetchedAnime(anime);
-              return (
-                <Anime
-                  key={anime.id}
-                  {...mapped}
-                  fetchedAnime={anime}
-                  type="add"
-                />
-              );
+              return <Anime key={anime.id} {...mapped} fetchedAnime={anime} type="add" />;
             })}
           </div>
           {!onTrendingPage && (

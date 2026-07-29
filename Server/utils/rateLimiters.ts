@@ -2,33 +2,22 @@
 import rateLimiter from "express-rate-limit";
 
 // PER 10 minutes
+const WINDOW_MS = 10 * 60 * 1000;
+const DEFAULT_MESSAGE = "Too many requests from this IP, please try again after 15 minutes";
 
-export const apiLimiter5 = rateLimiter({
-  windowMs: 10 * 60 * 1000,
-  max: 5,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
+const createRateLimiter = (max: number, message = DEFAULT_MESSAGE) =>
+  rateLimiter({
+    windowMs: WINDOW_MS,
+    max,
+    message,
+  });
 
-export const apiLimiter10 = rateLimiter({
-  windowMs: 10 * 60 * 1000,
-  max: 10,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
+export const apiLimiter5 = createRateLimiter(5);
 
-export const apiLimiter50 = rateLimiter({
-  windowMs: 10 * 60 * 1000,
-  max: 50,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
+export const apiLimiter10 = createRateLimiter(10);
 
-export const apiLimiter500 = rateLimiter({
-  windowMs: 10 * 60 * 1000,
-  max: 500,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
+export const apiLimiter50 = createRateLimiter(50);
 
-export const apiLimiter2000 = rateLimiter({
-  windowMs: 10 * 60 * 1000,
-  max: 2000,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
+export const apiLimiter500 = createRateLimiter(500);
+
+export const apiLimiter2000 = createRateLimiter(2000);

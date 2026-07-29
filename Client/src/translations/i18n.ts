@@ -27,18 +27,14 @@ const checkLanguage = (lang: string): string => {
 };
 
 const initialLanguage =
-  storedLanguage === "en" || storedLanguage === "jp"
-    ? storedLanguage
-    : checkLanguage(language);
+  storedLanguage === "en" || storedLanguage === "jp" ? storedLanguage : checkLanguage(language);
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: initialLanguage,
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: initialLanguage,
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;

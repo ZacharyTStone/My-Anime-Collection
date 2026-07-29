@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { handleApiError } from "../handleApiError";
-import axios, { AxiosError, AxiosHeaders } from "axios";
+import { AxiosError, AxiosHeaders } from "axios";
 import { toast } from "react-toastify";
 
 vi.mock("react-toastify", () => ({
@@ -12,19 +12,13 @@ beforeEach(() => {
 });
 
 function makeAxiosError(status: number, msg?: string): AxiosError {
-  const error = new AxiosError(
-    "Request failed",
-    "ERR_BAD_RESPONSE",
-    undefined,
-    undefined,
-    {
-      status,
-      data: msg ? { msg } : {},
-      statusText: "Error",
-      headers: {},
-      config: { headers: new AxiosHeaders() },
-    }
-  );
+  const error = new AxiosError("Request failed", "ERR_BAD_RESPONSE", undefined, undefined, {
+    status,
+    data: msg ? { msg } : {},
+    statusText: "Error",
+    headers: {},
+    config: { headers: new AxiosHeaders() },
+  });
   return error;
 }
 

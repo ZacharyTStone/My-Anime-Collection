@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import Testimonial from "./UI/Testimonial";
+import Testimonial from "./Testimonial";
 import { TESTIMONIALS, TESTIMONIALS_TYPE } from "../utils/constants";
 
 const VISIBLE_TESTIMONIALS = 6;
@@ -21,16 +21,14 @@ function Testimonials() {
             {t("landing.testimonials.title")}
           </h2>
           <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {TESTIMONIALS.slice(0, VISIBLE_TESTIMONIALS).map(
-              (testimonial: TESTIMONIALS_TYPE) => (
-                <Testimonial
-                  key={testimonial.nameKey}
-                  name={t(`landing.testimonials.${testimonial.nameKey}.name`)}
-                  img={testimonial.img}
-                  text={t(testimonial.textKey)}
-                />
-              )
-            )}
+            {TESTIMONIALS.slice(0, VISIBLE_TESTIMONIALS).map((testimonial: TESTIMONIALS_TYPE) => (
+              <Testimonial
+                key={testimonial.nameKey}
+                name={t(`landing.testimonials.${testimonial.nameKey}.name`)}
+                img={testimonial.img}
+                text={t(testimonial.textKey)}
+              />
+            ))}
           </div>
         </motion.div>
       </div>

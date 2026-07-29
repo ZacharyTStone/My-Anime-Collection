@@ -1,7 +1,7 @@
 import { useState, useMemo, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { FormRow, FormRowSelect, PlaylistSelector } from "../../Components/UI";
-import { FetchedAnimesContainer } from "../../Components";
+import { FormRow, FormRowSelect, PlaylistSelector } from "../../components";
+import { FetchedAnimesContainer } from "../../components";
 import { debounce } from "../../utils/debounce";
 
 const SORT_OPTIONS = [

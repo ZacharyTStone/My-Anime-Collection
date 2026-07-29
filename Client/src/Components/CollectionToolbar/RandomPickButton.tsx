@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Shuffle } from "lucide-react";
-import ModalBackdrop from "../UI/ModalBackdrop";
-import { Button } from "@/Components/UI/button";
+import ModalBackdrop from "../ModalBackdrop";
+import { Button } from "@/components/ui/button";
 import { useCollectionQuery, type CollectionAnime } from "../../queries/animes";
 
 const pickRandom = (animes: CollectionAnime[]): CollectionAnime | null =>
-  animes.length > 0
-    ? animes[Math.floor(Math.random() * animes.length)]
-    : null;
+  animes.length > 0 ? animes[Math.floor(Math.random() * animes.length)] : null;
 
 const RandomPickButton = () => {
   const { t } = useTranslation();
@@ -46,9 +44,7 @@ const RandomPickButton = () => {
           ariaLabel={t("random_pick.title")}
           className="sm:max-w-[340px] text-center"
         >
-          <h2 className="text-xl font-semibold mb-4">
-            {t("random_pick.title")}
-          </h2>
+          <h2 className="text-xl font-semibold mb-4">{t("random_pick.title")}</h2>
 
           {isPending ? (
             <p className="text-muted-foreground">...</p>

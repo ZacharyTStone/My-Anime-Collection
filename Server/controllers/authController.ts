@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import Anime from "../models/Anime.js";
 import Playlist from "../models/Playlists.js";
+import mongoose from "mongoose";
 
 import { Request, Response } from "express";
 import { OAuth2Client } from "google-auth-library";
@@ -11,11 +12,8 @@ interface AppError extends Error {
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import { DEMO_USER } from "../utils/constants.js";
-import {
-  generateDemoEmail,
-  createUserWithPlaylists,
-} from "../utils/authHelpers.js";
-
+import { env } from "../config/env.js";
+import { generateDemoEmail, createUserWithPlaylists } from "../utils/authHelpers.js";
 
 // REST routes are defined in authRoutes.js
 
@@ -35,7 +33,7 @@ const login = async (req: Request, res: Response) => {
   }
 
   const token = user.createJWT();
-  user.password = undefined as unknown as string;
+  user.password = undefined;
   res.status(StatusCodes.OK).json({ user, token });
 };
 
@@ -53,13 +51,13 @@ const normalizeGoogleName = (name: string | undefined, email: string): string =>
 const googleLogin = async (req: Request, res: Response) => {
   const { credential, theme, language } = req.body;
 
-  if (!process.env.GOOGLE_CLIENT_ID) {
+  if (!env.GOOGLE_CLIENT_ID) {
     throw new BadRequestError("Google sign-in is not configured on this server");
   }
 
   const ticket = await googleClient.verifyIdToken({
     idToken: credential,
-    audience: process.env.GOOGLE_CLIENT_ID,
+    audience: env.GOOGLE_CLIENT_ID,
   });
   const payload = ticket.getPayload();
 
@@ -91,7 +89,7 @@ const googleLogin = async (req: Request, res: Response) => {
   }
 
   const token = user.createJWT();
-  user.password = undefined as unknown as string;
+  user.password = undefined;
   res.status(StatusCodes.OK).json({ user, token });
 };
 
@@ -113,6 +111,22 @@ const updateUser = async (req: Request, res: Response) => {
   const token = user.createJWT();
 
   res.status(StatusCodes.OK).json({ user, token });
+};
+
+const sendCreatedUserResponse = (
+  res: Response,
+  { user, token }: Awaited<ReturnType<typeof createUserWithPlaylists>>
+) => {
+  res.status(StatusCodes.CREATED).json({
+    user: {
+      email: user.email,
+      isDemo: user.isDemo,
+      name: user.name,
+      theme: user.theme,
+      language: user.language,
+    },
+    token,
+  });
 };
 
 const register = async (req: Request, res: Response) => {
@@ -138,7 +152,7 @@ const register = async (req: Request, res: Response) => {
   }
 
   try {
-    const { user, token } = await createUserWithPlaylists({
+    const created = await createUserWithPlaylists({
       name,
       email: userEmail,
       password,
@@ -147,19 +161,10 @@ const register = async (req: Request, res: Response) => {
       language,
     });
 
-    res.status(StatusCodes.CREATED).json({
-      user: {
-        email: user.email,
-        isDemo: user.isDemo,
-        name: user.name,
-        theme: user.theme,
-        language: user.language,
-      },
-      token,
-    });
+    sendCreatedUserResponse(res, created);
   } catch (error: unknown) {
     if (error instanceof Error && (error as AppError).code === 11000 && isDemo) {
-      const { user, token } = await createUserWithPlaylists({
+      const created = await createUserWithPlaylists({
         name,
         email: generateDemoEmail(),
         password,
@@ -168,27 +173,11 @@ const register = async (req: Request, res: Response) => {
         language,
       });
 
-      res.status(StatusCodes.CREATED).json({
-        user: {
-          email: user.email,
-          isDemo: user.isDemo,
-          name: user.name,
-          theme: user.theme,
-          language: user.language,
-        },
-        token,
-      });
+      sendCreatedUserResponse(res, created);
     } else {
       throw error;
     }
   }
-};
-
-const deleteAssociatedRecords = async (
-  model: { deleteMany: (filter: Record<string, string>) => Promise<unknown> },
-  userId: string
-) => {
-  await model.deleteMany({ createdBy: userId });
 };
 
 const deleteUser = async (req: Request, res: Response) => {
@@ -198,9 +187,17 @@ const deleteUser = async (req: Request, res: Response) => {
     throw new UnAuthenticatedError("User not found");
   }
 
-  await deleteAssociatedRecords(Anime, req.user!.userId);
-  await deleteAssociatedRecords(Playlist, req.user!.userId);
-  await user.deleteOne();
+  const session = await mongoose.startSession();
+  try {
+    await session.withTransaction(async () => {
+      await Anime.deleteMany({ createdBy: req.user!.userId }, { session });
+      // Playlists key their owner as `userID`, not `createdBy`
+      await Playlist.deleteMany({ userID: req.user!.userId }, { session });
+      await user.deleteOne({ session });
+    });
+  } finally {
+    await session.endSession();
+  }
 
   res.status(StatusCodes.OK).json({ message: "User deleted" });
 };

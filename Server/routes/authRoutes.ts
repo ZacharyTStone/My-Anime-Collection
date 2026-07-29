@@ -15,9 +15,11 @@ import { googleSchema, loginSchema, registerSchema, updateUserSchema } from "../
 
 // Define the routes
 router.route("/register").post(apiLimiter10, validate(registerSchema), register);
-router.route("/login").post(apiLimiter500, validate(loginSchema), login);
+router.route("/login").post(apiLimiter10, validate(loginSchema), login);
 router.route("/google").post(apiLimiter10, validate(googleSchema), googleLogin);
-router.route("/updateUser").patch(apiLimiter500, authenticateUser, validate(updateUserSchema), updateUser);
+router
+  .route("/updateUser")
+  .patch(apiLimiter500, authenticateUser, validate(updateUserSchema), updateUser);
 router.route("/deleteUser").delete(apiLimiter500, authenticateUser, deleteUser);
 
 export default router;

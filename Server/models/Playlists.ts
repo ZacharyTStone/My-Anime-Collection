@@ -2,7 +2,12 @@ import mongoose, { Document, Schema } from "mongoose";
 
 const playlistSchema = new Schema<PlaylistDocument>({
   title: String,
-  id: String,
+  // publicId exposed to the client; stable per-user ("0"/"1"/"2" for defaults,
+  // UUID for custom playlists). The Mongo _id is the canonical foreign key.
+  id: {
+    type: String,
+    required: [true, "Please provide playlist public id"],
+  },
   userID: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -18,6 +23,9 @@ export interface PlaylistDocument extends Document {
   isDemoUserPlaylist: boolean;
 }
 // Create a TTL index on the demo field with a expireAfterSeconds option (in this case, 30 days)
+
+// A user can only have one playlist with a given public id.
+playlistSchema.index({ id: 1, userID: 1 }, { unique: true });
 
 playlistSchema.index(
   { createdAt: 1 },

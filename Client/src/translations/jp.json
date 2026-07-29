@@ -36,7 +36,11 @@
       "delete": "アカウントを削除",
       "confirm": "本当にアカウントを削除しますか？",
       "wait": "しばらくお待ちください...",
-      "random_pokemon": "あなたのランダムポケモン"
+      "random_pokemon": "あなたのランダムポケモン",
+      "cancel": "キャンセル",
+      "provide_all_values": "すべての項目を入力してください！",
+      "updated": "ユーザー情報を更新しました！",
+      "deleted": "アカウントを削除しました！"
     },
     "top_animes": {
       "title": "トップアニメ"
@@ -46,7 +50,8 @@
       "search": "タイトル",
       "sort": "ソート",
       "add_to_default": "いつもデフォルト＆選択したプレイリストに追加",
-      "anime_created_successfully": "アニメがプレイリストに追加されました！"
+      "created": "アニメを追加しました！",
+      "deleted": "アニメを削除しました！"
     },
     "search_container": {
       "title": "プレイリストをフィルターしましょう",
@@ -117,9 +122,13 @@
       "title": "マイ・プレイリスト",
       "new_playlist": "新しいプレイリストを作る",
       "cta": "プレイリストをクリックして名前を編集します。デフォルトのプレイリストは編集できません。",
-      "playlist_updated_successfully": "プレイリストが正常に更新されました！",
-      "playlist_deleted_successfully": "プレイリストが正常に削除されました！",
-      "edit_title_label": "プレイリスト名を編集"
+      "edit_title_label": "プレイリスト名を編集",
+      "delete_title": "プレイリストを削除しますか？",
+      "delete_confirm": "このプレイリストを削除してもよろしいですか？この操作は元に戻せません。",
+      "delete_aria": "プレイリスト「{{title}}」を削除",
+      "created": "プレイリストを作成しました！",
+      "updated": "プレイリストを更新しました！",
+      "deleted": "プレイリストを削除しました！"
     },
     "login": {
       "title": "ログイン",
@@ -141,7 +150,24 @@
       "submit": "送信",
       "switch1": "もう登録しています？",
       "switch2": "ログイン",
-      "alert_text": "登録に成功しました！"
+      "alert_text": "登録に成功しました！",
+      "provide_all_values": "すべての項目を入力してください！"
+    },
+    "sso": {
+      "or": "または",
+      "error": "Googleログインに失敗しました。もう一度お試しください。",
+      "alert_text": "Googleでログインしました！"
+    },
+    "errors": {
+      "auth_failed": "認証に失敗しました",
+      "google_sign_in_failed": "Googleログインに失敗しました",
+      "update_user_failed": "ユーザー情報の更新に失敗しました",
+      "delete_user_failed": "アカウントの削除に失敗しました",
+      "create_playlist_failed": "プレイリストの作成に失敗しました",
+      "update_playlist_failed": "プレイリストの更新に失敗しました",
+      "delete_playlist_failed": "プレイリストの削除に失敗しました",
+      "add_anime_failed": "アニメの追加中にエラーが発生しました",
+      "delete_anime_failed": "アニメの削除に失敗しました"
     },
     "landing": {
       "title": "マイ・アニメ・コレクション",

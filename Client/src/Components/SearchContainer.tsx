@@ -1,10 +1,24 @@
-import { useState, useCallback, useMemo, type ChangeEvent, type MouseEvent, type FormEvent } from "react";
-import { FormRow, FormRowSelect, PlaylistSelector } from "./UI";
-import { Button } from "@/Components/UI/button";
+import {
+  useState,
+  useCallback,
+  useMemo,
+  type ChangeEvent,
+  type MouseEvent,
+  type FormEvent,
+} from "react";
+import FormRow from "./FormRow";
+import FormRowSelect from "./FormRowSelect";
+import PlaylistSelector from "./PlaylistSelector";
+import { Button } from "@/components/ui/button";
 import { Tv } from "lucide-react";
-import { useAnimeSelector, usePlaylistSelector, useSettingsSelector } from "../stores/hooks";
+import {
+  useAnimeSelector,
+  usePlaylistSelector,
+  useSettingsSelector,
+} from "../hooks/storeSelectors";
 import type { FilterField } from "../stores/animeStore";
-import { useAnimesQuery } from "../queries/animes";
+import { useIsFetching } from "@tanstack/react-query";
+import { animesQueryKey } from "../queries/animes";
 import { usePlaylistsQuery } from "../queries/playlists";
 
 import { useTranslation } from "react-i18next";
@@ -52,14 +66,18 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
     currentPlaylist: s.currentPlaylist,
   }));
 
-  const { isFetching: isFetchingAnimes } = useAnimesQuery(currentPlaylist.id, {
-    page,
-    search,
-    searchStatus,
-    searchType,
-    searchStared,
-    sort,
-  });
+  // Observe the list query MyAnimesContainer owns, without a second subscriber
+  const isFetchingAnimes =
+    useIsFetching({
+      queryKey: animesQueryKey(currentPlaylist.id, {
+        page,
+        search,
+        searchStatus,
+        searchType,
+        searchStared,
+        sort,
+      }),
+    }) > 0;
   const { isFetching: isFetchingPlaylists } = usePlaylistsQuery();
 
   const [localSearch, setLocalSearch] = useState(search ?? "");
@@ -106,7 +124,9 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
         className="w-full rounded-xl border border-border/70 bg-card p-6 shadow-sm"
         onSubmit={handleFormSubmit}
       >
-        <h4 className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-muted-foreground">{t("search_container.title")}</h4>
+        <h4 className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+          {t("search_container.title")}
+        </h4>
         <div className="grid gap-y-2 lg:grid-cols-2 lg:items-end lg:gap-x-4 xl:grid-cols-4">
           <FormRow
             type="text"
@@ -153,9 +173,7 @@ const SearchContainer = ({ className }: SearchContainerProps) => {
             {t("search_container.streaming_only")}
           </Button>
           {streamingOnly && streamingServices.length === 0 && (
-            <p className="text-sm text-muted-foreground">
-              {t("search_container.streaming_hint")}
-            </p>
+            <p className="text-sm text-muted-foreground">{t("search_container.streaming_hint")}</p>
           )}
         </div>
       </form>

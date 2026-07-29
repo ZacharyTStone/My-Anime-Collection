@@ -6,7 +6,7 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types", "./Server/typings-custom"]
+    "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["node_modules", "dist", "Client/**/*", "Client"]
 }
