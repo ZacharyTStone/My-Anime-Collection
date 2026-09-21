@@ -47,9 +47,9 @@ const FeaturesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.45, delay: index * 0.06, ease: "easeOut" }}
-              className="rounded-xl border border-border/70 bg-card p-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
+              className="rounded-xl border border-border/70 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:shadow-md"
             >
-              <div className="mb-4 inline-flex size-11 items-center justify-center rounded-lg bg-primary-500/10 text-primary-600 dark:text-primary-400">
+              <div className="mb-4 inline-flex size-11 items-center justify-center rounded-lg bg-primary-500/10 text-primary-600">
                 <Icon className="size-5" aria-hidden="true" />
               </div>
               <p className="leading-relaxed text-foreground">{t(`landing.why.${key}`)}</p>

@@ -16,9 +16,8 @@ export interface CreateUserParams {
   password?: string;
   googleId?: string;
   isDemo: boolean;
-  // Mirror the model's unions: widening these to `string` stops Mongoose's
+  // Mirror the model's union: widening this to `string` stops Mongoose's
   // create() overloads from resolving, which infers the result as `never`.
-  theme: UserDocument["theme"];
   language: UserDocument["language"];
 }
 
@@ -32,7 +31,6 @@ export const createUserWithPlaylists = async ({
   password,
   googleId,
   isDemo,
-  theme,
   language,
 }: CreateUserParams) => {
   const user = await User.create({
@@ -41,7 +39,6 @@ export const createUserWithPlaylists = async ({
     password,
     googleId,
     isDemo,
-    theme,
     language,
   });
 

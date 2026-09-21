@@ -12,7 +12,6 @@ export const registerSchema = z
     name: z.string().min(3).max(20).optional(),
     email: z.string().email().optional(),
     password: z.string().min(6).optional(),
-    theme: z.enum(["light", "dark"]).optional(),
     language: z.enum(["en", "jp"]).optional(),
   })
   .refine(
@@ -25,14 +24,12 @@ export const registerSchema = z
 
 export const googleSchema = z.object({
   credential: z.string().min(1, "Please provide Google credential"),
-  theme: z.enum(["light", "dark"]).optional(),
   language: z.enum(["en", "jp"]).optional(),
 });
 
 export const updateUserSchema = z.object({
   email: z.string().email("Please provide a valid email"),
   name: z.string().min(3, "Name must be at least 3 characters").max(20),
-  theme: z.enum(["light", "dark"]),
 });
 
 // Anime schemas

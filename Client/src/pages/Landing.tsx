@@ -18,7 +18,7 @@ const Landing = () => {
       <header className="absolute inset-x-0 top-0 z-50">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-5">
           <Logo width="72px" className="mx-0" />
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <FlagContainer />
             <Button asChild variant="ghost">
               <Link to="/register">{t("landing.login_button")}</Link>

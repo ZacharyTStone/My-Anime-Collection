@@ -2,7 +2,6 @@ import FlagContainer from "../FlagContainer";
 import Logo from "../Logo";
 import NavLinks from "../NavLinks";
 import MobileMenu from "./MobileMenu";
-import ThemeToggle from "./ThemeToggle";
 import UserMenu from "./UserMenu";
 
 const Navbar = () => {
@@ -16,9 +15,8 @@ const Navbar = () => {
         <div className="hidden grow-[6] md:flex">
           <NavLinks />
         </div>
-        <div className="ml-auto flex items-center md:ml-0">
+        <div className="ml-auto flex items-center gap-3 md:ml-0">
           <FlagContainer />
-          <ThemeToggle />
           <UserMenu />
         </div>
       </div>

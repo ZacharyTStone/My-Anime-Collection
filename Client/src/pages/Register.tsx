@@ -84,7 +84,7 @@ const Register = () => {
   return (
     <section className={SECTION_CLASS}>
       <form className={FORM_CLASS} onSubmit={onSubmit}>
-        <Logo />
+        <Logo className="mb-4" />
         <h3 className="text-center mb-8 text-2xl font-bold">
           {values.existingUser ? t("login.title") : t("register.title")}
         </h3>

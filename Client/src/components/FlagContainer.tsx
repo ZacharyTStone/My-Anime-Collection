@@ -16,7 +16,7 @@ const FlagContainer = () => {
       size="icon"
       onClick={() => changeSiteLanguage(isEnglish ? "jp" : "en")}
       title={isEnglish ? "Switch to Japanese" : "Switch to English"}
-      className="mr-3 rounded-full"
+      className="rounded-full"
     >
       <img
         className="h-5 w-7 rounded border object-cover"

@@ -12,7 +12,6 @@ export interface UserDocument extends Document {
   isDemo: boolean;
   password?: string;
   googleId?: string;
-  theme: "light" | "dark";
   language: "en" | "jp";
 
   createJWT(): string;
@@ -58,11 +57,6 @@ const UserSchema = new Schema<UserDocument>(
       type: String,
       unique: true,
       sparse: true,
-    },
-    theme: {
-      type: String,
-      enum: ["light", "dark"],
-      default: "light",
     },
     language: {
       type: String,

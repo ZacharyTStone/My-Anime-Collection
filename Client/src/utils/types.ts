@@ -53,7 +53,6 @@ export interface User {
   name: string;
   email: string;
   isDemo?: boolean;
-  theme?: "light" | "dark";
 }
 
 export type SiteLanguage = "en" | "jp";

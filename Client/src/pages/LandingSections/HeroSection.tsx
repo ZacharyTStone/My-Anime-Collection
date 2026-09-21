@@ -25,7 +25,7 @@ const HeroSection = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex flex-col items-center"
         >
-          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary-500/20 bg-primary-500/5 px-4 py-1.5 text-sm font-medium text-primary-600 dark:text-primary-400">
+          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary-500/20 bg-primary-500/5 px-4 py-1.5 text-sm font-medium text-primary-600">
             <Sparkles className="size-4" aria-hidden="true" />
             {t("landing.hero_badge")}
           </span>

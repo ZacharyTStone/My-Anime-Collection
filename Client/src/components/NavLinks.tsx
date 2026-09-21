@@ -73,7 +73,7 @@ const NavLinks = ({ vertical = false }: NavLinksProps) => {
             className={cn(
               "no-underline text-muted-foreground",
               isActive &&
-                "bg-primary-500/10 text-primary-600 font-semibold hover:bg-primary-500/15 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-400",
+                "bg-primary-500/10 text-primary-600 font-semibold hover:bg-primary-500/15 hover:text-primary-600",
               vertical && "w-full justify-start"
             )}
           >
