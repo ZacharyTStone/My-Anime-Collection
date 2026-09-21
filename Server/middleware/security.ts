@@ -51,13 +51,22 @@ export const configureSecurity = (app: Express) => {
           // accounts.google.com loads the Google Identity Services script
           scriptSrc: ["'self'", "https://accounts.google.com"],
           // 'unsafe-inline' required for React inline style attributes
-          // (react-toastify, dynamic component styles)
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          fontSrc: ["'self'", "data:"],
-          // Kitsu serves anime cover art from media.kitsu.io
-          imgSrc: ["'self'", "data:", "blob:", "https://media.kitsu.io"],
+          // (react-toastify, dynamic component styles); index.html pulls the
+          // Outfit / Noto Sans JP stylesheet from Google Fonts
+          styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+          // Google Fonts serves the font files themselves from gstatic
+          fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
+          // Kitsu serves anime cover art from media.kitsu.app (it migrated off
+          // media.kitsu.io, which now 404s — leaving that host here blocked
+          // every cover image)
+          imgSrc: ["'self'", "data:", "blob:", "https://media.kitsu.app"],
           // SPA calls the Kitsu API and Google OAuth endpoints directly
-          connectSrc: ["'self'", "https://kitsu.io", "https://accounts.google.com"],
+          connectSrc: [
+            "'self'",
+            "https://kitsu.io",
+            "https://kitsu.app",
+            "https://accounts.google.com",
+          ],
           // Google Sign-In renders its button in an iframe
           frameSrc: ["'self'", "https://accounts.google.com"],
           mediaSrc: ["'self'"],

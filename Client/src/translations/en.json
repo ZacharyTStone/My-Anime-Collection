@@ -148,7 +148,8 @@
       "switch1": "Already have an account?",
       "switch2": "Login",
       "alert_text": "User Created! Redirecting...",
-      "provide_all_values": "Please provide all values!"
+      "provide_all_values": "Please provide all values!",
+      "retry": "Try again"
     },
     "sso": {
       "or": "or",
@@ -164,7 +165,8 @@
       "update_playlist_failed": "Failed to update playlist",
       "delete_playlist_failed": "Failed to delete playlist",
       "add_anime_failed": "An error occurred while adding the anime",
-      "delete_anime_failed": "Failed to delete anime"
+      "delete_anime_failed": "Failed to delete anime",
+      "rate_limited": "Too many requests. Please wait a few minutes and try again."
     },
     "landing": {
       "title": "My Anime Collection",
