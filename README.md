@@ -18,32 +18,32 @@ Welcome to My Anime Collection, a free anime tracker that allows users to explor
 
 #### Backend
 
-- **Node.js & Express** - Server framework
+- **Node.js & Express 5** - Server framework
 - **MongoDB & Mongoose** - NoSQL database and object modeling
 - **TypeScript** - Static typing
-- **JWT** - Authentication
+- **JWT & Google OAuth** - Authentication
+- **Zod** - Request schema validation
 - **Groq AI** (Llama 3.3 70B) - AI-powered anime recommendations
 - **Express Rate Limit** - API request limiting (multi-tier)
-- **Helmet** - Security middleware
-- **Express Mongo Sanitize** - Input sanitization
-- **XSS Clean** - XSS protection
+- **Helmet** - Security headers
+- **Express Mongo Sanitize** - NoSQL injection protection
 
 #### Frontend
 
-- **React 18** with **React Compiler** - UI library with automatic optimizations
+- **React 19** with **React Compiler** - UI library with automatic optimizations
 - **Vite 7** - Build tool and dev server
 - **TypeScript** - Static typing
-- **Zustand** - Global state management (auth, anime, playlist stores)
-- **Jotai** - Lightweight atomic state (language)
-- **Styled Components & SASS** - Styling
-- **Material UI** - Component library
-- **React Router 7** - Navigation with lazy-loaded routes
+- **Tailwind CSS v4** - Utility-first styling
+- **Radix UI** - Accessible headless component primitives
+- **Zustand** - Global state (auth, anime, playlist, theme, language, settings)
+- **TanStack Query** - Server state, caching, and request deduplication
+- **React Router 8** - Navigation with lazy-loaded routes
 - **Axios** - HTTP client
 - **Framer Motion** - Animations
 - **react-i18next** - Internationalization (English/Japanese)
 - **React Toastify** - Notifications
 - **DOMPurify** - XSS sanitization
-- **Playwright** - End-to-end testing
+- **Storybook & Vitest** - Component development and testing
 
 ### Project Structure
 
@@ -54,17 +54,22 @@ My-Anime-Collection/
 ├── Client/                      # Frontend React Application (Vite)
 │   ├── public/                  # Static files
 │   ├── src/                     # Source code
-│   │   ├── assets/              # Images, SCSS styles
-│   │   ├── atoms/               # Jotai atoms (language state)
-│   │   ├── Components/          # Reusable UI components
-│   │   │   ├── UI/              # Core UI components (Anime, Alert, Loading, etc.)
-│   │   │   └── Layout/          # Layout components
+│   │   ├── assets/              # Images
+│   │   ├── components/          # Reusable UI components
+│   │   │   ├── ui/              # Headless primitives (button, dialog, select...)
+│   │   │   ├── AnimeCard/       # Anime card and its modals
+│   │   │   ├── CollectionToolbar/ # Stats, export, random pick
+│   │   │   ├── Layout/          # Layout components
+│   │   │   └── Navbar/          # Navbar, mobile menu, theme toggle
+│   │   ├── hooks/               # Shared hooks and store selectors
 │   │   ├── pages/               # Page components
-│   │   │   └── DashboardTabs/   # Dashboard sub-pages
+│   │   │   ├── DashboardTabs/   # Dashboard sub-pages
+│   │   │   └── LandingSections/ # Landing page sections
+│   │   ├── queries/             # TanStack Query hooks and query keys
 │   │   ├── routes/              # React Router configuration
-│   │   ├── stores/              # Zustand stores (auth, anime, playlist)
+│   │   ├── stores/              # Zustand stores
 │   │   ├── translations/        # i18n files (en.json, jp.json)
-│   │   ├── utils/               # Utility functions, types, hooks
+│   │   ├── utils/               # Utility functions and shared types
 │   │   ├── App.tsx              # Main app component
 │   │   └── index.tsx            # Entry point
 │   ├── vite.config.ts           # Vite configuration
@@ -82,6 +87,8 @@ My-Anime-Collection/
 │   ├── utils/                   # Helpers, Groq AI, rate limiters
 │   └── server.ts                # Server entry point
 │
+├── scripts/                     # One-off maintenance scripts
+├── .github/workflows/           # CI and CodeQL pipelines
 ├── package.json                 # Root dependencies and scripts
 └── tsconfig.json                # TypeScript configuration
 ```
@@ -117,25 +124,27 @@ The app utilizes Concurrently to run both the backend and frontend simultaneousl
 
 The project uses a multi-layered testing strategy:
 
-- **Vitest (Unit)** - Unit tests for stores, utilities, and pure functions (`src/**/*.test.ts`)
-- **Storybook + Vitest Browser** - Component-level tests running stories in a real browser via Playwright (`src/**/*.stories.ts`)
-- **Playwright** - End-to-end tests across Chromium, Firefox, and WebKit (`Client/tests/`)
+- **Vitest (server)** - Route, middleware, and controller tests against an in-memory MongoDB (`Server/__tests__/`)
+- **Vitest (client)** - Unit tests for stores, utilities, and components (`Client/src/**/*.test.ts(x)`)
+- **Storybook + Vitest Browser** - Component stories rendered in a real browser via Playwright (`Client/src/**/*.stories.ts`)
 
 ```bash
-# Run unit tests
-npm run test -- --project=unit
+# Run everything CI runs
+npm run lint:client && npm run typecheck && npm run typecheck:client
+npm test
 
-# Run Storybook component tests
-npm run test -- --project=storybook
+# Server tests only
+npm run test:server
 
-# Run all tests
-npm run test
+# Client unit tests only
+npm run test:client
 
-# Run Playwright E2E tests
-cd Client && npx playwright test
+# Storybook component tests (real browser)
+npm --prefix Client run test -- --project=storybook
 ```
 
-Unit tests are also run as part of the production build (`npm run build`) to ensure no regressions are deployed.
+Every one of these runs in CI on each push and pull request. `npm run build`
+only builds; verification is CI's job, so a deploy never waits on the test suite.
 
 ## Table of Contents
 
@@ -183,6 +192,7 @@ After installation, the application will be running at:
 
 - `POST /api/v1/auth/register` - Register a new user
 - `POST /api/v1/auth/login` - Authenticate a user
+- `POST /api/v1/auth/google` - Authenticate via Google OAuth
 - `PATCH /api/v1/auth/updateUser` - Update user profile (authenticated)
 - `DELETE /api/v1/auth/deleteUser` - Delete user account (authenticated)
 
@@ -192,6 +202,7 @@ After installation, the application will be running at:
 - `POST /api/v1/animes` - Save an anime (authenticated)
 - `DELETE /api/v1/animes/:id` - Delete a saved anime (authenticated)
 - `POST /api/v1/animes/recommendations` - Get AI-powered anime recommendations (authenticated)
+- `GET /api/v1/animes/stats` - Collection statistics (authenticated)
 
 #### Playlists
 
@@ -233,32 +244,32 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 
 #### バックエンド
 
-- **Node.js & Express** - サーバーフレームワーク
+- **Node.js & Express 5** - サーバーフレームワーク
 - **MongoDB & Mongoose** - NoSQL データベースとオブジェクトモデリング
 - **TypeScript** - 静的型付け
-- **JWT** - 認証
+- **JWT & Google OAuth** - 認証
+- **Zod** - リクエストスキーマ検証
 - **Groq AI**（Llama 3.3 70B）- AI によるアニメおすすめ機能
 - **Express Rate Limit** - API リクエスト制限（多段階）
-- **Helmet** - セキュリティミドルウェア
-- **Express Mongo Sanitize** - 入力サニタイズ
-- **XSS Clean** - XSS 保護
+- **Helmet** - セキュリティヘッダー
+- **Express Mongo Sanitize** - NoSQL インジェクション対策
 
 #### フロントエンド
 
-- **React 18** と **React Compiler** - 自動最適化付き UI ライブラリ
+- **React 19** と **React Compiler** - 自動最適化付き UI ライブラリ
 - **Vite 7** - ビルドツールと開発サーバー
 - **TypeScript** - 静的型付け
-- **Zustand** - グローバル状態管理（auth、anime、playlist ストア）
-- **Jotai** - 軽量アトミック状態（言語設定）
-- **Styled Components & SASS** - スタイリング
-- **Material UI** - コンポーネントライブラリ
-- **React Router 7** - 遅延読み込みルート付きナビゲーション
+- **Tailwind CSS v4** - ユーティリティファーストのスタイリング
+- **Radix UI** - アクセシブルなヘッドレス UI プリミティブ
+- **Zustand** - グローバル状態（auth、anime、playlist、theme、language、settings）
+- **TanStack Query** - サーバー状態管理・キャッシュ・リクエスト重複排除
+- **React Router 8** - 遅延読み込みルート付きナビゲーション
 - **Axios** - HTTP クライアント
 - **Framer Motion** - アニメーション
 - **react-i18next** - 国際化（英語/日本語）
 - **React Toastify** - 通知
 - **DOMPurify** - XSS サニタイズ
-- **Playwright** - E2E テスト
+- **Storybook & Vitest** - コンポーネント開発とテスト
 
 ### プロジェクト構造
 
@@ -269,17 +280,22 @@ My-Anime-Collection/
 ├── Client/                      # フロントエンドReactアプリケーション（Vite）
 │   ├── public/                  # 静的ファイル
 │   ├── src/                     # ソースコード
-│   │   ├── assets/              # 画像、SCSSスタイル
-│   │   ├── atoms/               # Jotaiアトム（言語状態）
-│   │   ├── Components/          # 再利用可能なUIコンポーネント
-│   │   │   ├── UI/              # コアUIコンポーネント
-│   │   │   └── Layout/          # レイアウトコンポーネント
+│   │   ├── assets/              # 画像
+│   │   ├── components/          # 再利用可能なUIコンポーネント
+│   │   │   ├── ui/              # ヘッドレスUIプリミティブ
+│   │   │   ├── AnimeCard/       # アニメカードとモーダル
+│   │   │   ├── CollectionToolbar/ # 統計、エクスポート、ランダム選択
+│   │   │   ├── Layout/          # レイアウトコンポーネント
+│   │   │   └── Navbar/          # ナビバー、モバイルメニュー、テーマ切替
+│   │   ├── hooks/               # 共有フックとストアセレクター
 │   │   ├── pages/               # ページコンポーネント
-│   │   │   └── DashboardTabs/   # ダッシュボードサブページ
+│   │   │   ├── DashboardTabs/   # ダッシュボードサブページ
+│   │   │   └── LandingSections/ # ランディングページのセクション
+│   │   ├── queries/             # TanStack Query フックとクエリキー
 │   │   ├── routes/              # React Routerの設定
-│   │   ├── stores/              # Zustandストア（auth、anime、playlist）
+│   │   ├── stores/              # Zustandストア
 │   │   ├── translations/        # i18nファイル（en.json, jp.json）
-│   │   ├── utils/               # ユーティリティ関数、型、フック
+│   │   ├── utils/               # ユーティリティ関数と共有型
 │   │   ├── App.tsx              # メインアプリコンポーネント
 │   │   └── index.tsx            # エントリーポイント
 │   ├── vite.config.ts           # Vite設定
@@ -297,6 +313,8 @@ My-Anime-Collection/
 │   ├── utils/                   # ヘルパー、Groq AI、レートリミッター
 │   └── server.ts                # サーバーエントリーポイント
 │
+├── scripts/                     # メンテナンス用スクリプト
+├── .github/workflows/           # CIとCodeQLパイプライン
 ├── package.json                 # ルート依存関係とスクリプト
 └── tsconfig.json                # TypeScript設定
 ```
@@ -332,25 +350,27 @@ My-Anime-Collection/
 
 このプロジェクトは多層テスト戦略を採用しています：
 
-- **Vitest（ユニット）** - ストア、ユーティリティ、純粋関数のユニットテスト（`src/**/*.test.ts`）
-- **Storybook + Vitest Browser** - Playwright を使用した実ブラウザでのコンポーネントテスト（`src/**/*.stories.ts`）
-- **Playwright** - Chromium、Firefox、WebKit での E2E テスト（`Client/tests/`）
+- **Vitest（サーバー）** - インメモリ MongoDB を用いたルート・ミドルウェア・コントローラーのテスト（`Server/__tests__/`）
+- **Vitest（クライアント）** - ストア、ユーティリティ、コンポーネントのユニットテスト（`Client/src/**/*.test.ts(x)`）
+- **Storybook + Vitest Browser** - Playwright を使用した実ブラウザでのコンポーネントテスト（`Client/src/**/*.stories.ts`）
 
 ```bash
-# ユニットテストを実行
-npm run test -- --project=unit
+# CIと同じ検証をすべて実行
+npm run lint:client && npm run typecheck && npm run typecheck:client
+npm test
 
-# Storybook コンポーネントテストを実行
-npm run test -- --project=storybook
+# サーバーテストのみ
+npm run test:server
 
-# すべてのテストを実行
-npm run test
+# クライアントユニットテストのみ
+npm run test:client
 
-# Playwright E2E テストを実行
-cd Client && npx playwright test
+# Storybook コンポーネントテスト（実ブラウザ）
+npm --prefix Client run test -- --project=storybook
 ```
 
-ユニットテストは本番ビルド（`npm run build`）の一部としても実行され、リグレッションがデプロイされないことを保証します。
+これらはすべて、プッシュとプルリクエストのたびに CI で実行されます。`npm run build`
+はビルドのみを行い、検証は CI の役割です。そのためデプロイがテストを待つことはありません。
 
 ## 目次
 
@@ -398,6 +418,7 @@ npm start
 
 - `POST /api/v1/auth/register` - 新規ユーザー登録
 - `POST /api/v1/auth/login` - ユーザー認証
+- `POST /api/v1/auth/google` - Google OAuth による認証
 - `PATCH /api/v1/auth/updateUser` - ユーザープロフィール更新（認証必須）
 - `DELETE /api/v1/auth/deleteUser` - ユーザーアカウント削除（認証必須）
 
@@ -407,6 +428,7 @@ npm start
 - `POST /api/v1/animes` - アニメ保存（認証必須）
 - `DELETE /api/v1/animes/:id` - 保存済みアニメ削除（認証必須）
 - `POST /api/v1/animes/recommendations` - AI おすすめアニメ取得（認証必須）
+- `GET /api/v1/animes/stats` - コレクション統計（認証必須）
 
 #### プレイリスト
 

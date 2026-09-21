@@ -6,6 +6,14 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
+# A newer push to the same branch makes an in-flight run redundant.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-test:
     name: Build and Test
@@ -20,6 +28,9 @@ jobs:
         with:
           node-version-file: ".node-version"
           cache: "npm"
+          cache-dependency-path: |
+            package-lock.json
+            Client/package-lock.json
 
       - name: Install root dependencies
         run: npm ci
@@ -27,13 +38,22 @@ jobs:
       - name: Install client dependencies
         run: npm ci --prefix Client
 
+      - name: Lint client
+        run: npm run lint:client
+
       - name: Typecheck server
         run: npm run typecheck
+
+      - name: Typecheck client
+        run: npm run typecheck:client
 
       - name: Run server tests
         run: npm run test:server
         env:
           NODE_ENV: test
+
+      - name: Run client tests
+        run: npm run test:client
 
       - name: Build client
         run: npm run build:client

@@ -12,7 +12,7 @@ Add focused, high-quality Storybook stories for the component: $ARGUMENTS
 
 - Use `import type { Meta, StoryObj } from "@storybook/react-vite";`
 - Use `fn()` from `"storybook/test"` for callback props
-- Place stories in a `__stories__/` directory adjacent to the component (e.g., `Components/UI/__stories__/Foo.stories.ts`)
+- Place stories in a `__stories__/` directory adjacent to the component (e.g., `components/ui/__stories__/Foo.stories.ts`)
 - File naming: `{ComponentName}.stories.ts` (or `.stories.tsx` if JSX is needed in a `render` function)
 - Always include `tags: ["autodocs"]` in meta
 - Use `satisfies Meta<typeof Component>` for type safety

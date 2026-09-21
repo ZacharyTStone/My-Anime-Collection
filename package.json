@@ -17,6 +17,8 @@
     "test:client": "npm --prefix Client run test:unit",
     "build:client": "npm --prefix Client run build",
     "typecheck": "tsc --noEmit",
+    "typecheck:client": "npm --prefix Client run typecheck",
+    "lint:client": "npm --prefix Client run lint",
     "test": "npm run test:server && npm run test:client",
     "start": "concurrently \"npm run Server-local\" \"npm run Client-local\""
   },
@@ -32,7 +34,6 @@
     "@types/supertest": "^7.2.1",
     "@types/validator": "^13.15.10",
     "mongodb-memory-server": "^11.2.0",
-    "sass": "^1.87.0",
     "supertest": "^7.2.2",
     "tsx": "^4.23.1",
     "typescript": "^5.9.3",

@@ -1,18 +1,22 @@
+# Dependencies
 node_modules/
-node_modules
-/node_modules
-Client/node_modules
-.DS_Store
+
+# Environment
 .env
 .env.local
 .env.development
 .env.test
 .env.production
-Client/DS_Store
-/Client/.env
-populate.js
-Client/build
-dist
-Server/dist
-Client/build
-Client/src/assets/css
+
+# Build output
+dist/
+
+# Test and tooling output
+coverage/
+storybook-static/
+playwright-report/
+test-results/
+*.log
+
+# OS
+.DS_Store
