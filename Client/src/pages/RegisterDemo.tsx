@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { FormRow, Logo } from "../components";
@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { useSetupUserMutation } from "../queries/auth";
 
 const NOOP = () => {};
+
+const REDIRECT_DELAY_MS = 3000;
 
 const SECTION_CLASS =
   "page-glow relative grid min-h-screen items-center justify-center overflow-hidden px-4 py-12";
@@ -16,10 +18,13 @@ const FORM_CLASS =
 const RegisterDemo = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setupUserMutation = useSetupUserMutation();
+  // Destructure `mutate`, which useMutation keeps stable — the result object
+  // around it is rebuilt on every state transition.
+  const { mutate, isError } = useSetupUserMutation();
+  const hasRequestedDemo = useRef(false);
 
-  const onSubmit = useCallback(() => {
-    setupUserMutation.mutate(
+  const createDemoUser = useCallback(() => {
+    mutate(
       {
         currentUser: { isDemo: true },
         endPoint: "register",
@@ -29,15 +34,22 @@ const RegisterDemo = () => {
         onSuccess: () => {
           setTimeout(() => {
             navigate("/top-animes");
-          }, 3000);
+          }, REDIRECT_DELAY_MS);
         },
       }
     );
-  }, [navigate, setupUserMutation, t]);
+  }, [mutate, navigate, t]);
 
+  // One demo account per visit. This effect used to depend on the whole
+  // mutation object, whose identity changes on every render, so each
+  // idle -> pending -> settled transition re-fired it: the page spent the
+  // /register rate limit (10 per 10 minutes) in under a second and then
+  // buried itself in error toasts.
   useEffect(() => {
-    onSubmit();
-  }, [onSubmit]);
+    if (hasRequestedDemo.current) return;
+    hasRequestedDemo.current = true;
+    createDemoUser();
+  }, [createDemoUser]);
 
   return (
     <section className={SECTION_CLASS}>
@@ -45,7 +57,7 @@ const RegisterDemo = () => {
         className={FORM_CLASS}
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmit();
+          createDemoUser();
         }}
       >
         <Logo className="mb-4" />
@@ -66,8 +78,14 @@ const RegisterDemo = () => {
           handleChange={NOOP}
           disabled
         />
-        <Button type="submit" size="lg" className="mt-7 w-full text-base font-semibold" disabled>
-          {t("register.submit")}
+        {/* Enabled only after a failure, so a dead end becomes a deliberate retry */}
+        <Button
+          type="submit"
+          size="lg"
+          className="mt-7 w-full text-base font-semibold"
+          disabled={!isError}
+        >
+          {isError ? t("register.retry") : t("register.submit")}
         </Button>
       </form>
     </section>

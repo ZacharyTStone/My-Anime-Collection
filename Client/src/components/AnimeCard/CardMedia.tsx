@@ -31,8 +31,11 @@ const CardMedia = ({
     fetchedAnime?.attributes?.posterImage?.medium ||
     fetchedAnime?.attributes?.posterImage?.small;
 
+  // Use the same fallback chain as the desktop branch: anime coming straight
+  // from the Kitsu API (Top Animes, Seasonal, Add Anime) carry no saved
+  // coverImage, so reading that field alone rendered an img with no src.
   if (onMobile) {
-    return <img className={IMG_CLASSES} src={coverImage} alt={title} />;
+    return <img className={IMG_CLASSES} src={imageSrc} alt={title} />;
   }
 
   if (isHovering && hasYoutubeVideoId && !failedToLoadYoutube) {

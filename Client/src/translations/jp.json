@@ -148,7 +148,8 @@
       "switch1": "もう登録しています？",
       "switch2": "ログイン",
       "alert_text": "登録に成功しました！",
-      "provide_all_values": "すべての項目を入力してください！"
+      "provide_all_values": "すべての項目を入力してください！",
+      "retry": "再試行"
     },
     "sso": {
       "or": "または",
@@ -164,7 +165,8 @@
       "update_playlist_failed": "プレイリストの更新に失敗しました",
       "delete_playlist_failed": "プレイリストの削除に失敗しました",
       "add_anime_failed": "アニメの追加中にエラーが発生しました",
-      "delete_anime_failed": "アニメの削除に失敗しました"
+      "delete_anime_failed": "アニメの削除に失敗しました",
+      "rate_limited": "リクエストが多すぎます。数分待ってからもう一度お試しください。"
     },
     "landing": {
       "title": "マイ・アニメ・コレクション",

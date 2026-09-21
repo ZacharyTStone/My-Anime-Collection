@@ -2,8 +2,9 @@
 import rateLimiter from "express-rate-limit";
 
 // PER 10 minutes
-const WINDOW_MS = 10 * 60 * 1000;
-const DEFAULT_MESSAGE = "Too many requests from this IP, please try again after 15 minutes";
+const WINDOW_MINUTES = 10;
+const WINDOW_MS = WINDOW_MINUTES * 60 * 1000;
+const DEFAULT_MESSAGE = `Too many requests from this IP, please try again after ${WINDOW_MINUTES} minutes`;
 
 const createRateLimiter = (max: number, message = DEFAULT_MESSAGE) =>
   rateLimiter({
