@@ -1,0 +1,18 @@
+// Emit config for the server bundle.
+//
+// The root tsconfig.json is the typecheck config and deliberately covers
+// everything outside Client/ (Server, scripts, vitest.config.server.ts). That
+// wider program makes the project root the inferred rootDir, which nests the
+// output at dist/Server/server.js — but `start-heroku-server` runs
+// dist/server.js, and app.ts resolves the client build as ../Client/dist
+// relative to its own directory. Both only hold when the server sits directly
+// in dist/, so pin rootDir here rather than letting it be inferred.
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./Server",
+    "outDir": "./dist"
+  },
+  "include": ["Server/**/*"],
+  "exclude": ["node_modules", "dist", "Server/__tests__/**"]
+}

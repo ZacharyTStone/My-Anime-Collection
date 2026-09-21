@@ -59,3 +59,12 @@ jobs:
         run: npm run build:client
         env:
           NODE_ENV: production
+
+      # Typechecking alone never caught that the emitted layout had drifted
+      # from the path `start-heroku-server` boots, so build the server and
+      # assert the entrypoint is where the start script looks for it.
+      - name: Build server
+        run: npm run build:server
+
+      - name: Verify server entrypoint
+        run: test -f dist/server.js
