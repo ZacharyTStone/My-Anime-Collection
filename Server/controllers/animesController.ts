@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
-import { getAnimeRecommendations } from "../utils/groq.js";
+import { getAnimeRecommendations } from "../utils/groq/index.js";
 import { getPlaylistObjectId, getPlaylistIdMaps } from "../utils/playlistHelpers.js";
 import type { GetAnimesQuery } from "../utils/schemas.js";
 import type { PlaylistDocument } from "../models/Playlists.js";
