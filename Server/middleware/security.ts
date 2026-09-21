@@ -4,7 +4,30 @@ import cors from "cors";
 import { Express } from "express";
 import { env } from "../config/env.js";
 
-const KITSU_API = "https://kitsu.io";
+/**
+ * Every third party the client talks to, named once so the CSP directives
+ * below read as a list of features rather than a list of hostnames. Anything
+ * the browser must fetch from outside our own origin belongs here — if it is
+ * missing the browser silently refuses the request, which is how cover art,
+ * webfonts and the trailer player each ended up broken in turn.
+ */
+const ORIGINS = {
+  /** Anime metadata; kitsu.io is migrating to kitsu.app */
+  kitsuApi: ["https://kitsu.io", "https://kitsu.app"],
+  /** Cover art CDN (moved off media.kitsu.io, which now 404s) */
+  kitsuMedia: "https://media.kitsu.app",
+  /** Google Identity Services: script, button stylesheet, and its iframe */
+  googleIdentity: "https://accounts.google.com",
+  /** Google Fonts: the stylesheet, then the font files it points at */
+  googleFontsCss: "https://fonts.googleapis.com",
+  googleFontsFiles: "https://fonts.gstatic.com",
+  /** Trailer player: iframe embed plus the iframe_api script react-player injects */
+  youtube: "https://www.youtube.com",
+  youtubeNoCookie: "https://www.youtube-nocookie.com",
+  /** Random Pokémon on the profile page, and the sprites the API points at */
+  pokeApi: "https://pokeapi.co",
+  pokeApiSprites: "https://raw.githubusercontent.com",
+} as const;
 
 const getAllowedOrigins = (): string[] => {
   if (env.NODE_ENV === "development") {
@@ -47,28 +70,19 @@ export const configureSecurity = (app: Express) => {
         // base-uri 'self', frame-ancestors 'self', etc.)
         directives: {
           defaultSrc: ["'self'"],
-          // Production Vite bundle needs no unsafe-inline/unsafe-eval;
-          // accounts.google.com loads the Google Identity Services script
-          scriptSrc: ["'self'", "https://accounts.google.com"],
+          // Production Vite bundle needs no unsafe-inline/unsafe-eval.
+          // react-player injects youtube.com/iframe_api to drive the trailer.
+          scriptSrc: ["'self'", ORIGINS.googleIdentity, ORIGINS.youtube],
           // 'unsafe-inline' required for React inline style attributes
           // (react-toastify, dynamic component styles); index.html pulls the
-          // Outfit / Noto Sans JP stylesheet from Google Fonts
-          styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-          // Google Fonts serves the font files themselves from gstatic
-          fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
-          // Kitsu serves anime cover art from media.kitsu.app (it migrated off
-          // media.kitsu.io, which now 404s — leaving that host here blocked
-          // every cover image)
-          imgSrc: ["'self'", "data:", "blob:", "https://media.kitsu.app"],
-          // SPA calls the Kitsu API and Google OAuth endpoints directly
-          connectSrc: [
-            "'self'",
-            "https://kitsu.io",
-            "https://kitsu.app",
-            "https://accounts.google.com",
-          ],
-          // Google Sign-In renders its button in an iframe
-          frameSrc: ["'self'", "https://accounts.google.com"],
+          // Outfit / Noto Sans JP stylesheet, and GSI its button stylesheet
+          styleSrc: ["'self'", "'unsafe-inline'", ORIGINS.googleFontsCss, ORIGINS.googleIdentity],
+          fontSrc: ["'self'", "data:", ORIGINS.googleFontsFiles],
+          imgSrc: ["'self'", "data:", "blob:", ORIGINS.kitsuMedia, ORIGINS.pokeApiSprites],
+          // Sprites are only ever <img> sources, so they need imgSrc, not this
+          connectSrc: ["'self'", ...ORIGINS.kitsuApi, ORIGINS.googleIdentity, ORIGINS.pokeApi],
+          // The Google Sign-In button and the YouTube trailer are both iframes
+          frameSrc: ["'self'", ORIGINS.googleIdentity, ORIGINS.youtube, ORIGINS.youtubeNoCookie],
           mediaSrc: ["'self'"],
           workerSrc: ["'self'", "blob:"],
         },
