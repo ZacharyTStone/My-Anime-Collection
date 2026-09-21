@@ -29,7 +29,7 @@ const CardInfo = ({
     <div className="mb-1.5 mt-2 flex flex-wrap items-center justify-center gap-1.5 text-sm font-medium">
       <Badge
         variant="secondary"
-        className="bg-primary-500/10 text-primary-600 border border-primary-500/20 dark:bg-primary-500/15 dark:text-primary-300"
+        className="bg-primary-500/10 text-primary-600 border border-primary-500/20"
       >
         {rating}
         <span className="text-primary-400/60 ml-0.5">/100</span>

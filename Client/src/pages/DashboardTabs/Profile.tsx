@@ -41,8 +41,7 @@ const Profile = () => {
       toast.error(t("profile.provide_all_values"));
       return;
     }
-    const theme = user?.theme || "light";
-    updateUserMutation.mutate({ name, email, id: user?.id ?? "", theme });
+    updateUserMutation.mutate({ name, email, id: user?.id ?? "" });
   };
 
   const handleDelete = () => {

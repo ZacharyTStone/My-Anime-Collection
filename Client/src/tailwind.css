@@ -96,11 +96,15 @@
     color: #ffffff;
   }
 
-  /* Focus ring — use primary */
+  /* Focus ring — one treatment, following each element's own radius */
   *:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--ring);
     outline-offset: 2px;
-    border-radius: 4px;
+  }
+
+  /* shadcn primitives ship their own focus ring; don't stack a second one */
+  [data-slot]:focus-visible {
+    outline: none;
   }
 
   /* Respect reduced-motion preferences */
@@ -134,7 +138,7 @@
    ============================================== */
 
 @utility glass-navbar {
-  background: var(--glass-navbar-background, rgba(250, 250, 250, 0.85));
+  background: var(--glass-navbar-background);
   backdrop-filter: blur(14px) saturate(1.3);
   -webkit-backdrop-filter: blur(14px) saturate(1.3);
 }
@@ -212,18 +216,21 @@
 
   /* Border radius */
   --radius-default: 0.75rem;
+
+  /* Elevation — tinted with the ink colour rather than neutral black */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 18, 34, 0.05);
+  --shadow-sm: 0 1px 2px -1px rgba(15, 18, 34, 0.06), 0 1px 3px 0 rgba(15, 18, 34, 0.05);
+  --shadow-md: 0 2px 4px -2px rgba(15, 18, 34, 0.06), 0 6px 12px -3px rgba(15, 18, 34, 0.08);
+  --shadow-lg: 0 4px 8px -4px rgba(15, 18, 34, 0.07), 0 12px 24px -6px rgba(15, 18, 34, 0.1);
 }
 
 /* ==============================================
-   Runtime theme tokens
-   Dark mode is driven by [data-theme="dark"] on <html>
-   (see themeStore.ts), not a .dark class.
-   The @theme palette above is static; these semantic
-   tokens flip per theme and feed the shadcn utilities,
-   chrome (scrollbar/selection/focus) and effects.
+   Semantic tokens
+   The @theme palette above is the raw scale; these
+   semantic tokens are what components actually use —
+   they feed the shadcn utilities, the chrome
+   (scrollbar/selection/focus) and the effects.
    ============================================== */
-
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
   --radius: 0.75rem;
@@ -247,42 +254,14 @@
   --input: var(--color-grey-300);
   --ring: var(--color-primary-400);
 
-  /* Effects & chrome that flip with the theme */
-  --glass-navbar-background: rgba(250, 250, 250, 0.85);
+  /* Effects & chrome */
+  --glass-navbar-background: rgba(252, 252, 253, 0.82);
   --primary-alpha-10: rgba(225, 29, 72, 0.06);
   --accent-alpha-08: rgba(124, 108, 240, 0.07);
-  --shadow-lg: 0 12px 24px -6px rgba(15, 18, 34, 0.1), 0 4px 8px -2px rgba(15, 18, 34, 0.04);
   --scrollbar-thumb: var(--color-grey-300);
   --scrollbar-thumb-hover: var(--color-grey-400);
-  /* AI accent used where it must pop on dark (AiRecommendationsModal) */
+  /* AI accent (AiRecommendationsModal) */
   --ai-accent: var(--color-anime-purple);
-}
-
-:root[data-theme="dark"] {
-  --background: #0a0b14;
-  --foreground: #e8eaf5;
-  --card: #12131f;
-  --card-foreground: #e8eaf5;
-  --popover: #12131f;
-  --popover-foreground: #e8eaf5;
-  --primary: #fb4c6b;
-  --secondary: #12131f;
-  --secondary-foreground: #e8eaf5;
-  --muted: #12131f;
-  --muted-foreground: #8286a3;
-  --accent: #12131f;
-  --accent-foreground: #e8eaf5;
-  --border: #1d1e2e;
-  --input: #2a2b3f;
-
-  /* Effects & chrome that flip with the theme */
-  --glass-navbar-background: rgba(10, 11, 20, 0.82);
-  --primary-alpha-10: rgba(251, 76, 107, 0.08);
-  --accent-alpha-08: rgba(140, 126, 245, 0.09);
-  --shadow-lg: 0 16px 32px -4px rgba(0, 0, 0, 0.6), 0 6px 12px -2px rgba(0, 0, 0, 0.4);
-  --scrollbar-thumb: #2a2b3f;
-  --scrollbar-thumb-hover: #414360;
-  --ai-accent: #8c7ef5;
 }
 
 @theme inline {

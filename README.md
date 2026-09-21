@@ -35,7 +35,7 @@ Welcome to My Anime Collection, a free anime tracker that allows users to explor
 - **TypeScript** - Static typing
 - **Tailwind CSS v4** - Utility-first styling
 - **Radix UI** - Accessible headless component primitives
-- **Zustand** - Global state (auth, anime, playlist, theme, language, settings)
+- **Zustand** - Global state (auth, anime, playlist, language, settings)
 - **TanStack Query** - Server state, caching, and request deduplication
 - **React Router 8** - Navigation with lazy-loaded routes
 - **Axios** - HTTP client
@@ -60,7 +60,7 @@ My-Anime-Collection/
 │   │   │   ├── AnimeCard/       # Anime card and its modals
 │   │   │   ├── CollectionToolbar/ # Stats, export, random pick
 │   │   │   ├── Layout/          # Layout components
-│   │   │   └── Navbar/          # Navbar, mobile menu, theme toggle
+│   │   │   └── Navbar/          # Navbar, mobile menu, user menu
 │   │   ├── hooks/               # Shared hooks and store selectors
 │   │   ├── pages/               # Page components
 │   │   │   ├── DashboardTabs/   # Dashboard sub-pages
@@ -103,7 +103,6 @@ The app utilizes Concurrently to run both the backend and frontend simultaneousl
 - Custom playlist creation and management
 - AI-powered anime recommendations (Groq / Llama 3.3)
 - Responsive design for mobile and desktop
-- Dark/Light theme support
 - Bilingual support (English/Japanese)
 - Lazy-loaded routes for performance
 - Multi-tier API rate limiting
@@ -261,7 +260,7 @@ For project-related inquiries, contact me at Zach.Stone.Developer@gmail.com.
 - **TypeScript** - 静的型付け
 - **Tailwind CSS v4** - ユーティリティファーストのスタイリング
 - **Radix UI** - アクセシブルなヘッドレス UI プリミティブ
-- **Zustand** - グローバル状態（auth、anime、playlist、theme、language、settings）
+- **Zustand** - グローバル状態（auth、anime、playlist、language、settings）
 - **TanStack Query** - サーバー状態管理・キャッシュ・リクエスト重複排除
 - **React Router 8** - 遅延読み込みルート付きナビゲーション
 - **Axios** - HTTP クライアント
@@ -286,7 +285,7 @@ My-Anime-Collection/
 │   │   │   ├── AnimeCard/       # アニメカードとモーダル
 │   │   │   ├── CollectionToolbar/ # 統計、エクスポート、ランダム選択
 │   │   │   ├── Layout/          # レイアウトコンポーネント
-│   │   │   └── Navbar/          # ナビバー、モバイルメニュー、テーマ切替
+│   │   │   └── Navbar/          # ナビバー、モバイルメニュー、ユーザーメニュー
 │   │   ├── hooks/               # 共有フックとストアセレクター
 │   │   ├── pages/               # ページコンポーネント
 │   │   │   ├── DashboardTabs/   # ダッシュボードサブページ
@@ -329,7 +328,6 @@ My-Anime-Collection/
 - カスタムプレイリスト作成と管理
 - AI によるアニメおすすめ機能（Groq / Llama 3.3）
 - モバイルとデスクトップ向けのレスポンシブデザイン
-- ダーク/ライトテーマ対応
 - 二言語対応（英語/日本語）
 - パフォーマンスのための遅延読み込みルート
 - 多段階API レート制限

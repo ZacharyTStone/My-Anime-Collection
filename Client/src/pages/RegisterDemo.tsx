@@ -48,7 +48,7 @@ const RegisterDemo = () => {
           onSubmit();
         }}
       >
-        <Logo />
+        <Logo className="mb-4" />
         <h3 className="text-center mb-8 text-2xl font-bold">{t("login.title")}</h3>
         <FormRow
           type="email"

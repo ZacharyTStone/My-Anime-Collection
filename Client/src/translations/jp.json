@@ -31,7 +31,6 @@
       "name": "名前",
       "last_name": "姓",
       "email": "メールアドレス",
-      "theme": "デフォルトのテーマ",
       "save": "変更を保存",
       "delete": "アカウントを削除",
       "confirm": "本当にアカウントを削除しますか？",
@@ -83,9 +82,7 @@
       "profile": "プロフィール",
       "logout": "ログアウト",
       "edit_playlist": "プレイリストの編集",
-      "seasonal": "季節アニメ",
-      "dark_mode": "ダークモードに切り替え",
-      "light_mode": "ライトモードに切り替え"
+      "seasonal": "季節アニメ"
     },
     "seasonal": {
       "title": "季節のアニメ",

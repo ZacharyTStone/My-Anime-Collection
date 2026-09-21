@@ -49,7 +49,7 @@ const normalizeGoogleName = (name: string | undefined, email: string): string =>
 };
 
 const googleLogin = async (req: Request, res: Response) => {
-  const { credential, theme, language } = req.body;
+  const { credential, language } = req.body;
 
   if (!env.GOOGLE_CLIENT_ID) {
     throw new BadRequestError("Google sign-in is not configured on this server");
@@ -82,7 +82,6 @@ const googleLogin = async (req: Request, res: Response) => {
       email,
       googleId,
       isDemo: false,
-      theme: theme ?? "light",
       language: language ?? "en",
     });
     user = created.user;
@@ -94,7 +93,7 @@ const googleLogin = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
-  const { email, name, theme } = req.body;
+  const { email, name } = req.body;
 
   const user = await User.findOne({ _id: req.user!.userId });
 
@@ -104,7 +103,6 @@ const updateUser = async (req: Request, res: Response) => {
 
   user.email = email;
   user.name = name;
-  user.theme = theme;
 
   await user.save();
 
@@ -122,7 +120,6 @@ const sendCreatedUserResponse = (
       email: user.email,
       isDemo: user.isDemo,
       name: user.name,
-      theme: user.theme,
       language: user.language,
     },
     token,
@@ -132,7 +129,6 @@ const sendCreatedUserResponse = (
 const register = async (req: Request, res: Response) => {
   const { isDemo } = req.body;
   const { name, email, password } = isDemo ? DEMO_USER : req.body;
-  const { theme } = req.body;
   const { language } = req.body;
 
   let userEmail = email;
@@ -157,7 +153,6 @@ const register = async (req: Request, res: Response) => {
       email: userEmail,
       password,
       isDemo,
-      theme,
       language,
     });
 
@@ -169,7 +164,6 @@ const register = async (req: Request, res: Response) => {
         email: generateDemoEmail(),
         password,
         isDemo,
-        theme,
         language,
       });
 

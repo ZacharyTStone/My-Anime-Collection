@@ -1,4 +1,5 @@
 import logo from "../assets/images/logo.svg";
+import { cn } from "../utils/cn";
 
 interface LogoProps {
   width?: string;
@@ -15,7 +16,7 @@ const Logo = ({ width, height, className, onClick }: LogoProps) => {
     <img
       src={logo}
       alt="My Anime Collection"
-      className={`block mx-auto transition-transform duration-300 hover:scale-105 ${className || ""}`}
+      className={cn("block mx-auto transition-transform duration-300 hover:scale-105", className)}
       style={{
         width: width || DEFAULT_LOGO_WIDTH,
         height: height || DEFAULT_LOGO_HEIGHT,

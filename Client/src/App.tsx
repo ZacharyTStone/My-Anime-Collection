@@ -5,13 +5,12 @@ import "react-toastify/dist/ReactToastify.css";
 import ErrorBoundary from "./pages/ErrorBoundary";
 import { LoadingLayout } from "./components/Layout/MainLayout";
 import { routes } from "./routes";
-import { useThemeSelector } from "./hooks/storeSelectors";
+
 function AppRoutes() {
   return useRoutes(routes);
 }
 
 function App() {
-  const theme = useThemeSelector((s) => s.theme);
   return (
     <BrowserRouter>
       <ErrorBoundary>
@@ -25,7 +24,7 @@ function App() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme={theme}
+          theme="light"
         />
         <Suspense fallback={<LoadingLayout />}>
           <AppRoutes />
