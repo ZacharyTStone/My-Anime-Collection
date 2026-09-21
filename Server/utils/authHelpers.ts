@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import User from "../models/User.js";
+import User, { type UserDocument } from "../models/User.js";
 import Playlist from "../models/Playlists.js";
 import { DEFAULT_PLAYLISTS_EN, DEFAULT_PLAYLISTS_JP } from "./constants.js";
 
@@ -16,8 +16,10 @@ export interface CreateUserParams {
   password?: string;
   googleId?: string;
   isDemo: boolean;
-  theme: string;
-  language: string;
+  // Mirror the model's unions: widening these to `string` stops Mongoose's
+  // create() overloads from resolving, which infers the result as `never`.
+  theme: UserDocument["theme"];
+  language: UserDocument["language"];
 }
 
 /**
